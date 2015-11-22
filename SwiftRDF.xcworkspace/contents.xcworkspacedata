@@ -1,8 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Workspace
    version = "1.0">
+   <FileRef
+      location = "group:SwiftRDF-OSX/SwiftRDF-OSX.xcodeproj">
+   </FileRef>
    <Group
       location = "group:docs"
       name = "docs">
+   </Group>
+   <Group
+      location = "group:source code"
+      name = "source code">
+      <Group
+         location = "container:"
+         name = "model">
+         <FileRef
+            location = "group:source code/model/Resource.swift">
+         </FileRef>
+         <FileRef
+            location = "group:source code/model/Value.swift">
+         </FileRef>
+         <FileRef
+            location = "group:source code/model/Literal.swift">
+         </FileRef>
+         <FileRef
+            location = "group:source code/model/URI.swift">
+         </FileRef>
+         <FileRef
+            location = "group:source code/model/BlankNode.swift">
+         </FileRef>
+         <FileRef
+            location = "group:source code/model/Statement.swift">
+         </FileRef>
+      </Group>
    </Group>
 </Workspace>
