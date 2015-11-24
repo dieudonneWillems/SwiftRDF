@@ -13,6 +13,17 @@
       name = "source code">
       <Group
          location = "container:"
+         name = "data">
+      </Group>
+      <Group
+         location = "container:"
+         name = "errors">
+         <FileRef
+            location = "group:source code/errors/MalformedURIError.swift">
+         </FileRef>
+      </Group>
+      <Group
+         location = "container:"
          name = "model">
          <FileRef
             location = "group:source code/model/Resource.swift">

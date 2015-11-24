@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import SwiftRDF_OSX
+@testable import SwiftRDFOSX
 
 class SwiftRDF_OSXTests: XCTestCase {
     
@@ -19,6 +19,38 @@ class SwiftRDF_OSXTests: XCTestCase {
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
+    }
+    
+    func testURIwithURL() {
+        do {
+            let uri = try URI(string : "http://example.com/my/file#anchor")
+            XCTAssertEqual("http://example.com/my/file#anchor", uri.stringValue)
+            XCTAssertEqual("http", uri.scheme)
+            XCTAssertEqual("example.com/my/file", uri.hierarchicalPart)
+            XCTAssertEqual("example.com", uri.authorityPart)
+            XCTAssertEqual("example.com", uri.host)
+            XCTAssertEqual("/my/file", uri.path)
+            XCTAssertEqual("anchor", uri.fragment)
+        } catch {
+            print("Error thrown!")
+            XCTFail("Error thrown while testing a URI.")
+        }
+    }
+    
+    func testURIwithURLWithPort() {
+        do {
+            let uri = try URI(string : "http://example.com:8080/my/file#anchor")
+            XCTAssertEqual("http://example.com:8080/my/file#anchor", uri.stringValue)
+            XCTAssertEqual("http", uri.scheme)
+            XCTAssertEqual("example.com:8080/my/file", uri.hierarchicalPart)
+            XCTAssertEqual("example.com:8080", uri.authorityPart)
+            XCTAssertEqual("example.com", uri.host)
+            XCTAssertEqual("/my/file", uri.path)
+            XCTAssertEqual("anchor", uri.fragment)
+        } catch {
+            print("Error thrown!")
+            XCTFail("Error thrown while testing a URI.")
+        }
     }
     
     func testExample() {
