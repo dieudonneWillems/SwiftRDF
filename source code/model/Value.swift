@@ -8,9 +8,15 @@
 
 import Foundation
 
-public class Value {
+public class Value : SPARQLValue {
     
     public private(set) var stringValue : String
+    
+    public var sparql : String {
+        get{
+            return ""
+        }
+    }
     
     public init(stringValue : String) {
         self.stringValue = stringValue
@@ -18,10 +24,10 @@ public class Value {
     
 }
 
-func == (left: Value, right: Value) -> Bool {
+public func == (left: Value, right: Value) -> Bool {
     return left === right
 }
 
-func != (left: Value, right: Value) -> Bool {
+public func != (left: Value, right: Value) -> Bool {
     return !(left == right)
 }

@@ -21,6 +21,8 @@ class SwiftRDF_OSXTests: XCTestCase {
         super.tearDown()
     }
     
+    
+    
     func testURIwithURL() {
         do {
             let uri = try URI(string : "http://example.com/my/file#anchor")
@@ -55,8 +57,8 @@ class SwiftRDF_OSXTests: XCTestCase {
     
     func testURIwithURLWithUsernameAndPasswordPortAndFragment() {
         do {
-            let uri = try URI(string : "http://me:mYpAssword&^%%6@www.example-site.com:8080/my/file#anchor")
-            XCTAssertEqual("http://me:mYpAssword&^%%6@www.example-site.com:8080/my/file#anchor", uri.stringValue)
+            let uri = try URI(string : "http://me:mYpAssword&^%%6@www.example-site.com:8080/my/file?query=bla#anchor")
+            XCTAssertEqual("http://me:mYpAssword&^%%6@www.example-site.com:8080/my/file?query=bla#anchor", uri.stringValue)
             XCTAssertEqual("http", uri.scheme)
             XCTAssertEqual("me", uri.userName)
             XCTAssertEqual("mYpAssword&^%%6", uri.password)
@@ -64,6 +66,7 @@ class SwiftRDF_OSXTests: XCTestCase {
             XCTAssertEqual("me:mYpAssword&^%%6@www.example-site.com:8080", uri.authorityPart)
             XCTAssertEqual("www.example-site.com", uri.host)
             XCTAssertEqual("/my/file", uri.path)
+            XCTAssertEqual("query=bla", uri.query)
             XCTAssertEqual("anchor", uri.fragment)
         } catch {
             print("Error thrown!")
