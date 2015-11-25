@@ -11,6 +11,8 @@ import Foundation
 public enum MalformedURIError : ErrorType {
     
     case URISchemeMissing(message : String, uri : String)
+    case URIAuthorityPartIsMalformed(message : String)
+    case URIHostMissingFromAuthorityPath(message : String)
     case URIContainsInvalidCharacters(message : String, uri : String)
     case MalformedURI(message : String, uri : String)
     
