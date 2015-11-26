@@ -16,6 +16,8 @@
 		022232371BFF7A4200362D9B /* URI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022232361BFF7A4200362D9B /* URI.swift */; };
 		022232391BFF7A4700362D9B /* BlankNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022232381BFF7A4700362D9B /* BlankNode.swift */; };
 		0222323B1BFF7ADF00362D9B /* Statement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0222323A1BFF7ADF00362D9B /* Statement.swift */; };
+		0222323D1C020A9200362D9B /* MalformedURIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0222323C1C020A9200362D9B /* MalformedURIError.swift */; };
+		022232401C061D8100362D9B /* SPARQLValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0222323F1C061D8100362D9B /* SPARQLValue.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,6 +43,8 @@
 		022232361BFF7A4200362D9B /* URI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = URI.swift; path = "../source code/model/URI.swift"; sourceTree = "<group>"; };
 		022232381BFF7A4700362D9B /* BlankNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BlankNode.swift; path = "../source code/model/BlankNode.swift"; sourceTree = "<group>"; };
 		0222323A1BFF7ADF00362D9B /* Statement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Statement.swift; path = "../source code/model/Statement.swift"; sourceTree = "<group>"; };
+		0222323C1C020A9200362D9B /* MalformedURIError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MalformedURIError.swift; path = "../source code/errors/MalformedURIError.swift"; sourceTree = "<group>"; };
+		0222323F1C061D8100362D9B /* SPARQLValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SPARQLValue.swift; path = "../source code/model/SPARQLValue.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,12 +69,7 @@
 		022232081BFF719C00362D9B = {
 			isa = PBXGroup;
 			children = (
-				0222323A1BFF7ADF00362D9B /* Statement.swift */,
-				022232381BFF7A4700362D9B /* BlankNode.swift */,
-				022232361BFF7A4200362D9B /* URI.swift */,
-				022232341BFF7A3D00362D9B /* Literal.swift */,
-				022232321BFF7A3600362D9B /* Resource.swift */,
-				022232301BFF79C300362D9B /* Value.swift */,
+				0222323E1C02108A00362D9B /* source */,
 				022232141BFF719C00362D9B /* SwiftRDF-OSX */,
 				022232201BFF719D00362D9B /* SwiftRDF-OSXTests */,
 				022232131BFF719C00362D9B /* Products */,
@@ -102,6 +101,21 @@
 				022232231BFF719D00362D9B /* Info.plist */,
 			);
 			path = "SwiftRDF-OSXTests";
+			sourceTree = "<group>";
+		};
+		0222323E1C02108A00362D9B /* source */ = {
+			isa = PBXGroup;
+			children = (
+				0222323C1C020A9200362D9B /* MalformedURIError.swift */,
+				0222323A1BFF7ADF00362D9B /* Statement.swift */,
+				022232381BFF7A4700362D9B /* BlankNode.swift */,
+				022232361BFF7A4200362D9B /* URI.swift */,
+				022232341BFF7A3D00362D9B /* Literal.swift */,
+				022232321BFF7A3600362D9B /* Resource.swift */,
+				022232301BFF79C300362D9B /* Value.swift */,
+				0222323F1C061D8100362D9B /* SPARQLValue.swift */,
+			);
+			name = source;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -214,7 +228,9 @@
 			files = (
 				0222323B1BFF7ADF00362D9B /* Statement.swift in Sources */,
 				022232311BFF79C300362D9B /* Value.swift in Sources */,
+				0222323D1C020A9200362D9B /* MalformedURIError.swift in Sources */,
 				022232331BFF7A3600362D9B /* Resource.swift in Sources */,
+				022232401C061D8100362D9B /* SPARQLValue.swift in Sources */,
 				022232371BFF7A4200362D9B /* URI.swift in Sources */,
 				022232391BFF7A4700362D9B /* BlankNode.swift in Sources */,
 				022232351BFF7A3D00362D9B /* Literal.swift in Sources */,
@@ -403,6 +419,7 @@
 				022232281BFF719D00362D9B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		022232291BFF719D00362D9B /* Build configuration list for PBXNativeTarget "SwiftRDF-OSXTests" */ = {
 			isa = XCConfigurationList;
@@ -411,6 +428,7 @@
 				0222322B1BFF719D00362D9B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

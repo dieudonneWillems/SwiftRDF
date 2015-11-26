@@ -8,7 +8,9 @@
 
 import Cocoa
 
-public class Statement : NSObject {
+public class Statement : NSObject, SPARQLValue {
+    
+    // MARK: Properties
 
     let subject: Resource
     let predicate: URI
@@ -22,6 +24,19 @@ public class Statement : NSObject {
         }
         return "\(subject) - \(predicate) - \(object) \(contextstr)"
     }
+    
+    // MARK: SPARQL properties
+    
+    /**
+     The representation of this statement as used in a SPARQL query.
+     */
+    public var sparql : String {
+        get{
+            return "\(subject.sparql) \(predicate.sparql) \(object.sparql)"
+        }
+    }
+    
+    // MARK: Initialisers
     
     public init(subject: Resource, predicate: URI, object: Value){
         self.subject = subject
