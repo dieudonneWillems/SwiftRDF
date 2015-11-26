@@ -18,6 +18,7 @@
 		0222323B1BFF7ADF00362D9B /* Statement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0222323A1BFF7ADF00362D9B /* Statement.swift */; };
 		0222323D1C020A9200362D9B /* MalformedURIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0222323C1C020A9200362D9B /* MalformedURIError.swift */; };
 		022232401C061D8100362D9B /* SPARQLValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0222323F1C061D8100362D9B /* SPARQLValue.swift */; };
+		022232421C0702AC00362D9B /* RDF.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022232411C0702AC00362D9B /* RDF.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +46,7 @@
 		0222323A1BFF7ADF00362D9B /* Statement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Statement.swift; path = "../source code/model/Statement.swift"; sourceTree = "<group>"; };
 		0222323C1C020A9200362D9B /* MalformedURIError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MalformedURIError.swift; path = "../source code/errors/MalformedURIError.swift"; sourceTree = "<group>"; };
 		0222323F1C061D8100362D9B /* SPARQLValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SPARQLValue.swift; path = "../source code/model/SPARQLValue.swift"; sourceTree = "<group>"; };
+		022232411C0702AC00362D9B /* RDF.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RDF.swift; path = "../source code/vocabularies/RDF.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +108,7 @@
 		0222323E1C02108A00362D9B /* source */ = {
 			isa = PBXGroup;
 			children = (
+				022232411C0702AC00362D9B /* RDF.swift */,
 				0222323C1C020A9200362D9B /* MalformedURIError.swift */,
 				0222323A1BFF7ADF00362D9B /* Statement.swift */,
 				022232381BFF7A4700362D9B /* BlankNode.swift */,
@@ -232,6 +235,7 @@
 				022232331BFF7A3600362D9B /* Resource.swift in Sources */,
 				022232401C061D8100362D9B /* SPARQLValue.swift in Sources */,
 				022232371BFF7A4200362D9B /* URI.swift in Sources */,
+				022232421C0702AC00362D9B /* RDF.swift in Sources */,
 				022232391BFF7A4700362D9B /* BlankNode.swift in Sources */,
 				022232351BFF7A3D00362D9B /* Literal.swift in Sources */,
 			);
