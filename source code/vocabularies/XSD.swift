@@ -68,22 +68,52 @@ public class XSD : Vocabulary {
     /// Represents a gregorian month that reoccurs every year, e.g. 10, the month of October.
     public static let gMonth = XSD.createDatatype( XSD.ns, localName: "gMonth", derivedFromDatatype: anySimpleType, isListDataType: false)
     
-    
+    /// Represents a boolean value, required to support the mathematical concept of binary-valued logic: {true, false}.
     public static let boolean = XSD.createDatatype( XSD.ns, localName: "boolean", derivedFromDatatype: anySimpleType, isListDataType: false)
+    
+    /** Represents a duration of time. The ·value space· of duration is a six-dimensional space where the coordinates designate 
+        the Gregorian year, month, day, hour, minute, and second components respectively. For instance, P1Y2MT2H.*/
     public static let duration = XSD.createDatatype( XSD.ns, localName: "duration", derivedFromDatatype: anySimpleType, isListDataType: false)
+    
+    /// Represents binary data encoded in base 64.
     public static let base64Binary = XSD.createDatatype( XSD.ns, localName: "base64Binary", derivedFromDatatype: anySimpleType, isListDataType: false)
     
-    // Represent hex-binary data.
+    /// Represent hex-binary data.
     public static let hexBinary = XSD.createDatatype( XSD.ns, localName: "hexBinary", derivedFromDatatype: anySimpleType, isListDataType: false)
+    
+    /// Represents a float data value, which is patterned after the IEEE single-precision 32-bit floating point type.
     public static let float = XSD.createDatatype( XSD.ns, localName: "float", derivedFromDatatype: anySimpleType, isListDataType: false)
+    
+    /// Represents a double data value, which is patterned after the IEEE double-precision 64-bit floating point type.
     public static let double = XSD.createDatatype( XSD.ns, localName: "double", derivedFromDatatype: anySimpleType, isListDataType: false)
+    
+    /// Represents a Uniform Resource Identifier Reference (URI).
     public static let anyURI = XSD.createDatatype( XSD.ns, localName: "anyURI", derivedFromDatatype: anySimpleType, isListDataType: false)
+    
+    /// Represents, a QName or XML qualified name.
     public static let QName = XSD.createDatatype( XSD.ns, localName: "QName", derivedFromDatatype: anySimpleType, isListDataType: false)
+    
+    /** NOTATION represents the NOTATION attribute type from [XML 1.0 (Second Edition)]. The value space of NOTATION is the set of QNames of notations declared in the current schema. */
     public static let NOTATION = XSD.createDatatype( XSD.ns, localName: "NOTATION", derivedFromDatatype: anySimpleType, isListDataType: false)
+    
+    /// The string datatype represents character strings in XML.
     public static let string = XSD.createDatatype( XSD.ns, localName: "string", derivedFromDatatype: anySimpleType, isListDataType: false)
+    
+    /** The normalizedString datatype represents white space normalized strings. The value space of
+        normalizedString is the set of strings that do not contain the carriage return (#xD), 
+        line feed (#xA) nor tab (#x9) characters.
+    */
     public static let normalizedString = XSD.createDatatype( XSD.ns, localName: "normalizedString", derivedFromDatatype: string, isListDataType: false)
+    
+    /** The token datatype represents tokenized strings. The value space of token is the set of strings
+        that do not contain the carriage return (#xD), line feed (#xA) nor tab (#x9) characters, 
+        that have no leading or trailing spaces (#x20) and that have no internal sequences of two or more spaces.
+    */
     public static let token = XSD.createDatatype( XSD.ns, localName: "token", derivedFromDatatype: normalizedString, isListDataType: false)
+    
+    /// The language datatype represents natural language identifiers
     public static let language = XSD.createDatatype( XSD.ns, localName: "language", derivedFromDatatype: token, isListDataType: false)
+    
     public static let Name = XSD.createDatatype( XSD.ns, localName: "Name", derivedFromDatatype: token, isListDataType: false)
     public static let NMTOKEN = XSD.createDatatype( XSD.ns, localName: "NMTOKEN", derivedFromDatatype: token, isListDataType: false)
     public static let NMTOKENS = XSD.createDatatype( XSD.ns, localName: "NMTOKENS", derivedFromDatatype: NMTOKEN, isListDataType: true)
@@ -93,6 +123,8 @@ public class XSD : Vocabulary {
     public static let IDREFS = XSD.createDatatype( XSD.ns, localName: "IDREFS", derivedFromDatatype: IDREF, isListDataType: true)
     public static let ENTITY = XSD.createDatatype( XSD.ns, localName: "ENTITY", derivedFromDatatype: NCName, isListDataType: false)
     public static let ENTITIES = XSD.createDatatype( XSD.ns, localName: "ENTITIES", derivedFromDatatype: ENTITY, isListDataType: true)
+    
+    /// Represents a subset of the real numbers, which can be represented by decimal numerals.
     public static let decimal = XSD.createDatatype( XSD.ns, localName: "decimal", derivedFromDatatype: anySimpleType, isListDataType: false)
     public static let integer = XSD.createDatatype( XSD.ns, localName: "integer", derivedFromDatatype: decimal, isListDataType: false)
     public static let nonPositiveInteger = XSD.createDatatype( XSD.ns, localName: "nonPositiveInteger", derivedFromDatatype: integer, isListDataType: false)
