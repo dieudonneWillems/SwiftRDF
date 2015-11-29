@@ -114,19 +114,65 @@ public class XSD : Vocabulary {
     /// The language datatype represents natural language identifiers
     public static let language = XSD.createDatatype( XSD.ns, localName: "language", derivedFromDatatype: token, isListDataType: false)
     
+    /*
+     Name represents [XML Names](http://www.w3.org/TR/2000/WD-xml-2e-20000814#dt-name). A Name is a token beginning
+     with a letter or one of a few punctuation characters, and continuing with letters, digits, hyphens, underscores,
+     colons, or full stops, together known as name characters.
+     */
     public static let Name = XSD.createDatatype( XSD.ns, localName: "Name", derivedFromDatatype: token, isListDataType: false)
+    
+    /**
+     An NMTOKEN is the set of tokens that match the Nmtoken production in 
+     [XML 1.0 (Second Edition)](http://www.w3.org/TR/xmlschema-2/#XML)
+     */
     public static let NMTOKEN = XSD.createDatatype( XSD.ns, localName: "NMTOKEN", derivedFromDatatype: token, isListDataType: false)
+    
+    /// Represents a list of `NMToken`s.
     public static let NMTOKENS = XSD.createDatatype( XSD.ns, localName: "NMTOKENS", derivedFromDatatype: NMTOKEN, isListDataType: true)
+    
+    /// NCName represents XML "non-colonized" Names.
     public static let NCName = XSD.createDatatype( XSD.ns, localName: "NCName", derivedFromDatatype: Name, isListDataType: false)
+    
+    /** 
+     ID represents the [ID attribute](http://www.w3.org/TR/2000/WD-xml-2e-20000814#NT-TokenizedType) type 
+     from [XML 1.0 (Second Edition)](http://www.w3.org/TR/xmlschema-2/#XML). 
+     Values of type ID must match the Name production.
+     A name must not appear more than once in an XML document as a value of this type; i.e., ID values must uniquely 
+     identify the elements which bear them.
+    */
     public static let ID = XSD.createDatatype( XSD.ns, localName: "ID", derivedFromDatatype: NCName, isListDataType: false)
+    
+    /**
+     IDREF represents the [IDREF attribute](http://www.w3.org/TR/2000/WD-xml-2e-20000814#NT-TokenizedType) type
+     from [XML 1.0 (Second Edition)](http://www.w3.org/TR/xmlschema-2/#XML). An IDREF is a reference to an ID.
+     */
     public static let IDREF = XSD.createDatatype( XSD.ns, localName: "IDREF", derivedFromDatatype: NCName, isListDataType: false)
+    
+    /// Represents a list of `IDREF`s.
     public static let IDREFS = XSD.createDatatype( XSD.ns, localName: "IDREFS", derivedFromDatatype: IDREF, isListDataType: true)
+    
+    /**
+     An ENTITY is a string that matches the NCName production and have been declared as an unparsed entity in a 
+     document type definition.
+     */
     public static let ENTITY = XSD.createDatatype( XSD.ns, localName: "ENTITY", derivedFromDatatype: NCName, isListDataType: false)
+    
+    /// Represents a list of multiple instances of an `ENTITY`.
     public static let ENTITIES = XSD.createDatatype( XSD.ns, localName: "ENTITIES", derivedFromDatatype: ENTITY, isListDataType: true)
     
     /// Represents a subset of the real numbers, which can be represented by decimal numerals.
     public static let decimal = XSD.createDatatype( XSD.ns, localName: "decimal", derivedFromDatatype: anySimpleType, isListDataType: false)
+    
+    /** 
+      Represents an integer which is derived from decimal by fixing the value of fractionDigits to be 0 and disallowing
+      the trailing decimal point. This results in the standard mathematical concept of the integer numbers.
+     */
     public static let integer = XSD.createDatatype( XSD.ns, localName: "integer", derivedFromDatatype: decimal, isListDataType: false)
+    
+    /**
+     Represents a non-positive-integer which derived from integer by setting the maximum value to be 0, e.g. <=0.
+     This results in the standard mathematical concept of the non-positive integers.
+     */
     public static let nonPositiveInteger = XSD.createDatatype( XSD.ns, localName: "nonPositiveInteger", derivedFromDatatype: integer, isListDataType: false)
     public static let negativeInteger = XSD.createDatatype( XSD.ns, localName: "negativeInteger", derivedFromDatatype: nonPositiveInteger, isListDataType: false)
     public static let long = XSD.createDatatype( XSD.ns, localName: "long", derivedFromDatatype: integer, isListDataType: false)
