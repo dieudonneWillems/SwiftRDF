@@ -9,7 +9,7 @@
 import XCTest
 @testable import SwiftRDFOSX
 
-class SwiftRDF_OSXTests: XCTestCase {
+class URITests: XCTestCase {
     
     override func setUp() {
         super.setUp()
@@ -21,6 +21,15 @@ class SwiftRDF_OSXTests: XCTestCase {
         super.tearDown()
     }
     
+    func testURIEquality() {
+        do {
+            let uri = try URI(string : "http://www.w3.org/1999/02/22-rdf-syntax-ns#Bag")
+            XCTAssertTrue(RDF.Bag == uri)
+        } catch {
+            print("Error thrown!")
+            XCTFail("Error thrown while testing URI equality.")
+        }
+    }
     
     
     func testURIwithURL() {
