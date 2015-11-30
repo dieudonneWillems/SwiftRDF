@@ -54,7 +54,7 @@
             location = "group:source code/vocabularies/RDF.swift">
          </FileRef>
          <FileRef
-            location = "group:source code/model/RDFS.swift">
+            location = "group:source code/vocabularies/RDFS.swift">
          </FileRef>
          <FileRef
             location = "group:source code/vocabularies/XSD.swift">
