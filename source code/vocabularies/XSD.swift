@@ -170,23 +170,62 @@ public class XSD : Vocabulary {
     public static let integer = XSD.createDatatype( XSD.ns, localName: "integer", derivedFromDatatype: decimal, isListDataType: false)
     
     /**
-     Represents a non-positive-integer which derived from integer by setting the maximum value to be 0, e.g. <=0.
+     Represents a non-positive-integer which is derived from integer by setting the maximum value to be 0 inclusive, i.e. <=0.
      This results in the standard mathematical concept of the non-positive integers.
      */
     public static let nonPositiveInteger = XSD.createDatatype( XSD.ns, localName: "nonPositiveInteger", derivedFromDatatype: integer, isListDataType: false)
+    
+    /**
+     Represents a negative integer, i.e. <0.
+     This results in the standard mathematical concept of the negative integers
+     */
     public static let negativeInteger = XSD.createDatatype( XSD.ns, localName: "negativeInteger", derivedFromDatatype: nonPositiveInteger, isListDataType: false)
+    
+    /// Represents an integer of type long with a value between -9223372036854775808 and 9223372036854775807 inclusive.
     public static let long = XSD.createDatatype( XSD.ns, localName: "long", derivedFromDatatype: integer, isListDataType: false)
+    
+    /// Represents an integer of type int with a value between -2147483648 and 2147483647 inclusive.
     public static let int = XSD.createDatatype( XSD.ns, localName: "int", derivedFromDatatype: long, isListDataType: false)
+    
+    // Represents an integer of type short with a value between  -32768 and 32767 inclusive.
     public static let short = XSD.createDatatype( XSD.ns, localName: "short", derivedFromDatatype: int, isListDataType: false)
+    
+    // Represents an integer of type byte with a value between  -128 and 127 inclusive.
     public static let byte = XSD.createDatatype( XSD.ns, localName: "byte", derivedFromDatatype: short, isListDataType: false)
+    
+    /**
+     Represents a non-negative-integer which is derived from integer by setting the minimum value to be 0 inclusive, i.e. >=0.
+     This results in the standard mathematical concept of the non-negative integers.
+     */
     public static let nonNegativeInteger = XSD.createDatatype( XSD.ns, localName: "nonNegativeInteger", derivedFromDatatype: integer, isListDataType: false)
+    
+    /// Represents a non negative integer of type long with a value between 0 and 18446744073709551615 inclusive.
     public static let unsignedLong = XSD.createDatatype( XSD.ns, localName: "unsignedLong", derivedFromDatatype: nonNegativeInteger, isListDataType: false)
+    
+    /// Represents a non negative integer of type int with a value between 0 and 4294967295 inclusive.
     public static let unsignedInt = XSD.createDatatype( XSD.ns, localName: "unsignedInt", derivedFromDatatype: unsignedLong, isListDataType: false)
+    
+    /// Represents a non negative integer of type short with a value between 0 and 65535 inclusive.
     public static let unsignedShort = XSD.createDatatype( XSD.ns, localName: "unsignedShort", derivedFromDatatype: unsignedInt, isListDataType: false)
+    
+    /// Represents a non negative integer of type byte with a value between 0 and 255 inclusive.
     public static let unsignedByte = XSD.createDatatype( XSD.ns, localName: "unsignedByte", derivedFromDatatype: unsignedShort, isListDataType: false)
+    
+    /**
+     Represents a positive integer, i.e. >0.
+     This results in the standard mathematical concept of the positive integers
+     */
     public static let positiveInteger = XSD.createDatatype( XSD.ns, localName: "positiveInteger", derivedFromDatatype: nonNegativeInteger, isListDataType: false)
     
-    
+    /**
+     Creates a new Datatype to be included in the vocabulary. This method is a convenience method
+     to create Datatypes without the need to catch URI initialisation errors. It is imperative that
+     the Datatypes created are valid URIs, otherwise a runtime error will occur.
+     
+     - parameter namespace: The namespace of the vocabulary.
+     - parameter localName: The local name of the concept.
+     - returns: The Datatype that was created.
+     */
     internal static func createDatatype(namespace: String, localName: String, derivedFromDatatype: Datatype?, isListDataType: Bool) -> Datatype {
         var datatype : Datatype? = nil
         do {
