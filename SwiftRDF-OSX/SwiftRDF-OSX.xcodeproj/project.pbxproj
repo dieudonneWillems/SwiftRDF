@@ -23,6 +23,7 @@
 		0262BB0D1C076409002E24A4 /* Vocabulary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0262BB0C1C076409002E24A4 /* Vocabulary.swift */; };
 		0262BB0F1C076606002E24A4 /* Datatype.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0262BB0E1C076606002E24A4 /* Datatype.swift */; };
 		0262BB131C0C5E45002E24A4 /* DatatypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0262BB121C0C5E45002E24A4 /* DatatypeTests.swift */; };
+		02943EB41C0C6CCF00C42159 /* RDFS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0262BB141C0C6AB1002E24A4 /* RDFS.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +56,7 @@
 		0262BB0C1C076409002E24A4 /* Vocabulary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Vocabulary.swift; path = "../source code/vocabularies/Vocabulary.swift"; sourceTree = "<group>"; };
 		0262BB0E1C076606002E24A4 /* Datatype.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Datatype.swift; path = "../source code/utilities/Datatype.swift"; sourceTree = "<group>"; };
 		0262BB121C0C5E45002E24A4 /* DatatypeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatatypeTests.swift; sourceTree = "<group>"; };
+		0262BB141C0C6AB1002E24A4 /* RDFS.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RDFS.swift; path = "../source code/model/RDFS.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,8 +119,9 @@
 		0222323E1C02108A00362D9B /* source */ = {
 			isa = PBXGroup;
 			children = (
-				0262BB0E1C076606002E24A4 /* Datatype.swift */,
 				0262BB0C1C076409002E24A4 /* Vocabulary.swift */,
+				0262BB141C0C6AB1002E24A4 /* RDFS.swift */,
+				0262BB0E1C076606002E24A4 /* Datatype.swift */,
 				0262BB0A1C075F9E002E24A4 /* XSD.swift */,
 				022232411C0702AC00362D9B /* RDF.swift */,
 				0222323C1C020A9200362D9B /* MalformedURIError.swift */,
@@ -243,6 +246,7 @@
 			files = (
 				0222323B1BFF7ADF00362D9B /* Statement.swift in Sources */,
 				022232311BFF79C300362D9B /* Value.swift in Sources */,
+				02943EB41C0C6CCF00C42159 /* RDFS.swift in Sources */,
 				0222323D1C020A9200362D9B /* MalformedURIError.swift in Sources */,
 				022232331BFF7A3600362D9B /* Resource.swift in Sources */,
 				022232401C061D8100362D9B /* SPARQLValue.swift in Sources */,
