@@ -47,5 +47,31 @@
             location = "group:source code/model/SPARQLValue.swift">
          </FileRef>
       </Group>
+      <Group
+         location = "container:"
+         name = "vocabularies">
+         <FileRef
+            location = "group:source code/vocabularies/OWL.swift">
+         </FileRef>
+         <FileRef
+            location = "group:source code/vocabularies/RDF.swift">
+         </FileRef>
+         <FileRef
+            location = "group:source code/vocabularies/RDFS.swift">
+         </FileRef>
+         <FileRef
+            location = "group:source code/vocabularies/XSD.swift">
+         </FileRef>
+         <FileRef
+            location = "group:source code/vocabularies/Vocabulary.swift">
+         </FileRef>
+      </Group>
+      <Group
+         location = "container:"
+         name = "utilities">
+         <FileRef
+            location = "group:source code/utilities/Datatype.swift">
+         </FileRef>
+      </Group>
    </Group>
 </Workspace>

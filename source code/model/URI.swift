@@ -145,6 +145,7 @@ public class URI : Resource {
         try parseURI(string)
     }
     
+    
     // MARK: Methods for parsing URI strings into URIs.
     
     /**
