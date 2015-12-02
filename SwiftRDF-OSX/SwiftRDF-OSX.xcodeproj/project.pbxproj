@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		022232161BFF719C00362D9B /* SwiftRDF-OSX.h in Headers */ = {isa = PBXBuildFile; fileRef = 022232151BFF719C00362D9B /* SwiftRDF-OSX.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0222321D1BFF719D00362D9B /* SwiftRDFOSX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 022232121BFF719C00362D9B /* SwiftRDFOSX.framework */; };
-		022232221BFF719D00362D9B /* SwiftRDF_OSXTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022232211BFF719D00362D9B /* SwiftRDF_OSXTests.swift */; };
+		022232221BFF719D00362D9B /* URITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022232211BFF719D00362D9B /* URITests.swift */; };
 		022232311BFF79C300362D9B /* Value.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022232301BFF79C300362D9B /* Value.swift */; };
 		022232331BFF7A3600362D9B /* Resource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022232321BFF7A3600362D9B /* Resource.swift */; };
 		022232351BFF7A3D00362D9B /* Literal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022232341BFF7A3D00362D9B /* Literal.swift */; };
@@ -18,6 +18,13 @@
 		0222323B1BFF7ADF00362D9B /* Statement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0222323A1BFF7ADF00362D9B /* Statement.swift */; };
 		0222323D1C020A9200362D9B /* MalformedURIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0222323C1C020A9200362D9B /* MalformedURIError.swift */; };
 		022232401C061D8100362D9B /* SPARQLValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0222323F1C061D8100362D9B /* SPARQLValue.swift */; };
+		022232421C0702AC00362D9B /* RDF.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022232411C0702AC00362D9B /* RDF.swift */; };
+		0262BB0B1C075F9E002E24A4 /* XSD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0262BB0A1C075F9E002E24A4 /* XSD.swift */; };
+		0262BB0D1C076409002E24A4 /* Vocabulary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0262BB0C1C076409002E24A4 /* Vocabulary.swift */; };
+		0262BB0F1C076606002E24A4 /* Datatype.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0262BB0E1C076606002E24A4 /* Datatype.swift */; };
+		0262BB131C0C5E45002E24A4 /* DatatypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0262BB121C0C5E45002E24A4 /* DatatypeTests.swift */; };
+		02943EB61C0C730000C42159 /* RDFS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02943EB51C0C730000C42159 /* RDFS.swift */; };
+		029699F01C0EDA700067BB99 /* OWL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 029699EF1C0EDA700067BB99 /* OWL.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,7 +42,7 @@
 		022232151BFF719C00362D9B /* SwiftRDF-OSX.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SwiftRDF-OSX.h"; sourceTree = "<group>"; };
 		022232171BFF719C00362D9B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0222321C1BFF719C00362D9B /* SwiftRDF-OSXTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "SwiftRDF-OSXTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		022232211BFF719D00362D9B /* SwiftRDF_OSXTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftRDF_OSXTests.swift; sourceTree = "<group>"; };
+		022232211BFF719D00362D9B /* URITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URITests.swift; sourceTree = "<group>"; };
 		022232231BFF719D00362D9B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		022232301BFF79C300362D9B /* Value.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Value.swift; path = "../source code/model/Value.swift"; sourceTree = "<group>"; };
 		022232321BFF7A3600362D9B /* Resource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Resource.swift; path = "../source code/model/Resource.swift"; sourceTree = "<group>"; };
@@ -45,6 +52,13 @@
 		0222323A1BFF7ADF00362D9B /* Statement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Statement.swift; path = "../source code/model/Statement.swift"; sourceTree = "<group>"; };
 		0222323C1C020A9200362D9B /* MalformedURIError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MalformedURIError.swift; path = "../source code/errors/MalformedURIError.swift"; sourceTree = "<group>"; };
 		0222323F1C061D8100362D9B /* SPARQLValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SPARQLValue.swift; path = "../source code/model/SPARQLValue.swift"; sourceTree = "<group>"; };
+		022232411C0702AC00362D9B /* RDF.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RDF.swift; path = "../source code/vocabularies/RDF.swift"; sourceTree = "<group>"; };
+		0262BB0A1C075F9E002E24A4 /* XSD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = XSD.swift; path = "../source code/vocabularies/XSD.swift"; sourceTree = "<group>"; };
+		0262BB0C1C076409002E24A4 /* Vocabulary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Vocabulary.swift; path = "../source code/vocabularies/Vocabulary.swift"; sourceTree = "<group>"; };
+		0262BB0E1C076606002E24A4 /* Datatype.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Datatype.swift; path = "../source code/utilities/Datatype.swift"; sourceTree = "<group>"; };
+		0262BB121C0C5E45002E24A4 /* DatatypeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatatypeTests.swift; sourceTree = "<group>"; };
+		02943EB51C0C730000C42159 /* RDFS.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RDFS.swift; path = "../source code/vocabularies/RDFS.swift"; sourceTree = "<group>"; };
+		029699EF1C0EDA700067BB99 /* OWL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OWL.swift; path = "../source code/vocabularies/OWL.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,7 +111,8 @@
 		022232201BFF719D00362D9B /* SwiftRDF-OSXTests */ = {
 			isa = PBXGroup;
 			children = (
-				022232211BFF719D00362D9B /* SwiftRDF_OSXTests.swift */,
+				022232211BFF719D00362D9B /* URITests.swift */,
+				0262BB121C0C5E45002E24A4 /* DatatypeTests.swift */,
 				022232231BFF719D00362D9B /* Info.plist */,
 			);
 			path = "SwiftRDF-OSXTests";
@@ -106,6 +121,12 @@
 		0222323E1C02108A00362D9B /* source */ = {
 			isa = PBXGroup;
 			children = (
+				029699EF1C0EDA700067BB99 /* OWL.swift */,
+				0262BB0C1C076409002E24A4 /* Vocabulary.swift */,
+				0262BB0E1C076606002E24A4 /* Datatype.swift */,
+				0262BB0A1C075F9E002E24A4 /* XSD.swift */,
+				022232411C0702AC00362D9B /* RDF.swift */,
+				02943EB51C0C730000C42159 /* RDFS.swift */,
 				0222323C1C020A9200362D9B /* MalformedURIError.swift */,
 				0222323A1BFF7ADF00362D9B /* Statement.swift */,
 				022232381BFF7A4700362D9B /* BlankNode.swift */,
@@ -228,10 +249,16 @@
 			files = (
 				0222323B1BFF7ADF00362D9B /* Statement.swift in Sources */,
 				022232311BFF79C300362D9B /* Value.swift in Sources */,
+				02943EB61C0C730000C42159 /* RDFS.swift in Sources */,
 				0222323D1C020A9200362D9B /* MalformedURIError.swift in Sources */,
 				022232331BFF7A3600362D9B /* Resource.swift in Sources */,
 				022232401C061D8100362D9B /* SPARQLValue.swift in Sources */,
+				0262BB0D1C076409002E24A4 /* Vocabulary.swift in Sources */,
+				0262BB0B1C075F9E002E24A4 /* XSD.swift in Sources */,
+				029699F01C0EDA700067BB99 /* OWL.swift in Sources */,
 				022232371BFF7A4200362D9B /* URI.swift in Sources */,
+				022232421C0702AC00362D9B /* RDF.swift in Sources */,
+				0262BB0F1C076606002E24A4 /* Datatype.swift in Sources */,
 				022232391BFF7A4700362D9B /* BlankNode.swift in Sources */,
 				022232351BFF7A3D00362D9B /* Literal.swift in Sources */,
 			);
@@ -241,7 +268,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				022232221BFF719D00362D9B /* SwiftRDF_OSXTests.swift in Sources */,
+				022232221BFF719D00362D9B /* URITests.swift in Sources */,
+				0262BB131C0C5E45002E24A4 /* DatatypeTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
