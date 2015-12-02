@@ -51,6 +51,9 @@
          location = "container:"
          name = "vocabularies">
          <FileRef
+            location = "group:source code/vocabularies/OWL.swift">
+         </FileRef>
+         <FileRef
             location = "group:source code/vocabularies/RDF.swift">
          </FileRef>
          <FileRef
