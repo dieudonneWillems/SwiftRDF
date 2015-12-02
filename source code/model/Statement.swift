@@ -12,10 +12,10 @@ public class Statement : NSObject, SPARQLValue {
     
     // MARK: Properties
 
-    let subject: Resource
-    let predicate: URI
-    let object: Value
-    var context: [Resource] = []
+    public let subject: Resource
+    public let predicate: URI
+    public let object: Value
+    public var context: [Resource] = []
     
     override public var description: String {
         var contextstr = ""
