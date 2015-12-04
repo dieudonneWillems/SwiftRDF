@@ -88,6 +88,10 @@ public class Literal: Value {
         if dataType == XSD.long {
             longValue = try Literal.parseLong(stringValue)
             self.setIntegerValues(longValue!)
+        }else if dataType == XSD.integer {
+            integerValue = try Literal.parseInteger(stringValue)
+            longValue = Int64(integerValue!)
+            self.setIntegerValues(longValue!)
         }else if dataType == XSD.unsignedLong {
             unsignedLongValue = try Literal.parseUnsignedLong(stringValue)
             self.setUnsignedIntegerValues(unsignedLongValue!)
@@ -115,8 +119,17 @@ public class Literal: Value {
             unsignedByteValue = try Literal.parseUnsignedByte(stringValue)
             unsignedLongValue = UInt64(unsignedByteValue!)
             self.setUnsignedIntegerValues(unsignedLongValue!)
+        }else if dataType == XSD.double {
+            doubleValue = try Literal.parseDouble(stringValue)
         }else {
         }
+    }
+    
+    public convenience init(integerValue : Int) {
+        self.init(stringValue: "\(integerValue)")
+        self.integerValue = integerValue
+        self.setIntegerValues(Int64(integerValue))
+        self.dataType = XSD.integer
     }
     
     public convenience init(longValue : Int64) {
@@ -173,6 +186,12 @@ public class Literal: Value {
         self.unsignedByteValue = unsignedByteValue
         self.setUnsignedIntegerValues(UInt64(unsignedByteValue))
         self.dataType = XSD.unsignedByte
+    }
+    
+    public convenience init(doubleValue : Double) {
+        self.init(stringValue: "\(doubleValue)")
+        self.doubleValue = doubleValue
+        self.dataType = XSD.double
     }
     
     private func setIntegerValues(long : Int64){
@@ -235,6 +254,14 @@ public class Literal: Value {
         }
     }
     
+    private static func parseInteger(integerAsString : String) throws -> Int {
+        let result = Int(integerAsString)
+        if result == nil {
+            throw LiteralFormattingError.malformedNumber(message: "Could not create integer literal from \(integerAsString).", string: integerAsString);
+        }
+        return result!
+    }
+    
     private static func parseLong(longAsString : String) throws -> Int64 {
         let result = Int64(longAsString)
         if result == nil {
@@ -295,6 +322,14 @@ public class Literal: Value {
         let result = UInt8(intAsString)
         if result == nil {
             throw LiteralFormattingError.malformedNumber(message: "Could not create 8-bit unsigned integer (byte) literal from \(intAsString).", string: intAsString);
+        }
+        return result!
+    }
+    
+    private static func parseDouble(doubleAsString : String) throws -> Double {
+        let result = Double(doubleAsString)
+        if result == nil {
+            throw LiteralFormattingError.malformedNumber(message: "Could not create double literal from \(doubleAsString).", string: doubleAsString);
         }
         return result!
     }
