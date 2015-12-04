@@ -66,6 +66,48 @@ public class Literal: Value {
     */
     public override var sparql : String {
         get{
+            if dataType != nil {
+                if dataType! == XSD.string {
+                    if language == nil {
+                        return "\"\(self.stringValue)\"^^xsd:string"
+                    } else {
+                        return "\"\(self.stringValue)\"@\(language!)"
+                    }
+                } else if dataType! == XSD.integer {
+                    return "\(integerValue!)";
+                } else if dataType! == XSD.long {
+                    return "\"\(longValue!)\"^^xsd:long";
+                } else if dataType! == XSD.int {
+                    return "\"\(intValue!)\"^^xsd:int";
+                } else if dataType! == XSD.short {
+                    return "\"\(shortValue!)\"^^xsd:short";
+                } else if dataType! == XSD.byte {
+                    return "\"\(byteValue!)\"^^xsd:byte";
+                } else if dataType! == XSD.unsignedLong {
+                    return "\"\(unsignedLongValue!)\"^^xsd:unsignedLong";
+                } else if dataType! == XSD.unsignedInt {
+                    return "\"\(unsignedIntValue!)\"^^xsd:unsignedInt";
+                } else if dataType! == XSD.unsignedShort {
+                    return "\"\(unsignedShortValue!)\"^^xsd:unsignedShort";
+                } else if dataType! == XSD.unsignedByte {
+                    return "\"\(unsignedByteValue!)\"^^xsd:unsignedByte";
+                }  else if dataType! == XSD.double {
+                    let logv = log10(doubleValue!)
+                    var ilogv = Int(logv)
+                    var sign = "+"
+                    if logv < 0 {
+                        ilogv = ilogv - 1
+                        sign = "-"
+                    }
+                    let val = doubleValue! / pow(10.0,Double(ilogv))
+                    if ilogv < 0 {
+                        ilogv = -ilogv
+                    }
+                    return "\(val)E\(sign)\(ilogv)";
+                } else if dataType! == XSD.float {
+                    return "\"\(floatValue!)\"^^xsd:float";
+                }
+            }
             return "\"\(self.stringValue)\""
         }
     }
