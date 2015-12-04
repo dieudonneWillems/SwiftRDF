@@ -21,6 +21,9 @@
          <FileRef
             location = "group:source code/errors/MalformedURIError.swift">
          </FileRef>
+         <FileRef
+            location = "group:/Users/wonco/Development/SwiftRDF/source code/errors/LiteralFormattingError.swift">
+         </FileRef>
       </Group>
       <Group
          location = "container:"
