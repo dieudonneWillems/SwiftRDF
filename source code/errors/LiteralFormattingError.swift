@@ -10,6 +10,7 @@ import Foundation
 
 public enum LiteralFormattingError : ErrorType {
     
+    case illegalValueForNumber(message : String)
     case malformedNumber(message : String, string : String)
     case malformedDate(message : String, string : String)
     case malformedTime(message : String, string : String)

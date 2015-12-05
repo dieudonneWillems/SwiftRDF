@@ -22,7 +22,7 @@ public class Literal: Value {
     
     public private(set) var dateValue : NSDate?
     
-    public private(set) var floatValue : Double?
+    public private(set) var floatValue : Float?
     
     public private(set) var doubleValue : Double?
     
@@ -314,11 +314,39 @@ public class Literal: Value {
         self.dataType = XSD.unsignedByte
     }
     
+    public convenience init(floatValue : Float) {
+        self.init(stringValue: "\(floatValue)")
+        self.floatValue = floatValue
+        self.doubleValue = Double(floatValue)
+        self.dataType = XSD.float
+    }
+    
     public convenience init(doubleValue : Double) {
         self.init(stringValue: "\(doubleValue)")
         self.doubleValue = doubleValue
+        self.floatValue = Float(doubleValue)
         self.dataType = XSD.double
     }
+    
+    // TODO: Initialiser for booleans
+    
+    // TODO: Initialiser for durations
+    // TODO: Initialiser for dateTime
+    // TODO: Initialiser for date
+    // TODO: Initialiser for time
+    // TODO: Initialiser for gYearMonth
+    // TODO: Initialiser for gYear
+    // TODO: Initialiser for gMonthDay
+    // TODO: Initialiser for gMonth
+    // TODO: Initialiser for gDay
+    
+    // TODO: Initialiser for base64Binary
+    // TODO: Initialiser for hexBinary
+    
+    // TODO: Initialiser for anyURI
+    
+    // TODO: Initialiser for QName
+    // TODO: Initialiser for NOTATION
     
     private func setIntegerValues(long : Int64){
         if long >= 0 {
