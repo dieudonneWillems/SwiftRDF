@@ -150,7 +150,10 @@ public class Literal: Value {
             longValue = Int64(integerValue!)
             self.setIntegerValues(longValue!)
         }else if dataType == XSD.decimal {
-            // TODO: Parse decimal string
+            decimalValue = Decimal(stringValue: stringValue)
+            if decimalValue != nil && decimalValue!.decimalExponent == 0 {
+                self.setIntegerValues(decimalValue!.decimalInteger)
+            }
         }else if dataType == XSD.unsignedLong {
             unsignedLongValue = try Literal.parseUnsignedLong(stringValue)
             self.setUnsignedIntegerValues(unsignedLongValue!)
@@ -191,8 +194,8 @@ public class Literal: Value {
             // TODO: Parse non positive integer string
         }else if dataType == XSD.negativeInteger {
             // TODO: Parse negative integer string
-        }else if dataType == XSD.negativeInteger {
-            // TODO: Parse float string
+        }else if dataType == XSD.float {
+            floatValue = try Literal.parseFloat(stringValue)
         }else if dataType == XSD.double {
             doubleValue = try Literal.parseDouble(stringValue)
         }else {
@@ -204,6 +207,9 @@ public class Literal: Value {
     public convenience init(decimalValue : Decimal) {
         self.init(stringValue: "\(decimalValue)")
         self.decimalValue = decimalValue
+        if decimalValue.decimalExponent == 0 {
+            self.setIntegerValues(decimalValue.decimalInteger)
+        }
         self.dataType = XSD.decimal
     }
     
@@ -360,6 +366,7 @@ public class Literal: Value {
         if long >= 0 {
             setUnsignedIntegerValues(UInt64(long))
         } else {
+            decimalValue = Decimal(longValue: long)
             longValue = long
             if long >= Int64(Int.min) {
                 integerValue = Int(long)
@@ -381,6 +388,7 @@ public class Literal: Value {
     }
     
     private func setUnsignedIntegerValues(ulong : UInt64){
+        decimalValue = Decimal(longValue: Int64(ulong))
         unsignedLongValue = ulong
         if ulong <= UInt64(UInt.max) {
             nonNegativeIntegerValue = UInt(ulong)
@@ -492,6 +500,14 @@ public class Literal: Value {
         let result = Double(doubleAsString)
         if result == nil {
             throw LiteralFormattingError.malformedNumber(message: "Could not create double literal from \(doubleAsString).", string: doubleAsString);
+        }
+        return result!
+    }
+    
+    private static func parseFloat(floatAsString : String) throws -> Float {
+        let result = Float(floatAsString)
+        if result == nil {
+            throw LiteralFormattingError.malformedNumber(message: "Could not create float literal from \(floatAsString).", string: floatAsString);
         }
         return result!
     }

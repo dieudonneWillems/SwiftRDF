@@ -17,14 +17,45 @@ public struct Decimal : CustomStringConvertible{
     public var description : String {
         get {
             var string = "\(decimalInteger)"
-            var pos = string.lengthOfBytesUsingEncoding(NSASCIIStringEncoding)-Int(decimalExponent)
+            if decimalExponent > 0 {
+                var negative = false
+                if decimalInteger < 0 {
+                    negative = true
+                    string = "\(-decimalInteger)"
+                }
+                let pos = Int(decimalExponent) - string.lengthOfBytesUsingEncoding(NSASCIIStringEncoding) + 1
+                for var index = 0; index < pos ; index++ {
+                    string = "0\(string)"
+                }
+                string = string.substringWithRange(Range<String.Index>(start: string.startIndex, end: string.endIndex.advancedBy(-Int(decimalExponent)))) + "." + string.substringWithRange(Range<String.Index>(start: string.endIndex.advancedBy(-Int(decimalExponent)), end: string.endIndex))
+                if negative {
+                    string = "-\(string)"
+                }
+            }
             return string
         }
     }
     
     public init?(stringValue : String){
-        // TODO: Initialisation with String
-        return nil
+        let range = stringValue.rangeOfString(".")
+        if range != nil {
+            let length = stringValue.lengthOfBytesUsingEncoding(NSASCIIStringEncoding)
+            let pos = stringValue.startIndex.distanceTo(range!.startIndex)
+            let string = stringValue.substringWithRange(Range<String.Index>(start: stringValue.startIndex, end: stringValue.startIndex.advancedBy(pos))) + stringValue.substringWithRange(Range<String.Index>(start: stringValue.startIndex.advancedBy(pos+1), end: stringValue.endIndex))
+            let di = Int64(string)
+            if di == nil {
+                return nil
+            }
+            decimalInteger = di!
+            decimalExponent = UInt8(length - pos-1)
+        } else {
+            let di = Int64(stringValue)
+            if di == nil {
+                return nil
+            }
+            decimalInteger = di!
+            decimalExponent = 0
+        }
     }
     
     public init(integerValue : Int){
@@ -48,13 +79,11 @@ public struct Decimal : CustomStringConvertible{
     }
     
     public init?(doubleValue : Double){
-        // TODO: Initialisation with double
-        return nil
+        self.init(stringValue: "\(doubleValue)")
     }
     
     public init?(floatValue : Float){
-        // TODO: Initialisation with float
-        return nil
+        self.init(stringValue: "\(floatValue)")
     }
     
     public init?(decimalInteger : Int64, decimalExponent : UInt8){
