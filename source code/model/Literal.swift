@@ -91,7 +91,18 @@ public class Literal: Value {
                     return "\"\(unsignedShortValue!)\"^^xsd:unsignedShort";
                 } else if dataType! == XSD.unsignedByte {
                     return "\"\(unsignedByteValue!)\"^^xsd:unsignedByte";
-                }  else if dataType! == XSD.double {
+                } else if dataType! == XSD.nonNegativeInteger {
+                    return "\"\(nonNegativeIntegerValue!)\"^^xsd:nonNegativeInteger";
+                } else if dataType! == XSD.positiveInteger {
+                    return "\"\(positiveIntegerValue!)\"^^xsd:positiveInteger";
+                } else if dataType! == XSD.nonPositiveInteger {
+                    if nonPositiveIntegerValue == 0 {
+                        return "\"0\"^^xsd:nonPositiveInteger";
+                    }
+                    return "\"-\(nonPositiveIntegerValue!)\"^^xsd:nonPositiveInteger";
+                } else if dataType! == XSD.negativeInteger {
+                    return "\"-\(negativeIntegerValue!)\"^^xsd:negativeInteger";
+                } else if dataType! == XSD.double {
                     let logv = log10(doubleValue!)
                     var ilogv = Int(logv)
                     var sign = "+"
@@ -118,6 +129,8 @@ public class Literal: Value {
         super.init(stringValue: stringValue)
     }
     
+    // TODO: Initialiser that parses a SPARQL representation of the literal.
+    
     public init(stringValue: String, language: String){
         super.init(stringValue: stringValue)
         self.language = language
@@ -134,6 +147,8 @@ public class Literal: Value {
             integerValue = try Literal.parseInteger(stringValue)
             longValue = Int64(integerValue!)
             self.setIntegerValues(longValue!)
+        }else if dataType == XSD.decimal {
+            // TODO: Parse decimal string
         }else if dataType == XSD.unsignedLong {
             unsignedLongValue = try Literal.parseUnsignedLong(stringValue)
             self.setUnsignedIntegerValues(unsignedLongValue!)
@@ -161,17 +176,86 @@ public class Literal: Value {
             unsignedByteValue = try Literal.parseUnsignedByte(stringValue)
             unsignedLongValue = UInt64(unsignedByteValue!)
             self.setUnsignedIntegerValues(unsignedLongValue!)
+        }else if dataType == XSD.nonNegativeInteger {
+            unsignedLongValue = try Literal.parseUnsignedLong(stringValue)
+            self.setUnsignedIntegerValues(unsignedLongValue!)
+        }else if dataType == XSD.positiveInteger {
+            unsignedLongValue = try Literal.parseUnsignedLong(stringValue)
+            if unsignedLongValue == 0 {
+                throw LiteralFormattingError.malformedNumber(message: "The postive integer number \(stringValue) is malformed as it is outside the required range for a positive integer [1,\(UInt.max)]. ", string: stringValue)
+            }
+            self.setUnsignedIntegerValues(unsignedLongValue!)
+        }else if dataType == XSD.nonPositiveInteger {
+            // TODO: Parse non positive integer string
+        }else if dataType == XSD.negativeInteger {
+            // TODO: Parse negative integer string
+        }else if dataType == XSD.negativeInteger {
+            // TODO: Parse float string
         }else if dataType == XSD.double {
             doubleValue = try Literal.parseDouble(stringValue)
         }else {
         }
     }
     
+    // TODO: Initialiser for decimals
+    
     public convenience init(integerValue : Int) {
         self.init(stringValue: "\(integerValue)")
         self.integerValue = integerValue
         self.setIntegerValues(Int64(integerValue))
         self.dataType = XSD.integer
+    }
+    
+    public convenience init(nonNegativeIntegerValue : UInt) {
+        self.init(stringValue: "\(nonNegativeIntegerValue)")
+        self.nonNegativeIntegerValue = nonNegativeIntegerValue
+        self.setUnsignedIntegerValues(UInt64(nonNegativeIntegerValue))
+        self.dataType = XSD.nonNegativeInteger
+    }
+    
+    public convenience init(positiveIntegerValue : UInt) throws {
+        if positiveIntegerValue == 0 {
+            throw LiteralFormattingError.illegalValueForNumber(message: "Could not initialise a literal with a positive integer value of 0 as the required range is [1,\(UInt.max)].")
+        }
+        self.init(stringValue: "\(positiveIntegerValue)")
+        self.positiveIntegerValue = positiveIntegerValue
+        self.setUnsignedIntegerValues(UInt64(positiveIntegerValue))
+        self.dataType = XSD.positiveInteger
+    }
+    
+    public convenience init(nonPositiveIntegerValue : Int) throws {
+        if nonPositiveIntegerValue > 0 {
+            throw LiteralFormattingError.illegalValueForNumber(message: "Could not initialise a literal with a non positive integer value of \(nonPositiveIntegerValue) as the required range is [-\(UInt.max),0].")
+        }
+        self.init(stringValue: "\(nonPositiveIntegerValue)")
+        let longV = Int64(nonPositiveIntegerValue)
+        self.setIntegerValues(longV)
+        self.nonPositiveIntegerValue = UInt(-nonPositiveIntegerValue)
+        self.dataType = XSD.nonPositiveInteger
+    }
+    
+    public convenience init(nonPositiveIntegerValue : UInt) {
+        self.init(stringValue: "-\(nonPositiveIntegerValue)")
+        if nonPositiveIntegerValue <= UInt(Int64.max) {
+            let longV = Int64(-(Int64(nonPositiveIntegerValue)))
+            self.setIntegerValues(longV)
+        }
+        self.nonPositiveIntegerValue = nonPositiveIntegerValue
+        self.dataType = XSD.nonPositiveInteger
+    }
+    
+    public convenience init(negativeIntegerValue : Int) throws {
+        if negativeIntegerValue >= 0 {
+            throw LiteralFormattingError.illegalValueForNumber(message: "Could not initialise a literal with a negative integer value of \(negativeIntegerValue) as the required range is [-\(UInt.max),-1].")
+        }
+        try self.init(nonPositiveIntegerValue:negativeIntegerValue)
+    }
+    
+    public convenience init(negativeIntegerValue : UInt) throws {
+        if negativeIntegerValue == 0 {
+            throw LiteralFormattingError.illegalValueForNumber(message: "Could not initialise a literal with a negative integer value of -\(negativeIntegerValue) as the required range is [-\(UInt.max),-1].")
+        }
+        self.init(nonPositiveIntegerValue:negativeIntegerValue)
     }
     
     public convenience init(longValue : Int64) {
