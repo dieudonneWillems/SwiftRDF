@@ -22,6 +22,7 @@
 		024E09651C11DEF2002EE84C /* LiteralFormattingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 024E09641C11DEF2002EE84C /* LiteralFormattingError.swift */; };
 		024E09671C124A9C002EE84C /* NumericLiteralTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 024E09661C124A9C002EE84C /* NumericLiteralTests.swift */; };
 		024E09691C12DE49002EE84C /* StringLiteralTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 024E09681C12DE49002EE84C /* StringLiteralTests.swift */; };
+		024E096B1C13441C002EE84C /* Decimal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 024E096A1C13441C002EE84C /* Decimal.swift */; };
 		0262BB0B1C075F9E002E24A4 /* XSD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0262BB0A1C075F9E002E24A4 /* XSD.swift */; };
 		0262BB0D1C076409002E24A4 /* Vocabulary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0262BB0C1C076409002E24A4 /* Vocabulary.swift */; };
 		0262BB0F1C076606002E24A4 /* Datatype.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0262BB0E1C076606002E24A4 /* Datatype.swift */; };
@@ -59,6 +60,7 @@
 		024E09641C11DEF2002EE84C /* LiteralFormattingError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LiteralFormattingError.swift; path = "/Users/wonco/Development/SwiftRDF/source code/errors/LiteralFormattingError.swift"; sourceTree = "<absolute>"; };
 		024E09661C124A9C002EE84C /* NumericLiteralTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NumericLiteralTests.swift; sourceTree = "<group>"; };
 		024E09681C12DE49002EE84C /* StringLiteralTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringLiteralTests.swift; sourceTree = "<group>"; };
+		024E096A1C13441C002EE84C /* Decimal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Decimal.swift; path = ../Decimal.swift; sourceTree = "<group>"; };
 		0262BB0A1C075F9E002E24A4 /* XSD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = XSD.swift; path = "../source code/vocabularies/XSD.swift"; sourceTree = "<group>"; };
 		0262BB0C1C076409002E24A4 /* Vocabulary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Vocabulary.swift; path = "../source code/vocabularies/Vocabulary.swift"; sourceTree = "<group>"; };
 		0262BB0E1C076606002E24A4 /* Datatype.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Datatype.swift; path = "../source code/utilities/Datatype.swift"; sourceTree = "<group>"; };
@@ -129,6 +131,7 @@
 		0222323E1C02108A00362D9B /* source */ = {
 			isa = PBXGroup;
 			children = (
+				024E096A1C13441C002EE84C /* Decimal.swift */,
 				024E09641C11DEF2002EE84C /* LiteralFormattingError.swift */,
 				029699EF1C0EDA700067BB99 /* OWL.swift */,
 				0262BB0C1C076409002E24A4 /* Vocabulary.swift */,
@@ -263,6 +266,7 @@
 				022232331BFF7A3600362D9B /* Resource.swift in Sources */,
 				022232401C061D8100362D9B /* SPARQLValue.swift in Sources */,
 				0262BB0D1C076409002E24A4 /* Vocabulary.swift in Sources */,
+				024E096B1C13441C002EE84C /* Decimal.swift in Sources */,
 				0262BB0B1C075F9E002E24A4 /* XSD.swift in Sources */,
 				029699F01C0EDA700067BB99 /* OWL.swift in Sources */,
 				022232371BFF7A4200362D9B /* URI.swift in Sources */,

@@ -26,6 +26,8 @@ public class Literal: Value {
     
     public private(set) var doubleValue : Double?
     
+    public private(set) var decimalValue : Decimal?
+    
     public private(set) var integerValue : Int?
     
     public private(set) var nonPositiveIntegerValue : UInt? // NB. The value is positive even though the integer is negative
@@ -199,6 +201,12 @@ public class Literal: Value {
     
     // TODO: Initialiser for decimals
     
+    public convenience init(decimalValue : Decimal) {
+        self.init(stringValue: "\(decimalValue)")
+        self.decimalValue = decimalValue
+        self.dataType = XSD.decimal
+    }
+    
     public convenience init(integerValue : Int) {
         self.init(stringValue: "\(integerValue)")
         self.integerValue = integerValue
@@ -213,9 +221,9 @@ public class Literal: Value {
         self.dataType = XSD.nonNegativeInteger
     }
     
-    public convenience init(positiveIntegerValue : UInt) throws {
+    public convenience init?(positiveIntegerValue : UInt) {
         if positiveIntegerValue == 0 {
-            throw LiteralFormattingError.illegalValueForNumber(message: "Could not initialise a literal with a positive integer value of 0 as the required range is [1,\(UInt.max)].")
+            return nil
         }
         self.init(stringValue: "\(positiveIntegerValue)")
         self.positiveIntegerValue = positiveIntegerValue
@@ -223,9 +231,9 @@ public class Literal: Value {
         self.dataType = XSD.positiveInteger
     }
     
-    public convenience init(nonPositiveIntegerValue : Int) throws {
+    public convenience init?(nonPositiveIntegerValue : Int) {
         if nonPositiveIntegerValue > 0 {
-            throw LiteralFormattingError.illegalValueForNumber(message: "Could not initialise a literal with a non positive integer value of \(nonPositiveIntegerValue) as the required range is [-\(UInt.max),0].")
+            return nil
         }
         self.init(stringValue: "\(nonPositiveIntegerValue)")
         let longV = Int64(nonPositiveIntegerValue)
@@ -244,16 +252,16 @@ public class Literal: Value {
         self.dataType = XSD.nonPositiveInteger
     }
     
-    public convenience init(negativeIntegerValue : Int) throws {
+    public convenience init?(negativeIntegerValue : Int) {
         if negativeIntegerValue >= 0 {
-            throw LiteralFormattingError.illegalValueForNumber(message: "Could not initialise a literal with a negative integer value of \(negativeIntegerValue) as the required range is [-\(UInt.max),-1].")
+            return nil
         }
-        try self.init(nonPositiveIntegerValue:negativeIntegerValue)
+        self.init(nonPositiveIntegerValue:negativeIntegerValue)
     }
     
-    public convenience init(negativeIntegerValue : UInt) throws {
+    public convenience init?(negativeIntegerValue : UInt) {
         if negativeIntegerValue == 0 {
-            throw LiteralFormattingError.illegalValueForNumber(message: "Could not initialise a literal with a negative integer value of -\(negativeIntegerValue) as the required range is [-\(UInt.max),-1].")
+            return nil
         }
         self.init(nonPositiveIntegerValue:negativeIntegerValue)
     }
