@@ -1,5 +1,5 @@
 //
-//  LiteralTests.swift
+//  NumericalLiteralTests.swift
 //  SwiftRDF-OSX
 //
 //  Created by Don Willems on 04/12/15.
@@ -21,22 +21,6 @@ class NumericLiteralTests: XCTestCase {
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
-    }
-    
-    
-    func testStringLiteral() {
-        let lit1 = Literal(stringValue: "Hello World")
-        XCTAssertEqual("Hello World", lit1.stringValue)
-        XCTAssertEqual("\"Hello World\"", lit1.sparql)
-        XCTAssertNil(lit1.dataType)
-        XCTAssertNil(lit1.language)
-        XCTAssertNil(lit1.longValue)
-        let lit2 = Literal(stringValue: "Hello World", language: "en")
-        XCTAssertEqual("Hello World", lit2.stringValue)
-        XCTAssertEqual("\"Hello World\"@en", lit2.sparql)
-        XCTAssertEqual("en", lit2.language)
-        XCTAssertTrue(XSD.string == lit2.dataType!)
-        XCTAssertNil(lit2.longValue)
     }
     
     func testDoubleLiteral() {
