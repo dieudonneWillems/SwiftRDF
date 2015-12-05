@@ -11,7 +11,7 @@ import Foundation
 import XCTest
 @testable import SwiftRDFOSX
 
-class LiteralTests: XCTestCase {
+class NumericLiteralTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
@@ -684,6 +684,318 @@ class LiteralTests: XCTestCase {
             }
             do {
                 let shouldfail = try Literal(stringValue: "bla", dataType: XSD.byte)
+                XCTFail("Value of integer should be illegal, but is: \(shouldfail)")
+            } catch {
+                XCTAssertTrue(true)
+            }
+        } catch {
+            XCTFail("Error when converting string to integer.")
+        }
+    }
+    
+    func testUnsignedLongLiteral() {
+        let lit1 = Literal(unsignedLongValue: 23255)
+        XCTAssertTrue(23255 == lit1.intValue)
+        XCTAssertTrue(23255 == lit1.integerValue)
+        XCTAssertTrue(23255 == lit1.unsignedIntValue)
+        XCTAssertTrue(23255 == lit1.longValue)
+        XCTAssertTrue(23255 == lit1.unsignedLongValue)
+        XCTAssertTrue(23255 == lit1.shortValue)
+        XCTAssertTrue(23255 == lit1.unsignedShortValue)
+        XCTAssertEqual("\"23255\"^^xsd:unsignedLong", lit1.sparql)
+        XCTAssertTrue(XSD.unsignedLong == lit1.dataType!)
+        XCTAssertNil(lit1.byteValue)
+        XCTAssertNil(lit1.unsignedByteValue)
+        XCTAssertNil(lit1.doubleValue)
+    }
+    
+    func testUnsignedLongLiteralFromString() {
+        do{
+            let lit1 = try Literal(stringValue: "23255", dataType: XSD.unsignedLong)
+            XCTAssertTrue(23255 == lit1.intValue)
+            XCTAssertTrue(23255 == lit1.integerValue)
+            XCTAssertTrue(23255 == lit1.unsignedIntValue)
+            XCTAssertTrue(23255 == lit1.longValue)
+            XCTAssertTrue(23255 == lit1.unsignedLongValue)
+            XCTAssertTrue(23255 == lit1.shortValue)
+            XCTAssertTrue(23255 == lit1.unsignedShortValue)
+            XCTAssertEqual("\"23255\"^^xsd:unsignedLong", lit1.sparql)
+            XCTAssertTrue(XSD.unsignedLong == lit1.dataType!)
+            XCTAssertNil(lit1.byteValue)
+            XCTAssertNil(lit1.unsignedByteValue)
+            XCTAssertNil(lit1.doubleValue)
+            do {
+                let shouldfail = try Literal(stringValue: "928832772734329489869893849859823948923848239842354", dataType: XSD.unsignedLong)
+                XCTFail("Value of integer should be illegal, but is: \(shouldfail)")
+            } catch {
+                XCTAssertTrue(true)
+            }
+            do {
+                let shouldfail = try Literal(stringValue: "-928832772734329489869893849859823948923848239842354", dataType: XSD.unsignedLong)
+                XCTFail("Value of integer should be illegal, but is: \(shouldfail)")
+            } catch {
+                XCTAssertTrue(true)
+            }
+            do {
+                _ = try Literal(stringValue: "\(UInt64(UInt64.max)-1)", dataType: XSD.unsignedLong)
+                XCTAssertTrue(true)
+            } catch {
+                XCTFail("Value of integer should be legal, but an error was thrown.")
+            }
+            do {
+                let shouldfail  = try Literal(stringValue: "\(Int64(Int64.min)+1)", dataType: XSD.unsignedLong)
+                XCTFail("Value of unsigned integer should be illegal, but is: \(shouldfail)")
+            } catch {
+                XCTAssertTrue(true)
+            }
+            do {
+                let shouldfail = try Literal(stringValue: "3.1415928", dataType: XSD.unsignedLong)
+                XCTFail("Value of integer should be illegal, but is: \(shouldfail)")
+            } catch {
+                XCTAssertTrue(true)
+            }
+            do {
+                let shouldfail = try Literal(stringValue: "3E3", dataType: XSD.unsignedLong)
+                XCTFail("Value of integer should be illegal, but is: \(shouldfail)")
+            } catch {
+                XCTAssertTrue(true)
+            }
+            do {
+                let shouldfail = try Literal(stringValue: "bla", dataType: XSD.unsignedLong)
+                XCTFail("Value of integer should be illegal, but is: \(shouldfail)")
+            } catch {
+                XCTAssertTrue(true)
+            }
+        } catch {
+            XCTFail("Error when converting string to integer.")
+        }
+    }
+    
+    func testUnsignedIntLiteral() {
+        let lit1 = Literal(unsignedIntValue: 23255)
+        XCTAssertTrue(23255 == lit1.intValue)
+        XCTAssertTrue(23255 == lit1.integerValue)
+        XCTAssertTrue(23255 == lit1.unsignedIntValue)
+        XCTAssertTrue(23255 == lit1.longValue)
+        XCTAssertTrue(23255 == lit1.unsignedLongValue)
+        XCTAssertTrue(23255 == lit1.shortValue)
+        XCTAssertTrue(23255 == lit1.unsignedShortValue)
+        XCTAssertEqual("\"23255\"^^xsd:unsignedInt", lit1.sparql)
+        XCTAssertTrue(XSD.unsignedInt == lit1.dataType!)
+        XCTAssertNil(lit1.byteValue)
+        XCTAssertNil(lit1.unsignedByteValue)
+        XCTAssertNil(lit1.doubleValue)
+    }
+    
+    func testUnsignedIntLiteralFromString() {
+        do{
+            let lit1 = try Literal(stringValue: "23255", dataType: XSD.unsignedInt)
+            XCTAssertTrue(23255 == lit1.intValue)
+            XCTAssertTrue(23255 == lit1.integerValue)
+            XCTAssertTrue(23255 == lit1.unsignedIntValue)
+            XCTAssertTrue(23255 == lit1.longValue)
+            XCTAssertTrue(23255 == lit1.unsignedLongValue)
+            XCTAssertTrue(23255 == lit1.shortValue)
+            XCTAssertTrue(23255 == lit1.unsignedShortValue)
+            XCTAssertEqual("\"23255\"^^xsd:unsignedInt", lit1.sparql)
+            XCTAssertTrue(XSD.unsignedInt == lit1.dataType!)
+            XCTAssertNil(lit1.byteValue)
+            XCTAssertNil(lit1.unsignedByteValue)
+            XCTAssertNil(lit1.doubleValue)
+            do {
+                let shouldfail = try Literal(stringValue: "\(UInt64(UInt32.max)+1)", dataType: XSD.unsignedInt)
+                XCTFail("Value of integer should be illegal, but is: \(shouldfail.stringValue)")
+            } catch {
+                XCTAssertTrue(true)
+            }
+            do {
+                let shouldfail = try Literal(stringValue: "\(Int64(Int32.min)-1)", dataType: XSD.unsignedInt)
+                XCTFail("Value of integer should be illegal, but is: \(shouldfail.stringValue)")
+            } catch {
+                XCTAssertTrue(true)
+            }
+            do {
+                _ = try Literal(stringValue: "\(UInt64(UInt32.max)-1)", dataType: XSD.unsignedInt)
+                XCTAssertTrue(true)
+            } catch {
+                XCTFail("Value of integer should be legal, but an error was thrown.")
+            }
+            do {
+                let shouldfail  = try Literal(stringValue: "\(Int64(Int32.min)+1)", dataType: XSD.unsignedInt)
+                XCTFail("Value of unsigned integer should be illegal, but is: \(shouldfail)")
+            } catch {
+                XCTAssertTrue(true)
+            }
+            do {
+                let shouldfail = try Literal(stringValue: "3.1415928", dataType: XSD.unsignedInt)
+                XCTFail("Value of integer should be illegal, but is: \(shouldfail)")
+            } catch {
+                XCTAssertTrue(true)
+            }
+            do {
+                let shouldfail = try Literal(stringValue: "3E3", dataType: XSD.unsignedInt)
+                XCTFail("Value of integer should be illegal, but is: \(shouldfail)")
+            } catch {
+                XCTAssertTrue(true)
+            }
+            do {
+                let shouldfail = try Literal(stringValue: "bla", dataType: XSD.unsignedInt)
+                XCTFail("Value of integer should be illegal, but is: \(shouldfail)")
+            } catch {
+                XCTAssertTrue(true)
+            }
+        } catch {
+            XCTFail("Error when converting string to integer.")
+        }
+    }
+    
+    func testUnsignedShortLiteral() {
+        let lit1 = Literal(unsignedShortValue: 23255)
+        XCTAssertTrue(23255 == lit1.intValue)
+        XCTAssertTrue(23255 == lit1.integerValue)
+        XCTAssertTrue(23255 == lit1.unsignedIntValue)
+        XCTAssertTrue(23255 == lit1.longValue)
+        XCTAssertTrue(23255 == lit1.unsignedLongValue)
+        XCTAssertTrue(23255 == lit1.shortValue)
+        XCTAssertTrue(23255 == lit1.unsignedShortValue)
+        XCTAssertEqual("\"23255\"^^xsd:unsignedShort", lit1.sparql)
+        XCTAssertTrue(XSD.unsignedShort == lit1.dataType!)
+        XCTAssertNil(lit1.byteValue)
+        XCTAssertNil(lit1.unsignedByteValue)
+        XCTAssertNil(lit1.doubleValue)
+    }
+    
+    func testUnsignedShortLiteralFromString() {
+        do{
+            let lit1 = try Literal(stringValue: "23255", dataType: XSD.unsignedShort)
+            XCTAssertTrue(23255 == lit1.intValue)
+            XCTAssertTrue(23255 == lit1.integerValue)
+            XCTAssertTrue(23255 == lit1.unsignedIntValue)
+            XCTAssertTrue(23255 == lit1.longValue)
+            XCTAssertTrue(23255 == lit1.unsignedLongValue)
+            XCTAssertTrue(23255 == lit1.shortValue)
+            XCTAssertTrue(23255 == lit1.unsignedShortValue)
+            XCTAssertEqual("\"23255\"^^xsd:unsignedShort", lit1.sparql)
+            XCTAssertTrue(XSD.unsignedShort == lit1.dataType!)
+            XCTAssertNil(lit1.byteValue)
+            XCTAssertNil(lit1.unsignedByteValue)
+            XCTAssertNil(lit1.doubleValue)
+            do {
+                let shouldfail = try Literal(stringValue: "\(UInt64(UInt16.max)+1)", dataType: XSD.unsignedShort)
+                XCTFail("Value of integer should be illegal, but is: \(shouldfail.stringValue)")
+            } catch {
+                XCTAssertTrue(true)
+            }
+            do {
+                let shouldfail = try Literal(stringValue: "\(Int64(Int16.min)-1)", dataType: XSD.unsignedShort)
+                XCTFail("Value of integer should be illegal, but is: \(shouldfail.stringValue)")
+            } catch {
+                XCTAssertTrue(true)
+            }
+            do {
+                _ = try Literal(stringValue: "\(UInt64(UInt16.max)-1)", dataType: XSD.unsignedShort)
+                XCTAssertTrue(true)
+            } catch {
+                XCTFail("Value of integer should be legal, but an error was thrown.")
+            }
+            do {
+                let shouldfail  = try Literal(stringValue: "\(Int64(Int16.min)+1)", dataType: XSD.unsignedShort)
+                XCTFail("Value of unsigned integer should be illegal, but is: \(shouldfail)")
+            } catch {
+                XCTAssertTrue(true)
+            }
+            do {
+                let shouldfail = try Literal(stringValue: "3.1415928", dataType: XSD.unsignedShort)
+                XCTFail("Value of integer should be illegal, but is: \(shouldfail)")
+            } catch {
+                XCTAssertTrue(true)
+            }
+            do {
+                let shouldfail = try Literal(stringValue: "3E3", dataType: XSD.unsignedShort)
+                XCTFail("Value of integer should be illegal, but is: \(shouldfail)")
+            } catch {
+                XCTAssertTrue(true)
+            }
+            do {
+                let shouldfail = try Literal(stringValue: "bla", dataType: XSD.unsignedShort)
+                XCTFail("Value of integer should be illegal, but is: \(shouldfail)")
+            } catch {
+                XCTAssertTrue(true)
+            }
+        } catch {
+            XCTFail("Error when converting string to integer.")
+        }
+    }
+    
+    func testUnsignedByteLiteral() {
+        let lit1 = Literal(unsignedByteValue: 102)
+        XCTAssertTrue(102 == lit1.intValue)
+        XCTAssertTrue(102 == lit1.integerValue)
+        XCTAssertTrue(102 == lit1.unsignedIntValue)
+        XCTAssertTrue(102 == lit1.longValue)
+        XCTAssertTrue(102 == lit1.unsignedLongValue)
+        XCTAssertTrue(102 == lit1.shortValue)
+        XCTAssertTrue(102 == lit1.unsignedShortValue)
+        XCTAssertTrue(102 == lit1.byteValue)
+        XCTAssertTrue(102 == lit1.unsignedByteValue)
+        XCTAssertEqual("\"102\"^^xsd:unsignedByte", lit1.sparql)
+        XCTAssertTrue(XSD.unsignedByte == lit1.dataType!)
+        XCTAssertNil(lit1.doubleValue)
+    }
+    
+    func testUnsignedByteLiteralFromString() {
+        do{
+            let lit1 = try Literal(stringValue: "102", dataType: XSD.unsignedByte)
+            XCTAssertTrue(102 == lit1.intValue)
+            XCTAssertTrue(102 == lit1.integerValue)
+            XCTAssertTrue(102 == lit1.unsignedIntValue)
+            XCTAssertTrue(102 == lit1.longValue)
+            XCTAssertTrue(102 == lit1.unsignedLongValue)
+            XCTAssertTrue(102 == lit1.shortValue)
+            XCTAssertTrue(102 == lit1.unsignedShortValue)
+            XCTAssertTrue(102 == lit1.byteValue)
+            XCTAssertTrue(102 == lit1.unsignedByteValue)
+            XCTAssertEqual("\"102\"^^xsd:unsignedByte", lit1.sparql)
+            XCTAssertTrue(XSD.unsignedByte == lit1.dataType!)
+            XCTAssertNil(lit1.doubleValue)
+            do {
+                let shouldfail = try Literal(stringValue: "\(UInt64(UInt8.max)+1)", dataType: XSD.unsignedByte)
+                XCTFail("Value of integer should be illegal, but is: \(shouldfail.stringValue)")
+            } catch {
+                XCTAssertTrue(true)
+            }
+            do {
+                let shouldfail = try Literal(stringValue: "\(Int64(Int8.min)-1)", dataType: XSD.unsignedByte)
+                XCTFail("Value of integer should be illegal, but is: \(shouldfail.stringValue)")
+            } catch {
+                XCTAssertTrue(true)
+            }
+            do {
+                _ = try Literal(stringValue: "\(UInt64(UInt8.max)-1)", dataType: XSD.unsignedByte)
+                XCTAssertTrue(true)
+            } catch {
+                XCTFail("Value of integer should be legal, but an error was thrown.")
+            }
+            do {
+                let shouldfail  = try Literal(stringValue: "\(Int64(Int8.min)+1)", dataType: XSD.unsignedByte)
+                XCTFail("Value of unsigned integer should be illegal, but is: \(shouldfail)")
+            } catch {
+                XCTAssertTrue(true)
+            }
+            do {
+                let shouldfail = try Literal(stringValue: "3.1415928", dataType: XSD.unsignedByte)
+                XCTFail("Value of integer should be illegal, but is: \(shouldfail)")
+            } catch {
+                XCTAssertTrue(true)
+            }
+            do {
+                let shouldfail = try Literal(stringValue: "3E3", dataType: XSD.unsignedByte)
+                XCTFail("Value of integer should be illegal, but is: \(shouldfail)")
+            } catch {
+                XCTAssertTrue(true)
+            }
+            do {
+                let shouldfail = try Literal(stringValue: "bla", dataType: XSD.unsignedByte)
                 XCTFail("Value of integer should be illegal, but is: \(shouldfail)")
             } catch {
                 XCTAssertTrue(true)
