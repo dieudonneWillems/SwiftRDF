@@ -12,48 +12,146 @@ public class Literal: Value {
     
     // MARK: Properties
     
+    /// The Datatype of the value represented by this literal (see `XSD` for the list of datatypes defined in XML Schema).
     public private(set) var dataType : Datatype?
     
+    /** 
+     The language (encoded as ISO-639) of the string value of the literal. 
+     This is only valid if the datatype is `XSD.string`.
+     */
     public private(set) var language : String?
     
+    /// The boolean value of the literal.
     public private(set) var booleanValue : Bool?
     
+    /// The calendar value of the literal.
     public private(set) var calendarValue : NSCalendar?
     
+    /// The data value of the literal.
     public private(set) var dateValue : NSDate?
     
+    /** 
+     The float value of the literal. If the datatype is `XSD.double`, the float value will also represent a value,
+     i.e. the same value as the double value but with a smaller precision.
+     */
     public private(set) var floatValue : Float?
     
+    /**
+     The double value of the literal. If the datatype is `float`, the double value will also represent a value,
+     i.e. the same value as the float value.
+     */
     public private(set) var doubleValue : Double?
     
+    /**
+     The decimal value of the literal. The decimal value contains a number with a maximum of 19 digits but
+     without an exponent.
+     */
     public private(set) var decimalValue : Decimal?
     
+    /**
+     The integer value of the literal. The integer value is the native integer supported by the system, i.e.
+     a 32-bit integer on 32-bit system, and a 64-bit integer on 64-but systems.
+     This parameter will return a value if the value represented by the
+     literal is an integer whose value is within the required range for an integer value. I.e. the presence
+     of this value does not imply that the datatype of the literal is `XSD.integer`.
+     */
     public private(set) var integerValue : Int?
     
+    /**
+     The non positive integer value of the literal. NB. The value is positive even though the integer is negative.
+     If a string representation of the non-positive integer is used, a minus symbol will be present.
+     This parameter will return a value if the value represented by the
+     literal is an integer whose value is within the required range for a non-positive integer value. I.e. the presence
+     of this value does not imply that the datatype of the literal is `XSD.nonPositiveInteger`.
+     */
     public private(set) var nonPositiveIntegerValue : UInt? // NB. The value is positive even though the integer is negative
     
+    /**
+    The negative integer value of the literal. NB. The value is positive even though the integer is negative.
+    If a string representation of the negative integer is used, a minus symbol will be present. 
+    This parameter will return a value if the value represented by the
+    literal is an integer whose value is within the required range for a negative integer value. I.e. the presence
+    of this value does not imply that the datatype of the literal is `XSD.negativeInteger`.
+    */
     public private(set) var negativeIntegerValue : UInt?  // NB. The value is positive even though the integer is negative
     
+    /**
+     The non-negative integer value of the literal. This parameter will return a value if the value represented by the
+     literal is an integer whose value is within the required range for a non-negative integer value. I.e. the presence
+     of this value does not imply that the datatype of the literal is `XSD.nonNegativeInteger`.
+     */
     public private(set) var nonNegativeIntegerValue : UInt?
     
+    /**
+     The positive integer value of the literal. This parameter will return a value if the value represented by the
+     literal is an integer whose value is within the required range for a positive integer value. I.e. the presence
+     of this value does not imply that the datatype of the literal is `XSD.positiveInteger`.
+     */
     public private(set) var positiveIntegerValue : UInt?
     
+    /**
+     The long (base-64 integer) value of the literal. This parameter will return a value if the value represented by the
+     literal is an integer whose value is within the required range for a long value. I.e. the presence
+     of this value does not imply that the datatype of the literal is `XSD.long`.
+     */
     public private(set) var longValue : Int64?
     
+    /**
+     The int (base-32 integer) value of the literal. This parameter will return a value if the value represented by the
+     literal is an integer whose value is within the required range for an int value. I.e. the presence
+     of this value does not imply that the datatype of the literal is `XSD.int`.
+     */
     public private(set) var intValue : Int32?
     
+    /**
+     The short (base-16 integer) value of the literal. This parameter will return a value if the value represented by the
+     literal is an integer whose value is within the required range for a short value. I.e. the presence
+     of this value does not imply that the datatype of the literal is `XSD.short`.
+     */
     public private(set) var shortValue : Int16?
     
+    /**
+     The byte (base-8 integer) value of the literal. This parameter will return a value if the value represented by the
+     literal is an integer whose value is within the required range for a byte value. I.e. the presence
+     of this value does not imply that the datatype of the literal is `XSD.byte`.
+     */
     public private(set) var byteValue : Int8?
     
+    /**
+     The unsigned long (base-64 unsigned integer) value of the literal. 
+     This parameter will return a value if the value represented by the
+     literal is an integer whose value is within the required range for an unsigned long value. I.e. the presence
+     of this value does not imply that the datatype of the literal is `XSD.unsignedLong`.
+     */
     public private(set) var unsignedLongValue : UInt64?
     
+    /**
+     The unsigned int (base-32 unsigned integer) value of the literal.
+     This parameter will return a value if the value represented by the
+     literal is an integer whose value is within the required range for an unsigned int value. I.e. the presence
+     of this value does not imply that the datatype of the literal is `XSD.unsignedInt`.
+     */
     public private(set) var unsignedIntValue : UInt32?
     
+    /**
+     The unsigned short (base-16 unsigned integer) value of the literal.
+     This parameter will return a value if the value represented by the
+     literal is an integer whose value is within the required range for an unsigned short value. I.e. the presence
+     of this value does not imply that the datatype of the literal is `XSD.unsignedShort`.
+     */
     public private(set) var unsignedShortValue : UInt16?
     
+    /**
+     The unsigned byte (base-8 unsigned integer) value of the literal.
+     This parameter will return a value if the value represented by the
+     literal is an integer whose value is within the required range for an unsigned byte value. I.e. the presence
+     of this value does not imply that the datatype of the literal is `XSD.unsignedByte`.
+     */
     public private(set) var unsignedByteValue : UInt8?
     
+    /**
+     This parameter is true when the value represented by the literal is a numeric value.
+     */
     public var isNumeric : Bool {
         get {
             return longValue != nil || unsignedLongValue != nil || nonPositiveIntegerValue != nil || floatValue != nil || doubleValue != nil
