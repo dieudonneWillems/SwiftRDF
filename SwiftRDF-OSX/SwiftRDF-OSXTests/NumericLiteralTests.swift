@@ -343,6 +343,167 @@ class NumericLiteralTests: XCTestCase {
         }
     }
     
+    
+    func testNonNegativeIntegerLiteral() {
+        let lit0 = Literal(nonNegativeIntegerValue: 0)
+        XCTAssertTrue(0 == lit0.intValue)
+        XCTAssertTrue(0 == lit0.integerValue)
+        XCTAssertTrue(0 == lit0.unsignedIntValue)
+        XCTAssertTrue(0 == lit0.longValue)
+        XCTAssertTrue(0 == lit0.unsignedLongValue)
+        XCTAssertTrue(0 == lit0.shortValue)
+        XCTAssertTrue(0 == lit0.unsignedShortValue)
+        XCTAssertEqual("\"0\"^^xsd:nonNegativeInteger", lit0.sparql)
+        XCTAssertTrue(XSD.nonNegativeInteger == lit0.dataType!)
+        XCTAssertTrue(0 == lit0.byteValue)
+        XCTAssertTrue(0 == lit0.unsignedByteValue)
+        XCTAssertTrue(nil == lit0.doubleValue)
+        let lit1 = Literal(nonNegativeIntegerValue: 23255)
+        XCTAssertTrue(23255 == lit1.intValue)
+        XCTAssertTrue(23255 == lit1.integerValue)
+        XCTAssertTrue(23255 == lit1.longValue)
+        XCTAssertTrue(23255 == lit1.shortValue)
+        XCTAssertTrue(23255 == lit1.unsignedIntValue)
+        XCTAssertTrue(23255 == lit1.unsignedLongValue)
+        XCTAssertTrue(23255 == lit1.unsignedShortValue)
+        XCTAssertEqual("\"23255\"^^xsd:nonNegativeInteger", lit1.sparql)
+        XCTAssertTrue(XSD.nonNegativeInteger == lit1.dataType!)
+        XCTAssertNil(lit1.byteValue)
+        XCTAssertNil(lit1.unsignedByteValue)
+        XCTAssertNil(lit1.doubleValue)
+        let lit2 = Literal(nonNegativeIntegerValue: 8723)
+        XCTAssertTrue(8723 == lit2.intValue)
+        XCTAssertTrue(8723 == lit2.integerValue)
+        XCTAssertTrue(8723 == lit2.longValue)
+        XCTAssertTrue(8723 == lit2.shortValue)
+        XCTAssertTrue(8723 == lit2.unsignedIntValue)
+        XCTAssertTrue(8723 == lit2.unsignedLongValue)
+        XCTAssertTrue(8723 == lit2.unsignedShortValue)
+        XCTAssertEqual("\"8723\"^^xsd:nonNegativeInteger", lit2.sparql)
+        XCTAssertTrue(XSD.nonNegativeInteger == lit2.dataType!)
+        XCTAssertNil(lit2.unsignedByteValue)
+        XCTAssertNil(lit2.byteValue)
+        XCTAssertNil(lit2.doubleValue)
+        let lit3 = Literal(nonNegativeIntegerValue: 8)
+        XCTAssertTrue(8 == lit3.intValue)
+        XCTAssertTrue(8 == lit3.integerValue)
+        XCTAssertTrue(8 == lit3.longValue)
+        XCTAssertTrue(8 == lit3.shortValue)
+        XCTAssertTrue(8 == lit3.unsignedIntValue)
+        XCTAssertTrue(8 == lit3.unsignedLongValue)
+        XCTAssertTrue(8 == lit3.unsignedShortValue)
+        XCTAssertTrue(8 == lit3.unsignedByteValue)
+        XCTAssertEqual("\"8\"^^xsd:nonNegativeInteger", lit3.sparql)
+        XCTAssertTrue(XSD.nonNegativeInteger == lit3.dataType!)
+        XCTAssertNil(lit3.doubleValue)
+    }
+    
+    func testNonNegativeIntegerLiteralFromString() {
+        do{
+            do {
+                let shouldfail = try Literal(stringValue: "-23255", dataType: XSD.nonNegativeInteger)
+                XCTFail("Value of non-positive integer should be illegal, but is: \(shouldfail)")
+            } catch {
+                XCTAssertTrue(true)
+            }
+            let lit0 = try Literal(stringValue: "0", dataType: XSD.nonNegativeInteger)
+            XCTAssertTrue(0 == lit0.intValue)
+            XCTAssertTrue(0 == lit0.integerValue)
+            XCTAssertTrue(0 == lit0.unsignedIntValue)
+            XCTAssertTrue(0 == lit0.longValue)
+            XCTAssertTrue(0 == lit0.unsignedLongValue)
+            XCTAssertTrue(0 == lit0.shortValue)
+            XCTAssertTrue(0 == lit0.unsignedShortValue)
+            XCTAssertEqual("\"0\"^^xsd:nonNegativeInteger", lit0.sparql)
+            XCTAssertTrue(XSD.nonNegativeInteger == lit0.dataType!)
+            XCTAssertTrue(0 == lit0.byteValue)
+            XCTAssertTrue(0 == lit0.unsignedByteValue)
+            XCTAssertNil(lit0.doubleValue)
+            let lit1 = try Literal(stringValue: "23255", dataType: XSD.nonNegativeInteger)
+            XCTAssertTrue(23255 == lit1.intValue)
+            XCTAssertTrue(23255 == lit1.integerValue)
+            XCTAssertTrue(23255 == lit1.unsignedIntValue)
+            XCTAssertTrue(23255 == lit1.longValue)
+            XCTAssertTrue(23255 == lit1.unsignedLongValue)
+            XCTAssertTrue(23255 == lit1.shortValue)
+            XCTAssertTrue(23255 == lit1.unsignedShortValue)
+            XCTAssertEqual("\"23255\"^^xsd:nonNegativeInteger", lit1.sparql)
+            XCTAssertTrue(XSD.nonNegativeInteger == lit1.dataType!)
+            XCTAssertNil(lit1.byteValue)
+            XCTAssertNil(lit1.unsignedByteValue)
+            XCTAssertNil(lit1.doubleValue)
+            let lit2 = try Literal(stringValue: "8723", dataType: XSD.nonNegativeInteger)
+            XCTAssertTrue(8723 == lit2.intValue)
+            XCTAssertTrue(8723 == lit2.integerValue)
+            XCTAssertTrue(8723 == lit2.longValue)
+            XCTAssertTrue(8723 == lit2.shortValue)
+            XCTAssertEqual("\"8723\"^^xsd:nonNegativeInteger", lit2.sparql)
+            XCTAssertTrue(XSD.nonNegativeInteger == lit2.dataType!)
+            XCTAssertTrue(8723 == lit2.unsignedIntValue)
+            XCTAssertTrue(8723 == lit2.unsignedLongValue)
+            XCTAssertTrue(8723 == lit2.unsignedShortValue)
+            XCTAssertNil(lit2.unsignedByteValue)
+            XCTAssertNil(lit2.byteValue)
+            XCTAssertNil(lit2.doubleValue)
+            let lit3 = try Literal(stringValue: "8", dataType: XSD.nonNegativeInteger)
+            XCTAssertTrue(8 == lit3.intValue)
+            XCTAssertTrue(8 == lit3.integerValue)
+            XCTAssertTrue(8 == lit3.longValue)
+            XCTAssertTrue(8 == lit3.shortValue)
+            XCTAssertEqual("\"8\"^^xsd:nonNegativeInteger", lit3.sparql)
+            XCTAssertTrue(XSD.nonNegativeInteger == lit3.dataType!)
+            XCTAssertTrue(8 == lit3.unsignedIntValue)
+            XCTAssertTrue(8 == lit3.unsignedLongValue)
+            XCTAssertTrue(8 == lit3.unsignedShortValue)
+            XCTAssertTrue(8 == lit3.unsignedByteValue)
+            XCTAssertNil(lit3.doubleValue)
+            do {
+                let shouldfail = try Literal(stringValue: "928832772734329489869893849859823948923848239842354", dataType: XSD.nonNegativeInteger)
+                XCTFail("Value of integer should be illegal, but is: \(shouldfail)")
+            } catch {
+                XCTAssertTrue(true)
+            }
+            do {
+                let shouldfail = try Literal(stringValue: "-928832772734329489869893849859823948923848239842354", dataType: XSD.nonNegativeInteger)
+                XCTFail("Value of integer should be illegal, but is: \(shouldfail)")
+            } catch {
+                XCTAssertTrue(true)
+            }
+            do {
+                _ = try Literal(stringValue: "\(Int64(Int.max)-1)", dataType: XSD.nonNegativeInteger)
+                XCTAssertTrue(true)
+            } catch {
+                XCTFail("Value of integer should be legal, but an error was thrown.")
+            }
+            do {
+                let shouldfail = try Literal(stringValue: "\(Int64(Int.min)+1)", dataType: XSD.nonNegativeInteger)
+                XCTFail("Value of integer should be illegal, but is: \(shouldfail)")
+            } catch {
+                XCTAssertTrue(true)
+            }
+            do {
+                let shouldfail = try Literal(stringValue: "3.1415928", dataType: XSD.nonNegativeInteger)
+                XCTFail("Value of integer should be illegal, but is: \(shouldfail)")
+            } catch {
+                XCTAssertTrue(true)
+            }
+            do {
+                let shouldfail = try Literal(stringValue: "3E3", dataType: XSD.nonNegativeInteger)
+                XCTFail("Value of integer should be illegal, but is: \(shouldfail)")
+            } catch {
+                XCTAssertTrue(true)
+            }
+            do {
+                let shouldfail = try Literal(stringValue: "bla", dataType: XSD.nonNegativeInteger)
+                XCTFail("Value of integer should be illegal, but is: \(shouldfail)")
+            } catch {
+                XCTAssertTrue(true)
+            }
+        } catch {
+            XCTFail("Error when converting string to non positive integer.")
+        }
+    }
+    
     func testNegativeIntegerLiteral() {
         let lit0 = Literal(negativeIntegerValue: 0)
         XCTAssertNil(lit0)
@@ -477,6 +638,148 @@ class NumericLiteralTests: XCTestCase {
             }
             do {
                 let shouldfail = try Literal(stringValue: "bla", dataType: XSD.nonPositiveInteger)
+                XCTFail("Value of integer should be illegal, but is: \(shouldfail)")
+            } catch {
+                XCTAssertTrue(true)
+            }
+        } catch {
+            XCTFail("Error when converting string to non positive integer.")
+        }
+    }
+    
+    func testPositiveIntegerLiteral() {
+        let lit0 = Literal(positiveIntegerValue: 0)
+        XCTAssertNil(lit0)
+        let lit1 = Literal(positiveIntegerValue: 23255)
+        XCTAssertTrue(23255 == lit1!.intValue)
+        XCTAssertTrue(23255 == lit1!.integerValue)
+        XCTAssertTrue(23255 == lit1!.unsignedIntValue)
+        XCTAssertTrue(23255 == lit1!.longValue)
+        XCTAssertTrue(23255 == lit1!.unsignedLongValue)
+        XCTAssertTrue(23255 == lit1!.shortValue)
+        XCTAssertTrue(23255 == lit1!.unsignedShortValue)
+        XCTAssertEqual("\"23255\"^^xsd:positiveInteger", lit1!.sparql)
+        XCTAssertTrue(XSD.positiveInteger == lit1!.dataType!)
+        XCTAssertNil(lit1!.byteValue)
+        XCTAssertNil(lit1!.unsignedByteValue)
+        XCTAssertNil(lit1!.doubleValue)
+        let lit2 = Literal(positiveIntegerValue: 8723)
+        XCTAssertTrue(8723 == lit2!.intValue)
+        XCTAssertTrue(8723 == lit2!.integerValue)
+        XCTAssertTrue(8723 == lit2!.longValue)
+        XCTAssertTrue(8723 == lit2!.shortValue)
+        XCTAssertEqual("\"8723\"^^xsd:positiveInteger", lit2!.sparql)
+        XCTAssertTrue(XSD.positiveInteger == lit2!.dataType!)
+        XCTAssertTrue(8723 == lit2!.unsignedIntValue)
+        XCTAssertTrue(8723 == lit2!.unsignedLongValue)
+        XCTAssertTrue(8723 == lit2!.unsignedShortValue)
+        XCTAssertNil(lit2!.unsignedByteValue)
+        XCTAssertNil(lit2!.byteValue)
+        XCTAssertNil(lit2!.doubleValue)
+        let lit3 = Literal(positiveIntegerValue: 8)
+        XCTAssertTrue(8 == lit3!.intValue)
+        XCTAssertTrue(8 == lit3!.integerValue)
+        XCTAssertTrue(8 == lit3!.longValue)
+        XCTAssertTrue(8 == lit3!.shortValue)
+        XCTAssertEqual("\"8\"^^xsd:positiveInteger", lit3!.sparql)
+        XCTAssertTrue(XSD.positiveInteger == lit3!.dataType!)
+        XCTAssertTrue(8 == lit3!.unsignedIntValue)
+        XCTAssertTrue(8 == lit3!.unsignedLongValue)
+        XCTAssertTrue(8 == lit3!.unsignedShortValue)
+        XCTAssertTrue(8 == lit3!.unsignedByteValue)
+        XCTAssertNil(lit3!.doubleValue)
+    }
+    
+    func testPositiveIntegerLiteralFromString() {
+        do{
+            do {
+                let shouldfail = try Literal(stringValue: "-23255", dataType: XSD.positiveInteger)
+                XCTFail("Value of non-positive integer should be illegal, but is: \(shouldfail)")
+            } catch {
+                XCTAssertTrue(true)
+            }
+            do {
+                let shouldfail = try Literal(stringValue: "0", dataType: XSD.positiveInteger)
+                XCTFail("Value of negative integer should be illegal, but is: \(shouldfail)")
+            } catch {
+                XCTAssertTrue(true)
+            }
+            let lit1 = try Literal(stringValue: "23255", dataType: XSD.positiveInteger)
+            XCTAssertTrue(23255 == lit1.intValue)
+            XCTAssertTrue(23255 == lit1.integerValue)
+            XCTAssertTrue(23255 == lit1.unsignedIntValue)
+            XCTAssertTrue(23255 == lit1.longValue)
+            XCTAssertTrue(23255 == lit1.unsignedLongValue)
+            XCTAssertTrue(23255 == lit1.shortValue)
+            XCTAssertTrue(23255 == lit1.unsignedShortValue)
+            XCTAssertEqual("\"23255\"^^xsd:positiveInteger", lit1.sparql)
+            XCTAssertTrue(XSD.positiveInteger == lit1.dataType!)
+            XCTAssertNil(lit1.byteValue)
+            XCTAssertNil(lit1.unsignedByteValue)
+            XCTAssertNil(lit1.doubleValue)
+            let lit2 = try Literal(stringValue: "8723", dataType: XSD.positiveInteger)
+            XCTAssertTrue(8723 == lit2.intValue)
+            XCTAssertTrue(8723 == lit2.integerValue)
+            XCTAssertTrue(8723 == lit2.longValue)
+            XCTAssertTrue(8723 == lit2.shortValue)
+            XCTAssertEqual("\"8723\"^^xsd:positiveInteger", lit2.sparql)
+            XCTAssertTrue(XSD.positiveInteger == lit2.dataType!)
+            XCTAssertTrue(8723 == lit2.unsignedIntValue)
+            XCTAssertTrue(8723 == lit2.unsignedLongValue)
+            XCTAssertTrue(8723 == lit2.unsignedShortValue)
+            XCTAssertNil(lit2.unsignedByteValue)
+            XCTAssertNil(lit2.byteValue)
+            XCTAssertNil(lit2.doubleValue)
+            let lit3 = try Literal(stringValue: "8", dataType: XSD.positiveInteger)
+            XCTAssertTrue(8 == lit3.intValue)
+            XCTAssertTrue(8 == lit3.integerValue)
+            XCTAssertTrue(8 == lit3.longValue)
+            XCTAssertTrue(8 == lit3.shortValue)
+            XCTAssertEqual("\"8\"^^xsd:positiveInteger", lit3.sparql)
+            XCTAssertTrue(XSD.positiveInteger == lit3.dataType!)
+            XCTAssertTrue(8 == lit3.unsignedIntValue)
+            XCTAssertTrue(8 == lit3.unsignedLongValue)
+            XCTAssertTrue(8 == lit3.unsignedShortValue)
+            XCTAssertTrue(8 == lit3.unsignedByteValue)
+            XCTAssertNil(lit3.doubleValue)
+            do {
+                let shouldfail = try Literal(stringValue: "928832772734329489869893849859823948923848239842354", dataType: XSD.positiveInteger)
+                XCTFail("Value of integer should be illegal, but is: \(shouldfail)")
+            } catch {
+                XCTAssertTrue(true)
+            }
+            do {
+                let shouldfail = try Literal(stringValue: "-928832772734329489869893849859823948923848239842354", dataType: XSD.positiveInteger)
+                XCTFail("Value of integer should be illegal, but is: \(shouldfail)")
+            } catch {
+                XCTAssertTrue(true)
+            }
+            do {
+                _ = try Literal(stringValue: "\(Int64(Int.max)-1)", dataType: XSD.positiveInteger)
+                XCTAssertTrue(true)
+            } catch {
+                XCTFail("Value of integer should be legal, but an error was thrown.")
+            }
+            do {
+                let shouldfail = try Literal(stringValue: "\(Int64(Int.min)+1)", dataType: XSD.positiveInteger)
+                XCTFail("Value of integer should be illegal, but is: \(shouldfail)")
+            } catch {
+                XCTAssertTrue(true)
+            }
+            do {
+                let shouldfail = try Literal(stringValue: "3.1415928", dataType: XSD.positiveInteger)
+                XCTFail("Value of integer should be illegal, but is: \(shouldfail)")
+            } catch {
+                XCTAssertTrue(true)
+            }
+            do {
+                let shouldfail = try Literal(stringValue: "3E3", dataType: XSD.positiveInteger)
+                XCTFail("Value of integer should be illegal, but is: \(shouldfail)")
+            } catch {
+                XCTAssertTrue(true)
+            }
+            do {
+                let shouldfail = try Literal(stringValue: "bla", dataType: XSD.positiveInteger)
                 XCTFail("Value of integer should be illegal, but is: \(shouldfail)")
             } catch {
                 XCTAssertTrue(true)
