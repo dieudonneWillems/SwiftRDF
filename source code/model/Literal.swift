@@ -191,9 +191,33 @@ public class Literal: Value {
             }
             self.setUnsignedIntegerValues(unsignedLongValue!)
         }else if dataType == XSD.nonPositiveInteger {
-            // TODO: Parse non positive integer string
+            let trimmed = stringValue.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+            if !trimmed.characters.startsWith("-".characters) && !trimmed.characters.startsWith("0".characters) {
+                throw LiteralFormattingError.malformedNumber(message: "The non-postive integer number \(stringValue) is malformed as it is outside the required range for a non-positive integer [-\(UInt.max),0]. ", string: stringValue)
+            }
+            nonPositiveIntegerValue = UInt(trimmed.substringFromIndex(trimmed.startIndex.advancedBy(1)))
+            if nonPositiveIntegerValue == nil {
+                throw LiteralFormattingError.malformedNumber(message: "The non-postive integer number \(stringValue) is malformed as it is outside the required range for a non-positive integer [-\(UInt.max),0]. ", string: stringValue)
+            }
+            if nonPositiveIntegerValue > 0 {
+                negativeIntegerValue = nonPositiveIntegerValue
+            }
+            if UInt64(nonPositiveIntegerValue!) < UInt64(Int64.max) {
+                self.setIntegerValues(Int64(trimmed)!)
+            }
         }else if dataType == XSD.negativeInteger {
-            // TODO: Parse negative integer string
+            let trimmed = stringValue.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+            if !trimmed.characters.startsWith("-".characters) {
+                throw LiteralFormattingError.malformedNumber(message: "The non-postive integer number \(stringValue) is malformed as it is outside the required range for a non-positive integer [-\(UInt.max),-1]. ", string: stringValue)
+            }
+            nonPositiveIntegerValue = UInt(trimmed.substringFromIndex(trimmed.startIndex.advancedBy(1)))
+            if nonPositiveIntegerValue == nil || nonPositiveIntegerValue == 0 {
+                throw LiteralFormattingError.malformedNumber(message: "The non-postive integer number \(stringValue) is malformed as it is outside the required range for a non-positive integer [-\(UInt.max),-1]. ", string: stringValue)
+            }
+            negativeIntegerValue = nonPositiveIntegerValue
+            if UInt64(nonPositiveIntegerValue!) < UInt64(Int64.max) {
+                self.setIntegerValues(Int64(trimmed)!)
+            }
         }else if dataType == XSD.float {
             floatValue = try Literal.parseFloat(stringValue)
         }else if dataType == XSD.double {
@@ -388,7 +412,9 @@ public class Literal: Value {
     }
     
     private func setUnsignedIntegerValues(ulong : UInt64){
-        decimalValue = Decimal(longValue: Int64(ulong))
+        if ulong < UInt64(Int64.max) {
+            decimalValue = Decimal(longValue: Int64(ulong))
+        }
         unsignedLongValue = ulong
         if ulong <= UInt64(UInt.max) {
             nonNegativeIntegerValue = UInt(ulong)
