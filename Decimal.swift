@@ -37,11 +37,12 @@ public struct Decimal : CustomStringConvertible{
     }
     
     public init?(stringValue : String){
-        let range = stringValue.rangeOfString(".")
+        var trimmed = stringValue.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+        let range = trimmed.rangeOfString(".")
         if range != nil {
-            let length = stringValue.lengthOfBytesUsingEncoding(NSASCIIStringEncoding)
-            let pos = stringValue.startIndex.distanceTo(range!.startIndex)
-            let string = stringValue.substringWithRange(Range<String.Index>(start: stringValue.startIndex, end: stringValue.startIndex.advancedBy(pos))) + stringValue.substringWithRange(Range<String.Index>(start: stringValue.startIndex.advancedBy(pos+1), end: stringValue.endIndex))
+            let length = trimmed.lengthOfBytesUsingEncoding(NSASCIIStringEncoding)
+            let pos = trimmed.startIndex.distanceTo(range!.startIndex)
+            let string = trimmed.substringWithRange(Range<String.Index>(start: trimmed.startIndex, end: trimmed.startIndex.advancedBy(pos))) + trimmed.substringWithRange(Range<String.Index>(start: trimmed.startIndex.advancedBy(pos+1), end: trimmed.endIndex))
             let di = Int64(string)
             if di == nil {
                 return nil
@@ -49,7 +50,7 @@ public struct Decimal : CustomStringConvertible{
             decimalInteger = di!
             decimalExponent = UInt8(length - pos-1)
         } else {
-            let di = Int64(stringValue)
+            let di = Int64(trimmed)
             if di == nil {
                 return nil
             }
