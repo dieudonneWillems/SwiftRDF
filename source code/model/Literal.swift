@@ -192,10 +192,15 @@ public class Literal: Value {
             self.setUnsignedIntegerValues(unsignedLongValue!)
         }else if dataType == XSD.nonPositiveInteger {
             let trimmed = stringValue.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
-            if !trimmed.characters.startsWith("-".characters) && !trimmed.characters.startsWith("0".characters) {
+            let st0 = trimmed.characters.startsWith("0".characters)
+            if !trimmed.characters.startsWith("-".characters) && !st0 {
                 throw LiteralFormattingError.malformedNumber(message: "The non-postive integer number \(stringValue) is malformed as it is outside the required range for a non-positive integer [-\(UInt.max),0]. ", string: stringValue)
             }
-            nonPositiveIntegerValue = UInt(trimmed.substringFromIndex(trimmed.startIndex.advancedBy(1)))
+            if !st0 {
+                nonPositiveIntegerValue = UInt(trimmed.substringFromIndex(trimmed.startIndex.advancedBy(1)))
+            } else {
+                nonPositiveIntegerValue = UInt(trimmed)
+            }
             if nonPositiveIntegerValue == nil {
                 throw LiteralFormattingError.malformedNumber(message: "The non-postive integer number \(stringValue) is malformed as it is outside the required range for a non-positive integer [-\(UInt.max),0]. ", string: stringValue)
             }
@@ -225,8 +230,6 @@ public class Literal: Value {
         }else {
         }
     }
-    
-    // TODO: Initialiser for decimals
     
     public convenience init(decimalValue : Decimal) {
         self.init(stringValue: "\(decimalValue)")
@@ -287,6 +290,7 @@ public class Literal: Value {
             return nil
         }
         self.init(nonPositiveIntegerValue:negativeIntegerValue)
+        self.dataType = XSD.negativeInteger
     }
     
     public convenience init?(negativeIntegerValue : UInt) {
@@ -294,6 +298,7 @@ public class Literal: Value {
             return nil
         }
         self.init(nonPositiveIntegerValue:negativeIntegerValue)
+        self.dataType = XSD.negativeInteger
     }
     
     public convenience init(longValue : Int64) {

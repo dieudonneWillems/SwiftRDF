@@ -37,7 +37,7 @@ public struct Decimal : CustomStringConvertible{
     }
     
     public init?(stringValue : String){
-        var trimmed = stringValue.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+        let trimmed = stringValue.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
         let range = trimmed.rangeOfString(".")
         if range != nil {
             let length = trimmed.lengthOfBytesUsingEncoding(NSASCIIStringEncoding)
