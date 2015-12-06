@@ -10,6 +10,8 @@ import Foundation
 
 public class Literal: Value {
     
+    private static let literalPattern = "^(((\"(.*)\")|('([\\w\\s]*)'))((@(\\w*))(\\^\\^(xsd:string))?|\\^\\^(xsd:\\w*))?|([+-]?[\\d\\.]*))$"
+    
     // MARK: Properties
     
     /// The Datatype of the value represented by this literal (see `XSD` for the list of datatypes defined in XML Schema).
@@ -231,7 +233,54 @@ public class Literal: Value {
         super.init(stringValue: stringValue)
     }
     
-    // TODO: Initialiser that parses a SPARQL representation of the literal.
+    public convenience init?(sparqlString : String){
+        do {
+            let regex = try NSRegularExpression(pattern: Literal.literalPattern, options: [.CaseInsensitive])
+            let matches = regex.matchesInString(sparqlString, options: [], range: NSMakeRange(0, sparqlString.characters.count)) as Array<NSTextCheckingResult>
+            if matches.count == 0 {
+                self.init(stringValue : sparqlString)
+            }else{
+                let match = matches[0]
+                var dtypeStr : String? = nil
+                var langStr : String? = nil
+                let nsstring = sparqlString as NSString
+                if match.rangeAtIndex(11).location != NSNotFound {
+                    dtypeStr = nsstring.substringWithRange(match.rangeAtIndex(11)) as String
+                } else if match.rangeAtIndex(12).location != NSNotFound {
+                    dtypeStr = nsstring.substringWithRange(match.rangeAtIndex(12)) as String
+                }
+                if match.rangeAtIndex(9).location != NSNotFound {
+                    langStr = nsstring.substringWithRange(match.rangeAtIndex(9)) as String
+                    dtypeStr = "xsd:string"
+                }
+                if dtypeStr != nil {
+                    let varStr = nsstring.substringWithRange(match.rangeAtIndex(4)) as String
+                    if dtypeStr! == "xsd:string" {
+                        if langStr != nil {
+                            self.init(stringValue: varStr)
+                            self.dataType = XSD.string
+                        } else {
+                            self.init(stringValue: varStr)
+                            self.dataType = XSD.string
+                        }
+                    } else if dtypeStr! == "xsd:decimal" {
+                        try self.init(stringValue: varStr, dataType: XSD.decimal)
+                    } else if dtypeStr! == "xsd:integer" {
+                        try self.init(stringValue: varStr, dataType: XSD.integer)
+                    } else if dtypeStr! == "xsd:long" {
+                        try self.init(stringValue: varStr, dataType: XSD.long)
+                        // TODO: add other datatype initialisers
+                    } else {
+                        self.init(stringValue: sparqlString)
+                    }
+                } else {
+                    self.init(stringValue: sparqlString)
+                }
+            }
+        }catch {
+            return nil
+        }
+    }
     
     public init(stringValue: String, language: String){
         super.init(stringValue: stringValue)
@@ -242,7 +291,9 @@ public class Literal: Value {
     public convenience init(stringValue: String, dataType: Datatype) throws {
         self.init(stringValue: stringValue)
         self.dataType = dataType
-        if dataType == XSD.long {
+        if dataType == XSD.string {
+            // do nothing further
+        }else if dataType == XSD.long {
             longValue = try Literal.parseLong(stringValue)
             self.setIntegerValues(longValue!)
         }else if dataType == XSD.integer {

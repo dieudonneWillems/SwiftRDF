@@ -40,6 +40,8 @@ import Foundation
  */
 public class URI : Resource {
     
+    private let pattern = "^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\\?([^#]*))?(#(.*))?"
+    
     // MARK: Properties
     
     /**
@@ -206,7 +208,6 @@ public class URI : Resource {
     }
     
     private func parseURI(uri : String) throws {
-        let pattern = "^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\\?([^#]*))?(#(.*))?"
         do {
             let regex = try NSRegularExpression(pattern: pattern, options: [.CaseInsensitive])
             let matches = regex.matchesInString(uri, options: [], range: NSMakeRange(0, uri.characters.count)) as Array<NSTextCheckingResult>
