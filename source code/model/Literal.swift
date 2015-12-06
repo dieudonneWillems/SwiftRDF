@@ -173,6 +173,8 @@ public class Literal: Value {
                     } else {
                         return "\"\(self.stringValue)\"@\(language!)"
                     }
+                } else if dataType! == XSD.decimal {
+                    return "\"\(decimalValue!)\"^^xsd:decimal";
                 } else if dataType! == XSD.integer {
                     return "\(integerValue!)";
                 } else if dataType! == XSD.long {
@@ -249,8 +251,14 @@ public class Literal: Value {
             self.setIntegerValues(longValue!)
         }else if dataType == XSD.decimal {
             decimalValue = Decimal(stringValue: stringValue)
+            if decimalValue == nil {
+                throw LiteralFormattingError.malformedNumber(message: "The decimal number \(stringValue) is malformed as it is outside the required range for a decimal or it contains illegal caharacters. ", string: stringValue)
+            }
             if decimalValue != nil && decimalValue!.decimalExponent == 0 {
                 self.setIntegerValues(decimalValue!.decimalInteger)
+            } else if decimalValue != nil {
+                doubleValue = Double((decimalValue?.description)!)
+                floatValue = Float((decimalValue?.description)!)
             }
         }else if dataType == XSD.unsignedLong {
             unsignedLongValue = try Literal.parseUnsignedLong(stringValue)
@@ -335,6 +343,8 @@ public class Literal: Value {
         if decimalValue.decimalExponent == 0 {
             self.setIntegerValues(decimalValue.decimalInteger)
         }
+        self.doubleValue = Double(decimalValue.description)
+        self.floatValue = Float(decimalValue.description)
         self.dataType = XSD.decimal
     }
     

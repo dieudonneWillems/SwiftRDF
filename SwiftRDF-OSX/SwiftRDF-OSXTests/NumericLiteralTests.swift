@@ -53,6 +53,129 @@ class NumericLiteralTests: XCTestCase {
         }
     }
     
+    func testDecimalLiteral() {
+        let lit1 = Literal(decimalValue: Decimal(decimalInteger: 98328,decimalExponent: 0)!)
+        XCTAssertTrue(98328 == lit1.intValue)
+        XCTAssertTrue(98328 == lit1.integerValue)
+        XCTAssertTrue(98328 == lit1.unsignedIntValue)
+        XCTAssertTrue(98328 == lit1.longValue)
+        XCTAssertTrue(98328 == lit1.unsignedLongValue)
+        XCTAssertNil(lit1.shortValue)
+        XCTAssertNil(lit1.unsignedShortValue)
+        XCTAssertEqual("\"98328\"^^xsd:decimal", lit1.sparql)
+        XCTAssertTrue(XSD.decimal == lit1.dataType!)
+        XCTAssertNil(lit1.byteValue)
+        XCTAssertNil(lit1.unsignedByteValue)
+        XCTAssertTrue( 98328 == lit1.doubleValue)
+        let lit2 = Literal(decimalValue: Decimal(decimalInteger: -98328,decimalExponent: 0)!)
+        XCTAssertTrue(-98328 == lit2.intValue)
+        XCTAssertTrue(-98328 == lit2.integerValue)
+        XCTAssertTrue(-98328 == lit2.longValue)
+        XCTAssertNil(lit2.shortValue)
+        XCTAssertEqual("\"-98328\"^^xsd:decimal", lit2.sparql)
+        XCTAssertTrue(XSD.decimal == lit2.dataType!)
+        XCTAssertNil(lit2.unsignedIntValue)
+        XCTAssertNil(lit2.unsignedLongValue)
+        XCTAssertNil(lit2.unsignedShortValue)
+        XCTAssertNil(lit2.unsignedByteValue)
+        XCTAssertNil(lit2.byteValue)
+        XCTAssertTrue( -98328 == lit2.doubleValue)
+        let lit3 = Literal(decimalValue: Decimal(decimalInteger: -98328,decimalExponent: 2)!)
+        XCTAssertNil(lit3.intValue)
+        XCTAssertNil(lit3.integerValue)
+        XCTAssertNil(lit3.longValue)
+        XCTAssertNil(lit3.shortValue)
+        XCTAssertEqual("\"-983.28\"^^xsd:decimal", lit3.sparql)
+        XCTAssertTrue(XSD.decimal == lit2.dataType!)
+        XCTAssertNil(lit3.unsignedIntValue)
+        XCTAssertNil(lit3.unsignedLongValue)
+        XCTAssertNil(lit3.unsignedShortValue)
+        XCTAssertNil(lit3.unsignedByteValue)
+        XCTAssertNil(lit3.byteValue)
+        XCTAssertTrue( -983.28 == lit3.doubleValue)
+    }
+    
+    func testDecimalLiteralFromString() {
+        do{
+            let lit1 = try Literal(stringValue: "23255", dataType: XSD.decimal)
+            XCTAssertTrue(23255 == lit1.intValue)
+            XCTAssertTrue(23255 == lit1.integerValue)
+            XCTAssertTrue(23255 == lit1.unsignedIntValue)
+            XCTAssertTrue(23255 == lit1.longValue)
+            XCTAssertTrue(23255 == lit1.unsignedLongValue)
+            XCTAssertTrue(23255 == lit1.shortValue)
+            XCTAssertTrue(23255 == lit1.unsignedShortValue)
+            XCTAssertEqual("\"23255\"^^xsd:decimal", lit1.sparql)
+            XCTAssertTrue(XSD.decimal == lit1.dataType!)
+            XCTAssertNil(lit1.byteValue)
+            XCTAssertNil(lit1.unsignedByteValue)
+            XCTAssertNil(lit1.doubleValue)
+            let lit2 = try Literal(stringValue: "-8723", dataType: XSD.decimal)
+            XCTAssertTrue(-8723 == lit2.intValue)
+            XCTAssertTrue(-8723 == lit2.integerValue)
+            XCTAssertTrue(-8723 == lit2.longValue)
+            XCTAssertTrue(-8723 == lit2.shortValue)
+            XCTAssertEqual("\"-8723\"^^xsd:decimal", lit2.sparql)
+            XCTAssertTrue(XSD.decimal == lit2.dataType!)
+            XCTAssertNil(lit2.unsignedIntValue)
+            XCTAssertNil(lit2.unsignedLongValue)
+            XCTAssertNil(lit2.unsignedShortValue)
+            XCTAssertNil(lit2.unsignedByteValue)
+            XCTAssertNil(lit2.byteValue)
+            XCTAssertNil(lit2.doubleValue)
+            let lit3 = try Literal(stringValue: "-8", dataType: XSD.decimal)
+            XCTAssertTrue(-8 == lit3.intValue)
+            XCTAssertTrue(-8 == lit3.integerValue)
+            XCTAssertTrue(-8 == lit3.longValue)
+            XCTAssertTrue(-8 == lit3.shortValue)
+            XCTAssertEqual("\"-8\"^^xsd:decimal", lit3.sparql)
+            XCTAssertTrue(XSD.decimal == lit3.dataType!)
+            XCTAssertNil(lit3.unsignedIntValue)
+            XCTAssertNil(lit3.unsignedLongValue)
+            XCTAssertNil(lit3.unsignedShortValue)
+            XCTAssertNil(lit3.unsignedByteValue)
+            XCTAssertNil(lit3.doubleValue)
+            do {
+                let shouldfail = try Literal(stringValue: "928832772734329489869893849859823948923848239842354", dataType: XSD.decimal)
+                XCTFail("Value of integer should be illegal, but is: \(shouldfail)")
+            } catch {
+                XCTAssertTrue(true)
+            }
+            do {
+                let shouldfail = try Literal(stringValue: "-928832772734329489869893849859823948923848239842354", dataType: XSD.decimal)
+                XCTFail("Value of integer should be illegal, but is: \(shouldfail)")
+            } catch {
+                XCTAssertTrue(true)
+            }
+            do {
+                _ = try Literal(stringValue: "\(Int64(Int.max)-1)", dataType: XSD.decimal)
+                XCTAssertTrue(true)
+            } catch {
+                XCTFail("Value of integer should be legal, but an error was thrown.")
+            }
+            do {
+                _ = try Literal(stringValue: "\(Int64(Int.min)+1)", dataType: XSD.decimal)
+                XCTAssertTrue(true)
+            } catch {
+                XCTFail("Value of integer should be legal, but an error was thrown.")
+            }
+            do {
+                let shouldfail = try Literal(stringValue: "3E3", dataType: XSD.decimal)
+                XCTFail("Value of integer should be illegal, but is: \(shouldfail)")
+            } catch {
+                XCTAssertTrue(true)
+            }
+            do {
+                let shouldfail = try Literal(stringValue: "bla", dataType: XSD.decimal)
+                XCTFail("Value of integer should be illegal, but is: \(shouldfail)")
+            } catch {
+                XCTAssertTrue(true)
+            }
+        } catch {
+            XCTFail("Error when converting string to integer.")
+        }
+    }
+    
     func testIntegerLiteral() {
         let lit1 = Literal(integerValue: 23255)
         XCTAssertTrue(23255 == lit1.intValue)
