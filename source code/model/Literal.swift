@@ -268,6 +268,8 @@ public class Literal: Value {
                         datatypeFS = XSD.string
                     } else if dtypeStr! == "xsd:decimal" {
                         datatypeFS = XSD.decimal
+                    } else if dtypeStr! == "xsd:boolean" {
+                        datatypeFS = XSD.boolean
                     } else if dtypeStr! == "xsd:integer" {
                         datatypeFS = XSD.integer
                     } else if dtypeStr! == "xsd:long" {
@@ -338,6 +340,8 @@ public class Literal: Value {
         self.dataType = dataType
         if dataType == XSD.string {
             // do nothing further
+        }else if dataType == XSD.boolean {
+            booleanValue = try Literal.parseBoolean(stringValue)
         }else if dataType == XSD.long {
             longValue = try Literal.parseLong(stringValue)
             self.setIntegerValues(longValue!)
@@ -657,6 +661,19 @@ public class Literal: Value {
                 }
             }
         }
+    }
+    
+    private static func parseBoolean(booleanAsString : String) throws -> Bool {
+        var result : Bool? = nil
+        if booleanAsString == "true" || booleanAsString == "yes" {
+            result = true
+        }else if booleanAsString == "false" || booleanAsString == "no" {
+            result = false
+        }
+        if result == nil {
+            throw LiteralFormattingError.malformedNumber(message: "Could not create boolean literal from \(booleanAsString).", string: booleanAsString);
+        }
+        return result!
     }
     
     private static func parseInteger(integerAsString : String) throws -> Int {

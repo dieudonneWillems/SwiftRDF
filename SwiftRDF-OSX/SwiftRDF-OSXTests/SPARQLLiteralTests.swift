@@ -56,6 +56,33 @@ class SPARQLLiteralTests: XCTestCase {
         XCTAssertNil(lit5.longValue)
     }
     
+    func testSPARQLBooleanLiteral() {
+        let lit1 = Literal(sparqlString: "\"true\"^^xsd:boolean")!;
+        XCTAssertEqual("true", lit1.stringValue)
+        XCTAssertTrue(XSD.boolean == lit1.dataType!)
+        XCTAssertNil(lit1.language)
+        XCTAssertNil(lit1.longValue)
+        XCTAssertTrue(lit1.booleanValue!)
+        let lit2 = Literal(sparqlString: "\"false\"^^xsd:boolean")!;
+        XCTAssertEqual("false", lit2.stringValue)
+        XCTAssertTrue(XSD.boolean == lit2.dataType!)
+        XCTAssertNil(lit2.language)
+        XCTAssertNil(lit2.longValue)
+        XCTAssertFalse(lit2.booleanValue!)
+        let lit3 = Literal(sparqlString: "true")!;
+        XCTAssertEqual("true", lit3.stringValue)
+        XCTAssertTrue(XSD.boolean == lit3.dataType!)
+        XCTAssertNil(lit3.language)
+        XCTAssertNil(lit3.longValue)
+        XCTAssertTrue(lit3.booleanValue!)
+        let lit4 = Literal(sparqlString: "false")!;
+        XCTAssertEqual("false", lit4.stringValue)
+        XCTAssertTrue(XSD.boolean == lit4.dataType!)
+        XCTAssertNil(lit4.language)
+        XCTAssertNil(lit4.longValue)
+        XCTAssertFalse(lit4.booleanValue!)
+    }
+    
     func testSPARQLIntegerLiteral(){
         let lit1 = Literal(sparqlString: "\"1923322\"^^xsd:integer")!;
         XCTAssertEqual("1923322", lit1.stringValue)
