@@ -54,6 +54,11 @@ class SPARQLLiteralTests: XCTestCase {
         XCTAssertNil(lit5.dataType)
         XCTAssertNil(lit5.language)
         XCTAssertNil(lit5.longValue)
+        let lit6 = Literal(sparqlString: "\"test string\"@en-US")!;
+        XCTAssertEqual("test string", lit6.stringValue)
+        XCTAssertTrue(XSD.string == lit6.dataType!)
+        XCTAssertEqual("en-US",lit6.language)
+        XCTAssertNil(lit6.longValue)
     }
     
     func testSPARQLBooleanLiteral() {

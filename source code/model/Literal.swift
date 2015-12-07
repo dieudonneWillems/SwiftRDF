@@ -10,7 +10,7 @@ import Foundation
 
 public class Literal: Value {
     
-    private static let literalPattern = "^(((\"(.*)\")|('([\\w\\s]*)'))((@(\\w*))(\\^\\^xsd:(string))?|\\^\\^(xsd:(\\w*)|<(.*)>))?|([+-]?[\\d]*)|([+-]?[\\d\\.]*)|([+-]?[\\d\\.]*[eE][+-]?\\d*)|(true|false))$"
+    private static let literalPattern = "^(((\"(.*)\")|('([\\w\\s]*)'))((@(\\w*(-\\w*)?))(\\^\\^xsd:(string))?|\\^\\^(xsd:(\\w*)|<(.*)>))?|([+-]?[\\d]*)|([+-]?[\\d\\.]*)|([+-]?[\\d\\.]*[eE][+-]?\\d*)|(true|false))$"
     
     // MARK: Properties
     
@@ -175,7 +175,16 @@ public class Literal: Value {
                     } else {
                         return "\"\(self.stringValue)\"@\(language!)"
                     }
-                } else if dataType! == XSD.decimal {
+                } else if dataType! == XSD.boolean {
+                    if booleanValue != nil {
+                        if booleanValue! {
+                            return "true"
+                        } else {
+                            return "false"
+                        }
+                    }
+                    return "\(stringValue)";
+                }  else if dataType! == XSD.decimal {
                     return "\"\(decimalValue!)\"^^xsd:decimal";
                 } else if dataType! == XSD.integer {
                     return "\(integerValue!)";
@@ -249,12 +258,12 @@ public class Literal: Value {
                 if match.rangeAtIndex(4).location != NSNotFound {
                     varStr = nsstring.substringWithRange(match.rangeAtIndex(4)) as String
                 }
-                if match.rangeAtIndex(11).location != NSNotFound {
-                    dtypeStr = nsstring.substringWithRange(match.rangeAtIndex(11)) as String
+                if match.rangeAtIndex(12).location != NSNotFound {
+                    dtypeStr = nsstring.substringWithRange(match.rangeAtIndex(12)) as String
+                } else if match.rangeAtIndex(15).location != NSNotFound {
+                    dtypeURI = nsstring.substringWithRange(match.rangeAtIndex(15)) as String
                 } else if match.rangeAtIndex(14).location != NSNotFound {
-                    dtypeURI = nsstring.substringWithRange(match.rangeAtIndex(14)) as String
-                } else if match.rangeAtIndex(13).location != NSNotFound {
-                    dtypeStr = nsstring.substringWithRange(match.rangeAtIndex(13)) as String
+                    dtypeStr = nsstring.substringWithRange(match.rangeAtIndex(14)) as String
                 }
                 if match.rangeAtIndex(9).location != NSNotFound {
                     langStr = nsstring.substringWithRange(match.rangeAtIndex(9)) as String
@@ -305,13 +314,13 @@ public class Literal: Value {
                         datatypeFS = try Datatype(namespace: XSD.namespace(), localName: dtypeStr!, derivedFromDatatype: nil, isListDataType: false)
                     }
                 } else {
-                    if match.rangeAtIndex(15).location != NSNotFound {
+                    if match.rangeAtIndex(16).location != NSNotFound {
                         datatypeFS = XSD.integer
-                    } else if match.rangeAtIndex(16).location != NSNotFound {
-                        datatypeFS = XSD.decimal
                     } else if match.rangeAtIndex(17).location != NSNotFound {
-                        datatypeFS = XSD.double
+                        datatypeFS = XSD.decimal
                     } else if match.rangeAtIndex(18).location != NSNotFound {
+                        datatypeFS = XSD.double
+                    } else if match.rangeAtIndex(19).location != NSNotFound {
                         datatypeFS = XSD.boolean
                     } else {
                         datatypeFS = XSD.string
