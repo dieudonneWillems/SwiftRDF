@@ -78,6 +78,9 @@
          <FileRef
             location = "group:Decimal.swift">
          </FileRef>
+         <FileRef
+            location = "group:source code/utilities/Duration.swift">
+         </FileRef>
       </Group>
    </Group>
 </Workspace>

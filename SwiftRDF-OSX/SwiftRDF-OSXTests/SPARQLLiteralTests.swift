@@ -61,6 +61,21 @@ class SPARQLLiteralTests: XCTestCase {
         XCTAssertNil(lit6.longValue)
     }
     
+    func testSPARQLDurationLiteral() {
+        let lit1 = Literal(sparqlString:"\"P12Y23M14D\"^^xsd:duration")!
+        XCTAssertEqual("P12Y23M14D", lit1.stringValue)
+        XCTAssertEqual("\"P12Y23M14D\"^^xsd:duration", lit1.sparql)
+        XCTAssertTrue(lit1.dataType! == XSD.duration)
+        XCTAssertNil(lit1.language)
+        XCTAssertNil(lit1.longValue)
+        let lit2 = Literal(sparqlString: "\"-P12Y23M14DT15H2M0.93S\"^^xsd:duration")!
+        XCTAssertEqual("-P12Y23M14DT15H2M0.93S", lit2.stringValue)
+        XCTAssertEqual("\"-P12Y23M14DT15H2M0.93S\"^^xsd:duration", lit2.sparql)
+        XCTAssertTrue(lit2.dataType! == XSD.duration)
+        XCTAssertNil(lit2.language)
+        XCTAssertNil(lit2.longValue)
+    }
+    
     func testSPARQLBooleanLiteral() {
         let lit1 = Literal(sparqlString: "\"true\"^^xsd:boolean")!;
         XCTAssertEqual("true", lit1.stringValue)

@@ -10,6 +10,7 @@ import Foundation
 
 public class Literal: Value {
     
+    // regular expression: ^((("(.*)")|('([\w\s]*)'))((@(\w*(-\w*)?))(\^\^xsd:(string))?|\^\^(xsd:(\w*)|<(.*)>))?|([+-]?[\d]*)|([+-]?[\d\.]*)|([+-]?[\d\.]*[eE][+-]?\d*)|(true|false))$
     private static let literalPattern = "^(((\"(.*)\")|('([\\w\\s]*)'))((@(\\w*(-\\w*)?))(\\^\\^xsd:(string))?|\\^\\^(xsd:(\\w*)|<(.*)>))?|([+-]?[\\d]*)|([+-]?[\\d\\.]*)|([+-]?[\\d\\.]*[eE][+-]?\\d*)|(true|false))$"
     
     // MARK: Properties
@@ -25,6 +26,9 @@ public class Literal: Value {
     
     /// The boolean value of the literal.
     public private(set) var booleanValue : Bool?
+    
+    /// The duration value of the literal.
+    public private(set) var durationValue : Duration?
     
     /// The calendar value of the literal.
     public private(set) var calendarValue : NSCalendar?
@@ -184,7 +188,9 @@ public class Literal: Value {
                         }
                     }
                     return "\(stringValue)";
-                }  else if dataType! == XSD.decimal {
+                } else if dataType! == XSD.duration {
+                    return "\"\(durationValue!.description)\"^^xsd:duration";
+                } else if dataType! == XSD.decimal {
                     return "\"\(decimalValue!)\"^^xsd:decimal";
                 } else if dataType! == XSD.integer {
                     return "\(integerValue!)";
@@ -275,6 +281,8 @@ public class Literal: Value {
                 }else if dtypeStr != nil {
                     if dtypeStr! == "string" {
                         datatypeFS = XSD.string
+                    } else if dtypeStr! == "xsd:duration" {
+                        datatypeFS = XSD.duration
                     } else if dtypeStr! == "xsd:decimal" {
                         datatypeFS = XSD.decimal
                     } else if dtypeStr! == "xsd:boolean" {
@@ -349,6 +357,8 @@ public class Literal: Value {
         self.dataType = dataType
         if dataType == XSD.string {
             // do nothing further
+        }else if dataType == XSD.duration {
+            durationValue = Duration(stringValue: stringValue)
         }else if dataType == XSD.boolean {
             booleanValue = try Literal.parseBoolean(stringValue)
         }else if dataType == XSD.long {
@@ -444,6 +454,18 @@ public class Literal: Value {
             doubleValue = try Literal.parseDouble(stringValue)
         }else {
         }
+    }
+    
+    public convenience init(durationValue : Duration) {
+        self.init(stringValue: "\(durationValue.description)")
+        self.durationValue = durationValue
+        self.dataType = XSD.duration
+    }
+    
+    public convenience init(booleanValue : Bool) {
+        self.init(stringValue: "\(booleanValue)")
+        self.booleanValue = booleanValue
+        self.dataType = XSD.boolean
     }
     
     public convenience init(decimalValue : Decimal) {

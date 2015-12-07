@@ -25,6 +25,9 @@
 		024E096B1C13441C002EE84C /* Decimal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 024E096A1C13441C002EE84C /* Decimal.swift */; };
 		024E096D1C1374C7002EE84C /* DecimalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 024E096C1C1374C7002EE84C /* DecimalTests.swift */; };
 		024E096F1C15B8F9002EE84C /* SPARQLLiteralTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 024E096E1C15B8F9002EE84C /* SPARQLLiteralTests.swift */; };
+		024E09711C15EFDF002EE84C /* Duration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 024E09701C15EFDF002EE84C /* Duration.swift */; };
+		024E09731C161B65002EE84C /* DurationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 024E09721C161B65002EE84C /* DurationTests.swift */; };
+		024E09751C162E27002EE84C /* TimeLiteralTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 024E09741C162E27002EE84C /* TimeLiteralTests.swift */; };
 		0262BB0B1C075F9E002E24A4 /* XSD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0262BB0A1C075F9E002E24A4 /* XSD.swift */; };
 		0262BB0D1C076409002E24A4 /* Vocabulary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0262BB0C1C076409002E24A4 /* Vocabulary.swift */; };
 		0262BB0F1C076606002E24A4 /* Datatype.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0262BB0E1C076606002E24A4 /* Datatype.swift */; };
@@ -65,6 +68,9 @@
 		024E096A1C13441C002EE84C /* Decimal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Decimal.swift; path = ../Decimal.swift; sourceTree = "<group>"; };
 		024E096C1C1374C7002EE84C /* DecimalTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DecimalTests.swift; sourceTree = "<group>"; };
 		024E096E1C15B8F9002EE84C /* SPARQLLiteralTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SPARQLLiteralTests.swift; sourceTree = "<group>"; };
+		024E09701C15EFDF002EE84C /* Duration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Duration.swift; path = "../source code/utilities/Duration.swift"; sourceTree = "<group>"; };
+		024E09721C161B65002EE84C /* DurationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DurationTests.swift; sourceTree = "<group>"; };
+		024E09741C162E27002EE84C /* TimeLiteralTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeLiteralTests.swift; sourceTree = "<group>"; };
 		0262BB0A1C075F9E002E24A4 /* XSD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = XSD.swift; path = "../source code/vocabularies/XSD.swift"; sourceTree = "<group>"; };
 		0262BB0C1C076409002E24A4 /* Vocabulary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Vocabulary.swift; path = "../source code/vocabularies/Vocabulary.swift"; sourceTree = "<group>"; };
 		0262BB0E1C076606002E24A4 /* Datatype.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Datatype.swift; path = "../source code/utilities/Datatype.swift"; sourceTree = "<group>"; };
@@ -128,6 +134,8 @@
 				024E09661C124A9C002EE84C /* NumericLiteralTests.swift */,
 				024E09681C12DE49002EE84C /* StringLiteralTests.swift */,
 				024E096E1C15B8F9002EE84C /* SPARQLLiteralTests.swift */,
+				024E09741C162E27002EE84C /* TimeLiteralTests.swift */,
+				024E09721C161B65002EE84C /* DurationTests.swift */,
 				024E096C1C1374C7002EE84C /* DecimalTests.swift */,
 				022232231BFF719D00362D9B /* Info.plist */,
 			);
@@ -137,6 +145,7 @@
 		0222323E1C02108A00362D9B /* source */ = {
 			isa = PBXGroup;
 			children = (
+				024E09701C15EFDF002EE84C /* Duration.swift */,
 				024E096A1C13441C002EE84C /* Decimal.swift */,
 				024E09641C11DEF2002EE84C /* LiteralFormattingError.swift */,
 				029699EF1C0EDA700067BB99 /* OWL.swift */,
@@ -278,6 +287,7 @@
 				022232371BFF7A4200362D9B /* URI.swift in Sources */,
 				022232421C0702AC00362D9B /* RDF.swift in Sources */,
 				0262BB0F1C076606002E24A4 /* Datatype.swift in Sources */,
+				024E09711C15EFDF002EE84C /* Duration.swift in Sources */,
 				024E09651C11DEF2002EE84C /* LiteralFormattingError.swift in Sources */,
 				022232391BFF7A4700362D9B /* BlankNode.swift in Sources */,
 				022232351BFF7A3D00362D9B /* Literal.swift in Sources */,
@@ -288,11 +298,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				024E09751C162E27002EE84C /* TimeLiteralTests.swift in Sources */,
 				022232221BFF719D00362D9B /* URITests.swift in Sources */,
 				0262BB131C0C5E45002E24A4 /* DatatypeTests.swift in Sources */,
 				024E09691C12DE49002EE84C /* StringLiteralTests.swift in Sources */,
 				024E096D1C1374C7002EE84C /* DecimalTests.swift in Sources */,
 				024E096F1C15B8F9002EE84C /* SPARQLLiteralTests.swift in Sources */,
+				024E09731C161B65002EE84C /* DurationTests.swift in Sources */,
 				024E09671C124A9C002EE84C /* NumericLiteralTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
