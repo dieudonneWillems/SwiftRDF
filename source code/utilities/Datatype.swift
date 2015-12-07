@@ -50,6 +50,26 @@ public class Datatype : URI {
         try super.init(namespace: namespace, localName: localName)
     }
     
+    /**
+     Initialises a new datatype in the specified namespace and with the specified local name.
+     
+     - parameter uri: The URI of the datatype.
+     - parameter derivedFromDatatype: The parent datatype from which this datatype is derived (either by restriction
+     or by list.
+     - parameter isListDataType: Set to true when the datatype specified data provided as a list of data.
+     
+     - throws `MalformedURIError.URIAuthorityPartIsMalformed`: If the authority part of the URI represented
+     in the string is malformed.
+     - throws `MalformedURIError.URIHostMissingFromAuthorityPath`: If the host is missing from the authority path.
+     - throws `MalformedURIError.URISchemeMissing`: If the scheme is missing from the URI.
+     - throws `MalformedURIError.MalformedURI`: When the URI was malformed.
+     */
+    public init(uri : String, derivedFromDatatype: Datatype?, isListDataType : Bool) throws {
+        self.derivedFromDatatype = derivedFromDatatype
+        self.isListDataType = isListDataType
+        try super.init(string: uri)
+    }
+    
     // MARK: Methods
     
     /**

@@ -38,13 +38,4 @@ class StringLiteralTests: XCTestCase {
         XCTAssertTrue(XSD.string == lit2.dataType!)
         XCTAssertNil(lit2.longValue)
     }
-    
-    func testSPARQLStringLiteral() {
-        let lit1 = Literal(sparqlString: "\"test string\"")!;
-        XCTAssertEqual("test string", lit1.stringValue)
-        XCTAssertNil(lit1.dataType)
-        XCTAssertNil(lit1.language)
-        XCTAssertNil(lit1.longValue)
-        
-    }
 }

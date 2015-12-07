@@ -10,7 +10,7 @@ import Foundation
 
 public class Literal: Value {
     
-    private static let literalPattern = "^(((\"(.*)\")|('([\\w\\s]*)'))((@(\\w*))(\\^\\^(xsd:string))?|\\^\\^(xsd:\\w*))?|([+-]?[\\d\\.]*))$"
+    private static let literalPattern = "^(((\"(.*)\")|('([\\w\\s]*)'))((@(\\w*))(\\^\\^xsd:(string))?|\\^\\^(xsd:(\\w*)|<(.*)>))?|([+-]?[\\d\\.]*))$"
     
     // MARK: Properties
     
@@ -242,39 +242,48 @@ public class Literal: Value {
             }else{
                 let match = matches[0]
                 var dtypeStr : String? = nil
+                var dtypeURI : String? = nil
                 var langStr : String? = nil
                 let nsstring = sparqlString as NSString
+                var varStr : String = sparqlString
+                if match.rangeAtIndex(4).location != NSNotFound {
+                    varStr = nsstring.substringWithRange(match.rangeAtIndex(4)) as String
+                }
                 if match.rangeAtIndex(11).location != NSNotFound {
                     dtypeStr = nsstring.substringWithRange(match.rangeAtIndex(11)) as String
-                } else if match.rangeAtIndex(12).location != NSNotFound {
-                    dtypeStr = nsstring.substringWithRange(match.rangeAtIndex(12)) as String
+                } else if match.rangeAtIndex(14).location != NSNotFound {
+                    dtypeURI = nsstring.substringWithRange(match.rangeAtIndex(14)) as String
+                } else if match.rangeAtIndex(13).location != NSNotFound {
+                    dtypeStr = nsstring.substringWithRange(match.rangeAtIndex(13)) as String
                 }
                 if match.rangeAtIndex(9).location != NSNotFound {
                     langStr = nsstring.substringWithRange(match.rangeAtIndex(9)) as String
-                    dtypeStr = "xsd:string"
+                    dtypeStr = "string"
                 }
-                if dtypeStr != nil {
-                    let varStr = nsstring.substringWithRange(match.rangeAtIndex(4)) as String
-                    if dtypeStr! == "xsd:string" {
-                        if langStr != nil {
-                            self.init(stringValue: varStr)
-                            self.dataType = XSD.string
-                        } else {
-                            self.init(stringValue: varStr)
-                            self.dataType = XSD.string
-                        }
+                var datatypeFS : Datatype? = nil
+                if dtypeURI != nil {
+                    datatypeFS = try Datatype(uri: dtypeURI!, derivedFromDatatype: nil, isListDataType: false)
+                }else if dtypeStr != nil {
+                    if dtypeStr! == "string" {
+                        datatypeFS = XSD.string
                     } else if dtypeStr! == "xsd:decimal" {
-                        try self.init(stringValue: varStr, dataType: XSD.decimal)
+                        datatypeFS = XSD.decimal
                     } else if dtypeStr! == "xsd:integer" {
-                        try self.init(stringValue: varStr, dataType: XSD.integer)
+                        datatypeFS = XSD.integer
                     } else if dtypeStr! == "xsd:long" {
-                        try self.init(stringValue: varStr, dataType: XSD.long)
+                        datatypeFS = XSD.long
                         // TODO: add other datatype initialisers
                     } else {
-                        self.init(stringValue: sparqlString)
+                        datatypeFS = try Datatype(namespace: XSD.namespace(), localName: dtypeStr!, derivedFromDatatype: nil, isListDataType: false)
                     }
                 } else {
-                    self.init(stringValue: sparqlString)
+                    datatypeFS = XSD.string
+                }
+                if langStr != nil && datatypeFS! == XSD.string {
+                    self.init(stringValue: varStr, language: langStr!)
+                    self.dataType = XSD.string
+                } else {
+                    try self.init(stringValue: varStr, dataType: datatypeFS!)
                 }
             }
         }catch {

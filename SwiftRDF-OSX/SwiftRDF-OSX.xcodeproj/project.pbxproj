@@ -24,6 +24,7 @@
 		024E09691C12DE49002EE84C /* StringLiteralTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 024E09681C12DE49002EE84C /* StringLiteralTests.swift */; };
 		024E096B1C13441C002EE84C /* Decimal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 024E096A1C13441C002EE84C /* Decimal.swift */; };
 		024E096D1C1374C7002EE84C /* DecimalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 024E096C1C1374C7002EE84C /* DecimalTests.swift */; };
+		024E096F1C15B8F9002EE84C /* SPARQLLiteralTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 024E096E1C15B8F9002EE84C /* SPARQLLiteralTests.swift */; };
 		0262BB0B1C075F9E002E24A4 /* XSD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0262BB0A1C075F9E002E24A4 /* XSD.swift */; };
 		0262BB0D1C076409002E24A4 /* Vocabulary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0262BB0C1C076409002E24A4 /* Vocabulary.swift */; };
 		0262BB0F1C076606002E24A4 /* Datatype.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0262BB0E1C076606002E24A4 /* Datatype.swift */; };
@@ -63,6 +64,7 @@
 		024E09681C12DE49002EE84C /* StringLiteralTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringLiteralTests.swift; sourceTree = "<group>"; };
 		024E096A1C13441C002EE84C /* Decimal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Decimal.swift; path = ../Decimal.swift; sourceTree = "<group>"; };
 		024E096C1C1374C7002EE84C /* DecimalTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DecimalTests.swift; sourceTree = "<group>"; };
+		024E096E1C15B8F9002EE84C /* SPARQLLiteralTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SPARQLLiteralTests.swift; sourceTree = "<group>"; };
 		0262BB0A1C075F9E002E24A4 /* XSD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = XSD.swift; path = "../source code/vocabularies/XSD.swift"; sourceTree = "<group>"; };
 		0262BB0C1C076409002E24A4 /* Vocabulary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Vocabulary.swift; path = "../source code/vocabularies/Vocabulary.swift"; sourceTree = "<group>"; };
 		0262BB0E1C076606002E24A4 /* Datatype.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Datatype.swift; path = "../source code/utilities/Datatype.swift"; sourceTree = "<group>"; };
@@ -125,6 +127,7 @@
 				0262BB121C0C5E45002E24A4 /* DatatypeTests.swift */,
 				024E09661C124A9C002EE84C /* NumericLiteralTests.swift */,
 				024E09681C12DE49002EE84C /* StringLiteralTests.swift */,
+				024E096E1C15B8F9002EE84C /* SPARQLLiteralTests.swift */,
 				024E096C1C1374C7002EE84C /* DecimalTests.swift */,
 				022232231BFF719D00362D9B /* Info.plist */,
 			);
@@ -289,6 +292,7 @@
 				0262BB131C0C5E45002E24A4 /* DatatypeTests.swift in Sources */,
 				024E09691C12DE49002EE84C /* StringLiteralTests.swift in Sources */,
 				024E096D1C1374C7002EE84C /* DecimalTests.swift in Sources */,
+				024E096F1C15B8F9002EE84C /* SPARQLLiteralTests.swift in Sources */,
 				024E09671C124A9C002EE84C /* NumericLiteralTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
