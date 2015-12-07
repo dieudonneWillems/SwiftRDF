@@ -40,21 +40,18 @@ class TimeLiteralTests: XCTestCase {
     }
     
     func testDurationLiteralFromString() {
-        do {
-            let lit1 = try Literal(stringValue: "P12Y23M14D", dataType: XSD.duration)
-            XCTAssertEqual("P12Y23M14D", lit1.stringValue)
-            XCTAssertEqual("\"P12Y23M14D\"^^xsd:duration", lit1.sparql)
-            XCTAssertTrue(lit1.dataType! == XSD.duration)
-            XCTAssertNil(lit1.language)
-            XCTAssertNil(lit1.longValue)
-            let lit2 = try Literal(stringValue: "-P12Y23M14DT15H2M0.93S", dataType: XSD.duration)
-            XCTAssertEqual("-P12Y23M14DT15H2M0.93S", lit2.stringValue)
-            XCTAssertEqual("\"-P12Y23M14DT15H2M0.93S\"^^xsd:duration", lit2.sparql)
-            XCTAssertTrue(lit2.dataType! == XSD.duration)
-            XCTAssertNil(lit2.language)
-            XCTAssertNil(lit2.longValue)
-        } catch {
-            XCTFail("Could not initialise duration from string.")
-        }
+        let lit1 = Literal(stringValue: "P12Y23M14D", dataType: XSD.duration)!
+        XCTAssertEqual("P12Y23M14D", lit1.stringValue)
+        XCTAssertEqual("\"P12Y23M14D\"^^xsd:duration", lit1.sparql)
+        XCTAssertTrue(lit1.dataType! == XSD.duration)
+        XCTAssertNil(lit1.language)
+        XCTAssertNil(lit1.longValue)
+        let lit2 = Literal(stringValue: "-P12Y23M14DT15H2M0.93S", dataType: XSD.duration)!
+        XCTAssertEqual("-P12Y23M14DT15H2M0.93S", lit2.stringValue)
+        XCTAssertEqual("\"-P12Y23M14DT15H2M0.93S\"^^xsd:duration", lit2.sparql)
+        XCTAssertTrue(lit2.dataType! == XSD.duration)
+        XCTAssertNil(lit2.language)
+        XCTAssertNil(lit2.longValue)
+        
     }
 }

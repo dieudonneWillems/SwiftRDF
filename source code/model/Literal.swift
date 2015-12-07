@@ -244,10 +244,41 @@ public class Literal: Value {
     
     // MARK: Initialisers
     
+    /**
+     The default initialiser takes a string value and initialises the Literal with that string. No
+     datatype or language (if a string) is deduced from the string. If the string value is a representation
+     of a number, the value will still only be interpreted as a string value without any datatype information.
+    
+     - parameter stringValue: The string value with which the Literal is instantiated.
+     */
     public override init(stringValue: String){
         super.init(stringValue: stringValue)
     }
     
+    
+    /**
+     This initialiser takes a string value in SPARQL format and initialises the Literal with the contents of that
+     string. A literal in SPARQL format is of the form: `"[value]"[@[language]][^^[datatype]]` where language and
+     datatype are optional. If a language is provided than the datatype is required to be of type `XSD.string`. 
+     If neither language or datatype is provided, the datatype is assumed to be `XSD.string`.
+     
+     For some datatypes such as `XSD.integer` and `XSD.boolean`, quotes are not necessary to deduce the datatype.
+     
+     Examples:
+     
+      - `"chat"`
+      - `'chat'@fr` with language tag `"fr"`
+      - `"xyz"^^<http://example.org/ns/userDatatype>`
+      - `1`, which is the same as `"1"^^xsd:integer`
+      - `1.3`, which is the same as `"1.3"^^xsd:decimal`
+      - `1.300`, which is the same as `"1.300"^^xsd:decimal`
+      - `1.0e6`, which is the same as `"1.0e6"^^xsd:double`
+      - `true`, which is the same as `"true"^^xsd:boolean`
+      - `false`, which is the same as `"false"^^xsd:boolean`
+     
+     - parameter stringValue: The string value with which the Literal is instantiated.
+     - returns: The initialised literal, or nil when the value was not valid for the provided datatype.
+     */
     public convenience init?(sparqlString : String){
         do {
             let regex = try NSRegularExpression(pattern: Literal.literalPattern, options: [.CaseInsensitive])
@@ -338,7 +369,7 @@ public class Literal: Value {
                     self.init(stringValue: varStr, language: langStr!)
                     self.dataType = XSD.string
                 } else {
-                    try self.init(stringValue: varStr, dataType: datatypeFS!)
+                    self.init(stringValue: varStr, dataType: datatypeFS!)
                 }
             }
         }catch {
@@ -346,113 +377,133 @@ public class Literal: Value {
         }
     }
     
-    public init(stringValue: String, language: String){
-        super.init(stringValue: stringValue)
+    /**
+     Initialises a new String literal with the specified string value and the specified language in which
+     the text of the string is expressed.
+     
+     - parameter stringValue: The string containing the text.
+     - parameter language: The language of the text.
+     */
+    public convenience init(stringValue: String, language: String){
+        self.init(stringValue: stringValue)
         self.language = language
         self.dataType = XSD.string
     }
     
-    public convenience init(stringValue: String, dataType: Datatype) throws {
+    /**
+     Initialises a new literal of the specified datatype and with a value equal to the value represented
+     in the string value. The string value is parsed according to the specified data type.
+     
+     - parameter stringValue: The string representation of the value of the literal.
+     - parameter dataType: The data type of the literal.
+     - returns: The initialised literal or nil if the string value was not in the correct format or if it 
+     was outside the range of the datatype.
+     */
+    public convenience init?(stringValue: String, dataType: Datatype) {
         self.init(stringValue: stringValue)
         self.dataType = dataType
-        if dataType == XSD.string {
-            // do nothing further
-        }else if dataType == XSD.duration {
-            durationValue = Duration(stringValue: stringValue)
-        }else if dataType == XSD.boolean {
-            booleanValue = try Literal.parseBoolean(stringValue)
-        }else if dataType == XSD.long {
-            longValue = try Literal.parseLong(stringValue)
-            self.setIntegerValues(longValue!)
-        }else if dataType == XSD.integer {
-            integerValue = try Literal.parseInteger(stringValue)
-            longValue = Int64(integerValue!)
-            self.setIntegerValues(longValue!)
-        }else if dataType == XSD.decimal {
-            decimalValue = Decimal(stringValue: stringValue)
-            if decimalValue == nil {
-                throw LiteralFormattingError.malformedNumber(message: "The decimal number \(stringValue) is malformed as it is outside the required range for a decimal or it contains illegal caharacters. ", string: stringValue)
-            }
-            if decimalValue != nil && decimalValue!.decimalExponent == 0 {
-                self.setIntegerValues(decimalValue!.decimalInteger)
-            } else if decimalValue != nil {
-                doubleValue = Double((decimalValue?.description)!)
-                floatValue = Float((decimalValue?.description)!)
-            }
-        }else if dataType == XSD.unsignedLong {
-            unsignedLongValue = try Literal.parseUnsignedLong(stringValue)
-            self.setUnsignedIntegerValues(unsignedLongValue!)
-        }else if dataType == XSD.int {
-            intValue = try Literal.parseInt(stringValue)
-            longValue = Int64(intValue!)
-            self.setIntegerValues(longValue!)
-        }else if dataType == XSD.unsignedInt {
-            unsignedIntValue = try Literal.parseUnsignedInt(stringValue)
-            unsignedLongValue = UInt64(unsignedIntValue!)
-            self.setUnsignedIntegerValues(unsignedLongValue!)
-        }else if dataType == XSD.short {
-            shortValue = try Literal.parseShort(stringValue)
-            longValue = Int64(shortValue!)
-            self.setIntegerValues(longValue!)
-        }else if dataType == XSD.unsignedShort {
-            unsignedShortValue = try Literal.parseUnsignedShort(stringValue)
-            unsignedLongValue = UInt64(unsignedShortValue!)
-            self.setUnsignedIntegerValues(unsignedLongValue!)
-        }else if dataType == XSD.byte {
-            byteValue = try Literal.parseByte(stringValue)
-            longValue = Int64(byteValue!)
-            self.setIntegerValues(longValue!)
-        }else if dataType == XSD.unsignedByte {
-            unsignedByteValue = try Literal.parseUnsignedByte(stringValue)
-            unsignedLongValue = UInt64(unsignedByteValue!)
-            self.setUnsignedIntegerValues(unsignedLongValue!)
-        }else if dataType == XSD.nonNegativeInteger {
-            unsignedLongValue = try Literal.parseUnsignedLong(stringValue)
-            self.setUnsignedIntegerValues(unsignedLongValue!)
-        }else if dataType == XSD.positiveInteger {
-            unsignedLongValue = try Literal.parseUnsignedLong(stringValue)
-            if unsignedLongValue == 0 {
-                throw LiteralFormattingError.malformedNumber(message: "The postive integer number \(stringValue) is malformed as it is outside the required range for a positive integer [1,\(UInt.max)]. ", string: stringValue)
-            }
-            self.setUnsignedIntegerValues(unsignedLongValue!)
-        }else if dataType == XSD.nonPositiveInteger {
-            let trimmed = stringValue.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
-            let st0 = trimmed.characters.startsWith("0".characters)
-            if !trimmed.characters.startsWith("-".characters) && !st0 {
-                throw LiteralFormattingError.malformedNumber(message: "The non-postive integer number \(stringValue) is malformed as it is outside the required range for a non-positive integer [-\(UInt.max),0]. ", string: stringValue)
-            }
-            if !st0 {
+        do {
+            if dataType == XSD.string {
+                // do nothing further
+            }else if dataType == XSD.duration {
+                durationValue = Duration(stringValue: stringValue)
+            }else if dataType == XSD.boolean {
+                booleanValue = try Literal.parseBoolean(stringValue)
+            }else if dataType == XSD.long {
+                longValue = try Literal.parseLong(stringValue)
+                self.setIntegerValues(longValue!)
+            }else if dataType == XSD.integer {
+                integerValue = try Literal.parseInteger(stringValue)
+                longValue = Int64(integerValue!)
+                self.setIntegerValues(longValue!)
+            }else if dataType == XSD.decimal {
+                decimalValue = Decimal(stringValue: stringValue)
+                if decimalValue == nil {
+                    return nil
+                }
+                if decimalValue != nil && decimalValue!.decimalExponent == 0 {
+                    self.setIntegerValues(decimalValue!.decimalInteger)
+                } else if decimalValue != nil {
+                    doubleValue = Double((decimalValue?.description)!)
+                    floatValue = Float((decimalValue?.description)!)
+                }
+            }else if dataType == XSD.unsignedLong {
+                unsignedLongValue = try Literal.parseUnsignedLong(stringValue)
+                self.setUnsignedIntegerValues(unsignedLongValue!)
+            }else if dataType == XSD.int {
+                intValue = try Literal.parseInt(stringValue)
+                longValue = Int64(intValue!)
+                self.setIntegerValues(longValue!)
+            }else if dataType == XSD.unsignedInt {
+                unsignedIntValue = try Literal.parseUnsignedInt(stringValue)
+                unsignedLongValue = UInt64(unsignedIntValue!)
+                self.setUnsignedIntegerValues(unsignedLongValue!)
+            }else if dataType == XSD.short {
+                shortValue = try Literal.parseShort(stringValue)
+                longValue = Int64(shortValue!)
+                self.setIntegerValues(longValue!)
+            }else if dataType == XSD.unsignedShort {
+                unsignedShortValue = try Literal.parseUnsignedShort(stringValue)
+                unsignedLongValue = UInt64(unsignedShortValue!)
+                self.setUnsignedIntegerValues(unsignedLongValue!)
+            }else if dataType == XSD.byte {
+                byteValue = try Literal.parseByte(stringValue)
+                longValue = Int64(byteValue!)
+                self.setIntegerValues(longValue!)
+            }else if dataType == XSD.unsignedByte {
+                unsignedByteValue = try Literal.parseUnsignedByte(stringValue)
+                unsignedLongValue = UInt64(unsignedByteValue!)
+                self.setUnsignedIntegerValues(unsignedLongValue!)
+            }else if dataType == XSD.nonNegativeInteger {
+                unsignedLongValue = try Literal.parseUnsignedLong(stringValue)
+                self.setUnsignedIntegerValues(unsignedLongValue!)
+            }else if dataType == XSD.positiveInteger {
+                unsignedLongValue = try Literal.parseUnsignedLong(stringValue)
+                if unsignedLongValue == 0 {
+                    return nil
+                }
+                self.setUnsignedIntegerValues(unsignedLongValue!)
+            }else if dataType == XSD.nonPositiveInteger {
+                let trimmed = stringValue.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+                let st0 = trimmed.characters.startsWith("0".characters)
+                if !trimmed.characters.startsWith("-".characters) && !st0 {
+                    return nil
+                }
+                if !st0 {
+                    nonPositiveIntegerValue = UInt(trimmed.substringFromIndex(trimmed.startIndex.advancedBy(1)))
+                } else {
+                    nonPositiveIntegerValue = UInt(trimmed)
+                }
+                if nonPositiveIntegerValue == nil {
+                    return nil
+                }
+                if nonPositiveIntegerValue > 0 {
+                    negativeIntegerValue = nonPositiveIntegerValue
+                }
+                if UInt64(nonPositiveIntegerValue!) < UInt64(Int64.max) {
+                    self.setIntegerValues(Int64(trimmed)!)
+                }
+            }else if dataType == XSD.negativeInteger {
+                let trimmed = stringValue.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+                if !trimmed.characters.startsWith("-".characters) {
+                    return nil
+                }
                 nonPositiveIntegerValue = UInt(trimmed.substringFromIndex(trimmed.startIndex.advancedBy(1)))
-            } else {
-                nonPositiveIntegerValue = UInt(trimmed)
-            }
-            if nonPositiveIntegerValue == nil {
-                throw LiteralFormattingError.malformedNumber(message: "The non-postive integer number \(stringValue) is malformed as it is outside the required range for a non-positive integer [-\(UInt.max),0]. ", string: stringValue)
-            }
-            if nonPositiveIntegerValue > 0 {
+                if nonPositiveIntegerValue == nil || nonPositiveIntegerValue == 0 {
+                    return nil
+                }
                 negativeIntegerValue = nonPositiveIntegerValue
+                if UInt64(nonPositiveIntegerValue!) < UInt64(Int64.max) {
+                    self.setIntegerValues(Int64(trimmed)!)
+                }
+            }else if dataType == XSD.float {
+                floatValue = try Literal.parseFloat(stringValue)
+            }else if dataType == XSD.double {
+                doubleValue = try Literal.parseDouble(stringValue)
+            }else {
             }
-            if UInt64(nonPositiveIntegerValue!) < UInt64(Int64.max) {
-                self.setIntegerValues(Int64(trimmed)!)
-            }
-        }else if dataType == XSD.negativeInteger {
-            let trimmed = stringValue.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
-            if !trimmed.characters.startsWith("-".characters) {
-                throw LiteralFormattingError.malformedNumber(message: "The non-postive integer number \(stringValue) is malformed as it is outside the required range for a non-positive integer [-\(UInt.max),-1]. ", string: stringValue)
-            }
-            nonPositiveIntegerValue = UInt(trimmed.substringFromIndex(trimmed.startIndex.advancedBy(1)))
-            if nonPositiveIntegerValue == nil || nonPositiveIntegerValue == 0 {
-                throw LiteralFormattingError.malformedNumber(message: "The non-postive integer number \(stringValue) is malformed as it is outside the required range for a non-positive integer [-\(UInt.max),-1]. ", string: stringValue)
-            }
-            negativeIntegerValue = nonPositiveIntegerValue
-            if UInt64(nonPositiveIntegerValue!) < UInt64(Int64.max) {
-                self.setIntegerValues(Int64(trimmed)!)
-            }
-        }else if dataType == XSD.float {
-            floatValue = try Literal.parseFloat(stringValue)
-        }else if dataType == XSD.double {
-            doubleValue = try Literal.parseDouble(stringValue)
-        }else {
+        } catch {
+           return nil
         }
     }
     
