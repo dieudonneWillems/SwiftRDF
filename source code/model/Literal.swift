@@ -10,7 +10,7 @@ import Foundation
 
 public class Literal: Value {
     
-    private static let literalPattern = "^(((\"(.*)\")|('([\\w\\s]*)'))((@(\\w*))(\\^\\^xsd:(string))?|\\^\\^(xsd:(\\w*)|<(.*)>))?|([+-]?[\\d\\.]*))$"
+    private static let literalPattern = "^(((\"(.*)\")|('([\\w\\s]*)'))((@(\\w*))(\\^\\^xsd:(string))?|\\^\\^(xsd:(\\w*)|<(.*)>))?|([+-]?[\\d]*)|([+-]?[\\d\\.]*)|([+-]?[\\d\\.]*[eE][+-]?\\d*)|(true|false))$"
     
     // MARK: Properties
     
@@ -272,12 +272,48 @@ public class Literal: Value {
                         datatypeFS = XSD.integer
                     } else if dtypeStr! == "xsd:long" {
                         datatypeFS = XSD.long
-                        // TODO: add other datatype initialisers
+                    } else if dtypeStr! == "xsd:int" {
+                        datatypeFS = XSD.int
+                    } else if dtypeStr! == "xsd:short" {
+                        datatypeFS = XSD.short
+                    } else if dtypeStr! == "xsd:byte" {
+                        datatypeFS = XSD.byte
+                    } else if dtypeStr! == "xsd:unsignedLong" {
+                        datatypeFS = XSD.unsignedLong
+                    } else if dtypeStr! == "xsd:unsignedInt" {
+                        datatypeFS = XSD.unsignedInt
+                    } else if dtypeStr! == "xsd:unsignedShort" {
+                        datatypeFS = XSD.unsignedShort
+                    } else if dtypeStr! == "xsd:unsignedByte" {
+                        datatypeFS = XSD.unsignedByte
+                    } else if dtypeStr! == "xsd:nonNegativeInteger" {
+                        datatypeFS = XSD.nonNegativeInteger
+                    } else if dtypeStr! == "xsd:positiveInteger" {
+                        datatypeFS = XSD.positiveInteger
+                    } else if dtypeStr! == "xsd:nonPositiveInteger" {
+                        datatypeFS = XSD.nonPositiveInteger
+                    } else if dtypeStr! == "xsd:negativeInteger" {
+                        datatypeFS = XSD.negativeInteger
+                    } else if dtypeStr! == "xsd:double" {
+                        datatypeFS = XSD.double
+                    } else if dtypeStr! == "xsd:float" {
+                        datatypeFS = XSD.float
                     } else {
+                        // TODO: add other datatype initialisers
                         datatypeFS = try Datatype(namespace: XSD.namespace(), localName: dtypeStr!, derivedFromDatatype: nil, isListDataType: false)
                     }
                 } else {
-                    datatypeFS = XSD.string
+                    if match.rangeAtIndex(15).location != NSNotFound {
+                        datatypeFS = XSD.integer
+                    } else if match.rangeAtIndex(16).location != NSNotFound {
+                        datatypeFS = XSD.decimal
+                    } else if match.rangeAtIndex(17).location != NSNotFound {
+                        datatypeFS = XSD.double
+                    } else if match.rangeAtIndex(18).location != NSNotFound {
+                        datatypeFS = XSD.boolean
+                    } else {
+                        datatypeFS = XSD.string
+                    }
                 }
                 if langStr != nil && datatypeFS! == XSD.string {
                     self.init(stringValue: varStr, language: langStr!)
