@@ -507,18 +507,38 @@ public class Literal: Value {
         }
     }
     
+    /**
+     Creates a new Literal with a duration as value and with a `XSD.duration` datatype.
+     
+     - parameter durationValue: The duration.
+     */
     public convenience init(durationValue : Duration) {
         self.init(stringValue: "\(durationValue.description)")
         self.durationValue = durationValue
         self.dataType = XSD.duration
     }
     
+    /**
+     Creates a new Literal with a boolean as value and with a `XSD.boolean` datatype.
+     
+     - parameter booleanValue: The boolean value.
+     */
     public convenience init(booleanValue : Bool) {
         self.init(stringValue: "\(booleanValue)")
         self.booleanValue = booleanValue
         self.dataType = XSD.boolean
     }
     
+    
+    /**
+     Creates a new Literal with a `Decimal` as value and with a `XSD.decimal` datatype.
+     A decimal represents a subset of the real numbers, which can be represented by decimal numerals.
+     The value space of decimal is the set of numbers that can be obtained by multiplying an integer (i.e. `decimalInteger`)
+     by a non-positive power of ten (i.e. `decimalExponent`), i.e., expressible as i × 10^-n where i and n are integers
+     and n >= 0. This implementation supports decimals with 19 decimal digits.
+     
+     - parameter decimalValue: The decimal value.
+     */
     public convenience init(decimalValue : Decimal) {
         self.init(stringValue: "\(decimalValue)")
         self.decimalValue = decimalValue
@@ -530,6 +550,13 @@ public class Literal: Value {
         self.dataType = XSD.decimal
     }
     
+    /**
+     Creates a new Literal with a integer as value and with a `XSD.integer` datatype.
+     The type of the integer is the natively supported type of integer, i.e. a 32-bit integer on 32-bit systems and
+     a 64-bit integer on 64-bit systems.
+     
+     - parameter integerValue: The integer value.
+     */
     public convenience init(integerValue : Int) {
         self.init(stringValue: "\(integerValue)")
         self.integerValue = integerValue
@@ -537,6 +564,14 @@ public class Literal: Value {
         self.dataType = XSD.integer
     }
     
+    /**
+     Creates a new Literal with a non-negative integer as value and with a `XSD.nonNegativeInteger` datatype. The integer
+     needs to be in the range [0,UInt.max] where UInt.max is the maximum integer value supported by the system.
+     The type of the integer is the natively supported type of integer, i.e. a 32-bit integer on 32-bit systems and
+     a 64-bit integer on 64-bit systems.
+     
+     - parameter nonNegativeIntegerValue: The non-negative integer value.
+     */
     public convenience init(nonNegativeIntegerValue : UInt) {
         self.init(stringValue: "\(nonNegativeIntegerValue)")
         self.nonNegativeIntegerValue = nonNegativeIntegerValue
@@ -544,6 +579,15 @@ public class Literal: Value {
         self.dataType = XSD.nonNegativeInteger
     }
     
+    /**
+     Creates a new Literal with a positive integer as value and with a `XSD.positiveInteger` datatype. The integer
+     needs to be in the range [1,UInt.max] where UInt.max is the maximum integer value supported by the system.
+     The type of the integer is the natively supported type of integer, i.e. a 32-bit integer on 32-bit systems and
+     a 64-bit integer on 64-bit systems.
+     
+     - parameter positiveIntegerValue: The positive integer value.
+     - returns: The positive integer Literal or nil if the parameter is outside the range for positive integers.
+     */
     public convenience init?(positiveIntegerValue : UInt) {
         if positiveIntegerValue == 0 {
             return nil
@@ -554,6 +598,15 @@ public class Literal: Value {
         self.dataType = XSD.positiveInteger
     }
     
+    /**
+     Creates a new Literal with a non-positive integer as value and with a `XSD.nonPositiveInteger` datatype. The integer
+     needs to be in the range [Int.min,0] where Int.min is the minimum integer value supported by the system.
+     The type of the integer is the natively supported type of integer, i.e. a 32-bit integer on 32-bit systems and
+     a 64-bit integer on 64-bit systems.
+     
+     - parameter nonPositiveIntegerValue: The non-positive integer value.
+     - returns: The non positive integer Literal or nil if the parameter is outside the range for non positive integers.
+     */
     public convenience init?(nonPositiveIntegerValue : Int) {
         if nonPositiveIntegerValue > 0 {
             return nil
@@ -565,6 +618,15 @@ public class Literal: Value {
         self.dataType = XSD.nonPositiveInteger
     }
     
+    /**
+     Creates a new Literal with the **absolute** value of a non-positive integer as value and with a
+     `XSD.nonPositiveInteger` datatype. The integer needs to be in the range [0,UInt.max] where UInt.max
+     is the maximum integer value supported by the system.
+     The type of the integer is the natively supported type of integer, i.e. a 32-bit integer on 32-bit systems and
+     a 64-bit integer on 64-bit systems.
+     
+     - parameter nonPositiveIntegerValue: The absolute value of the non-positive integer value.
+     */
     public convenience init(nonPositiveIntegerValue : UInt) {
         self.init(stringValue: "-\(nonPositiveIntegerValue)")
         if nonPositiveIntegerValue <= UInt(Int64.max) {
@@ -575,6 +637,15 @@ public class Literal: Value {
         self.dataType = XSD.nonPositiveInteger
     }
     
+    /**
+     Creates a new Literal with a negative integer as value and with a `XSD.negativeInteger` datatype. The integer
+     needs to be in the range [Int.min,1] where Int.min is the minimum integer value supported by the system.
+     The type of the integer is the natively supported type of integer, i.e. a 32-bit integer on 32-bit systems and
+     a 64-bit integer on 64-bit systems.
+     
+     - parameter nonPositiveIntegerValue: The negative integer value.
+     - returns: The negative integer Literal or nil if the parameter is outside the range for negative integers.
+     */
     public convenience init?(negativeIntegerValue : Int) {
         if negativeIntegerValue >= 0 {
             return nil
@@ -583,6 +654,16 @@ public class Literal: Value {
         self.dataType = XSD.negativeInteger
     }
     
+    /**
+     Creates a new Literal with the **absolute** value of a negative integer as value and with a
+     `XSD.negativeInteger` datatype. The integer needs to be in the range [1,UInt.max] where UInt.max
+     is the maximum integer value supported by the system.
+     The type of the integer is the natively supported type of integer, i.e. a 32-bit integer on 32-bit systems and
+     a 64-bit integer on 64-bit systems.
+     
+     - parameter negativeIntegerValue: The absolute value of the negative integer value.
+     - returns: The negative integer Literal or nil if the parameter is outside the range for negative integers.
+     */
     public convenience init?(negativeIntegerValue : UInt) {
         if negativeIntegerValue == 0 {
             return nil
