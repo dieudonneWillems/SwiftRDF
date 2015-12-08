@@ -549,10 +549,14 @@ public class Literal: Value {
      - parameter hours: The number of hours in the duration.
      - parameter minutes: The number of minutes in the duration.
      - parameter seconds: The number of seconds in the duration.
+     - returns: The Literal or `nil` if the literal could not be instantiated (i.e. the number of seconds was smaller than 0).
      */
-    public convenience init(positive: Bool, years: UInt, months: UInt, days: UInt, hours: UInt, minutes: UInt, seconds: Double) {
+    public convenience init?(positive: Bool, years: UInt, months: UInt, days: UInt, hours: UInt, minutes: UInt, seconds: Double) {
         let durval = Duration(positive: positive, years: years, months: months, days: days, hours: hours, minutes: minutes, seconds: seconds)
-        self.init(stringValue: "\(durval.description)")
+        if durval == nil {
+            return nil
+        }
+        self.init(stringValue: "\(durval!.description)")
         self.durationValue = durval
         self.dataType = XSD.duration
     }

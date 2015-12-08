@@ -25,13 +25,15 @@ class TimeLiteralTests: XCTestCase {
     
     
     func testDurationLiteral() {
-        let lit1 = Literal(durationValue: Duration(positive: true, years: 12, months: 23, days: 14, hours: 0, minutes: 0, seconds: 0))
+        let dur1 = Duration(positive: true, years: 12, months: 23, days: 14, hours: 0, minutes: 0, seconds: 0)
+        let lit1 = Literal(durationValue: dur1!)
         XCTAssertEqual("P12Y23M14D", lit1.stringValue)
         XCTAssertEqual("\"P12Y23M14D\"^^xsd:duration", lit1.sparql)
         XCTAssertTrue(lit1.dataType! == XSD.duration)
         XCTAssertNil(lit1.language)
         XCTAssertNil(lit1.longValue)
-        let lit2 = Literal(durationValue: Duration(positive: false, years: 12, months: 23, days: 14, hours: 15, minutes: 2, seconds: 0.93))
+        let dur2 = Duration(positive: false, years: 12, months: 23, days: 14, hours: 15, minutes: 2, seconds: 0.93)
+        let lit2 = Literal(durationValue: dur2!)
         XCTAssertEqual("-P12Y23M14DT15H2M0.93S", lit2.stringValue)
         XCTAssertEqual("\"-P12Y23M14DT15H2M0.93S\"^^xsd:duration", lit2.sparql)
         XCTAssertTrue(lit2.dataType! == XSD.duration)

@@ -8,19 +8,49 @@
 
 import Foundation
 
+/**
+ A duration represents a duration of time and is expressed in a combination of six components, the number of years, months, days, hours, minutes, and seconds.
+ There is no determinate relation between the different components, for instance a month may contain 28,29,30, or 31 days and a minute may contain 59, 60, or 61
+ seconds (due to leap seconds). Durations can only be compared to each other when viewed in their context, i.e. the starting or ending date of the duration when
+ the length of a month is known and when the addition of leap seconds is known.
+ */
 public struct Duration {
     
     // regular expression: ^([+-]?)P(?:([0-9]+)Y)?(?:([0-9]+)M)?(?:([0-9]+)D)?(?:T(?:([0-9]+)H)?(?:([0-9]+)M)?(?:([0-9]+(?:\.[0-9]+)?)S)?)?$
     private static let literalPattern = "^([+-]?)P(?:([0-9]+)Y)?(?:([0-9]+)M)?(?:([0-9]+)D)?(?:T(?:([0-9]+)H)?(?:([0-9]+)M)?(?:([0-9]+(?:\\.[0-9]+)?)S)?)?$"
     
+    /// True when the duration is a positive duration, false if it is negative.
     public let isPositive : Bool
+    
+    /// The number of years in the duration.
     public let years : UInt
+    
+    /// The number of months in the duration.
     public let months : UInt
+    
+    /// The number of days in the duration.
     public let days : UInt
+    
+    /// The number of hours in the duration.
     public let hours : UInt
+    
+    /// The number of minutes in the duration.
     public let minutes : UInt
+    
+    /// The number of seconds (a floating point number) in the duration.
     public let seconds : Double
     
+    /**
+     The lexical representation of the duration.
+     
+     The lexical representation of a duration is of the form `±PnYnMnDTnHnMnS` where `nY` represents the number of years. All values except the number of seconds are
+     unsigned integers, the number of seconds may be a floating point number. The duration may be preceded by a `+` or `-` sign when the duration is a positive duration
+     (the sign is optional) or when the duration is negative (the negative sign is required). Folowing the optional sign is the letter `P` (required). Only those components
+     that are not equal to 0 need to be included in the lexical representation. The letter `T` is required to separate the date from the time. For instance the representation
+     `P4M` specifies a duration of four months, while the representation `PT4M` specifies a duration of four minutes.
+     
+     Examples: `P1347Y`, `P1347M`, `P1Y2MT2H`, `PT5.34S`, and `-P22DT5H12M`.
+     */
     public var description : String {
         get {
             var descr = ""
@@ -57,6 +87,13 @@ public struct Duration {
         }
     }
     
+    /**
+     Creates a new Duration based on the specified time interval (in seconds). The time interval is given as a number of seconds. The corresponding 
+     duration consists of only one component, i.e. the number of seconds. The time interval is returned by several methods in, for instance, the
+     `NSDate` class.
+     
+     - parameter timeInterval: The time interval (in seconds).
+     */
     public init(timeInterval : NSTimeInterval) {
         if timeInterval < 0 {
             isPositive = false
@@ -72,7 +109,22 @@ public struct Duration {
         self.years = 0
     }
     
-    public init(positive: Bool, years: UInt, months: UInt, days: UInt, hours: UInt, minutes: UInt, seconds: Double) {
+    /**
+     Creates a new Duration based on the specified components.
+     
+     - parameter positive: Set to true when the duration is positive, fals when the duration is negative.
+     - parameter years: The number of years.
+     - parameter months: The number of months.
+     - parameter days: The number of days.
+     - parameter hours: The number of hours.
+     - parameter minutes: The number of minutes.
+     - parameter seconds: The number of seconds.
+     - returns: The Duration or `nil` if the number of seconds was smaller than 0.
+     */
+    public init?(positive: Bool, years: UInt, months: UInt, days: UInt, hours: UInt, minutes: UInt, seconds: Double) {
+        if seconds<0 {
+            return nil
+        }
         self.isPositive = positive
         self.years = years
         self.months = months
@@ -82,6 +134,20 @@ public struct Duration {
         self.seconds = seconds
     }
     
+    /**
+     Creates a new duration by parsing the specified lexical representation of the duration.
+     
+     The lexical representation of a duration is of the form `±PnYnMnDTnHnMnS` where `nY` represents the number of years. All values except the number of seconds are
+     unsigned integers, the number of seconds may be a floating point number. The duration may be preceded by a `+` or `-` sign when the duration is a positive duration
+     (the sign is optional) or when the duration is negative (the negative sign is required). Folowing the optional sign is the letter `P` (required). Only those components
+     that are not equal to 0 need to be included in the lexical representation. The letter `T` is required to separate the date from the time. For instance the representation
+     `P4M` specifies a duration of four months, while the representation `PT4M` specifies a duration of four minutes.
+     
+     Examples: `P1347Y`, `P1347M`, `P1Y2MT2H`, `PT5.34S`, and `-P22DT5H12M`.
+     
+     - parameter stringValue: The lexical representation of the duration to be parsed.
+     - returns: The duration represented by the string, or nil if the lexical representation string is not allowed.
+     */
     public init?(stringValue: String){
         do {
             let regex = try NSRegularExpression(pattern: Duration.literalPattern, options: [.CaseInsensitive])

@@ -24,7 +24,7 @@ class DurationTests: XCTestCase {
     }
     
     func testNumericInitialisation() {
-        let duration1 = Duration(positive: true, years: 0, months: 1, days: 2, hours: 12, minutes: 33, seconds: 9.2)
+        let duration1 = Duration(positive: true, years: 0, months: 1, days: 2, hours: 12, minutes: 33, seconds: 9.2)!
         XCTAssertTrue(duration1.isPositive)
         XCTAssertTrue(duration1.years == 0)
         XCTAssertTrue(duration1.months == 1)
@@ -33,7 +33,7 @@ class DurationTests: XCTestCase {
         XCTAssertTrue(duration1.minutes == 33)
         XCTAssertTrue(duration1.seconds == 9.2)
         XCTAssertEqual(duration1.description, "P1M2DT12H33M9.2S")
-        let duration2 = Duration(positive: false, years: 9, months: 14, days: 0, hours: 0, minutes: 0, seconds: 0)
+        let duration2 = Duration(positive: false, years: 9, months: 14, days: 0, hours: 0, minutes: 0, seconds: 0)!
         XCTAssertTrue(!duration2.isPositive)
         XCTAssertTrue(duration2.years == 9)
         XCTAssertTrue(duration2.months == 14)
@@ -42,7 +42,7 @@ class DurationTests: XCTestCase {
         XCTAssertTrue(duration2.minutes == 0)
         XCTAssertTrue(duration2.seconds == 0)
         XCTAssertEqual(duration2.description, "-P9Y14M")
-        let duration3 = Duration(positive: false, years: 0, months: 0, days: 0, hours: 23, minutes: 10, seconds: 20)
+        let duration3 = Duration(positive: false, years: 0, months: 0, days: 0, hours: 23, minutes: 10, seconds: 20)!
         XCTAssertTrue(!duration3.isPositive)
         XCTAssertTrue(duration3.years == 0)
         XCTAssertTrue(duration3.months == 0)
@@ -51,6 +51,8 @@ class DurationTests: XCTestCase {
         XCTAssertTrue(duration3.minutes == 10)
         XCTAssertTrue(duration3.seconds == 20)
         XCTAssertEqual(duration3.description, "-PT23H10M20S")
+        let duration4 = Duration(positive: false, years: 0, months: 0, days: 0, hours: 23, minutes: 10, seconds: -20)
+        XCTAssertNil(duration4)
     }
     
     func testTimeIntervalInitialisation() {
