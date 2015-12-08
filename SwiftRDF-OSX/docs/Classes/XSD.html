@@ -1,0 +1,1486 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>XSD Class Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Class/XSD" class="dashAnchor"></a>
+    <a title="XSD Class Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html"> Docs</a> (100% documented)</p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html"> Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        XSD Class Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/BlankNode.html">BlankNode</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Datatype.html">Datatype</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Literal.html">Literal</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/OWL.html">OWL</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/RDF.html">RDF</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/RDFS.html">RDFS</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes.html#/s:C11SwiftRDFOSX8Resource">Resource</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Statement.html">Statement</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/URI.html">URI</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Value.html">Value</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Vocabulary.html">Vocabulary</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/XSD.html">XSD</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Enums.html">Enums</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Enums/LiteralFormattingError.html">LiteralFormattingError</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/MalformedURIError.html">MalformedURIError</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Functions.html">Functions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:ZF11SwiftRDFOSXoi2neFTCS_5ValueS0__Sb">!=(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:ZF11SwiftRDFOSXoi2eeFTCS_3URIS0__Sb">==(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:ZF11SwiftRDFOSXoi2eeFTCS_5ValueS0__Sb">==(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:ZF11SwiftRDFOSXoi2eeFTCS_9BlankNodeS0__Sb">==(_:_:)</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Protocols/SPARQLValue.html">SPARQLValue</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Structs.html">Structs</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Structs/Decimal.html">Decimal</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/Duration.html">Duration</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>XSD</h1>
+              <div class="declaration">
+                <div class="language">
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">XSD</span> <span class="p">:</span> <span class="kt">Vocabulary</span></code></pre>
+
+                </div>
+              </div>
+            <p>This vocabulary class defines static constant variables for each of the datatypes in the
+<a href="http://www.w3.org/TR/xmlschema-2/">XML Schema specification for datatypes</a>.</p>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/XSD%20Namespace"></a>
+                <a name="//apple_ref/swift/Section/XSD Namespace" class="dashAnchor"></a>
+                <a href="#/XSD%20Namespace">
+                  <h3 class="section-name">XSD Namespace</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZFC11SwiftRDFOSX3XSD9namespaceFMS0_FT_SS"></a>
+                    <a name="//apple_ref/swift/Method/namespace()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZFC11SwiftRDFOSX3XSD9namespaceFMS0_FT_SS">namespace()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The namespace of the XML Schema vocabulary, i.e. <code>http://www.w3.org/2001/XMLSchema#</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">override</span> <span class="kd">class</span> <span class="kd">func</span> <span class="nf">namespace</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">String</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZFC11SwiftRDFOSX3XSD6prefixFMS0_FT_SS"></a>
+                    <a name="//apple_ref/swift/Method/prefix()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZFC11SwiftRDFOSX3XSD6prefixFMS0_FT_SS">prefix()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns the suggested prefix to be used for the XML Schema vocabulary, i.e. <code>xsd</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">override</span> <span class="kd">class</span> <span class="kd">func</span> <span class="nf">prefix</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">String</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The prefix for the vocabulary.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/XSD%20Datatypes"></a>
+                <a name="//apple_ref/swift/Section/XSD Datatypes" class="dashAnchor"></a>
+                <a href="#/XSD%20Datatypes">
+                  <h3 class="section-name">XSD Datatypes</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC11SwiftRDFOSX3XSD7anyTypeCS_8Datatype"></a>
+                    <a name="//apple_ref/swift/Variable/anyType" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC11SwiftRDFOSX3XSD7anyTypeCS_8Datatype">anyType</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The generic datatype in XML Schema, i.e. <code>xsd:anyType</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">anyType</span> <span class="o">=</span> <span class="kt">XSD</span><span class="o">.</span><span class="nf">createDatatype</span><span class="p">(</span><span class="kt">XSD</span><span class="o">.</span><span class="n">ns</span><span class="p">,</span> <span class="nv">localName</span><span class="p">:</span> <span class="s">"anyType"</span><span class="p">,</span> <span class="nv">derivedFromDatatype</span><span class="p">:</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">isListDataType</span><span class="p">:</span> <span class="kc">false</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC11SwiftRDFOSX3XSD13anySimpleTypeCS_8Datatype"></a>
+                    <a name="//apple_ref/swift/Variable/anySimpleType" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC11SwiftRDFOSX3XSD13anySimpleTypeCS_8Datatype">anySimpleType</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The generic simple datatype in XML Schema, i.e. <code>xsd:anySimpleType</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">anySimpleType</span> <span class="o">=</span> <span class="kt">XSD</span><span class="o">.</span><span class="nf">createDatatype</span><span class="p">(</span> <span class="kt">XSD</span><span class="o">.</span><span class="n">ns</span><span class="p">,</span> <span class="nv">localName</span><span class="p">:</span> <span class="s">"anySimpleType"</span><span class="p">,</span> <span class="nv">derivedFromDatatype</span><span class="p">:</span> <span class="n">anyType</span><span class="p">,</span> <span class="nv">isListDataType</span><span class="p">:</span> <span class="kc">false</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC11SwiftRDFOSX3XSD8dateTimeCS_8Datatype"></a>
+                    <a name="//apple_ref/swift/Variable/dateTime" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC11SwiftRDFOSX3XSD8dateTimeCS_8Datatype">dateTime</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Data of type <code>xsd:dateTime</code> respresent moments in time represented with a date and a time.
+For example, 2002-10-10T12:00:00-05:00 (noon on 10 October 2002, Central Daylight Savings Time as 
+well as Eastern Standard Time in the U.S.) is 2002-10-10T17:00:00Z, five hours later than 2002-10-10T12:00:00Z.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">dateTime</span> <span class="o">=</span> <span class="kt">XSD</span><span class="o">.</span><span class="nf">createDatatype</span><span class="p">(</span> <span class="kt">XSD</span><span class="o">.</span><span class="n">ns</span><span class="p">,</span> <span class="nv">localName</span><span class="p">:</span> <span class="s">"dateTime"</span><span class="p">,</span> <span class="nv">derivedFromDatatype</span><span class="p">:</span> <span class="n">anySimpleType</span><span class="p">,</span> <span class="nv">isListDataType</span><span class="p">:</span> <span class="kc">false</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC11SwiftRDFOSX3XSD4timeCS_8Datatype"></a>
+                    <a name="//apple_ref/swift/Variable/time" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC11SwiftRDFOSX3XSD4timeCS_8Datatype">time</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Represents an instance of time that reoccurs every day, e.g. 17:00:00Z.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">time</span> <span class="o">=</span> <span class="kt">XSD</span><span class="o">.</span><span class="nf">createDatatype</span><span class="p">(</span> <span class="kt">XSD</span><span class="o">.</span><span class="n">ns</span><span class="p">,</span> <span class="nv">localName</span><span class="p">:</span> <span class="s">"time"</span><span class="p">,</span> <span class="nv">derivedFromDatatype</span><span class="p">:</span> <span class="n">anySimpleType</span><span class="p">,</span> <span class="nv">isListDataType</span><span class="p">:</span> <span class="kc">false</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC11SwiftRDFOSX3XSD4dateCS_8Datatype"></a>
+                    <a name="//apple_ref/swift/Variable/date" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC11SwiftRDFOSX3XSD4dateCS_8Datatype">date</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Represents a date, e.g. 2002-10-10Z</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">date</span> <span class="o">=</span> <span class="kt">XSD</span><span class="o">.</span><span class="nf">createDatatype</span><span class="p">(</span> <span class="kt">XSD</span><span class="o">.</span><span class="n">ns</span><span class="p">,</span> <span class="nv">localName</span><span class="p">:</span> <span class="s">"date"</span><span class="p">,</span> <span class="nv">derivedFromDatatype</span><span class="p">:</span> <span class="n">anySimpleType</span><span class="p">,</span> <span class="nv">isListDataType</span><span class="p">:</span> <span class="kc">false</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC11SwiftRDFOSX3XSD10gYearMonthCS_8Datatype"></a>
+                    <a name="//apple_ref/swift/Variable/gYearMonth" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC11SwiftRDFOSX3XSD10gYearMonthCS_8Datatype">gYearMonth</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Represents a year and a month in the gregorian calendar, e.g. 2002-10.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">gYearMonth</span> <span class="o">=</span> <span class="kt">XSD</span><span class="o">.</span><span class="nf">createDatatype</span><span class="p">(</span> <span class="kt">XSD</span><span class="o">.</span><span class="n">ns</span><span class="p">,</span> <span class="nv">localName</span><span class="p">:</span> <span class="s">"gYearMonth"</span><span class="p">,</span> <span class="nv">derivedFromDatatype</span><span class="p">:</span> <span class="n">anySimpleType</span><span class="p">,</span> <span class="nv">isListDataType</span><span class="p">:</span> <span class="kc">false</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC11SwiftRDFOSX3XSD5gYearCS_8Datatype"></a>
+                    <a name="//apple_ref/swift/Variable/gYear" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC11SwiftRDFOSX3XSD5gYearCS_8Datatype">gYear</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Represents a year in the gregorian calendar, e.g. 2002.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">gYear</span> <span class="o">=</span> <span class="kt">XSD</span><span class="o">.</span><span class="nf">createDatatype</span><span class="p">(</span> <span class="kt">XSD</span><span class="o">.</span><span class="n">ns</span><span class="p">,</span> <span class="nv">localName</span><span class="p">:</span> <span class="s">"gYear"</span><span class="p">,</span> <span class="nv">derivedFromDatatype</span><span class="p">:</span> <span class="n">anySimpleType</span><span class="p">,</span> <span class="nv">isListDataType</span><span class="p">:</span> <span class="kc">false</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC11SwiftRDFOSX3XSD9gMonthDayCS_8Datatype"></a>
+                    <a name="//apple_ref/swift/Variable/gMonthDay" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC11SwiftRDFOSX3XSD9gMonthDayCS_8Datatype">gMonthDay</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Represent a gregorian data that reoccurs every year, e.g. 10-05, the fifth of October.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">gMonthDay</span> <span class="o">=</span> <span class="kt">XSD</span><span class="o">.</span><span class="nf">createDatatype</span><span class="p">(</span> <span class="kt">XSD</span><span class="o">.</span><span class="n">ns</span><span class="p">,</span> <span class="nv">localName</span><span class="p">:</span> <span class="s">"gMonthDay"</span><span class="p">,</span> <span class="nv">derivedFromDatatype</span><span class="p">:</span> <span class="n">anySimpleType</span><span class="p">,</span> <span class="nv">isListDataType</span><span class="p">:</span> <span class="kc">false</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC11SwiftRDFOSX3XSD4gDayCS_8Datatype"></a>
+                    <a name="//apple_ref/swift/Variable/gDay" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC11SwiftRDFOSX3XSD4gDayCS_8Datatype">gDay</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Represent a gregorian day that reoccurs every month, e.g. 10, the tenth day of a month.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">gDay</span> <span class="o">=</span> <span class="kt">XSD</span><span class="o">.</span><span class="nf">createDatatype</span><span class="p">(</span> <span class="kt">XSD</span><span class="o">.</span><span class="n">ns</span><span class="p">,</span> <span class="nv">localName</span><span class="p">:</span> <span class="s">"gDay"</span><span class="p">,</span> <span class="nv">derivedFromDatatype</span><span class="p">:</span> <span class="n">anySimpleType</span><span class="p">,</span> <span class="nv">isListDataType</span><span class="p">:</span> <span class="kc">false</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC11SwiftRDFOSX3XSD6gMonthCS_8Datatype"></a>
+                    <a name="//apple_ref/swift/Variable/gMonth" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC11SwiftRDFOSX3XSD6gMonthCS_8Datatype">gMonth</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Represents a gregorian month that reoccurs every year, e.g. 10, the month of October.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">gMonth</span> <span class="o">=</span> <span class="kt">XSD</span><span class="o">.</span><span class="nf">createDatatype</span><span class="p">(</span> <span class="kt">XSD</span><span class="o">.</span><span class="n">ns</span><span class="p">,</span> <span class="nv">localName</span><span class="p">:</span> <span class="s">"gMonth"</span><span class="p">,</span> <span class="nv">derivedFromDatatype</span><span class="p">:</span> <span class="n">anySimpleType</span><span class="p">,</span> <span class="nv">isListDataType</span><span class="p">:</span> <span class="kc">false</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC11SwiftRDFOSX3XSD7booleanCS_8Datatype"></a>
+                    <a name="//apple_ref/swift/Variable/boolean" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC11SwiftRDFOSX3XSD7booleanCS_8Datatype">boolean</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Represents a boolean value, required to support the mathematical concept of binary-valued logic: {true, false}.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">boolean</span> <span class="o">=</span> <span class="kt">XSD</span><span class="o">.</span><span class="nf">createDatatype</span><span class="p">(</span> <span class="kt">XSD</span><span class="o">.</span><span class="n">ns</span><span class="p">,</span> <span class="nv">localName</span><span class="p">:</span> <span class="s">"boolean"</span><span class="p">,</span> <span class="nv">derivedFromDatatype</span><span class="p">:</span> <span class="n">anySimpleType</span><span class="p">,</span> <span class="nv">isListDataType</span><span class="p">:</span> <span class="kc">false</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC11SwiftRDFOSX3XSD8durationCS_8Datatype"></a>
+                    <a name="//apple_ref/swift/Variable/duration" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC11SwiftRDFOSX3XSD8durationCS_8Datatype">duration</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Represents a duration of time. The ·value space· of duration is a six-dimensional space where the coordinates designate 
+    the Gregorian year, month, day, hour, minute, and second components respectively. For instance, P1Y2MT2H.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">duration</span> <span class="o">=</span> <span class="kt">XSD</span><span class="o">.</span><span class="nf">createDatatype</span><span class="p">(</span> <span class="kt">XSD</span><span class="o">.</span><span class="n">ns</span><span class="p">,</span> <span class="nv">localName</span><span class="p">:</span> <span class="s">"duration"</span><span class="p">,</span> <span class="nv">derivedFromDatatype</span><span class="p">:</span> <span class="n">anySimpleType</span><span class="p">,</span> <span class="nv">isListDataType</span><span class="p">:</span> <span class="kc">false</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC11SwiftRDFOSX3XSD12base64BinaryCS_8Datatype"></a>
+                    <a name="//apple_ref/swift/Variable/base64Binary" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC11SwiftRDFOSX3XSD12base64BinaryCS_8Datatype">base64Binary</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Represents binary data encoded in base 64.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">base64Binary</span> <span class="o">=</span> <span class="kt">XSD</span><span class="o">.</span><span class="nf">createDatatype</span><span class="p">(</span> <span class="kt">XSD</span><span class="o">.</span><span class="n">ns</span><span class="p">,</span> <span class="nv">localName</span><span class="p">:</span> <span class="s">"base64Binary"</span><span class="p">,</span> <span class="nv">derivedFromDatatype</span><span class="p">:</span> <span class="n">anySimpleType</span><span class="p">,</span> <span class="nv">isListDataType</span><span class="p">:</span> <span class="kc">false</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC11SwiftRDFOSX3XSD9hexBinaryCS_8Datatype"></a>
+                    <a name="//apple_ref/swift/Variable/hexBinary" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC11SwiftRDFOSX3XSD9hexBinaryCS_8Datatype">hexBinary</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Represent hex-binary data.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">hexBinary</span> <span class="o">=</span> <span class="kt">XSD</span><span class="o">.</span><span class="nf">createDatatype</span><span class="p">(</span> <span class="kt">XSD</span><span class="o">.</span><span class="n">ns</span><span class="p">,</span> <span class="nv">localName</span><span class="p">:</span> <span class="s">"hexBinary"</span><span class="p">,</span> <span class="nv">derivedFromDatatype</span><span class="p">:</span> <span class="n">anySimpleType</span><span class="p">,</span> <span class="nv">isListDataType</span><span class="p">:</span> <span class="kc">false</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC11SwiftRDFOSX3XSD5floatCS_8Datatype"></a>
+                    <a name="//apple_ref/swift/Variable/float" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC11SwiftRDFOSX3XSD5floatCS_8Datatype">float</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Represents a float data value, which is patterned after the IEEE single-precision 32-bit floating point type.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">float</span> <span class="o">=</span> <span class="kt">XSD</span><span class="o">.</span><span class="nf">createDatatype</span><span class="p">(</span> <span class="kt">XSD</span><span class="o">.</span><span class="n">ns</span><span class="p">,</span> <span class="nv">localName</span><span class="p">:</span> <span class="s">"float"</span><span class="p">,</span> <span class="nv">derivedFromDatatype</span><span class="p">:</span> <span class="n">anySimpleType</span><span class="p">,</span> <span class="nv">isListDataType</span><span class="p">:</span> <span class="kc">false</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC11SwiftRDFOSX3XSD6doubleCS_8Datatype"></a>
+                    <a name="//apple_ref/swift/Variable/double" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC11SwiftRDFOSX3XSD6doubleCS_8Datatype">double</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Represents a double data value, which is patterned after the IEEE double-precision 64-bit floating point type.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">double</span> <span class="o">=</span> <span class="kt">XSD</span><span class="o">.</span><span class="nf">createDatatype</span><span class="p">(</span> <span class="kt">XSD</span><span class="o">.</span><span class="n">ns</span><span class="p">,</span> <span class="nv">localName</span><span class="p">:</span> <span class="s">"double"</span><span class="p">,</span> <span class="nv">derivedFromDatatype</span><span class="p">:</span> <span class="n">anySimpleType</span><span class="p">,</span> <span class="nv">isListDataType</span><span class="p">:</span> <span class="kc">false</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC11SwiftRDFOSX3XSD6anyURICS_8Datatype"></a>
+                    <a name="//apple_ref/swift/Variable/anyURI" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC11SwiftRDFOSX3XSD6anyURICS_8Datatype">anyURI</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Represents a Uniform Resource Identifier Reference (URI).</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">anyURI</span> <span class="o">=</span> <span class="kt">XSD</span><span class="o">.</span><span class="nf">createDatatype</span><span class="p">(</span> <span class="kt">XSD</span><span class="o">.</span><span class="n">ns</span><span class="p">,</span> <span class="nv">localName</span><span class="p">:</span> <span class="s">"anyURI"</span><span class="p">,</span> <span class="nv">derivedFromDatatype</span><span class="p">:</span> <span class="n">anySimpleType</span><span class="p">,</span> <span class="nv">isListDataType</span><span class="p">:</span> <span class="kc">false</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC11SwiftRDFOSX3XSD5QNameCS_8Datatype"></a>
+                    <a name="//apple_ref/swift/Variable/QName" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC11SwiftRDFOSX3XSD5QNameCS_8Datatype">QName</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Represents, a QName or XML qualified name.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">QName</span> <span class="o">=</span> <span class="kt">XSD</span><span class="o">.</span><span class="nf">createDatatype</span><span class="p">(</span> <span class="kt">XSD</span><span class="o">.</span><span class="n">ns</span><span class="p">,</span> <span class="nv">localName</span><span class="p">:</span> <span class="s">"QName"</span><span class="p">,</span> <span class="nv">derivedFromDatatype</span><span class="p">:</span> <span class="n">anySimpleType</span><span class="p">,</span> <span class="nv">isListDataType</span><span class="p">:</span> <span class="kc">false</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC11SwiftRDFOSX3XSD8NOTATIONCS_8Datatype"></a>
+                    <a name="//apple_ref/swift/Variable/NOTATION" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC11SwiftRDFOSX3XSD8NOTATIONCS_8Datatype">NOTATION</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>NOTATION represents the NOTATION attribute type from [XML 1.0 (Second Edition)]. The value space of NOTATION is the set of QNames of notations declared in the current schema.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">NOTATION</span> <span class="o">=</span> <span class="kt">XSD</span><span class="o">.</span><span class="nf">createDatatype</span><span class="p">(</span> <span class="kt">XSD</span><span class="o">.</span><span class="n">ns</span><span class="p">,</span> <span class="nv">localName</span><span class="p">:</span> <span class="s">"NOTATION"</span><span class="p">,</span> <span class="nv">derivedFromDatatype</span><span class="p">:</span> <span class="n">anySimpleType</span><span class="p">,</span> <span class="nv">isListDataType</span><span class="p">:</span> <span class="kc">false</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC11SwiftRDFOSX3XSD6stringCS_8Datatype"></a>
+                    <a name="//apple_ref/swift/Variable/string" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC11SwiftRDFOSX3XSD6stringCS_8Datatype">string</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The string datatype represents character strings in XML.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">string</span> <span class="o">=</span> <span class="kt">XSD</span><span class="o">.</span><span class="nf">createDatatype</span><span class="p">(</span> <span class="kt">XSD</span><span class="o">.</span><span class="n">ns</span><span class="p">,</span> <span class="nv">localName</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="nv">derivedFromDatatype</span><span class="p">:</span> <span class="n">anySimpleType</span><span class="p">,</span> <span class="nv">isListDataType</span><span class="p">:</span> <span class="kc">false</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC11SwiftRDFOSX3XSD16normalizedStringCS_8Datatype"></a>
+                    <a name="//apple_ref/swift/Variable/normalizedString" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC11SwiftRDFOSX3XSD16normalizedStringCS_8Datatype">normalizedString</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The normalizedString datatype represents white space normalized strings. The value space of
+    normalizedString is the set of strings that do not contain the carriage return (#xD), 
+    line feed (#xA) nor tab (#x9) characters.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">normalizedString</span> <span class="o">=</span> <span class="kt">XSD</span><span class="o">.</span><span class="nf">createDatatype</span><span class="p">(</span> <span class="kt">XSD</span><span class="o">.</span><span class="n">ns</span><span class="p">,</span> <span class="nv">localName</span><span class="p">:</span> <span class="s">"normalizedString"</span><span class="p">,</span> <span class="nv">derivedFromDatatype</span><span class="p">:</span> <span class="n">string</span><span class="p">,</span> <span class="nv">isListDataType</span><span class="p">:</span> <span class="kc">false</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC11SwiftRDFOSX3XSD5tokenCS_8Datatype"></a>
+                    <a name="//apple_ref/swift/Variable/token" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC11SwiftRDFOSX3XSD5tokenCS_8Datatype">token</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The token datatype represents tokenized strings. The value space of token is the set of strings
+    that do not contain the carriage return (#xD), line feed (#xA) nor tab (#x9) characters, 
+    that have no leading or trailing spaces (#x20) and that have no internal sequences of two or more spaces.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">token</span> <span class="o">=</span> <span class="kt">XSD</span><span class="o">.</span><span class="nf">createDatatype</span><span class="p">(</span> <span class="kt">XSD</span><span class="o">.</span><span class="n">ns</span><span class="p">,</span> <span class="nv">localName</span><span class="p">:</span> <span class="s">"token"</span><span class="p">,</span> <span class="nv">derivedFromDatatype</span><span class="p">:</span> <span class="n">normalizedString</span><span class="p">,</span> <span class="nv">isListDataType</span><span class="p">:</span> <span class="kc">false</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC11SwiftRDFOSX3XSD8languageCS_8Datatype"></a>
+                    <a name="//apple_ref/swift/Variable/language" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC11SwiftRDFOSX3XSD8languageCS_8Datatype">language</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The language datatype represents natural language identifiers</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">language</span> <span class="o">=</span> <span class="kt">XSD</span><span class="o">.</span><span class="nf">createDatatype</span><span class="p">(</span> <span class="kt">XSD</span><span class="o">.</span><span class="n">ns</span><span class="p">,</span> <span class="nv">localName</span><span class="p">:</span> <span class="s">"language"</span><span class="p">,</span> <span class="nv">derivedFromDatatype</span><span class="p">:</span> <span class="n">token</span><span class="p">,</span> <span class="nv">isListDataType</span><span class="p">:</span> <span class="kc">false</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC11SwiftRDFOSX3XSD4NameCS_8Datatype"></a>
+                    <a name="//apple_ref/swift/Variable/Name" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC11SwiftRDFOSX3XSD4NameCS_8Datatype">Name</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">XSD</span> <span class="p">:</span> <span class="kt">Vocabulary</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC11SwiftRDFOSX3XSD7NMTOKENCS_8Datatype"></a>
+                    <a name="//apple_ref/swift/Variable/NMTOKEN" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC11SwiftRDFOSX3XSD7NMTOKENCS_8Datatype">NMTOKEN</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>An NMTOKEN is the set of tokens that match the Nmtoken production in 
+<a href="http://www.w3.org/TR/xmlschema-2/#XML">XML 1.0 (Second Edition)</a></p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">NMTOKEN</span> <span class="o">=</span> <span class="kt">XSD</span><span class="o">.</span><span class="nf">createDatatype</span><span class="p">(</span> <span class="kt">XSD</span><span class="o">.</span><span class="n">ns</span><span class="p">,</span> <span class="nv">localName</span><span class="p">:</span> <span class="s">"NMTOKEN"</span><span class="p">,</span> <span class="nv">derivedFromDatatype</span><span class="p">:</span> <span class="n">token</span><span class="p">,</span> <span class="nv">isListDataType</span><span class="p">:</span> <span class="kc">false</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC11SwiftRDFOSX3XSD8NMTOKENSCS_8Datatype"></a>
+                    <a name="//apple_ref/swift/Variable/NMTOKENS" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC11SwiftRDFOSX3XSD8NMTOKENSCS_8Datatype">NMTOKENS</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Represents a list of <code>NMToken</code>s.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">NMTOKENS</span> <span class="o">=</span> <span class="kt">XSD</span><span class="o">.</span><span class="nf">createDatatype</span><span class="p">(</span> <span class="kt">XSD</span><span class="o">.</span><span class="n">ns</span><span class="p">,</span> <span class="nv">localName</span><span class="p">:</span> <span class="s">"NMTOKENS"</span><span class="p">,</span> <span class="nv">derivedFromDatatype</span><span class="p">:</span> <span class="kt">NMTOKEN</span><span class="p">,</span> <span class="nv">isListDataType</span><span class="p">:</span> <span class="kc">true</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC11SwiftRDFOSX3XSD6NCNameCS_8Datatype"></a>
+                    <a name="//apple_ref/swift/Variable/NCName" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC11SwiftRDFOSX3XSD6NCNameCS_8Datatype">NCName</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>NCName represents XML <q>non-colonized</q> Names.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">NCName</span> <span class="o">=</span> <span class="kt">XSD</span><span class="o">.</span><span class="nf">createDatatype</span><span class="p">(</span> <span class="kt">XSD</span><span class="o">.</span><span class="n">ns</span><span class="p">,</span> <span class="nv">localName</span><span class="p">:</span> <span class="s">"NCName"</span><span class="p">,</span> <span class="nv">derivedFromDatatype</span><span class="p">:</span> <span class="kt">Name</span><span class="p">,</span> <span class="nv">isListDataType</span><span class="p">:</span> <span class="kc">false</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC11SwiftRDFOSX3XSD2IDCS_8Datatype"></a>
+                    <a name="//apple_ref/swift/Variable/ID" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC11SwiftRDFOSX3XSD2IDCS_8Datatype">ID</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>ID represents the <a href="http://www.w3.org/TR/2000/WD-xml-2e-20000814#NT-TokenizedType">ID attribute</a> type 
+from <a href="http://www.w3.org/TR/xmlschema-2/#XML">XML 1.0 (Second Edition)</a>. 
+Values of type ID must match the Name production.
+A name must not appear more than once in an XML document as a value of this type; i.e., ID values must uniquely 
+identify the elements which bear them.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">ID</span> <span class="o">=</span> <span class="kt">XSD</span><span class="o">.</span><span class="nf">createDatatype</span><span class="p">(</span> <span class="kt">XSD</span><span class="o">.</span><span class="n">ns</span><span class="p">,</span> <span class="nv">localName</span><span class="p">:</span> <span class="s">"ID"</span><span class="p">,</span> <span class="nv">derivedFromDatatype</span><span class="p">:</span> <span class="kt">NCName</span><span class="p">,</span> <span class="nv">isListDataType</span><span class="p">:</span> <span class="kc">false</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC11SwiftRDFOSX3XSD5IDREFCS_8Datatype"></a>
+                    <a name="//apple_ref/swift/Variable/IDREF" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC11SwiftRDFOSX3XSD5IDREFCS_8Datatype">IDREF</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>IDREF represents the <a href="http://www.w3.org/TR/2000/WD-xml-2e-20000814#NT-TokenizedType">IDREF attribute</a> type
+from <a href="http://www.w3.org/TR/xmlschema-2/#XML">XML 1.0 (Second Edition)</a>. An IDREF is a reference to an ID.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">IDREF</span> <span class="o">=</span> <span class="kt">XSD</span><span class="o">.</span><span class="nf">createDatatype</span><span class="p">(</span> <span class="kt">XSD</span><span class="o">.</span><span class="n">ns</span><span class="p">,</span> <span class="nv">localName</span><span class="p">:</span> <span class="s">"IDREF"</span><span class="p">,</span> <span class="nv">derivedFromDatatype</span><span class="p">:</span> <span class="kt">NCName</span><span class="p">,</span> <span class="nv">isListDataType</span><span class="p">:</span> <span class="kc">false</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC11SwiftRDFOSX3XSD6IDREFSCS_8Datatype"></a>
+                    <a name="//apple_ref/swift/Variable/IDREFS" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC11SwiftRDFOSX3XSD6IDREFSCS_8Datatype">IDREFS</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Represents a list of <code><a href="../Classes/XSD.html#/s:ZvC11SwiftRDFOSX3XSD5IDREFCS_8Datatype">IDREF</a></code>s.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">IDREFS</span> <span class="o">=</span> <span class="kt">XSD</span><span class="o">.</span><span class="nf">createDatatype</span><span class="p">(</span> <span class="kt">XSD</span><span class="o">.</span><span class="n">ns</span><span class="p">,</span> <span class="nv">localName</span><span class="p">:</span> <span class="s">"IDREFS"</span><span class="p">,</span> <span class="nv">derivedFromDatatype</span><span class="p">:</span> <span class="kt">IDREF</span><span class="p">,</span> <span class="nv">isListDataType</span><span class="p">:</span> <span class="kc">true</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC11SwiftRDFOSX3XSD6ENTITYCS_8Datatype"></a>
+                    <a name="//apple_ref/swift/Variable/ENTITY" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC11SwiftRDFOSX3XSD6ENTITYCS_8Datatype">ENTITY</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>An ENTITY is a string that matches the NCName production and have been declared as an unparsed entity in a 
+document type definition.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">ENTITY</span> <span class="o">=</span> <span class="kt">XSD</span><span class="o">.</span><span class="nf">createDatatype</span><span class="p">(</span> <span class="kt">XSD</span><span class="o">.</span><span class="n">ns</span><span class="p">,</span> <span class="nv">localName</span><span class="p">:</span> <span class="s">"ENTITY"</span><span class="p">,</span> <span class="nv">derivedFromDatatype</span><span class="p">:</span> <span class="kt">NCName</span><span class="p">,</span> <span class="nv">isListDataType</span><span class="p">:</span> <span class="kc">false</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC11SwiftRDFOSX3XSD8ENTITIESCS_8Datatype"></a>
+                    <a name="//apple_ref/swift/Variable/ENTITIES" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC11SwiftRDFOSX3XSD8ENTITIESCS_8Datatype">ENTITIES</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Represents a list of multiple instances of an <code><a href="../Classes/XSD.html#/s:ZvC11SwiftRDFOSX3XSD6ENTITYCS_8Datatype">ENTITY</a></code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">ENTITIES</span> <span class="o">=</span> <span class="kt">XSD</span><span class="o">.</span><span class="nf">createDatatype</span><span class="p">(</span> <span class="kt">XSD</span><span class="o">.</span><span class="n">ns</span><span class="p">,</span> <span class="nv">localName</span><span class="p">:</span> <span class="s">"ENTITIES"</span><span class="p">,</span> <span class="nv">derivedFromDatatype</span><span class="p">:</span> <span class="kt">ENTITY</span><span class="p">,</span> <span class="nv">isListDataType</span><span class="p">:</span> <span class="kc">true</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC11SwiftRDFOSX3XSD7decimalCS_8Datatype"></a>
+                    <a name="//apple_ref/swift/Variable/decimal" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC11SwiftRDFOSX3XSD7decimalCS_8Datatype">decimal</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Represents a subset of the real numbers, which can be represented by decimal numerals.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">decimal</span> <span class="o">=</span> <span class="kt">XSD</span><span class="o">.</span><span class="nf">createDatatype</span><span class="p">(</span> <span class="kt">XSD</span><span class="o">.</span><span class="n">ns</span><span class="p">,</span> <span class="nv">localName</span><span class="p">:</span> <span class="s">"decimal"</span><span class="p">,</span> <span class="nv">derivedFromDatatype</span><span class="p">:</span> <span class="n">anySimpleType</span><span class="p">,</span> <span class="nv">isListDataType</span><span class="p">:</span> <span class="kc">false</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC11SwiftRDFOSX3XSD7integerCS_8Datatype"></a>
+                    <a name="//apple_ref/swift/Variable/integer" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC11SwiftRDFOSX3XSD7integerCS_8Datatype">integer</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Represents an integer which is derived from decimal by fixing the value of fractionDigits to be 0 and disallowing
+the trailing decimal point. This results in the standard mathematical concept of the integer numbers.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">integer</span> <span class="o">=</span> <span class="kt">XSD</span><span class="o">.</span><span class="nf">createDatatype</span><span class="p">(</span> <span class="kt">XSD</span><span class="o">.</span><span class="n">ns</span><span class="p">,</span> <span class="nv">localName</span><span class="p">:</span> <span class="s">"integer"</span><span class="p">,</span> <span class="nv">derivedFromDatatype</span><span class="p">:</span> <span class="n">decimal</span><span class="p">,</span> <span class="nv">isListDataType</span><span class="p">:</span> <span class="kc">false</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC11SwiftRDFOSX3XSD18nonPositiveIntegerCS_8Datatype"></a>
+                    <a name="//apple_ref/swift/Variable/nonPositiveInteger" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC11SwiftRDFOSX3XSD18nonPositiveIntegerCS_8Datatype">nonPositiveInteger</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Represents a non-positive-integer which is derived from integer by setting the maximum value to be 0 inclusive, i.e. &lt;=0.
+This results in the standard mathematical concept of the non-positive integers.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">nonPositiveInteger</span> <span class="o">=</span> <span class="kt">XSD</span><span class="o">.</span><span class="nf">createDatatype</span><span class="p">(</span> <span class="kt">XSD</span><span class="o">.</span><span class="n">ns</span><span class="p">,</span> <span class="nv">localName</span><span class="p">:</span> <span class="s">"nonPositiveInteger"</span><span class="p">,</span> <span class="nv">derivedFromDatatype</span><span class="p">:</span> <span class="n">integer</span><span class="p">,</span> <span class="nv">isListDataType</span><span class="p">:</span> <span class="kc">false</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC11SwiftRDFOSX3XSD15negativeIntegerCS_8Datatype"></a>
+                    <a name="//apple_ref/swift/Variable/negativeInteger" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC11SwiftRDFOSX3XSD15negativeIntegerCS_8Datatype">negativeInteger</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Represents a negative integer, i.e. &lt;0.
+This results in the standard mathematical concept of the negative integers</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">negativeInteger</span> <span class="o">=</span> <span class="kt">XSD</span><span class="o">.</span><span class="nf">createDatatype</span><span class="p">(</span> <span class="kt">XSD</span><span class="o">.</span><span class="n">ns</span><span class="p">,</span> <span class="nv">localName</span><span class="p">:</span> <span class="s">"negativeInteger"</span><span class="p">,</span> <span class="nv">derivedFromDatatype</span><span class="p">:</span> <span class="n">nonPositiveInteger</span><span class="p">,</span> <span class="nv">isListDataType</span><span class="p">:</span> <span class="kc">false</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC11SwiftRDFOSX3XSD4longCS_8Datatype"></a>
+                    <a name="//apple_ref/swift/Variable/long" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC11SwiftRDFOSX3XSD4longCS_8Datatype">long</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Represents a signed 64-bit integer of type long with a value between -9223372036854775808 and 9223372036854775807 inclusive.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">long</span> <span class="o">=</span> <span class="kt">XSD</span><span class="o">.</span><span class="nf">createDatatype</span><span class="p">(</span> <span class="kt">XSD</span><span class="o">.</span><span class="n">ns</span><span class="p">,</span> <span class="nv">localName</span><span class="p">:</span> <span class="s">"long"</span><span class="p">,</span> <span class="nv">derivedFromDatatype</span><span class="p">:</span> <span class="n">integer</span><span class="p">,</span> <span class="nv">isListDataType</span><span class="p">:</span> <span class="kc">false</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC11SwiftRDFOSX3XSD3intCS_8Datatype"></a>
+                    <a name="//apple_ref/swift/Variable/int" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC11SwiftRDFOSX3XSD3intCS_8Datatype">int</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Represents a signed 32-bit integer of type int with a value between -2147483648 and 2147483647 inclusive.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">int</span> <span class="o">=</span> <span class="kt">XSD</span><span class="o">.</span><span class="nf">createDatatype</span><span class="p">(</span> <span class="kt">XSD</span><span class="o">.</span><span class="n">ns</span><span class="p">,</span> <span class="nv">localName</span><span class="p">:</span> <span class="s">"int"</span><span class="p">,</span> <span class="nv">derivedFromDatatype</span><span class="p">:</span> <span class="n">long</span><span class="p">,</span> <span class="nv">isListDataType</span><span class="p">:</span> <span class="kc">false</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC11SwiftRDFOSX3XSD5shortCS_8Datatype"></a>
+                    <a name="//apple_ref/swift/Variable/short" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC11SwiftRDFOSX3XSD5shortCS_8Datatype">short</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">XSD</span> <span class="p">:</span> <span class="kt">Vocabulary</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC11SwiftRDFOSX3XSD4byteCS_8Datatype"></a>
+                    <a name="//apple_ref/swift/Variable/byte" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC11SwiftRDFOSX3XSD4byteCS_8Datatype">byte</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">XSD</span> <span class="p">:</span> <span class="kt">Vocabulary</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC11SwiftRDFOSX3XSD18nonNegativeIntegerCS_8Datatype"></a>
+                    <a name="//apple_ref/swift/Variable/nonNegativeInteger" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC11SwiftRDFOSX3XSD18nonNegativeIntegerCS_8Datatype">nonNegativeInteger</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Represents a non-negative-integer which is derived from integer by setting the minimum value to be 0 inclusive, i.e. &gt;=0.
+This results in the standard mathematical concept of the non-negative integers.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">nonNegativeInteger</span> <span class="o">=</span> <span class="kt">XSD</span><span class="o">.</span><span class="nf">createDatatype</span><span class="p">(</span> <span class="kt">XSD</span><span class="o">.</span><span class="n">ns</span><span class="p">,</span> <span class="nv">localName</span><span class="p">:</span> <span class="s">"nonNegativeInteger"</span><span class="p">,</span> <span class="nv">derivedFromDatatype</span><span class="p">:</span> <span class="n">integer</span><span class="p">,</span> <span class="nv">isListDataType</span><span class="p">:</span> <span class="kc">false</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC11SwiftRDFOSX3XSD12unsignedLongCS_8Datatype"></a>
+                    <a name="//apple_ref/swift/Variable/unsignedLong" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC11SwiftRDFOSX3XSD12unsignedLongCS_8Datatype">unsignedLong</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Represents a non negative 64-bit integer of type long with a value between 0 and 18446744073709551615 inclusive.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">unsignedLong</span> <span class="o">=</span> <span class="kt">XSD</span><span class="o">.</span><span class="nf">createDatatype</span><span class="p">(</span> <span class="kt">XSD</span><span class="o">.</span><span class="n">ns</span><span class="p">,</span> <span class="nv">localName</span><span class="p">:</span> <span class="s">"unsignedLong"</span><span class="p">,</span> <span class="nv">derivedFromDatatype</span><span class="p">:</span> <span class="n">nonNegativeInteger</span><span class="p">,</span> <span class="nv">isListDataType</span><span class="p">:</span> <span class="kc">false</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC11SwiftRDFOSX3XSD11unsignedIntCS_8Datatype"></a>
+                    <a name="//apple_ref/swift/Variable/unsignedInt" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC11SwiftRDFOSX3XSD11unsignedIntCS_8Datatype">unsignedInt</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Represents a non negative 32-bit integer of type int with a value between 0 and 4294967295 inclusive.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">unsignedInt</span> <span class="o">=</span> <span class="kt">XSD</span><span class="o">.</span><span class="nf">createDatatype</span><span class="p">(</span> <span class="kt">XSD</span><span class="o">.</span><span class="n">ns</span><span class="p">,</span> <span class="nv">localName</span><span class="p">:</span> <span class="s">"unsignedInt"</span><span class="p">,</span> <span class="nv">derivedFromDatatype</span><span class="p">:</span> <span class="n">unsignedLong</span><span class="p">,</span> <span class="nv">isListDataType</span><span class="p">:</span> <span class="kc">false</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC11SwiftRDFOSX3XSD13unsignedShortCS_8Datatype"></a>
+                    <a name="//apple_ref/swift/Variable/unsignedShort" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC11SwiftRDFOSX3XSD13unsignedShortCS_8Datatype">unsignedShort</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Represents a non negative 16-bit integer of type short with a value between 0 and 65535 inclusive.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">unsignedShort</span> <span class="o">=</span> <span class="kt">XSD</span><span class="o">.</span><span class="nf">createDatatype</span><span class="p">(</span> <span class="kt">XSD</span><span class="o">.</span><span class="n">ns</span><span class="p">,</span> <span class="nv">localName</span><span class="p">:</span> <span class="s">"unsignedShort"</span><span class="p">,</span> <span class="nv">derivedFromDatatype</span><span class="p">:</span> <span class="n">unsignedInt</span><span class="p">,</span> <span class="nv">isListDataType</span><span class="p">:</span> <span class="kc">false</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC11SwiftRDFOSX3XSD12unsignedByteCS_8Datatype"></a>
+                    <a name="//apple_ref/swift/Variable/unsignedByte" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC11SwiftRDFOSX3XSD12unsignedByteCS_8Datatype">unsignedByte</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Represents a non negative 8-bit integer of type byte with a value between 0 and 255 inclusive.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">unsignedByte</span> <span class="o">=</span> <span class="kt">XSD</span><span class="o">.</span><span class="nf">createDatatype</span><span class="p">(</span> <span class="kt">XSD</span><span class="o">.</span><span class="n">ns</span><span class="p">,</span> <span class="nv">localName</span><span class="p">:</span> <span class="s">"unsignedByte"</span><span class="p">,</span> <span class="nv">derivedFromDatatype</span><span class="p">:</span> <span class="n">unsignedShort</span><span class="p">,</span> <span class="nv">isListDataType</span><span class="p">:</span> <span class="kc">false</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC11SwiftRDFOSX3XSD15positiveIntegerCS_8Datatype"></a>
+                    <a name="//apple_ref/swift/Variable/positiveInteger" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC11SwiftRDFOSX3XSD15positiveIntegerCS_8Datatype">positiveInteger</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Represents a positive integer, i.e. &gt;0.
+This results in the standard mathematical concept of the positive integers</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">positiveInteger</span> <span class="o">=</span> <span class="kt">XSD</span><span class="o">.</span><span class="nf">createDatatype</span><span class="p">(</span> <span class="kt">XSD</span><span class="o">.</span><span class="n">ns</span><span class="p">,</span> <span class="nv">localName</span><span class="p">:</span> <span class="s">"positiveInteger"</span><span class="p">,</span> <span class="nv">derivedFromDatatype</span><span class="p">:</span> <span class="n">nonNegativeInteger</span><span class="p">,</span> <span class="nv">isListDataType</span><span class="p">:</span> <span class="kc">false</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2015 <a class="link" href="" target="_blank" rel="external"></a>. All rights reserved. (Last updated: 2015-12-08)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.4.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>

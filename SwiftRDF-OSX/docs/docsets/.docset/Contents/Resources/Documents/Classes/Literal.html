@@ -1,0 +1,2281 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Literal Class Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Class/Literal" class="dashAnchor"></a>
+    <a title="Literal Class Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html"> Docs</a> (100% documented)</p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html"> Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        Literal Class Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/BlankNode.html">BlankNode</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Datatype.html">Datatype</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Literal.html">Literal</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/OWL.html">OWL</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/RDF.html">RDF</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/RDFS.html">RDFS</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes.html#/s:C11SwiftRDFOSX8Resource">Resource</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Statement.html">Statement</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/URI.html">URI</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Value.html">Value</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Vocabulary.html">Vocabulary</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/XSD.html">XSD</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Enums.html">Enums</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Enums/LiteralFormattingError.html">LiteralFormattingError</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/MalformedURIError.html">MalformedURIError</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Functions.html">Functions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:ZF11SwiftRDFOSXoi2neFTCS_5ValueS0__Sb">!=(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:ZF11SwiftRDFOSXoi2eeFTCS_3URIS0__Sb">==(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:ZF11SwiftRDFOSXoi2eeFTCS_5ValueS0__Sb">==(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:ZF11SwiftRDFOSXoi2eeFTCS_9BlankNodeS0__Sb">==(_:_:)</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Protocols/SPARQLValue.html">SPARQLValue</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Structs.html">Structs</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Structs/Decimal.html">Decimal</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/Duration.html">Duration</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>Literal</h1>
+              <div class="declaration">
+                <div class="language">
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">Literal</span><span class="p">:</span> <span class="kt">Value</span></code></pre>
+
+                </div>
+              </div>
+            <p>Instances of this class represent an RDF literal, which are used for strings, numbers and dates.
+A literal may contain a language tag if the literal contains a string value, i.e. is of type <code>xsd:string</code>.
+It also contains optionally a datatype such as those defined in <code><a href="../Classes/XSD.html">XSD</a></code>. </p>
+
+<p>All parameters such as <code>booleanValue</code> or <code>durationValue</code> are optionals and are by default <code>nil</code>. Depending on the datatype specific
+parameters have a value. Only <code>stringValue</code>, inheritted from <code><a href="../Classes/Value.html">Value</a></code> is not optional. If the datatype is not a string, the <code>stringValue</code>
+will contain a textual representation of the data.</p>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Properties"></a>
+                <a name="//apple_ref/swift/Section/Properties" class="dashAnchor"></a>
+                <a href="#/Properties">
+                  <h3 class="section-name">Properties</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC11SwiftRDFOSX7Literal8dataTypeGSqCS_8Datatype_"></a>
+                    <a name="//apple_ref/swift/Property/dataType" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC11SwiftRDFOSX7Literal8dataTypeGSqCS_8Datatype_">dataType</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The Datatype of the value represented by this literal (see <code><a href="../Classes/XSD.html">XSD</a></code> for the list of datatypes defined in XML Schema).</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">private(set)</span> <span class="k">var</span> <span class="nv">dataType</span> <span class="p">:</span> <span class="kt">Datatype</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC11SwiftRDFOSX7Literal8languageGSqSS_"></a>
+                    <a name="//apple_ref/swift/Property/language" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC11SwiftRDFOSX7Literal8languageGSqSS_">language</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The language (encoded as ISO-639) of the string value of the literal. 
+This is only valid if the datatype is <code><a href="../Classes/XSD.html#/s:ZvC11SwiftRDFOSX3XSD6stringCS_8Datatype">XSD.string</a></code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">private(set)</span> <span class="k">var</span> <span class="nv">language</span> <span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC11SwiftRDFOSX7Literal12booleanValueGSqSb_"></a>
+                    <a name="//apple_ref/swift/Property/booleanValue" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC11SwiftRDFOSX7Literal12booleanValueGSqSb_">booleanValue</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The boolean value of the literal.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">private(set)</span> <span class="k">var</span> <span class="nv">booleanValue</span> <span class="p">:</span> <span class="kt">Bool</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC11SwiftRDFOSX7Literal13durationValueGSqVS_8Duration_"></a>
+                    <a name="//apple_ref/swift/Property/durationValue" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC11SwiftRDFOSX7Literal13durationValueGSqVS_8Duration_">durationValue</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The duration value of the literal.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">private(set)</span> <span class="k">var</span> <span class="nv">durationValue</span> <span class="p">:</span> <span class="kt">Duration</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC11SwiftRDFOSX7Literal13calendarValueGSqCSo10NSCalendar_"></a>
+                    <a name="//apple_ref/swift/Property/calendarValue" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC11SwiftRDFOSX7Literal13calendarValueGSqCSo10NSCalendar_">calendarValue</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The calendar value of the literal.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">private(set)</span> <span class="k">var</span> <span class="nv">calendarValue</span> <span class="p">:</span> <span class="kt">NSCalendar</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC11SwiftRDFOSX7Literal9dateValueGSqCSo6NSDate_"></a>
+                    <a name="//apple_ref/swift/Property/dateValue" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC11SwiftRDFOSX7Literal9dateValueGSqCSo6NSDate_">dateValue</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The data value of the literal.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">private(set)</span> <span class="k">var</span> <span class="nv">dateValue</span> <span class="p">:</span> <span class="kt">NSDate</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC11SwiftRDFOSX7Literal10floatValueGSqSf_"></a>
+                    <a name="//apple_ref/swift/Property/floatValue" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC11SwiftRDFOSX7Literal10floatValueGSqSf_">floatValue</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The float value of the literal. If the datatype is <code><a href="../Classes/XSD.html#/s:ZvC11SwiftRDFOSX3XSD6doubleCS_8Datatype">XSD.double</a></code>, the float value will also represent a value,
+i.e. the same value as the double value but with a smaller precision.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">private(set)</span> <span class="k">var</span> <span class="nv">floatValue</span> <span class="p">:</span> <span class="kt">Float</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC11SwiftRDFOSX7Literal11doubleValueGSqSd_"></a>
+                    <a name="//apple_ref/swift/Property/doubleValue" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC11SwiftRDFOSX7Literal11doubleValueGSqSd_">doubleValue</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The double value of the literal. If the datatype is <code>float</code>, the double value will also represent a value,
+i.e. the same value as the float value.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">private(set)</span> <span class="k">var</span> <span class="nv">doubleValue</span> <span class="p">:</span> <span class="kt">Double</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC11SwiftRDFOSX7Literal12decimalValueGSqVS_7Decimal_"></a>
+                    <a name="//apple_ref/swift/Property/decimalValue" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC11SwiftRDFOSX7Literal12decimalValueGSqVS_7Decimal_">decimalValue</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The decimal value of the literal. The decimal value contains a number with a maximum of 19 digits but
+without an exponent.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">private(set)</span> <span class="k">var</span> <span class="nv">decimalValue</span> <span class="p">:</span> <span class="kt">Decimal</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC11SwiftRDFOSX7Literal12integerValueGSqSi_"></a>
+                    <a name="//apple_ref/swift/Property/integerValue" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC11SwiftRDFOSX7Literal12integerValueGSqSi_">integerValue</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The integer value of the literal. The integer value is the native integer supported by the system, i.e.
+a 32-bit integer on 32-bit system, and a 64-bit integer on 64-but systems.
+This parameter will return a value if the value represented by the
+literal is an integer whose value is within the required range for an integer value. I.e. the presence
+of this value does not imply that the datatype of the literal is <code><a href="../Classes/XSD.html#/s:ZvC11SwiftRDFOSX3XSD7integerCS_8Datatype">XSD.integer</a></code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">private(set)</span> <span class="k">var</span> <span class="nv">integerValue</span> <span class="p">:</span> <span class="kt">Int</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC11SwiftRDFOSX7Literal23nonPositiveIntegerValueGSqSu_"></a>
+                    <a name="//apple_ref/swift/Property/nonPositiveIntegerValue" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC11SwiftRDFOSX7Literal23nonPositiveIntegerValueGSqSu_">nonPositiveIntegerValue</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The non positive integer value of the literal. NB. The value is positive even though the integer is negative.
+If a string representation of the non-positive integer is used, a minus symbol will be present.
+This parameter will return a value if the value represented by the
+literal is an integer whose value is within the required range for a non-positive integer value. I.e. the presence
+of this value does not imply that the datatype of the literal is <code><a href="../Classes/XSD.html#/s:ZvC11SwiftRDFOSX3XSD18nonPositiveIntegerCS_8Datatype">XSD.nonPositiveInteger</a></code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">private(set)</span> <span class="k">var</span> <span class="nv">nonPositiveIntegerValue</span> <span class="p">:</span> <span class="kt">UInt</span><span class="p">?</span> <span class="c1">// NB. The value is positive even though the integer is negative</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC11SwiftRDFOSX7Literal20negativeIntegerValueGSqSu_"></a>
+                    <a name="//apple_ref/swift/Property/negativeIntegerValue" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC11SwiftRDFOSX7Literal20negativeIntegerValueGSqSu_">negativeIntegerValue</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The negative integer value of the literal. NB. The value is positive even though the integer is negative.
+If a string representation of the negative integer is used, a minus symbol will be present. 
+This parameter will return a value if the value represented by the
+literal is an integer whose value is within the required range for a negative integer value. I.e. the presence
+of this value does not imply that the datatype of the literal is <code><a href="../Classes/XSD.html#/s:ZvC11SwiftRDFOSX3XSD15negativeIntegerCS_8Datatype">XSD.negativeInteger</a></code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">private(set)</span> <span class="k">var</span> <span class="nv">negativeIntegerValue</span> <span class="p">:</span> <span class="kt">UInt</span><span class="p">?</span>  <span class="c1">// NB. The value is positive even though the integer is negative</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC11SwiftRDFOSX7Literal23nonNegativeIntegerValueGSqSu_"></a>
+                    <a name="//apple_ref/swift/Property/nonNegativeIntegerValue" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC11SwiftRDFOSX7Literal23nonNegativeIntegerValueGSqSu_">nonNegativeIntegerValue</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The non-negative integer value of the literal. This parameter will return a value if the value represented by the
+literal is an integer whose value is within the required range for a non-negative integer value. I.e. the presence
+of this value does not imply that the datatype of the literal is <code><a href="../Classes/XSD.html#/s:ZvC11SwiftRDFOSX3XSD18nonNegativeIntegerCS_8Datatype">XSD.nonNegativeInteger</a></code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">private(set)</span> <span class="k">var</span> <span class="nv">nonNegativeIntegerValue</span> <span class="p">:</span> <span class="kt">UInt</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC11SwiftRDFOSX7Literal20positiveIntegerValueGSqSu_"></a>
+                    <a name="//apple_ref/swift/Property/positiveIntegerValue" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC11SwiftRDFOSX7Literal20positiveIntegerValueGSqSu_">positiveIntegerValue</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The positive integer value of the literal. This parameter will return a value if the value represented by the
+literal is an integer whose value is within the required range for a positive integer value. I.e. the presence
+of this value does not imply that the datatype of the literal is <code><a href="../Classes/XSD.html#/s:ZvC11SwiftRDFOSX3XSD15positiveIntegerCS_8Datatype">XSD.positiveInteger</a></code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">private(set)</span> <span class="k">var</span> <span class="nv">positiveIntegerValue</span> <span class="p">:</span> <span class="kt">UInt</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC11SwiftRDFOSX7Literal9longValueGSqVSs5Int64_"></a>
+                    <a name="//apple_ref/swift/Property/longValue" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC11SwiftRDFOSX7Literal9longValueGSqVSs5Int64_">longValue</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The long (base-64 integer) value of the literal. This parameter will return a value if the value represented by the
+literal is an integer whose value is within the required range for a long value. I.e. the presence
+of this value does not imply that the datatype of the literal is <code><a href="../Classes/XSD.html#/s:ZvC11SwiftRDFOSX3XSD4longCS_8Datatype">XSD.long</a></code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">private(set)</span> <span class="k">var</span> <span class="nv">longValue</span> <span class="p">:</span> <span class="kt">Int64</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC11SwiftRDFOSX7Literal8intValueGSqVSs5Int32_"></a>
+                    <a name="//apple_ref/swift/Property/intValue" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC11SwiftRDFOSX7Literal8intValueGSqVSs5Int32_">intValue</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The int (base-32 integer) value of the literal. This parameter will return a value if the value represented by the
+literal is an integer whose value is within the required range for an int value. I.e. the presence
+of this value does not imply that the datatype of the literal is <code><a href="../Classes/XSD.html#/s:ZvC11SwiftRDFOSX3XSD3intCS_8Datatype">XSD.int</a></code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">private(set)</span> <span class="k">var</span> <span class="nv">intValue</span> <span class="p">:</span> <span class="kt">Int32</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC11SwiftRDFOSX7Literal10shortValueGSqVSs5Int16_"></a>
+                    <a name="//apple_ref/swift/Property/shortValue" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC11SwiftRDFOSX7Literal10shortValueGSqVSs5Int16_">shortValue</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The short (base-16 integer) value of the literal. This parameter will return a value if the value represented by the
+literal is an integer whose value is within the required range for a short value. I.e. the presence
+of this value does not imply that the datatype of the literal is <code><a href="../Classes/XSD.html#/s:ZvC11SwiftRDFOSX3XSD5shortCS_8Datatype">XSD.short</a></code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">private(set)</span> <span class="k">var</span> <span class="nv">shortValue</span> <span class="p">:</span> <span class="kt">Int16</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC11SwiftRDFOSX7Literal9byteValueGSqVSs4Int8_"></a>
+                    <a name="//apple_ref/swift/Property/byteValue" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC11SwiftRDFOSX7Literal9byteValueGSqVSs4Int8_">byteValue</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The byte (base-8 integer) value of the literal. This parameter will return a value if the value represented by the
+literal is an integer whose value is within the required range for a byte value. I.e. the presence
+of this value does not imply that the datatype of the literal is <code><a href="../Classes/XSD.html#/s:ZvC11SwiftRDFOSX3XSD4byteCS_8Datatype">XSD.byte</a></code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">private(set)</span> <span class="k">var</span> <span class="nv">byteValue</span> <span class="p">:</span> <span class="kt">Int8</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC11SwiftRDFOSX7Literal17unsignedLongValueGSqVSs6UInt64_"></a>
+                    <a name="//apple_ref/swift/Property/unsignedLongValue" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC11SwiftRDFOSX7Literal17unsignedLongValueGSqVSs6UInt64_">unsignedLongValue</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The unsigned long (base-64 unsigned integer) value of the literal. 
+This parameter will return a value if the value represented by the
+literal is an integer whose value is within the required range for an unsigned long value. I.e. the presence
+of this value does not imply that the datatype of the literal is <code><a href="../Classes/XSD.html#/s:ZvC11SwiftRDFOSX3XSD12unsignedLongCS_8Datatype">XSD.unsignedLong</a></code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">private(set)</span> <span class="k">var</span> <span class="nv">unsignedLongValue</span> <span class="p">:</span> <span class="kt">UInt64</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC11SwiftRDFOSX7Literal16unsignedIntValueGSqVSs6UInt32_"></a>
+                    <a name="//apple_ref/swift/Property/unsignedIntValue" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC11SwiftRDFOSX7Literal16unsignedIntValueGSqVSs6UInt32_">unsignedIntValue</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The unsigned int (base-32 unsigned integer) value of the literal.
+This parameter will return a value if the value represented by the
+literal is an integer whose value is within the required range for an unsigned int value. I.e. the presence
+of this value does not imply that the datatype of the literal is <code><a href="../Classes/XSD.html#/s:ZvC11SwiftRDFOSX3XSD11unsignedIntCS_8Datatype">XSD.unsignedInt</a></code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">private(set)</span> <span class="k">var</span> <span class="nv">unsignedIntValue</span> <span class="p">:</span> <span class="kt">UInt32</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC11SwiftRDFOSX7Literal18unsignedShortValueGSqVSs6UInt16_"></a>
+                    <a name="//apple_ref/swift/Property/unsignedShortValue" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC11SwiftRDFOSX7Literal18unsignedShortValueGSqVSs6UInt16_">unsignedShortValue</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The unsigned short (base-16 unsigned integer) value of the literal.
+This parameter will return a value if the value represented by the
+literal is an integer whose value is within the required range for an unsigned short value. I.e. the presence
+of this value does not imply that the datatype of the literal is <code><a href="../Classes/XSD.html#/s:ZvC11SwiftRDFOSX3XSD13unsignedShortCS_8Datatype">XSD.unsignedShort</a></code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">private(set)</span> <span class="k">var</span> <span class="nv">unsignedShortValue</span> <span class="p">:</span> <span class="kt">UInt16</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC11SwiftRDFOSX7Literal17unsignedByteValueGSqVSs5UInt8_"></a>
+                    <a name="//apple_ref/swift/Property/unsignedByteValue" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC11SwiftRDFOSX7Literal17unsignedByteValueGSqVSs5UInt8_">unsignedByteValue</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The unsigned byte (base-8 unsigned integer) value of the literal.
+This parameter will return a value if the value represented by the
+literal is an integer whose value is within the required range for an unsigned byte value. I.e. the presence
+of this value does not imply that the datatype of the literal is <code><a href="../Classes/XSD.html#/s:ZvC11SwiftRDFOSX3XSD12unsignedByteCS_8Datatype">XSD.unsignedByte</a></code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">private(set)</span> <span class="k">var</span> <span class="nv">unsignedByteValue</span> <span class="p">:</span> <span class="kt">UInt8</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC11SwiftRDFOSX7Literal9isNumericSb"></a>
+                    <a name="//apple_ref/swift/Property/isNumeric" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC11SwiftRDFOSX7Literal9isNumericSb">isNumeric</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>This parameter is true when the value represented by the literal is a numeric value.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">isNumeric</span> <span class="p">:</span> <span class="kt">Bool</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/SPARQL%20properties"></a>
+                <a name="//apple_ref/swift/Section/SPARQL properties" class="dashAnchor"></a>
+                <a href="#/SPARQL%20properties">
+                  <h3 class="section-name">SPARQL properties</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC11SwiftRDFOSX7Literal6sparqlSS"></a>
+                    <a name="//apple_ref/swift/Property/sparql" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC11SwiftRDFOSX7Literal6sparqlSS">sparql</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The representation of this Literal as used in a SPARQL query. The format depends on the datatype
+of the literal.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">override</span> <span class="k">var</span> <span class="nv">sparql</span> <span class="p">:</span> <span class="kt">String</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Initialisers"></a>
+                <a name="//apple_ref/swift/Section/Initialisers" class="dashAnchor"></a>
+                <a href="#/Initialisers">
+                  <h3 class="section-name">Initialisers</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC11SwiftRDFOSX7LiteralcFMS0_FT11stringValueSS_S0_"></a>
+                    <a name="//apple_ref/swift/Method/init(stringValue:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC11SwiftRDFOSX7LiteralcFMS0_FT11stringValueSS_S0_">init(stringValue:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The default initialiser takes a string value and initialises the Literal with that string. No
+datatype or language (if a string) is deduced from the string. If the string value is a representation
+of a number, the value will still only be interpreted as a string value without any datatype information.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">override</span> <span class="nf">init</span><span class="p">(</span><span class="nv">stringValue</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>stringValue</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The string value with which the Literal is instantiated.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC11SwiftRDFOSX7LiteralcFMS0_FT12sparqlStringSS_GSqS0__"></a>
+                    <a name="//apple_ref/swift/Method/init(sparqlString:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC11SwiftRDFOSX7LiteralcFMS0_FT12sparqlStringSS_GSqS0__">init(sparqlString:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>This initialiser takes a string value in SPARQL format and initialises the Literal with the contents of that
+string. A literal in SPARQL format is of the form: <code>&quot;[value]&quot;[@[language]][^^[datatype]]</code> where language and
+datatype are optional. If a language is provided than the datatype is required to be of type <code><a href="../Classes/XSD.html#/s:ZvC11SwiftRDFOSX3XSD6stringCS_8Datatype">XSD.string</a></code>. 
+If neither language or datatype is provided, the datatype is assumed to be <code><a href="../Classes/XSD.html#/s:ZvC11SwiftRDFOSX3XSD6stringCS_8Datatype">XSD.string</a></code>.</p>
+
+<p>For some datatypes such as <code><a href="../Classes/XSD.html#/s:ZvC11SwiftRDFOSX3XSD7integerCS_8Datatype">XSD.integer</a></code> and <code><a href="../Classes/XSD.html#/s:ZvC11SwiftRDFOSX3XSD7booleanCS_8Datatype">XSD.boolean</a></code>, quotes are not necessary to deduce the datatype.</p>
+
+<p>Examples:</p>
+
+<ul>
+<li><code>&quot;chat&quot;</code></li>
+<li><code>&#39;chat&#39;@fr</code> with language tag <code>&quot;fr&quot;</code></li>
+<li><code>&quot;xyz&quot;^^&lt;http://example.org/ns/userDatatype&gt;</code></li>
+<li><code>1</code>, which is the same as <code>&quot;1&quot;^^xsd:integer</code></li>
+<li><code>1.3</code>, which is the same as <code>&quot;1.3&quot;^^xsd:decimal</code></li>
+<li><code>1.300</code>, which is the same as <code>&quot;1.300&quot;^^xsd:decimal</code></li>
+<li><code>1.0e6</code>, which is the same as <code>&quot;1.0e6&quot;^^xsd:double</code></li>
+<li><code>true</code>, which is the same as <code>&quot;true&quot;^^xsd:boolean</code></li>
+<li><p><code>false</code>, which is the same as <code>&quot;false&quot;^^xsd:boolean</code></p></li>
+</ul>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="n">convenience</span> <span class="nf">init</span><span class="p">?(</span><span class="nv">sparqlString</span> <span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>stringValue</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The string value with which the Literal is instantiated.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The initialised literal, or nil when the value was not valid for the provided datatype.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC11SwiftRDFOSX7LiteralcFMS0_FT11stringValueSS8languageSS_S0_"></a>
+                    <a name="//apple_ref/swift/Method/init(stringValue:language:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC11SwiftRDFOSX7LiteralcFMS0_FT11stringValueSS8languageSS_S0_">init(stringValue:language:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Initialises a new String literal with the specified string value and the specified language in which
+the text of the string is expressed.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="n">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="nv">stringValue</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">language</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>stringValue</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The string containing the text.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>language</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The language of the text.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC11SwiftRDFOSX7LiteralcFMS0_FT11stringValueSS8dataTypeCS_8Datatype_GSqS0__"></a>
+                    <a name="//apple_ref/swift/Method/init(stringValue:dataType:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC11SwiftRDFOSX7LiteralcFMS0_FT11stringValueSS8dataTypeCS_8Datatype_GSqS0__">init(stringValue:dataType:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Initialises a new literal of the specified datatype and with a value equal to the value represented
+in the string value. The string value is parsed according to the specified data type.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="n">convenience</span> <span class="nf">init</span><span class="p">?(</span><span class="nv">stringValue</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">dataType</span><span class="p">:</span> <span class="kt">Datatype</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>stringValue</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The string representation of the value of the literal.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>dataType</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The data type of the literal.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The initialised literal or nil if the string value was not in the correct format or if it was outside the range of the datatype.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC11SwiftRDFOSX7LiteralcFMS0_FT13durationValueVS_8Duration_S0_"></a>
+                    <a name="//apple_ref/swift/Method/init(durationValue:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC11SwiftRDFOSX7LiteralcFMS0_FT13durationValueVS_8Duration_S0_">init(durationValue:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates a new Literal with a duration as value and with a <code><a href="../Classes/XSD.html#/s:ZvC11SwiftRDFOSX3XSD8durationCS_8Datatype">XSD.duration</a></code> datatype.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="n">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="nv">durationValue</span> <span class="p">:</span> <span class="kt">Duration</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>durationValue</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The duration.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC11SwiftRDFOSX7LiteralcFMS0_FT12timeIntervalSd_S0_"></a>
+                    <a name="//apple_ref/swift/Method/init(timeInterval:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC11SwiftRDFOSX7LiteralcFMS0_FT12timeIntervalSd_S0_">init(timeInterval:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates a new Literal with a duration expressed as a time interval as value and with a <code><a href="../Classes/XSD.html#/s:ZvC11SwiftRDFOSX3XSD8durationCS_8Datatype">XSD.duration</a></code> datatype.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="n">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="nv">timeInterval</span> <span class="p">:</span> <span class="kt">NSTimeInterval</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>timeInterval</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The time interval in seconds.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC11SwiftRDFOSX7LiteralcFMS0_FT8positiveSb5yearsSu6monthsSu4daysSu5hoursSu7minutesSu7secondsSd_GSqS0__"></a>
+                    <a name="//apple_ref/swift/Method/init(positive:years:months:days:hours:minutes:seconds:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC11SwiftRDFOSX7LiteralcFMS0_FT8positiveSb5yearsSu6monthsSu4daysSu5hoursSu7minutesSu7secondsSd_GSqS0__">init(positive:years:months:days:hours:minutes:seconds:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates a new Literal with a duration expressed as in its components as value and with a <code><a href="../Classes/XSD.html#/s:ZvC11SwiftRDFOSX3XSD8durationCS_8Datatype">XSD.duration</a></code> datatype.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="n">convenience</span> <span class="nf">init</span><span class="p">?(</span><span class="nv">positive</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">years</span><span class="p">:</span> <span class="kt">UInt</span><span class="p">,</span> <span class="nv">months</span><span class="p">:</span> <span class="kt">UInt</span><span class="p">,</span> <span class="nv">days</span><span class="p">:</span> <span class="kt">UInt</span><span class="p">,</span> <span class="nv">hours</span><span class="p">:</span> <span class="kt">UInt</span><span class="p">,</span> <span class="nv">minutes</span><span class="p">:</span> <span class="kt">UInt</span><span class="p">,</span> <span class="nv">seconds</span><span class="p">:</span> <span class="kt">Double</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>positive</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Set to true when the duration is positive, false otherwise.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>years</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The number of years in the duration.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>months</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The number of months in the duration.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>days</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The number of days in the duration.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>hours</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The number of hours in the duration.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>minutes</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The number of minutes in the duration.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>seconds</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The number of seconds in the duration.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The Literal or <code>nil</code> if the literal could not be instantiated (i.e. the number of seconds was smaller than 0).</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC11SwiftRDFOSX7LiteralcFMS0_FT12booleanValueSb_S0_"></a>
+                    <a name="//apple_ref/swift/Method/init(booleanValue:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC11SwiftRDFOSX7LiteralcFMS0_FT12booleanValueSb_S0_">init(booleanValue:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates a new Literal with a boolean as value and with a <code><a href="../Classes/XSD.html#/s:ZvC11SwiftRDFOSX3XSD7booleanCS_8Datatype">XSD.boolean</a></code> datatype.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="n">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="nv">booleanValue</span> <span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>booleanValue</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The boolean value.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC11SwiftRDFOSX7LiteralcFMS0_FT12decimalValueVS_7Decimal_S0_"></a>
+                    <a name="//apple_ref/swift/Method/init(decimalValue:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC11SwiftRDFOSX7LiteralcFMS0_FT12decimalValueVS_7Decimal_S0_">init(decimalValue:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates a new Literal with a <code><a href="../Structs/Decimal.html">Decimal</a></code> as value and with a <code><a href="../Classes/XSD.html#/s:ZvC11SwiftRDFOSX3XSD7decimalCS_8Datatype">XSD.decimal</a></code> datatype.
+A decimal represents a subset of the real numbers, which can be represented by decimal numerals.
+The value space of decimal is the set of numbers that can be obtained by multiplying an integer (i.e. <code>decimalInteger</code>)
+by a non-positive power of ten (i.e. <code>decimalExponent</code>), i.e., expressible as i × 10^-n where i and n are integers
+and n &gt;= 0. This implementation supports decimals with 19 decimal digits.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="n">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="nv">decimalValue</span> <span class="p">:</span> <span class="kt">Decimal</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>decimalValue</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The decimal value.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC11SwiftRDFOSX7LiteralcFMS0_FT12integerValueSi_S0_"></a>
+                    <a name="//apple_ref/swift/Method/init(integerValue:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC11SwiftRDFOSX7LiteralcFMS0_FT12integerValueSi_S0_">init(integerValue:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates a new Literal with a integer as value and with a <code><a href="../Classes/XSD.html#/s:ZvC11SwiftRDFOSX3XSD7integerCS_8Datatype">XSD.integer</a></code> datatype.
+The type of the integer is the natively supported type of integer, i.e. a 32-bit integer on 32-bit systems and
+a 64-bit integer on 64-bit systems.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="n">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="nv">integerValue</span> <span class="p">:</span> <span class="kt">Int</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>integerValue</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The integer value.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC11SwiftRDFOSX7LiteralcFMS0_FT23nonNegativeIntegerValueSu_S0_"></a>
+                    <a name="//apple_ref/swift/Method/init(nonNegativeIntegerValue:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC11SwiftRDFOSX7LiteralcFMS0_FT23nonNegativeIntegerValueSu_S0_">init(nonNegativeIntegerValue:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates a new Literal with a non-negative integer as value and with a <code><a href="../Classes/XSD.html#/s:ZvC11SwiftRDFOSX3XSD18nonNegativeIntegerCS_8Datatype">XSD.nonNegativeInteger</a></code> datatype. The integer
+needs to be in the range [0,UInt.max] where UInt.max is the maximum integer value supported by the system.
+The type of the integer is the natively supported type of integer, i.e. a 32-bit integer on 32-bit systems and
+a 64-bit integer on 64-bit systems.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="n">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="nv">nonNegativeIntegerValue</span> <span class="p">:</span> <span class="kt">UInt</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>nonNegativeIntegerValue</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The non-negative integer value.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC11SwiftRDFOSX7LiteralcFMS0_FT20positiveIntegerValueSu_GSqS0__"></a>
+                    <a name="//apple_ref/swift/Method/init(positiveIntegerValue:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC11SwiftRDFOSX7LiteralcFMS0_FT20positiveIntegerValueSu_GSqS0__">init(positiveIntegerValue:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates a new Literal with a positive integer as value and with a <code><a href="../Classes/XSD.html#/s:ZvC11SwiftRDFOSX3XSD15positiveIntegerCS_8Datatype">XSD.positiveInteger</a></code> datatype. The integer
+needs to be in the range [1,UInt.max] where UInt.max is the maximum integer value supported by the system.
+The type of the integer is the natively supported type of integer, i.e. a 32-bit integer on 32-bit systems and
+a 64-bit integer on 64-bit systems.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="n">convenience</span> <span class="nf">init</span><span class="p">?(</span><span class="nv">positiveIntegerValue</span> <span class="p">:</span> <span class="kt">UInt</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>positiveIntegerValue</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The positive integer value.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The positive integer Literal or nil if the parameter is outside the range for positive integers.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC11SwiftRDFOSX7LiteralcFMS0_FT23nonPositiveIntegerValueSi_GSqS0__"></a>
+                    <a name="//apple_ref/swift/Method/init(nonPositiveIntegerValue:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC11SwiftRDFOSX7LiteralcFMS0_FT23nonPositiveIntegerValueSi_GSqS0__">init(nonPositiveIntegerValue:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates a new Literal with a non-positive integer as value and with a <code><a href="../Classes/XSD.html#/s:ZvC11SwiftRDFOSX3XSD18nonPositiveIntegerCS_8Datatype">XSD.nonPositiveInteger</a></code> datatype. The integer
+needs to be in the range [Int.min,0] where Int.min is the minimum integer value supported by the system.
+The type of the integer is the natively supported type of integer, i.e. a 32-bit integer on 32-bit systems and
+a 64-bit integer on 64-bit systems.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="n">convenience</span> <span class="nf">init</span><span class="p">?(</span><span class="nv">nonPositiveIntegerValue</span> <span class="p">:</span> <span class="kt">Int</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>nonPositiveIntegerValue</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The non-positive integer value.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The non positive integer Literal or nil if the parameter is outside the range for non positive integers.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC11SwiftRDFOSX7LiteralcFMS0_FT23nonPositiveIntegerValueSu_S0_"></a>
+                    <a name="//apple_ref/swift/Method/init(nonPositiveIntegerValue:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC11SwiftRDFOSX7LiteralcFMS0_FT23nonPositiveIntegerValueSu_S0_">init(nonPositiveIntegerValue:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates a new Literal with the <strong>absolute</strong> value of a non-positive integer as value and with a
+<code><a href="../Classes/XSD.html#/s:ZvC11SwiftRDFOSX3XSD18nonPositiveIntegerCS_8Datatype">XSD.nonPositiveInteger</a></code> datatype. The integer needs to be in the range [0,UInt.max] where UInt.max
+is the maximum integer value supported by the system.
+The type of the integer is the natively supported type of integer, i.e. a 32-bit integer on 32-bit systems and
+a 64-bit integer on 64-bit systems.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="n">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="nv">nonPositiveIntegerValue</span> <span class="p">:</span> <span class="kt">UInt</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>nonPositiveIntegerValue</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The absolute value of the non-positive integer value.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC11SwiftRDFOSX7LiteralcFMS0_FT20negativeIntegerValueSi_GSqS0__"></a>
+                    <a name="//apple_ref/swift/Method/init(negativeIntegerValue:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC11SwiftRDFOSX7LiteralcFMS0_FT20negativeIntegerValueSi_GSqS0__">init(negativeIntegerValue:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates a new Literal with a negative integer as value and with a <code><a href="../Classes/XSD.html#/s:ZvC11SwiftRDFOSX3XSD15negativeIntegerCS_8Datatype">XSD.negativeInteger</a></code> datatype. The integer
+needs to be in the range [Int.min,1] where Int.min is the minimum integer value supported by the system.
+The type of the integer is the natively supported type of integer, i.e. a 32-bit integer on 32-bit systems and
+a 64-bit integer on 64-bit systems.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="n">convenience</span> <span class="nf">init</span><span class="p">?(</span><span class="nv">negativeIntegerValue</span> <span class="p">:</span> <span class="kt">Int</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>nonPositiveIntegerValue</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The negative integer value.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The negative integer Literal or nil if the parameter is outside the range for negative integers.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC11SwiftRDFOSX7LiteralcFMS0_FT20negativeIntegerValueSu_GSqS0__"></a>
+                    <a name="//apple_ref/swift/Method/init(negativeIntegerValue:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC11SwiftRDFOSX7LiteralcFMS0_FT20negativeIntegerValueSu_GSqS0__">init(negativeIntegerValue:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates a new Literal with the <strong>absolute</strong> value of a negative integer as value and with a
+<code><a href="../Classes/XSD.html#/s:ZvC11SwiftRDFOSX3XSD15negativeIntegerCS_8Datatype">XSD.negativeInteger</a></code> datatype. The integer needs to be in the range [1,UInt.max] where UInt.max
+is the maximum integer value supported by the system.
+The type of the integer is the natively supported type of integer, i.e. a 32-bit integer on 32-bit systems and
+a 64-bit integer on 64-bit systems.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="n">convenience</span> <span class="nf">init</span><span class="p">?(</span><span class="nv">negativeIntegerValue</span> <span class="p">:</span> <span class="kt">UInt</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>negativeIntegerValue</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The absolute value of the negative integer value.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The negative integer Literal or nil if the parameter is outside the range for negative integers.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC11SwiftRDFOSX7LiteralcFMS0_FT9longValueVSs5Int64_S0_"></a>
+                    <a name="//apple_ref/swift/Method/init(longValue:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC11SwiftRDFOSX7LiteralcFMS0_FT9longValueVSs5Int64_S0_">init(longValue:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates a new Literal with a long (base-64 integer) as value and with a <code><a href="../Classes/XSD.html#/s:ZvC11SwiftRDFOSX3XSD4longCS_8Datatype">XSD.long</a></code> datatype.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="n">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="nv">longValue</span> <span class="p">:</span> <span class="kt">Int64</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>longValue</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The long value.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC11SwiftRDFOSX7LiteralcFMS0_FT17unsignedLongValueVSs6UInt64_S0_"></a>
+                    <a name="//apple_ref/swift/Method/init(unsignedLongValue:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC11SwiftRDFOSX7LiteralcFMS0_FT17unsignedLongValueVSs6UInt64_S0_">init(unsignedLongValue:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates a new Literal with an unsigned long (base-64 integer) as value and with a <code><a href="../Classes/XSD.html#/s:ZvC11SwiftRDFOSX3XSD12unsignedLongCS_8Datatype">XSD.unsignedLong</a></code> datatype.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="n">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="nv">unsignedLongValue</span> <span class="p">:</span> <span class="kt">UInt64</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>unsignedLongValue</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The unsigned long value.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC11SwiftRDFOSX7LiteralcFMS0_FT8intValueVSs5Int32_S0_"></a>
+                    <a name="//apple_ref/swift/Method/init(intValue:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC11SwiftRDFOSX7LiteralcFMS0_FT8intValueVSs5Int32_S0_">init(intValue:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates a new Literal with an int (base-32 integer) as value and with a <code><a href="../Classes/XSD.html#/s:ZvC11SwiftRDFOSX3XSD3intCS_8Datatype">XSD.int</a></code> datatype.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="n">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="nv">intValue</span> <span class="p">:</span> <span class="kt">Int32</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>intValue</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The int value.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC11SwiftRDFOSX7LiteralcFMS0_FT16unsignedIntValueVSs6UInt32_S0_"></a>
+                    <a name="//apple_ref/swift/Method/init(unsignedIntValue:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC11SwiftRDFOSX7LiteralcFMS0_FT16unsignedIntValueVSs6UInt32_S0_">init(unsignedIntValue:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates a new Literal with an unsigned int (base-32 integer) as value and with a <code><a href="../Classes/XSD.html#/s:ZvC11SwiftRDFOSX3XSD11unsignedIntCS_8Datatype">XSD.unsignedInt</a></code> datatype.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="n">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="nv">unsignedIntValue</span> <span class="p">:</span> <span class="kt">UInt32</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>unsignedIntValue</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The unsigned int value.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC11SwiftRDFOSX7LiteralcFMS0_FT10shortValueVSs5Int16_S0_"></a>
+                    <a name="//apple_ref/swift/Method/init(shortValue:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC11SwiftRDFOSX7LiteralcFMS0_FT10shortValueVSs5Int16_S0_">init(shortValue:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates a new Literal with a short (base-16 integer) as value and with a <code><a href="../Classes/XSD.html#/s:ZvC11SwiftRDFOSX3XSD5shortCS_8Datatype">XSD.short</a></code> datatype.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="n">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="nv">shortValue</span> <span class="p">:</span> <span class="kt">Int16</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>shortValue</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The short value.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC11SwiftRDFOSX7LiteralcFMS0_FT18unsignedShortValueVSs6UInt16_S0_"></a>
+                    <a name="//apple_ref/swift/Method/init(unsignedShortValue:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC11SwiftRDFOSX7LiteralcFMS0_FT18unsignedShortValueVSs6UInt16_S0_">init(unsignedShortValue:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates a new Literal with an unsigned short (base-16 integer) as value and with a <code><a href="../Classes/XSD.html#/s:ZvC11SwiftRDFOSX3XSD13unsignedShortCS_8Datatype">XSD.unsignedShort</a></code> datatype.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="n">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="nv">unsignedShortValue</span> <span class="p">:</span> <span class="kt">UInt16</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>unsignedShortValue</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The unsigned short value.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC11SwiftRDFOSX7LiteralcFMS0_FT9byteValueVSs4Int8_S0_"></a>
+                    <a name="//apple_ref/swift/Method/init(byteValue:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC11SwiftRDFOSX7LiteralcFMS0_FT9byteValueVSs4Int8_S0_">init(byteValue:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates a new Literal with a byte (base-8 integer) as value and with a <code><a href="../Classes/XSD.html#/s:ZvC11SwiftRDFOSX3XSD4byteCS_8Datatype">XSD.byte</a></code> datatype.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="n">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="nv">byteValue</span> <span class="p">:</span> <span class="kt">Int8</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>byteValue</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The byte value.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC11SwiftRDFOSX7LiteralcFMS0_FT17unsignedByteValueVSs5UInt8_S0_"></a>
+                    <a name="//apple_ref/swift/Method/init(unsignedByteValue:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC11SwiftRDFOSX7LiteralcFMS0_FT17unsignedByteValueVSs5UInt8_S0_">init(unsignedByteValue:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates a new Literal with an unsigned byte (base-8 integer) as value and with a <code><a href="../Classes/XSD.html#/s:ZvC11SwiftRDFOSX3XSD12unsignedByteCS_8Datatype">XSD.unsignedByte</a></code> datatype.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="n">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="nv">unsignedByteValue</span> <span class="p">:</span> <span class="kt">UInt8</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>unsignedByteValue</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The unsigned byte value.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC11SwiftRDFOSX7LiteralcFMS0_FT10floatValueSf_S0_"></a>
+                    <a name="//apple_ref/swift/Method/init(floatValue:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC11SwiftRDFOSX7LiteralcFMS0_FT10floatValueSf_S0_">init(floatValue:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates a new Literal with a single precision floating point number (float) as value and with a <code><a href="../Classes/XSD.html#/s:ZvC11SwiftRDFOSX3XSD5floatCS_8Datatype">XSD.float</a></code> datatype.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="n">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="nv">floatValue</span> <span class="p">:</span> <span class="kt">Float</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>floatValue</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The float value.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC11SwiftRDFOSX7LiteralcFMS0_FT11doubleValueSd_S0_"></a>
+                    <a name="//apple_ref/swift/Method/init(doubleValue:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC11SwiftRDFOSX7LiteralcFMS0_FT11doubleValueSd_S0_">init(doubleValue:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates a new Literal with a double precision floating point number (double) as value and with a <code><a href="../Classes/XSD.html#/s:ZvC11SwiftRDFOSX3XSD6doubleCS_8Datatype">XSD.double</a></code> datatype.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="n">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="nv">doubleValue</span> <span class="p">:</span> <span class="kt">Double</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>floatValue</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The double value.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2015 <a class="link" href="" target="_blank" rel="external"></a>. All rights reserved. (Last updated: 2015-12-08)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.4.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>

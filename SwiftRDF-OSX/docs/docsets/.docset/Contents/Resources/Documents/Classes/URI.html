@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>URI Class Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Class/URI" class="dashAnchor"></a>
+    <a title="URI Class Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html"> Docs</a> (100% documented)</p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html"> Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        URI Class Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/BlankNode.html">BlankNode</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Datatype.html">Datatype</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Literal.html">Literal</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/OWL.html">OWL</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/RDF.html">RDF</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/RDFS.html">RDFS</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes.html#/s:C11SwiftRDFOSX8Resource">Resource</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Statement.html">Statement</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/URI.html">URI</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Value.html">Value</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Vocabulary.html">Vocabulary</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/XSD.html">XSD</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Enums.html">Enums</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Enums/LiteralFormattingError.html">LiteralFormattingError</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/MalformedURIError.html">MalformedURIError</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Functions.html">Functions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:ZF11SwiftRDFOSXoi2neFTCS_5ValueS0__Sb">!=(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:ZF11SwiftRDFOSXoi2eeFTCS_3URIS0__Sb">==(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:ZF11SwiftRDFOSXoi2eeFTCS_5ValueS0__Sb">==(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:ZF11SwiftRDFOSXoi2eeFTCS_9BlankNodeS0__Sb">==(_:_:)</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Protocols/SPARQLValue.html">SPARQLValue</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Structs.html">Structs</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Structs/Decimal.html">Decimal</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/Duration.html">Duration</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>URI</h1>
+              <div class="declaration">
+                <div class="language">
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">URI</span> <span class="p">:</span> <span class="kt">Resource</span></code></pre>
+
+                </div>
+              </div>
+            <p>A Uniform Resource Indentifier (<em>URI</em>) is a string of characters used to identify a resource. This identifier can be used to identify
+(unambiguosly) a resource on a network such as the world wide web. In RDF, URIs are used to identify resources and link resources to
+data and to other resources. In RDF triples predicates are required to be URIs, while the subject and the object in the RDF triple are
+also often URIs, but are not required to be.</p>
+
+<p><a href='#uri_components' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='uri_components'>URI Components</h3></p>
+
+<p>A URI may consist of the following components:</p>
+
+<ul>
+<li><strong>Scheme</strong>: defines the syntax of the URI and the associated protocol.</li>
+<li><strong>Two slashes</strong>: are required by some schemes, if no authority component is included in the URI, double slashes are not allowed.</li>
+<li><strong>Authority part</strong>: (optional) consisting of:
+
+<ul>
+<li><strong>Authentication section</strong>: (optional) containing a username and optionally a password separated by a colon (:). The authentication
+                       section is followed by an &rsquo;@&rsquo; character.</li>
+<li><strong>Host</strong>: either a registered name (e.g. a host name) or an IP address.</li>
+<li><strong>Port</strong>: (optional) a port number.</li>
+</ul></li>
+<li><strong>Path</strong>: (optional) a pointer to the data (e.g. on a host). The path is usually (but not necessarily) in a hierarchical form where the
+        path components are separated by slashes. If an authority part is present, the path has to start with a forward slash. The path may never
+        start with a double forward slash.</li>
+<li><strong>Query</strong>: (optional) query parameters (often name-value pairs separated with an &amp;). The query is separated from the previous part of the
+         URI with a question mark (?).</li>
+<li><strong>Fragment</strong>: (optional) a pointer to a secondary resource such as a section in the document. The fragment is separated from the previous
+            part of the URI with a hash symbol (#).</li>
+</ul>
+
+<p><a href='#initialisation' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='initialisation'>Initialisation</h3></p>
+
+<p>A URI instance is not mutable, all information pertaining to the URI needs to be provided during construction. When a URI is constructed, 
+the URI is checked for consistency. If the URI is found to be not consistent (i.e. malformed) an <code><a href="../Enums/MalformedURIError.html">MalformedURIError</a></code> is thrown during
+initialisation.</p>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Properties"></a>
+                <a name="//apple_ref/swift/Section/Properties" class="dashAnchor"></a>
+                <a href="#/Properties">
+                  <h3 class="section-name">Properties</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC11SwiftRDFOSX3URI6schemeSS"></a>
+                    <a name="//apple_ref/swift/Property/scheme" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC11SwiftRDFOSX3URI6schemeSS">scheme</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The scheme of a URI defines the syntax of the URI and the associated protocol.
+Examples of popular schemes include <em>http</em>, <em>ftp</em>, <em>mailto</em>, <em>file</em>, and <em>data</em>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">private(set)</span> <span class="k">var</span> <span class="nv">scheme</span> <span class="p">:</span> <span class="kt">String</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC11SwiftRDFOSX3URI13authorityPartGSqSS_"></a>
+                    <a name="//apple_ref/swift/Property/authorityPart" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC11SwiftRDFOSX3URI13authorityPartGSqSS_">authorityPart</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The authority part of the URI consists of an optional authentication, the host and an optional port number.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">private(set)</span> <span class="k">var</span> <span class="nv">authorityPart</span> <span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC11SwiftRDFOSX3URI16hierarchicalPartGSqSS_"></a>
+                    <a name="//apple_ref/swift/Property/hierarchicalPart" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC11SwiftRDFOSX3URI16hierarchicalPartGSqSS_">hierarchicalPart</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The hierarchical part of the URI consists of the authority part and the path of the URI.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">private(set)</span> <span class="k">var</span> <span class="nv">hierarchicalPart</span> <span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC11SwiftRDFOSX3URI8userNameGSqSS_"></a>
+                    <a name="//apple_ref/swift/Property/userName" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC11SwiftRDFOSX3URI8userNameGSqSS_">userName</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The username (optional) encoded within the URI.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">private(set)</span> <span class="k">var</span> <span class="nv">userName</span> <span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC11SwiftRDFOSX3URI8passwordGSqSS_"></a>
+                    <a name="//apple_ref/swift/Property/password" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC11SwiftRDFOSX3URI8passwordGSqSS_">password</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The password (optional) encoded within the URI.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">private(set)</span> <span class="k">var</span> <span class="nv">password</span> <span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC11SwiftRDFOSX3URI4hostGSqSS_"></a>
+                    <a name="//apple_ref/swift/Property/host" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC11SwiftRDFOSX3URI4hostGSqSS_">host</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The host is either a registered name (such as a hostname) or an IP address. IPv4 addresses use the dot decimal 
+notation, IPv6 addresses are enclosed in brackets.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">private(set)</span> <span class="k">var</span> <span class="nv">host</span> <span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC11SwiftRDFOSX3URI4portGSqSi_"></a>
+                    <a name="//apple_ref/swift/Property/port" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC11SwiftRDFOSX3URI4portGSqSi_">port</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The port number.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">private(set)</span> <span class="k">var</span> <span class="nv">port</span> <span class="p">:</span> <span class="kt">Int</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC11SwiftRDFOSX3URI4pathGSqSS_"></a>
+                    <a name="//apple_ref/swift/Property/path" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC11SwiftRDFOSX3URI4pathGSqSS_">path</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The path contains the data, usually organised in hierarchical form with a forward slash as separator.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">private(set)</span> <span class="k">var</span> <span class="nv">path</span> <span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC11SwiftRDFOSX3URI5queryGSqSS_"></a>
+                    <a name="//apple_ref/swift/Property/query" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC11SwiftRDFOSX3URI5queryGSqSS_">query</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The query string containing non-hierarchical data, usually in the form of key-value pairs.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">private(set)</span> <span class="k">var</span> <span class="nv">query</span> <span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC11SwiftRDFOSX3URI8fragmentGSqSS_"></a>
+                    <a name="//apple_ref/swift/Property/fragment" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC11SwiftRDFOSX3URI8fragmentGSqSS_">fragment</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The fragment, i.e. a pointer to a secondary resource such as a section in the document.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">private(set)</span> <span class="k">var</span> <span class="nv">fragment</span> <span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/SPARQL%20properties"></a>
+                <a name="//apple_ref/swift/Section/SPARQL properties" class="dashAnchor"></a>
+                <a href="#/SPARQL%20properties">
+                  <h3 class="section-name">SPARQL properties</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC11SwiftRDFOSX3URI6sparqlSS"></a>
+                    <a name="//apple_ref/swift/Property/sparql" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC11SwiftRDFOSX3URI6sparqlSS">sparql</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The representation of this URI as used in a SPARQL query. The URI is enclosed within angle brackets.
+For instance: <code>&lt;http://example.org/Person&gt;</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">override</span> <span class="k">var</span> <span class="nv">sparql</span> <span class="p">:</span> <span class="kt">String</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Initialisers"></a>
+                <a name="//apple_ref/swift/Section/Initialisers" class="dashAnchor"></a>
+                <a href="#/Initialisers">
+                  <h3 class="section-name">Initialisers</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC11SwiftRDFOSX3URIcFMS0_FzT6stringSS_S0_"></a>
+                    <a name="//apple_ref/swift/Method/init(string:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC11SwiftRDFOSX3URIcFMS0_FzT6stringSS_S0_">init(string:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Initialises the URI from the specified string representing the URI.</p>
+
+<div class="aside aside-throws">
+          <p class="aside-title">Throws</p>
+          <p>throws MalformedURIError.URIAuthorityPartIsMalformed: If the authority part of the URI represented
+                                                    in the string is malformed.</p>
+
+        </div><div class="aside aside-throws">
+          <p class="aside-title">Throws</p>
+          <p>throws MalformedURIError.URIHostMissingFromAuthorityPath: If the host is missing from the authority path.</p>
+
+        </div><div class="aside aside-throws">
+          <p class="aside-title">Throws</p>
+          <p>throws MalformedURIError.URISchemeMissing: If the scheme is missing from the URI.</p>
+
+        </div><div class="aside aside-throws">
+          <p class="aside-title">Throws</p>
+          <p>throws MalformedURIError.MalformedURI: When the URI was malformed.</p>
+
+        </div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">string</span> <span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="k">throws</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>string</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The string representing the URI.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC11SwiftRDFOSX3URIcFMS0_FzT9namespaceSS9localNameSS_S0_"></a>
+                    <a name="//apple_ref/swift/Method/init(namespace:localName:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC11SwiftRDFOSX3URIcFMS0_FzT9namespaceSS9localNameSS_S0_">init(namespace:localName:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Initialises the URI with the specified local name and in the specified namespace.</p>
+
+<div class="aside aside-throws">
+          <p class="aside-title">Throws</p>
+          <p>throws <code><a href="../Enums/MalformedURIError.html#/s:FO11SwiftRDFOSX17MalformedURIError27URIAuthorityPartIsMalformedFMS0_FT7messageSS_S0_">MalformedURIError.URIAuthorityPartIsMalformed</a></code>: If the authority part of the URI represented
+in the string is malformed.</p>
+
+        </div><div class="aside aside-throws">
+          <p class="aside-title">Throws</p>
+          <p>throws <code><a href="../Enums/MalformedURIError.html#/s:FO11SwiftRDFOSX17MalformedURIError31URIHostMissingFromAuthorityPathFMS0_FT7messageSS_S0_">MalformedURIError.URIHostMissingFromAuthorityPath</a></code>: If the host is missing from the authority path.</p>
+
+        </div><div class="aside aside-throws">
+          <p class="aside-title">Throws</p>
+          <p>throws <code><a href="../Enums/MalformedURIError.html#/s:FO11SwiftRDFOSX17MalformedURIError16URISchemeMissingFMS0_FT7messageSS3uriSS_S0_">MalformedURIError.URISchemeMissing</a></code>: If the scheme is missing from the URI.</p>
+
+        </div><div class="aside aside-throws">
+          <p class="aside-title">Throws</p>
+          <p>throws <code><a href="../Enums/MalformedURIError.html#/s:FO11SwiftRDFOSX17MalformedURIError12MalformedURIFMS0_FT7messageSS3uriSS_S0_">MalformedURIError.MalformedURI</a></code>: When the URI was malformed.</p>
+
+        </div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">namespace</span> <span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">localName</span> <span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="k">throws</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>namespace</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The namespace to which the resource belongs.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>localName</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The local name of the resource.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2015 <a class="link" href="" target="_blank" rel="external"></a>. All rights reserved. (Last updated: 2015-12-08)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.4.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>
