@@ -8,6 +8,15 @@
 
 import Foundation
 
+/**
+ Instances of this class represent an RDF literal, which are used for strings, numbers and dates.
+ A literal may contain a language tag if the literal contains a string value, i.e. is of type `xsd:string`.
+ It also contains optionally a datatype such as those defined in `XSD`. 
+ 
+ All parameters such as `booleanValue` or `durationValue` are optionals and are by default `nil`. Depending on the datatype specific
+ parameters have a value. Only `stringValue`, inheritted from `Value` is not optional. If the datatype is not a string, the `stringValue`
+ will contain a textual representation of the data.
+ */
 public class Literal: Value {
     
     // regular expression: ^((("(.*)")|('([\w\s]*)'))((@(\w*(-\w*)?))(\^\^xsd:(string))?|\^\^(xsd:(\w*)|<(.*)>))?|([+-]?[\d]*)|([+-]?[\d\.]*)|([+-]?[\d\.]*[eE][+-]?\d*)|(true|false))$
@@ -519,6 +528,36 @@ public class Literal: Value {
     }
     
     /**
+     Creates a new Literal with a duration expressed as a time interval as value and with a `XSD.duration` datatype.
+     
+     - parameter timeInterval: The time interval in seconds.
+     */
+    public convenience init(timeInterval : NSTimeInterval) {
+        let durval = Duration(timeInterval: timeInterval)
+        self.init(stringValue: "\(durval.description)")
+        self.durationValue = durval
+        self.dataType = XSD.duration
+    }
+    
+    /**
+     Creates a new Literal with a duration expressed as in its components as value and with a `XSD.duration` datatype.
+     
+     - parameter positive: Set to true when the duration is positive, false otherwise.
+     - parameter years: The number of years in the duration.
+     - parameter months: The number of months in the duration.
+     - parameter days: The number of days in the duration.
+     - parameter hours: The number of hours in the duration.
+     - parameter minutes: The number of minutes in the duration.
+     - parameter seconds: The number of seconds in the duration.
+     */
+    public convenience init(positive: Bool, years: UInt, months: UInt, days: UInt, hours: UInt, minutes: UInt, seconds: Double) {
+        let durval = Duration(positive: positive, years: years, months: months, days: days, hours: hours, minutes: minutes, seconds: seconds)
+        self.init(stringValue: "\(durval.description)")
+        self.durationValue = durval
+        self.dataType = XSD.duration
+    }
+    
+    /**
      Creates a new Literal with a boolean as value and with a `XSD.boolean` datatype.
      
      - parameter booleanValue: The boolean value.
@@ -672,6 +711,11 @@ public class Literal: Value {
         self.dataType = XSD.negativeInteger
     }
     
+    /**
+     Creates a new Literal with a long (base-64 integer) as value and with a `XSD.long` datatype.
+     
+     - parameter longValue: The long value.
+     */
     public convenience init(longValue : Int64) {
         self.init(stringValue: "\(longValue)")
         self.longValue = longValue
@@ -679,6 +723,11 @@ public class Literal: Value {
         self.dataType = XSD.long
     }
     
+    /**
+     Creates a new Literal with an unsigned long (base-64 integer) as value and with a `XSD.unsignedLong` datatype.
+     
+     - parameter unsignedLongValue: The unsigned long value.
+     */
     public convenience init(unsignedLongValue : UInt64) {
         self.init(stringValue: "\(unsignedLongValue)")
         self.unsignedLongValue = unsignedLongValue
@@ -686,6 +735,11 @@ public class Literal: Value {
         self.dataType = XSD.unsignedLong
     }
     
+    /**
+     Creates a new Literal with an int (base-32 integer) as value and with a `XSD.int` datatype.
+     
+     - parameter intValue: The int value.
+     */
     public convenience init(intValue : Int32) {
         self.init(stringValue: "\(intValue)")
         self.intValue = intValue
@@ -693,6 +747,11 @@ public class Literal: Value {
         self.dataType = XSD.int
     }
     
+    /**
+     Creates a new Literal with an unsigned int (base-32 integer) as value and with a `XSD.unsignedInt` datatype.
+     
+     - parameter unsignedIntValue: The unsigned int value.
+     */
     public convenience init(unsignedIntValue : UInt32) {
         self.init(stringValue: "\(unsignedIntValue)")
         self.unsignedIntValue = unsignedIntValue
@@ -700,6 +759,11 @@ public class Literal: Value {
         self.dataType = XSD.unsignedInt
     }
     
+    /**
+     Creates a new Literal with a short (base-16 integer) as value and with a `XSD.short` datatype.
+     
+     - parameter shortValue: The short value.
+     */
     public convenience init(shortValue : Int16) {
         self.init(stringValue: "\(shortValue)")
         self.shortValue = shortValue
@@ -707,6 +771,11 @@ public class Literal: Value {
         self.dataType = XSD.short
     }
     
+    /**
+     Creates a new Literal with an unsigned short (base-16 integer) as value and with a `XSD.unsignedShort` datatype.
+     
+     - parameter unsignedShortValue: The unsigned short value.
+     */
     public convenience init(unsignedShortValue : UInt16) {
         self.init(stringValue: "\(unsignedShortValue)")
         self.unsignedShortValue = unsignedShortValue
@@ -714,6 +783,11 @@ public class Literal: Value {
         self.dataType = XSD.unsignedShort
     }
     
+    /**
+     Creates a new Literal with a byte (base-8 integer) as value and with a `XSD.byte` datatype.
+     
+     - parameter byteValue: The byte value.
+     */
     public convenience init(byteValue : Int8) {
         self.init(stringValue: "\(byteValue)")
         self.byteValue = byteValue
@@ -721,6 +795,11 @@ public class Literal: Value {
         self.dataType = XSD.byte
     }
     
+    /**
+     Creates a new Literal with an unsigned byte (base-8 integer) as value and with a `XSD.unsignedByte` datatype.
+     
+     - parameter unsignedByteValue: The unsigned byte value.
+     */
     public convenience init(unsignedByteValue : UInt8) {
         self.init(stringValue: "\(unsignedByteValue)")
         self.unsignedByteValue = unsignedByteValue
@@ -728,6 +807,11 @@ public class Literal: Value {
         self.dataType = XSD.unsignedByte
     }
     
+    /**
+     Creates a new Literal with a single precision floating point number (float) as value and with a `XSD.float` datatype.
+     
+     - parameter floatValue: The float value.
+     */
     public convenience init(floatValue : Float) {
         self.init(stringValue: "\(floatValue)")
         self.floatValue = floatValue
@@ -735,6 +819,11 @@ public class Literal: Value {
         self.dataType = XSD.float
     }
     
+    /**
+     Creates a new Literal with a double precision floating point number (double) as value and with a `XSD.double` datatype.
+     
+     - parameter floatValue: The double value.
+     */
     public convenience init(doubleValue : Double) {
         self.init(stringValue: "\(doubleValue)")
         self.doubleValue = doubleValue
@@ -742,9 +831,6 @@ public class Literal: Value {
         self.dataType = XSD.double
     }
     
-    // TODO: Initialiser for booleans
-    
-    // TODO: Initialiser for durations
     // TODO: Initialiser for dateTime
     // TODO: Initialiser for date
     // TODO: Initialiser for time
