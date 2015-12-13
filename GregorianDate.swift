@@ -41,10 +41,11 @@ public class GregorianDate {
                     if day != nil {
                         components.day = day!
                         if hour != nil && minute != nil && second != nil { // xsd:dateTime
-                            components.hour = day!
-                            components.minute = day!
+                            components.hour = hour!
+                            components.minute = minute!
                             components.second = Int(second!)
-                            components.nanosecond = Int(second!-Double(Int(second!))*1e9)
+                            let ns = Int((second!-Double(Int(second!)))*1e9)
+                            components.nanosecond = ns
                             
                         } else { // xsd:date
                             components.hour = 0
@@ -412,7 +413,7 @@ public class GregorianDate {
         components.hour = sign*Int(duration.hours)
         components.minute = sign*Int(duration.minutes)
         components.second = sign*Int(duration.seconds)
-        components.nanosecond = sign*Int(duration.seconds-Double(Int(duration.seconds))*1e9)
+        components.nanosecond = sign*Int((duration.seconds-Double(Int(duration.seconds)))*1e9)
         GregorianDate.calendar.timeZone = timezone
         let sdate = self.startDate
         if sdate == nil {

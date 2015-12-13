@@ -49,6 +49,11 @@ class DateTests: XCTestCase {
         XCTAssertEqual(string, gdate?.dateTime)
         gdate2 = GregorianDate(year: (gdate?.year)!, month: (gdate?.month)!, day: (gdate?.day)!, hour: (gdate?.hour)!, minute: (gdate?.minute)!, second: (gdate?.second)!, timezone: (gdate?.timezone)!)
         XCTAssertEqual(string, gdate2?.dateTime)
+        string = "-1203-03-12T12:23:54.983244+02:00"
+        gdate = GregorianDate(dateTime: string)
+        XCTAssertEqual(string, gdate?.dateTime)
+        gdate2 = GregorianDate(year: (gdate?.year)!, month: (gdate?.month)!, day: (gdate?.day)!, hour: (gdate?.hour)!, minute: (gdate?.minute)!, second: (gdate?.second)!, timezone: (gdate?.timezone)!)
+        XCTAssertEqual(string, gdate2?.dateTime)
     }
     
     func testDate() {
@@ -133,6 +138,22 @@ class DateTests: XCTestCase {
         XCTAssertEqual(string, gdate?.gYear)
         gdate2 = GregorianDate(year: (gdate?.year)!, timezone: (gdate?.timezone)!)
         XCTAssertEqual(string, gdate2?.gYear)
+    }
+    
+    func testDateTimeDateValue() {
+        var string = "2015-12-13T19:39:32.233+02:00"
+        var gdate = GregorianDate(dateTime: string)
+        var sdate = gdate!.startDate
+        XCTAssertTrue(1450028372.233 == sdate!.timeIntervalSince1970)
+        var edate = gdate!.endDate
+        XCTAssertTrue(1450028373.233 == edate!.timeIntervalSince1970)
+        string = "2015-12-13+02:00"
+        gdate = GregorianDate(date: string)
+        sdate = gdate!.startDate
+        XCTAssertTrue(1449957600.0 == sdate!.timeIntervalSince1970)
+        edate = gdate!.endDate
+        XCTAssertTrue(1449957600.0+24*3600 == edate!.timeIntervalSince1970)
+        print("date: \(sdate?.timeIntervalSince1970)")
     }
 }
 
