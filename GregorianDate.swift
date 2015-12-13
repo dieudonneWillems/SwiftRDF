@@ -9,7 +9,7 @@
 import Foundation
 
 
-public class GregorianDate : NSDate {
+public class GregorianDate {
     
     // regex dateTime pattern: ^((?:[+-]?)(?:\d{4,}))-((?:0[1-9])|(?:1[0-2]))-((?:0[1-9])|(?:[1-2][0-9])|(?:3[0-1]))T((?:[0-1][0-9])|(?:2[0-4])):([0-5][0-9]):((?:(?:[0-5][0-9])|60)(?:\.\d*)?)(Z|(?:([+-](?:(?:0[0-9])|(?:1[0-2]))):((?:00)|(?:30))))$
     private static let dateTimePattern = "^((?:[+-]?)(?:\\d{4,}))-((?:0[1-9])|(?:1[0-2]))-((?:0[1-9])|(?:[1-2][0-9])|(?:3[0-1]))T((?:[0-1][0-9])|(?:2[0-4])):([0-5][0-9]):((?:(?:[0-5][0-9])|60)(?:\\.\\d*)?)(Z|(?:([+-](?:(?:0[0-9])|(?:1[0-2]))):((?:00)|(?:30))))$"
@@ -19,61 +19,135 @@ public class GregorianDate : NSDate {
     
     private static let calendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)!
     
-    public private(set) var year : Int = 0
-    public private(set) var month : Int = 1
-    public private(set) var day : Int = 1
-    public private(set) var hour : Int = 0
-    public private(set) var minute : Int = 0
-    public private(set) var second : Double = 0
+    public private(set) var year : Int?
+    public private(set) var month : Int?
+    public private(set) var day : Int?
+    public private(set) var hour : Int?
+    public private(set) var minute : Int?
+    public private(set) var second : Double?
     public private(set) var timezone : NSTimeZone = NSTimeZone.localTimeZone()
     
-    private var timeIntervalSinceReferenceDataInternal : NSTimeInterval
-    private var timeSpan : NSTimeInterval
-    
-    public override var timeIntervalSinceReferenceDate: NSTimeInterval {
+    public var startDate : NSDate? {
         get {
-            return timeIntervalSinceReferenceDataInternal
+            if year != nil {
+                let components = NSDateComponents()
+                components.year = year!
+                if month != nil {
+                    components.month = month!
+                    if day != nil {
+                        components.day = day!
+                        if hour != nil && minute != nil && second != nil { // xsd:dateTime
+                            components.hour = day!
+                            components.minute = day!
+                            components.second = Int(second!)
+                            components.nanosecond = Int(second!-Double(Int(second!))*1e9)
+                            
+                        } else { // xsd:date
+                            components.hour = 0
+                            components.minute = 0
+                            components.second = 0
+                        }
+                    } else { // xsd:gYearMonth
+                        components.day = 1
+                    }
+                } else { // xsd:gYear
+                    components.month = 1
+                }
+                GregorianDate.calendar.timeZone = timezone
+                let date = GregorianDate.calendar.dateFromComponents(components)
+                return date
+            } else {
+                
+                
+            }
+            return nil
         }
     }
     
-    public var dateTime : String {
+    public var endDate : NSDate? {
         get {
-            var dateTime = "\(year)-"
+            if duration == nil {
+                return nil
+            }
+            return self.addDuration(duration!)?.startDate
+        }
+    }
+    
+    public var duration : Duration? {
+        get {
+            if second != nil {
+                return Duration(positive: true, years: 0, months: 0, days: 0, hours: 0, minutes: 0, seconds: 1)
+            } else if minute != nil {
+                return Duration(positive: true, years: 0, months: 0, days: 0, hours: 0, minutes: 1, seconds: 0)
+            } else if hour != nil {
+                return Duration(positive: true, years: 0, months: 0, days: 0, hours: 1, minutes: 0, seconds: 0)
+            } else if day != nil {
+                return Duration(positive: true, years: 0, months: 0, days: 1, hours: 0, minutes: 0, seconds: 0)
+            } else if month != nil {
+                return Duration(positive: true, years: 0, months: 1, days: 0, hours: 0, minutes: 0, seconds: 0)
+            } else if year != nil {
+                return Duration(positive: true, years: 1, months: 0, days: 0, hours: 0, minutes: 0, seconds: 0)
+            }
+            return nil
+        }
+    }
+    
+    public var isRecurring : Bool {
+        get {
+            return (year == nil)
+        }
+    }
+    
+    public var dateTime : String? {
+        get {
+            if hour == nil || minute == nil || second == nil || day == nil || month == nil || year == nil {
+                return nil
+            }
+            var dateTime = "\(year!)-"
             if month < 10 {
-                dateTime += "0\(month)-"
+                dateTime += "0\(month!)-"
             } else {
-                dateTime += "\(month)-"
+                dateTime += "\(month!)-"
             }
             if day < 10 {
-                dateTime += "0\(day)"
+                dateTime += "0\(day!)"
             } else {
-                dateTime += "\(day)"
+                dateTime += "\(day!)"
             }
             dateTime += "T"
             if hour < 10 {
-                dateTime += "0\(hour):"
+                dateTime += "0\(hour!):"
             } else {
-                dateTime += "\(hour):"
+                dateTime += "\(hour!):"
             }
             if minute < 10 {
-                dateTime += "0\(minute):"
+                dateTime += "0\(minute!):"
             } else {
-                dateTime += "\(minute):"
+                dateTime += "\(minute!):"
             }
-            if Double(Int(second)) == second {
+            if Double(Int(second!)) == second! {
                 if second < 10 {
-                    dateTime += "0\(Int(second))"
+                    dateTime += "0\(Int(second!))"
                 } else {
-                    dateTime += "\(Int(second))"
+                    dateTime += "\(Int(second!))"
                 }
             } else {
                 if second < 10 {
-                    dateTime += "0\(second)"
+                    dateTime += "0\(second!)"
                 } else {
-                    dateTime += "\(second)"
+                    dateTime += "\(second!)"
                 }
             }
-            let sgmt = timezone.secondsFromGMTForDate(self)
+            let components = NSDateComponents()
+            components.year = year!
+            components.month = month!
+            components.day = day!
+            components.hour = hour!
+            components.minute = minute!
+            components.second = Int(second!)
+            components.nanosecond = Int(second!-Double(Int(second!))*1e9)
+            let date = GregorianDate.calendar.dateFromComponents(components)
+            let sgmt = timezone.secondsFromGMTForDate(date!)
             var mgmt = Int(sgmt / 60)
             var hgmt = Int(mgmt / 60)
             mgmt = Int(abs(mgmt) % 60)
@@ -101,20 +175,28 @@ public class GregorianDate : NSDate {
         }
     }
     
-    public var date : String {
+    public var date : String? {
         get {
-            var dateTime = "\(year)-"
+            if day == nil || month == nil || year == nil {
+                return nil
+            }
+            var dateTime = "\(year!)-"
             if month < 10 {
-                dateTime += "0\(month)-"
+                dateTime += "0\(month!)-"
             } else {
-                dateTime += "\(month)-"
+                dateTime += "\(month!)-"
             }
             if day < 10 {
-                dateTime += "0\(day)"
+                dateTime += "0\(day!)"
             } else {
-                dateTime += "\(day)"
+                dateTime += "\(day!)"
             }
-            let sgmt = timezone.secondsFromGMTForDate(self)
+            let components = NSDateComponents()
+            components.year = year!
+            components.month = month!
+            components.day = day!
+            let date = GregorianDate.calendar.dateFromComponents(components)
+            let sgmt = timezone.secondsFromGMTForDate(date!)
             var mgmt = Int(sgmt / 60)
             var hgmt = Int(mgmt / 60)
             mgmt = Int(abs(mgmt) % 60)
@@ -142,15 +224,22 @@ public class GregorianDate : NSDate {
         }
     }
     
-    public var gYearMonth : String {
+    public var gYearMonth : String? {
         get {
-            var dateTime = "\(year)-"
+            if month == nil || year == nil {
+                return nil
+            }
+            var dateTime = "\(year!)-"
             if month < 10 {
-                dateTime += "0\(month)"
+                dateTime += "0\(month!)"
             } else {
-                dateTime += "\(month)"
+                dateTime += "\(month!)"
             }
-            let sgmt = timezone.secondsFromGMTForDate(self)
+            let components = NSDateComponents()
+            components.year = year!
+            components.month = month!
+            let date = GregorianDate.calendar.dateFromComponents(components)
+            let sgmt = timezone.secondsFromGMTForDate(date!)
             var mgmt = Int(sgmt / 60)
             var hgmt = Int(mgmt / 60)
             mgmt = Int(abs(mgmt) % 60)
@@ -178,10 +267,16 @@ public class GregorianDate : NSDate {
         }
     }
     
-    public var gYear : String {
+    public var gYear : String? {
         get {
-            var dateTime = "\(year)"
-            let sgmt = timezone.secondsFromGMTForDate(self)
+            if year == nil {
+                return nil
+            }
+            var dateTime = "\(year!)"
+            let components = NSDateComponents()
+            components.year = year!
+            let date = GregorianDate.calendar.dateFromComponents(components)
+            let sgmt = timezone.secondsFromGMTForDate(date!)
             var mgmt = Int(sgmt / 60)
             var hgmt = Int(mgmt / 60)
             mgmt = Int(abs(mgmt) % 60)
@@ -209,14 +304,20 @@ public class GregorianDate : NSDate {
         }
     }
     
-    public override init() {
-        timezone = NSTimeZone.localTimeZone()
-        GregorianDate.calendar.timeZone = timezone
-        timeIntervalSinceReferenceDataInternal = NSDate.timeIntervalSinceReferenceDate()
-        timeSpan = 0
-        super.init()
+    public convenience init() {
+        self.init(date: NSDate())
+    }
+    
+    public convenience init(date: NSDate) {
+        let tz = NSTimeZone(forSecondsFromGMT: 0)
+        self.init(date:date, timeZone : tz)
+    }
+    
+    public init(date: NSDate, timeZone : NSTimeZone) {
+        timezone = timeZone
         let unitFlags: NSCalendarUnit = [.Hour, .Day, .Month, .Year, .Minute, .Second, .Nanosecond]
-        let components = GregorianDate.calendar.components(unitFlags, fromDate:self)
+        GregorianDate.calendar.timeZone = timezone
+        let components = GregorianDate.calendar.components(unitFlags, fromDate:date)
         year = components.year
         month = components.month
         day = components.day
@@ -224,132 +325,58 @@ public class GregorianDate : NSDate {
         minute = components.minute
         second = Double(components.second)
         let nanosec = components.nanosecond
-        second += Double(nanosec)*1e-9
+        second! += Double(nanosec)*1e-9
     }
     
-    public override init(timeIntervalSinceReferenceDate : NSTimeInterval) {
-        timeIntervalSinceReferenceDataInternal = timeIntervalSinceReferenceDate
-        timezone = NSTimeZone(forSecondsFromGMT: 0)
-        timeSpan = 0
-        super.init()
-        let unitFlags: NSCalendarUnit = [.Hour, .Day, .Month, .Year, .Minute, .Second, .Nanosecond]
-        GregorianDate.calendar.timeZone = timezone
-        let components = GregorianDate.calendar.components(unitFlags, fromDate:self)
-        year = components.year
-        month = components.month
-        day = components.day
-        hour = components.hour
-        minute = components.minute
-        second = Double(components.second)
-        let nanosec = components.nanosecond
-        second += Double(nanosec)*1e-9
-    }
-    
-    public convenience init?(year: Int, month: Int, day: Int, hour: Int, minute: Int, second: Double, timezone: NSTimeZone) {
-        let components = NSDateComponents()
-        GregorianDate.calendar.timeZone = timezone
-        components.year = year
-        components.month = month
-        components.day = day
-        components.hour = hour
-        components.minute = minute
-        components.second = Int(second)
-        let nanosecs = Int(second*1e9)
-        components.nanosecond = nanosecs
-        let date = GregorianDate.calendar.dateFromComponents(components)
-        self.init(timeIntervalSinceReferenceDate: (date?.timeIntervalSinceReferenceDate)!)
-        self.timeSpan = 0
-        self.timezone = timezone
+    public init?(year: Int?, month: Int?, day: Int?, hour: Int?, minute: Int?, second: Double?, timezone: NSTimeZone) {
         self.year = year
         self.month = month
         self.day = day
         self.hour = hour
         self.minute = minute
         self.second = second
+        self.timezone = timezone
     }
     
-    public convenience init?(dateTime: String) {
-        var tz : NSTimeZone = NSTimeZone.localTimeZone()
-        let components = GregorianDate.parseDateString(dateTime,timeZone: &tz, pattern: GregorianDate.dateTimePattern)
-        if components == nil {
+    public init?(dateTime: String) {
+        let parsed = parseDateString(dateTime, pattern: GregorianDate.dateTimePattern)
+        if !parsed {
             return nil
         }
-        GregorianDate.calendar.timeZone = tz
-        let date = GregorianDate.calendar.dateFromComponents(components!)
-        self.init(timeIntervalSinceReferenceDate: (date?.timeIntervalSinceReferenceDate)!)
-        self.timeSpan = 0
-        self.timezone = tz
-        year = components!.year
-        month = components!.month
-        day = components!.day
-        hour = components!.hour
-        minute = components!.minute
-        second = Double(components!.second)
-        let nanosec = components!.nanosecond
-        second += Double(nanosec)*1e-9
     }
     
     
     public convenience init?(year: Int, month: Int, day: Int, timezone: NSTimeZone) {
-        self.init(year:year, month:month, day: day, hour:0, minute:0, second:0, timezone:timezone)
-        self.timeSpan = 86400
-        self.year = year
-        self.month = month
-        self.day = day
+        self.init(year:year, month:month, day: day, hour:nil, minute:nil, second:nil, timezone:timezone)
     }
     
-    public convenience init?(date: String) {
-        var tz : NSTimeZone = NSTimeZone.localTimeZone()
-        let components = GregorianDate.parseDateString(date,timeZone: &tz, pattern: GregorianDate.datePattern)
-        if components == nil {
+    public init?(date: String) {
+        let parsed = parseDateString(date, pattern: GregorianDate.datePattern)
+        if !parsed {
             return nil
         }
-        GregorianDate.calendar.timeZone = tz
-        let date = GregorianDate.calendar.dateFromComponents(components!)
-        self.init(timeIntervalSinceReferenceDate: (date?.timeIntervalSinceReferenceDate)!)
-        self.timeSpan = 86400
-        self.timezone = tz
     }
     
     public convenience init?(year: Int, month: Int, timezone: NSTimeZone) {
-        self.init(year:year, month:month, day: 1, hour:0, minute:0, second:0, timezone:timezone)
-        self.timeSpan = 86400 // TODO determine time span for the specified month
-        self.year = year
-        self.month = month
+        self.init(year:year, month:month, day: nil, hour:nil, minute:nil, second:nil, timezone:timezone)
     }
     
-    public convenience init?(gYearMonth: String) {
-        var tz : NSTimeZone = NSTimeZone.localTimeZone()
-        let components = GregorianDate.parseDateString(gYearMonth,timeZone: &tz, pattern: GregorianDate.gYearMonthPattern)
-        if components == nil {
+    public init?(gYearMonth: String) {
+        let parsed = parseDateString(gYearMonth, pattern: GregorianDate.gYearMonthPattern)
+        if !parsed {
             return nil
         }
-        GregorianDate.calendar.timeZone = tz
-        let date = GregorianDate.calendar.dateFromComponents(components!)
-        self.init(timeIntervalSinceReferenceDate: (date?.timeIntervalSinceReferenceDate)!)
-        self.timeSpan = 86400
-        // TODO determine time span for the specified month
-        self.timezone = tz
     }
     
     public convenience init?(year: Int, timezone: NSTimeZone) {
-        self.init(year:year, month:1, day: 1, hour:0, minute:0, second:0, timezone:timezone)
-        self.timeSpan = 86400 // TODO determine time span for the specified year
-        self.year = year
+        self.init(year:year, month:nil, day: nil, hour:nil, minute:nil, second:nil, timezone:timezone)
     }
     
-    public convenience init?(gYear: String) {
-        var tz : NSTimeZone = NSTimeZone.localTimeZone()
-        let components = GregorianDate.parseDateString(gYear,timeZone: &tz, pattern: GregorianDate.gYearPattern)
-        if components == nil {
+    public init?(gYear: String) {
+        let parsed = parseDateString(gYear, pattern: GregorianDate.gYearPattern)
+        if !parsed {
             return nil
         }
-        GregorianDate.calendar.timeZone = tz
-        let date = GregorianDate.calendar.dateFromComponents(components!)
-        self.init(timeIntervalSinceReferenceDate: (date?.timeIntervalSinceReferenceDate)!)
-        self.timeSpan = 86400
-        // TODO determine time span for the specified year
-        self.timezone = tz
         
     }
 
@@ -357,14 +384,36 @@ public class GregorianDate : NSDate {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private class func parseDateString(stringValue: String, inout timeZone: NSTimeZone, pattern : String) -> NSDateComponents? {
+    public func addDuration(duration : Duration) -> GregorianDate? {
+        var sign = 1
+        if !duration.isPositive {
+            sign = -1
+        }
+        let components = NSDateComponents()
+        components.year = sign*Int(duration.years)
+        components.month = sign*Int(duration.months)
+        components.day = sign*Int(duration.days)
+        components.hour = sign*Int(duration.hours)
+        components.minute = sign*Int(duration.minutes)
+        components.second = sign*Int(duration.seconds)
+        components.nanosecond = sign*Int(duration.seconds-Double(Int(duration.seconds))*1e9)
+        GregorianDate.calendar.timeZone = timezone
+        let sdate = self.startDate
+        if sdate == nil {
+            return nil
+        }
+        let ndate = GregorianDate.calendar.dateByAddingComponents(components, toDate: sdate!, options: NSCalendarOptions(rawValue: 0))
+        let ngd = GregorianDate(date: ndate!, timeZone: timezone)
+        return ngd
+    }
+    
+    private func parseDateString(stringValue: String, pattern : String) -> Bool {
         do {
             let regex = try NSRegularExpression(pattern: pattern, options: [])
             let matches = regex.matchesInString(stringValue, options: [], range: NSMakeRange(0, stringValue.characters.count)) as Array<NSTextCheckingResult>
             if matches.count == 0 {
-                return nil
+                return false
             }else{
-                let datecomponents = NSDateComponents()
                 let match = matches[0]
                 let nsstring = stringValue as NSString
                 if match.rangeAtIndex(match.numberOfRanges-3).location != NSNotFound {
@@ -378,14 +427,11 @@ public class GregorianDate : NSDate {
                         let tzminsStr = nsstring.substringWithRange(match.rangeAtIndex(match.numberOfRanges-1)) as String
                         tzmins = Int(tzminsStr)!
                     }
-                    timeZone = NSTimeZone.init(forSecondsFromGMT: tzhrs*3600+tzmins*60)
+                    if tzhrs < 0 {
+                        tzmins = -tzmins
+                    }
+                    timezone = NSTimeZone.init(forSecondsFromGMT: tzhrs*3600+tzmins*60)
                 }
-                var year = 0
-                var month = 1
-                var day = 1
-                var hour = 0
-                var minute = 0
-                var second : Double = 0
                 if match.rangeAtIndex(1).location != NSNotFound {
                     let str = nsstring.substringWithRange(match.rangeAtIndex(1)) as String
                     year = Int(str)!
@@ -410,18 +456,11 @@ public class GregorianDate : NSDate {
                     let str = nsstring.substringWithRange(match.rangeAtIndex(6)) as String
                     second = Double(str)!
                 }
-                datecomponents.year = year
-                datecomponents.month = month
-                datecomponents.day = day
-                datecomponents.hour = hour
-                datecomponents.minute = minute
-                datecomponents.second = Int(second)
-                datecomponents.nanosecond = Int((second-Double(Int(second)))*1e9)
-                return datecomponents
+                return true
             }
         } catch {
             
         }
-        return nil
+        return false
     }
 }
