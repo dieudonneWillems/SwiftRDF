@@ -19,6 +19,8 @@ public class GregorianDate {
     
     private static let calendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)!
     
+    // MARK: Date component properties
+    
     public private(set) var year : Int?
     public private(set) var month : Int?
     public private(set) var day : Int?
@@ -26,6 +28,8 @@ public class GregorianDate {
     public private(set) var minute : Int?
     public private(set) var second : Double?
     public private(set) var timezone : NSTimeZone = NSTimeZone.localTimeZone()
+    
+    // MARK: Time span components
     
     public var startDate : NSDate? {
         get {
@@ -92,11 +96,17 @@ public class GregorianDate {
         }
     }
     
+    
+    // MARK: Recurring dates and times
+    
     public var isRecurring : Bool {
         get {
             return (year == nil)
         }
     }
+    
+    
+    // MARK: XSD string representations
     
     public var dateTime : String? {
         get {
@@ -304,6 +314,9 @@ public class GregorianDate {
         }
     }
     
+    
+    // MARK: Initialisers
+    
     public convenience init() {
         self.init(date: NSDate())
     }
@@ -383,6 +396,9 @@ public class GregorianDate {
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    
+    // MARK: Calendar calculations
     
     public func addDuration(duration : Duration) -> GregorianDate? {
         var sign = 1
