@@ -33,17 +33,22 @@ public class Literal: Value {
      */
     public private(set) var language : String?
     
-    /// The boolean value of the literal.
-    public private(set) var booleanValue : Bool?
+    
+    
+    // MARK: Date and Time values
+    
+    /// The date value of the literal.
+    public private(set) var dateValue : GregorianDate?
     
     /// The duration value of the literal.
     public private(set) var durationValue : Duration?
     
-    /// The calendar value of the literal.
-    public private(set) var calendarValue : NSCalendar?
     
-    /// The data value of the literal.
-    public private(set) var dateValue : NSDate?
+    
+    // MARK: Numerical values
+    
+    /// The boolean value of the literal.
+    public private(set) var booleanValue : Bool?
     
     /** 
      The float value of the literal. If the datatype is `XSD.double`, the float value will also represent a value,
@@ -245,6 +250,14 @@ public class Literal: Value {
                     return "\(val)E\(sign)\(ilogv)";
                 } else if dataType! == XSD.float {
                     return "\"\(floatValue!)\"^^xsd:float";
+                } else if dataType! == XSD.dateTime {
+                    return "\"-\(dateValue!.dateTime)\"^^xsd:dateTime";
+                } else if dataType! == XSD.date {
+                    return "\"-\(dateValue!.date!)\"^^xsd:date";
+                } else if dataType! == XSD.gYearMonth {
+                    return "\"-\(dateValue!.gYearMonth!)\"^^xsd:gYearMonth";
+                } else if dataType! == XSD.gYear {
+                    return "\"-\(dateValue!.gYear!)\"^^xsd:gYear";
                 }
             }
             return "\"\(self.stringValue)\""
@@ -357,6 +370,14 @@ public class Literal: Value {
                         datatypeFS = XSD.double
                     } else if dtypeStr! == "xsd:float" {
                         datatypeFS = XSD.float
+                    } else if dtypeStr! == "xsd:dateTime" {
+                        datatypeFS = XSD.dateTime
+                    } else if dtypeStr! == "xsd:date" {
+                        datatypeFS = XSD.date
+                    } else if dtypeStr! == "xsd:gYearMonth" {
+                        datatypeFS = XSD.gYearMonth
+                    } else if dtypeStr! == "xsd:gYear" {
+                        datatypeFS = XSD.gYear
                     } else {
                         // TODO: add other datatype initialisers
                         datatypeFS = try Datatype(namespace: XSD.namespace(), localName: dtypeStr!, derivedFromDatatype: nil, isListDataType: false)
@@ -509,6 +530,26 @@ public class Literal: Value {
                 floatValue = try Literal.parseFloat(stringValue)
             }else if dataType == XSD.double {
                 doubleValue = try Literal.parseDouble(stringValue)
+            }else if dataType == XSD.dateTime {
+                dateValue = GregorianDate(dateTime:stringValue)
+                if dateValue == nil {
+                    return nil
+                }
+            }else if dataType == XSD.date {
+                dateValue = GregorianDate(date:stringValue)
+                if dateValue == nil {
+                    return nil
+                }
+            }else if dataType == XSD.gYearMonth {
+                dateValue = GregorianDate(gYearMonth:stringValue)
+                if dateValue == nil {
+                    return nil
+                }
+            }else if dataType == XSD.gYear {
+                dateValue = GregorianDate(gYear:stringValue)
+                if dateValue == nil {
+                    return nil
+                }
             }else {
             }
         } catch {
@@ -516,8 +557,59 @@ public class Literal: Value {
         }
     }
     
+    // MARK: Initialisers for Date and Time Literals
+    
     /**
-     Creates a new Literal with a duration as value and with a `XSD.duration` datatype.
+     Creates a new Literal with a Gregorian date and time as value and with an `XSD.dateTime` datatype.
+     
+     - parameter dateValue: The date value.
+     */
+    public convenience init(dateTimeValue : GregorianDate) {
+        self.init(stringValue: "\(dateTimeValue)")
+        self.dateValue = dateTimeValue
+        self.dataType = XSD.dateTime
+    }
+    
+    /**
+     Creates a new Literal with a Gregorian date (including time of day) as value and with an
+     `XSD.dateTime` datatype.
+     The date only contains date information and does not include time of day. 
+     This date, therefore, specifies a whole day.
+     
+     - parameter dateValue: The date value.
+     */
+    public convenience init(dateValue : GregorianDate) {
+        self.init(stringValue: "\(dateValue)")
+        self.dateValue = dateValue
+        self.dataType = XSD.date
+    }
+    
+    /**
+     Creates a new Literal with a Gregorian date, containing only a year and a month as value and with an
+     `XSD.gYearMonth` datatype. This date specifies a whole month.
+     
+     - parameter gYearMonthValue: The date value containing only year and month.
+     */
+    public convenience init(gYearMonthValue : GregorianDate) {
+        self.init(stringValue: "\(gYearMonthValue)")
+        self.dateValue = gYearMonthValue
+        self.dataType = XSD.gYearMonth
+    }
+    
+    /**
+     Creates a new Literal with a Gregorian date, containing only a year as value and with an
+     `XSD.gYear` datatype. This date specifies a whole year.
+     
+     - parameter gYearValue: The date value containing only year.
+     */
+    public convenience init(gYearValue : GregorianDate) {
+        self.init(stringValue: "\(gYearValue)")
+        self.dateValue = gYearValue
+        self.dataType = XSD.gYear
+    }
+    
+    /**
+     Creates a new Literal with a duration as value and with an `XSD.duration` datatype.
      
      - parameter durationValue: The duration.
      */
@@ -528,7 +620,7 @@ public class Literal: Value {
     }
     
     /**
-     Creates a new Literal with a duration expressed as a time interval as value and with a `XSD.duration` datatype.
+     Creates a new Literal with a duration expressed as a time interval as value and with an `XSD.duration` datatype.
      
      - parameter timeInterval: The time interval in seconds.
      */
@@ -540,7 +632,7 @@ public class Literal: Value {
     }
     
     /**
-     Creates a new Literal with a duration expressed as in its components as value and with a `XSD.duration` datatype.
+     Creates a new Literal with a duration expressed as in its components as value and with an `XSD.duration` datatype.
      
      - parameter positive: Set to true when the duration is positive, false otherwise.
      - parameter years: The number of years in the duration.
@@ -561,8 +653,10 @@ public class Literal: Value {
         self.dataType = XSD.duration
     }
     
+    // MARK: Initialisers for Booleans and Numbers
+    
     /**
-     Creates a new Literal with a boolean as value and with a `XSD.boolean` datatype.
+     Creates a new Literal with a boolean as value and with an `XSD.boolean` datatype.
      
      - parameter booleanValue: The boolean value.
      */
@@ -574,7 +668,7 @@ public class Literal: Value {
     
     
     /**
-     Creates a new Literal with a `Decimal` as value and with a `XSD.decimal` datatype.
+     Creates a new Literal with a `Decimal` as value and with an `XSD.decimal` datatype.
      A decimal represents a subset of the real numbers, which can be represented by decimal numerals.
      The value space of decimal is the set of numbers that can be obtained by multiplying an integer (i.e. `decimalInteger`)
      by a non-positive power of ten (i.e. `decimalExponent`), i.e., expressible as i × 10^-n where i and n are integers
@@ -594,7 +688,7 @@ public class Literal: Value {
     }
     
     /**
-     Creates a new Literal with a integer as value and with a `XSD.integer` datatype.
+     Creates a new Literal with a integer as value and with an `XSD.integer` datatype.
      The type of the integer is the natively supported type of integer, i.e. a 32-bit integer on 32-bit systems and
      a 64-bit integer on 64-bit systems.
      
@@ -608,7 +702,7 @@ public class Literal: Value {
     }
     
     /**
-     Creates a new Literal with a non-negative integer as value and with a `XSD.nonNegativeInteger` datatype. The integer
+     Creates a new Literal with a non-negative integer as value and with an `XSD.nonNegativeInteger` datatype. The integer
      needs to be in the range [0,UInt.max] where UInt.max is the maximum integer value supported by the system.
      The type of the integer is the natively supported type of integer, i.e. a 32-bit integer on 32-bit systems and
      a 64-bit integer on 64-bit systems.
@@ -623,7 +717,7 @@ public class Literal: Value {
     }
     
     /**
-     Creates a new Literal with a positive integer as value and with a `XSD.positiveInteger` datatype. The integer
+     Creates a new Literal with a positive integer as value and with an `XSD.positiveInteger` datatype. The integer
      needs to be in the range [1,UInt.max] where UInt.max is the maximum integer value supported by the system.
      The type of the integer is the natively supported type of integer, i.e. a 32-bit integer on 32-bit systems and
      a 64-bit integer on 64-bit systems.
@@ -642,7 +736,7 @@ public class Literal: Value {
     }
     
     /**
-     Creates a new Literal with a non-positive integer as value and with a `XSD.nonPositiveInteger` datatype. The integer
+     Creates a new Literal with a non-positive integer as value and with an `XSD.nonPositiveInteger` datatype. The integer
      needs to be in the range [Int.min,0] where Int.min is the minimum integer value supported by the system.
      The type of the integer is the natively supported type of integer, i.e. a 32-bit integer on 32-bit systems and
      a 64-bit integer on 64-bit systems.
@@ -662,7 +756,7 @@ public class Literal: Value {
     }
     
     /**
-     Creates a new Literal with the **absolute** value of a non-positive integer as value and with a
+     Creates a new Literal with the **absolute** value of a non-positive integer as value and with an
      `XSD.nonPositiveInteger` datatype. The integer needs to be in the range [0,UInt.max] where UInt.max
      is the maximum integer value supported by the system.
      The type of the integer is the natively supported type of integer, i.e. a 32-bit integer on 32-bit systems and
@@ -681,7 +775,7 @@ public class Literal: Value {
     }
     
     /**
-     Creates a new Literal with a negative integer as value and with a `XSD.negativeInteger` datatype. The integer
+     Creates a new Literal with a negative integer as value and with an `XSD.negativeInteger` datatype. The integer
      needs to be in the range [Int.min,1] where Int.min is the minimum integer value supported by the system.
      The type of the integer is the natively supported type of integer, i.e. a 32-bit integer on 32-bit systems and
      a 64-bit integer on 64-bit systems.
@@ -698,7 +792,7 @@ public class Literal: Value {
     }
     
     /**
-     Creates a new Literal with the **absolute** value of a negative integer as value and with a
+     Creates a new Literal with the **absolute** value of a negative integer as value and with an
      `XSD.negativeInteger` datatype. The integer needs to be in the range [1,UInt.max] where UInt.max
      is the maximum integer value supported by the system.
      The type of the integer is the natively supported type of integer, i.e. a 32-bit integer on 32-bit systems and
@@ -716,7 +810,7 @@ public class Literal: Value {
     }
     
     /**
-     Creates a new Literal with a long (base-64 integer) as value and with a `XSD.long` datatype.
+     Creates a new Literal with a long (base-64 integer) as value and with an `XSD.long` datatype.
      
      - parameter longValue: The long value.
      */
@@ -728,7 +822,7 @@ public class Literal: Value {
     }
     
     /**
-     Creates a new Literal with an unsigned long (base-64 integer) as value and with a `XSD.unsignedLong` datatype.
+     Creates a new Literal with an unsigned long (base-64 integer) as value and with an `XSD.unsignedLong` datatype.
      
      - parameter unsignedLongValue: The unsigned long value.
      */
@@ -740,7 +834,7 @@ public class Literal: Value {
     }
     
     /**
-     Creates a new Literal with an int (base-32 integer) as value and with a `XSD.int` datatype.
+     Creates a new Literal with an int (base-32 integer) as value and with an `XSD.int` datatype.
      
      - parameter intValue: The int value.
      */
@@ -752,7 +846,7 @@ public class Literal: Value {
     }
     
     /**
-     Creates a new Literal with an unsigned int (base-32 integer) as value and with a `XSD.unsignedInt` datatype.
+     Creates a new Literal with an unsigned int (base-32 integer) as value and with an `XSD.unsignedInt` datatype.
      
      - parameter unsignedIntValue: The unsigned int value.
      */
@@ -764,7 +858,7 @@ public class Literal: Value {
     }
     
     /**
-     Creates a new Literal with a short (base-16 integer) as value and with a `XSD.short` datatype.
+     Creates a new Literal with a short (base-16 integer) as value and with an `XSD.short` datatype.
      
      - parameter shortValue: The short value.
      */
@@ -776,7 +870,7 @@ public class Literal: Value {
     }
     
     /**
-     Creates a new Literal with an unsigned short (base-16 integer) as value and with a `XSD.unsignedShort` datatype.
+     Creates a new Literal with an unsigned short (base-16 integer) as value and with an `XSD.unsignedShort` datatype.
      
      - parameter unsignedShortValue: The unsigned short value.
      */
@@ -788,7 +882,7 @@ public class Literal: Value {
     }
     
     /**
-     Creates a new Literal with a byte (base-8 integer) as value and with a `XSD.byte` datatype.
+     Creates a new Literal with a byte (base-8 integer) as value and with an `XSD.byte` datatype.
      
      - parameter byteValue: The byte value.
      */
@@ -800,7 +894,7 @@ public class Literal: Value {
     }
     
     /**
-     Creates a new Literal with an unsigned byte (base-8 integer) as value and with a `XSD.unsignedByte` datatype.
+     Creates a new Literal with an unsigned byte (base-8 integer) as value and with an `XSD.unsignedByte` datatype.
      
      - parameter unsignedByteValue: The unsigned byte value.
      */
@@ -812,7 +906,7 @@ public class Literal: Value {
     }
     
     /**
-     Creates a new Literal with a single precision floating point number (float) as value and with a `XSD.float` datatype.
+     Creates a new Literal with a single precision floating point number (float) as value and with an `XSD.float` datatype.
      
      - parameter floatValue: The float value.
      */
@@ -824,7 +918,7 @@ public class Literal: Value {
     }
     
     /**
-     Creates a new Literal with a double precision floating point number (double) as value and with a `XSD.double` datatype.
+     Creates a new Literal with a double precision floating point number (double) as value and with an `XSD.double` datatype.
      
      - parameter floatValue: The double value.
      */
@@ -835,11 +929,7 @@ public class Literal: Value {
         self.dataType = XSD.double
     }
     
-    // TODO: Initialiser for dateTime
-    // TODO: Initialiser for date
     // TODO: Initialiser for time
-    // TODO: Initialiser for gYearMonth
-    // TODO: Initialiser for gYear
     // TODO: Initialiser for gMonthDay
     // TODO: Initialiser for gMonth
     // TODO: Initialiser for gDay

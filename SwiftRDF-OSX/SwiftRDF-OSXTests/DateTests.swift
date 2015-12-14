@@ -153,7 +153,6 @@ class DateTests: XCTestCase {
         XCTAssertTrue(1449957600.0 == sdate!.timeIntervalSince1970)
         edate = gdate!.endDate
         XCTAssertTrue(1449957600.0+24*3600 == edate!.timeIntervalSince1970)
-        print("date: \(sdate?.timeIntervalSince1970)")
     }
 }
 
