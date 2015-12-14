@@ -9,7 +9,17 @@
 import Foundation
 
 
-public class GregorianDate {
+/**
+ Instances of this class represent a moment in time as a date (and time) in a Gregorian Calendar.
+ A `GregorianDate` may represent a specific moment with date and time with a precision up to a nanosecond, but
+ may also represent a whole day, month, or even year. Furthermore, they may also represent a recurrent time, 
+ for instance, 12:34 AM every day, or the second day of a month.
+ 
+ This class can be used to specify values of all the different date and time datatypes as specified in the
+ [XML Schema specification for datatypes](http://www.w3.org/TR/xmlschema-2/) such as `XSD.dateTime`,
+ `XSD.gYear` or `XSD.gDay`.
+ */
+public class GregorianDate : CustomStringConvertible {
     
     // regex dateTime pattern: ^((?:[+-]?)(?:\d{4,}))-((?:0[1-9])|(?:1[0-2]))-((?:0[1-9])|(?:[1-2][0-9])|(?:3[0-1]))T((?:[0-1][0-9])|(?:2[0-4])):([0-5][0-9]):((?:(?:[0-5][0-9])|60)(?:\.\d*)?)(Z|(?:([+-](?:(?:0[0-9])|(?:1[0-2]))):((?:00)|(?:30))))$
     private static let dateTimePattern = "^((?:[+-]?)(?:\\d{4,}))-((?:0[1-9])|(?:1[0-2]))-((?:0[1-9])|(?:[1-2][0-9])|(?:3[0-1]))T((?:[0-1][0-9])|(?:2[0-4])):([0-5][0-9]):((?:(?:[0-5][0-9])|60)(?:\\.\\d*)?)(Z|(?:([+-](?:(?:0[0-9])|(?:1[0-2]))):((?:00)|(?:30))))$"
@@ -19,18 +29,69 @@ public class GregorianDate {
     
     private static let calendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)!
     
+    /**
+     A textual description of the `GregorianDate`. If it has a XSD datatype, the textual representation for
+     that datatype is used in the textual representation.
+     */
+    public var description : String {
+        get {
+            let datatype = XSDDataType
+            if datatype == nil {
+                return "GregorianDate"
+            }
+            var descr : String? = nil
+            if datatype! == XSD.dateTime {
+                descr = dateTime
+            }else if datatype! == XSD.date {
+                descr = date
+            }else if datatype! == XSD.gYearMonth {
+                descr = gYearMonth
+            }else if datatype! == XSD.gYear {
+                descr = gYear
+            }
+            if descr == nil {
+                return "GregorianDate"
+            }
+            return descr!
+        }
+    }
+    
     // MARK: Date component properties
     
+    /// The year component of the `GregorianDate`. If this value is `nil`, the date/time will be a recurring date/time.
     public private(set) var year : Int?
+    
+    /// The month component of the `GregorianDate`.
     public private(set) var month : Int?
+    
+    /// The day component of the `GregorianDate`.
     public private(set) var day : Int?
+    
+    /// The hour component of the `GregorianDate`.
     public private(set) var hour : Int?
+    
+    /// The minute component of the `GregorianDate`.
     public private(set) var minute : Int?
+    
+    /// The second component of the `GregorianDate`.
     public private(set) var second : Double?
+    
+    /// The timezone used for this `GregorianDate`.
     public private(set) var timezone : NSTimeZone = NSTimeZone.localTimeZone()
+    
+    
+    
     
     // MARK: Time span components
     
+    /**
+     The start date of the `GregorianDate` is the date at which the moment represented by the `GregorianDate` starts.
+     If the `GregorianDate` is a recurring date/time, the start date of the next occurrence will be returned, or if
+     the recurring date/time is ongoing at the moment, the current start date will be returned.
+    
+     A `GregorianDate` can have a start and end time when for instance only a date and not the time of day is specified.
+     In this case the duration of the `GregorianDate` will be one day.
+     */
     public var startDate : NSDate? {
         get {
             if year != nil {
@@ -69,6 +130,14 @@ public class GregorianDate {
         }
     }
     
+    /**
+     The end date of the `GregorianDate` is the date at which the moment represented by the `GregorianDate` ends.
+     If the `GregorianDate` is a recurring date/time, the end date of the next occurrence will be returned, or if
+     the recurring date/time is ongoing at the moment, the current end date will be returned.
+     
+     A `GregorianDate` can have a start and end time when for instance only a date and not the time of day is specified.
+     In this case the duration of the `GregorianDate` will be one day.
+     */
     public var endDate : NSDate? {
         get {
             if duration == nil {
@@ -78,10 +147,15 @@ public class GregorianDate {
         }
     }
     
+    /**
+     The duration of the moment represented by the `GregorianDate`. A `GregorianDate` has a duration when for instance 
+     only a date and not the time of day is specified.
+     In this case the duration of the `GregorianDate` will be one day.
+     */
     public var duration : Duration? {
         get {
             if second != nil {
-                return Duration(positive: true, years: 0, months: 0, days: 0, hours: 0, minutes: 0, seconds: 1)
+                return Duration(positive: true, years: 0, months: 0, days: 0, hours: 0, minutes: 0, seconds: 0)
             } else if minute != nil {
                 return Duration(positive: true, years: 0, months: 0, days: 0, hours: 0, minutes: 1, seconds: 0)
             } else if hour != nil {
@@ -100,6 +174,14 @@ public class GregorianDate {
     
     // MARK: Recurring dates and times
     
+    /**
+     This property is true when the Gregorian data represents, not a specifc moment in time, but  a recurring 
+     moment in time such as a specific time of day that recurs every day (`XSD.time`) or a specific month in
+     a year (`XSD.gMonth`) that recurs every year. 
+    
+     This implementation checks whether the optional parameter `year` is `nil`. If this is true, the Gregorian 
+     Date is a recurring time or date.
+     */
     public var isRecurring : Bool {
         get {
             return (year == nil)
@@ -109,6 +191,39 @@ public class GregorianDate {
     
     // MARK: XSD string representations
     
+    /**
+     The XSD data type for this Gregorian date. The `GregorianDate` class can represent all (recurring) date and 
+     time data types specified in the [XML Schema specification for datatypes](http://www.w3.org/TR/xmlschema-2/),
+     such as `XSD.dateTime`, `XSD.date`, `XSD.gYearMonth`, `XSD.gYear`, and the recurring dates/times `XSD.time`,
+     `XSD.gMonthDay`, `XSD.gMonth`, and `XSD.gDay`.
+     */
+    public var XSDDataType : Datatype? {
+        get {
+            if year != nil {
+                if month != nil {
+                    if day != nil {
+                        if hour != nil && minute != nil && second != nil {
+                            return XSD.dateTime
+                        } else {
+                            return XSD.date
+                        }
+                    } else {
+                        return XSD.gYearMonth
+                    }
+                } else {
+                    return XSD.gYear
+                }
+            }
+            return nil
+        }
+    }
+    
+    /**
+     The `xsd:dateTime` textual representation of the `GregorianDate`. The textual representation is of the form:
+     `±[year]-[month]-[day]T[hour]:[minute]:[second][timezone]`, e.g. `2015-12-14T11:29:54.2323+02:00`, or
+     `-1203-03-02T:23:12:04Z`. If `GregorianDate.XSDDataType` does not equal `XSD.dateTime`, this optional property
+     will be `nil`.
+     */
     public var dateTime : String? {
         get {
             if hour == nil || minute == nil || second == nil || day == nil || month == nil || year == nil {
@@ -186,6 +301,12 @@ public class GregorianDate {
         }
     }
     
+    /**
+     The `xsd:date` textual representation of the `GregorianDate`. The textual representation is of the form:
+     `±[year]-[month]-[day][timezone]`, e.g. `2015-12-14+02:00`, or
+     `-1203-03-02Z`. If `GregorianDate.XSDDataType` does not equal `XSD.date`, this optional property
+     will be `nil`.
+     */
     public var date : String? {
         get {
             if day == nil || month == nil || year == nil {
@@ -235,6 +356,12 @@ public class GregorianDate {
         }
     }
     
+    /**
+     The `xsd:gYearMonth` textual representation of the `GregorianDate`. The textual representation is of the form:
+     `±[year]-[month][timezone]`, e.g. `2015-12+02:00`, or
+     `-1203-03Z`. If `GregorianDate.XSDDataType` does not equal `XSD.gYearMonth`, this optional property
+     will be `nil`.
+     */
     public var gYearMonth : String? {
         get {
             if month == nil || year == nil {
@@ -278,6 +405,12 @@ public class GregorianDate {
         }
     }
     
+    /**
+     The `xsd:gYear` textual representation of the `GregorianDate`. The textual representation is of the form:
+     `±[year][timezone]`, e.g. `2015+02:00`, or
+     `-1203Z`. If `GregorianDate.XSDDataType` does not equal `XSD.gYear`, this optional property
+     will be `nil`.
+     */
     public var gYear : String? {
         get {
             if year == nil {
@@ -318,15 +451,30 @@ public class GregorianDate {
     
     // MARK: Initialisers
     
+    /**
+     Creates a new `GregorianDate` with the date and time for the current moment.
+     */
     public convenience init() {
         self.init(date: NSDate())
     }
     
+    /**
+     Creates a new `GregorianDate` with the date and time of the specified `NSDate` object.
+     The time zone of the Gregorian Date will be Greenwich Mean Time (GMT).
+     
+     - parameter date: The `NSDate` object that represents the date and time.
+     */
     public convenience init(date: NSDate) {
         let tz = NSTimeZone(forSecondsFromGMT: 0)
         self.init(date:date, timeZone : tz)
     }
     
+    /**
+     Creates a new `GregorianDate` with the date and time of the specified `NSDate` object.
+     
+     - parameter date: The `NSDate` object that represents the date and time.
+     - parameter timeZone: The time zone of the date.
+     */
     public init(date: NSDate, timeZone : NSTimeZone) {
         timezone = timeZone
         let unitFlags: NSCalendarUnit = [.Hour, .Day, .Month, .Year, .Minute, .Second, .Nanosecond]
@@ -342,7 +490,19 @@ public class GregorianDate {
         second! += Double(nanosec)*1e-9
     }
     
-    public init?(year: Int?, month: Int?, day: Int?, hour: Int?, minute: Int?, second: Double?, timezone: NSTimeZone) {
+    /**
+     Creates a new `GregorianDate` with the specified date and time components and for the specified time zone.
+     All components can be optional, for instance to define a whole year, or to define a recurring time of day.
+     
+     - parameter year: The year of the date.
+     - parameter month: The month component of the date.
+     - parameter day: The day component of the date.
+     - parameter hour: The hour component of the date.
+     - parameter minute: The minute component of the date.
+     - parameter second: The second component of the time.
+     - parameter timezone: The time zone for the `GregorianDate`.
+     */
+    public init(year: Int?, month: Int?, day: Int?, hour: Int?, minute: Int?, second: Double?, timezone: NSTimeZone) {
         self.year = year
         self.month = month
         self.day = day
@@ -352,6 +512,17 @@ public class GregorianDate {
         self.timezone = timezone
     }
     
+    /**
+     Creates a new `GregorianDate` with the date and time parsed from the specified textual representation of
+     a date and time as defined for the `xsd:dateTime` data type. The textual representation should be of the form
+     `±[year]-[month]-[day]T[hour]:[minute]:[second][timezone]`, e.g. `2015-12-14T11:29:54.2323+02:00`, or
+     `-1203-03-02T:23:12:04Z`. If the string is not of this required format, the initialisation method will 
+     return `nil`.
+     
+     - parameter dateTime: The textual representation of a date in `xsd:dateTime` format.
+     - returns: An optional instance of `GregorianDate` which represents the date and time, or `nil` if the
+     string could not be parsed.
+     */
     public init?(dateTime: String) {
         let parsed = parseDateString(dateTime, pattern: GregorianDate.dateTimePattern)
         if !parsed {
@@ -359,11 +530,32 @@ public class GregorianDate {
         }
     }
     
-    
-    public convenience init?(year: Int, month: Int, day: Int, timezone: NSTimeZone) {
+    /**
+     Creates a new `GregorianDate` with the date specified by its date components for year, month, and day (of the month)
+     and for the specified time zone.
+     The corresponding XSD datatype is `xsd:date`.
+     
+     - parameter year: The year of the date.
+     - parameter month: The month component of the date.
+     - parameter day: The day component of the date.
+     - parameter timezone: The time zone for the `GregorianDate`.
+     */
+    public convenience init(year: Int, month: Int, day: Int, timezone: NSTimeZone) {
         self.init(year:year, month:month, day: day, hour:nil, minute:nil, second:nil, timezone:timezone)
     }
     
+    
+    /**
+     Creates a new `GregorianDate` with the date parsed from the specified textual representation of
+     a date as defined for the `xsd:date` data type. The textual representation should be of the form
+     `±[year]-[month]-[day][timezone]`, e.g. `2015-12-14+02:00`, or
+     `-1203-03-02Z`. If the string is not of this required format, the initialisation method will
+     return `nil`.
+     
+     - parameter date: The textual representation of a date in `xsd:date` format.
+     - returns: An optional instance of `GregorianDate` which represents the date or `nil` if the
+     string could not be parsed.
+     */
     public init?(date: String) {
         let parsed = parseDateString(date, pattern: GregorianDate.datePattern)
         if !parsed {
@@ -371,10 +563,30 @@ public class GregorianDate {
         }
     }
     
-    public convenience init?(year: Int, month: Int, timezone: NSTimeZone) {
+    /**
+     Creates a new `GregorianDate` with the date specified by its date components for year and month,
+     and for the specified time zone.
+     The corresponding XSD datatype is `xsd:gYearMonth`.
+     
+     - parameter year: The year of the date.
+     - parameter month: The month component of the date.
+     - parameter timezone: The time zone for the `GregorianDate`.
+     */
+    public convenience init(year: Int, month: Int, timezone: NSTimeZone) {
         self.init(year:year, month:month, day: nil, hour:nil, minute:nil, second:nil, timezone:timezone)
     }
     
+    /**
+     Creates a new `GregorianDate` with the year and month parsed from the specified textual representation of
+     a date as defined for the `xsd:gYearMonth` data type. The textual representation should be of the form
+     `±[year]-[month][timezone]`, e.g. `2015-12+02:00`, or
+     `-1203-03Z`. If the string is not of this required format, the initialisation method will
+     return `nil`.
+     
+     - parameter date: The textual representation of a month in `xsd:gYearMonth` format.
+     - returns: An optional instance of `GregorianDate` which represents the date or `nil` if the
+     string could not be parsed.
+     */
     public init?(gYearMonth: String) {
         let parsed = parseDateString(gYearMonth, pattern: GregorianDate.gYearMonthPattern)
         if !parsed {
@@ -382,10 +594,29 @@ public class GregorianDate {
         }
     }
     
-    public convenience init?(year: Int, timezone: NSTimeZone) {
+    /**
+     Creates a new `GregorianDate` with the date specified by its date components for year
+     and for the specified time zone.
+     The corresponding XSD datatype is `xsd:gYear`.
+     
+     - parameter year: The year of the date.
+     - parameter timezone: The time zone for the `GregorianDate`.
+     */
+    public convenience init(year: Int, timezone: NSTimeZone) {
         self.init(year:year, month:nil, day: nil, hour:nil, minute:nil, second:nil, timezone:timezone)
     }
     
+    /**
+     Creates a new `GregorianDate` with the year parsed from the specified textual representation of
+     a date as defined for the `xsd:gYear` data type. The textual representation should be of the form
+     `±[year][timezone]`, e.g. `2015+02:00`, or
+     `-1203Z`. If the string is not of this required format, the initialisation method will
+     return `nil`.
+     
+     - parameter date: The textual representation of a year in `xsd:gYear` format.
+     - returns: An optional instance of `GregorianDate` which represents the date or `nil` if the
+     string could not be parsed.
+     */
     public init?(gYear: String) {
         let parsed = parseDateString(gYear, pattern: GregorianDate.gYearPattern)
         if !parsed {
@@ -393,14 +624,16 @@ public class GregorianDate {
         }
         
     }
-
-    required public init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
     
     
     // MARK: Calendar calculations
     
+    /**
+     Returns a new date which is equal to the recievers date added with the specified duration.
+     
+     - parameter duration: The duration to be added to the date.
+     - returns: The new date with the duration added.
+     */
     public func addDuration(duration : Duration) -> GregorianDate? {
         var sign = 1
         if !duration.isPositive {

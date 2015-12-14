@@ -560,6 +560,18 @@ public class Literal: Value {
     // MARK: Initialisers for Date and Time Literals
     
     /**
+    Creates a new Literal with the specified Gregorian date, which can represent values for the different
+    date and time datatypes defined for XML Schema.
+    
+    - parameter gregorianDate: The Gregorian date value.
+    */
+    public convenience init(gregorianDate : GregorianDate) {
+        self.init(stringValue: "\(gregorianDate)")
+        self.dateValue = gregorianDate
+        self.dataType = gregorianDate.XSDDataType
+    }
+    
+    /**
      Creates a new Literal with a Gregorian date and time as value and with an `XSD.dateTime` datatype.
      
      - parameter dateValue: The date value.

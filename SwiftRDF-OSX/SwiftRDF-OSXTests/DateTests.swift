@@ -28,32 +28,32 @@ class DateTests: XCTestCase {
         var gdate = GregorianDate(dateTime: string)
         XCTAssertEqual(string, gdate?.dateTime)
         var gdate2 = GregorianDate(year: (gdate?.year)!, month: (gdate?.month)!, day: (gdate?.day)!, hour: (gdate?.hour)!, minute: (gdate?.minute)!, second: (gdate?.second)!, timezone: (gdate?.timezone)!)
-        XCTAssertEqual(string, gdate2?.dateTime)
+        XCTAssertEqual(string, gdate2.dateTime)
         string = "2012-03-12T12:23:54+02:00"
         gdate = GregorianDate(dateTime: string)
         XCTAssertEqual(string, gdate?.dateTime)
         gdate2 = GregorianDate(year: (gdate?.year)!, month: (gdate?.month)!, day: (gdate?.day)!, hour: (gdate?.hour)!, minute: (gdate?.minute)!, second: (gdate?.second)!, timezone: (gdate?.timezone)!)
-        XCTAssertEqual(string, gdate2?.dateTime)
+        XCTAssertEqual(string, gdate2.dateTime)
         string = "2012-03-12T12:23:54-08:30"
         gdate = GregorianDate(dateTime: string)
         XCTAssertEqual(string, gdate?.dateTime)
         gdate2 = GregorianDate(year: (gdate?.year)!, month: (gdate?.month)!, day: (gdate?.day)!, hour: (gdate?.hour)!, minute: (gdate?.minute)!, second: (gdate?.second)!, timezone: (gdate?.timezone)!)
-        XCTAssertEqual(string, gdate2?.dateTime)
+        XCTAssertEqual(string, gdate2.dateTime)
         string = "2012-03-12T12:23:54-10:30"
         gdate = GregorianDate(dateTime: string)
         XCTAssertEqual(string, gdate?.dateTime)
         gdate2 = GregorianDate(year: (gdate?.year)!, month: (gdate?.month)!, day: (gdate?.day)!, hour: (gdate?.hour)!, minute: (gdate?.minute)!, second: (gdate?.second)!, timezone: (gdate?.timezone)!)
-        XCTAssertEqual(string, gdate2?.dateTime)
+        XCTAssertEqual(string, gdate!.dateTime)
         string = "-1203-03-12T12:23:54+02:00"
         gdate = GregorianDate(dateTime: string)
-        XCTAssertEqual(string, gdate?.dateTime)
+        XCTAssertEqual(string, gdate!.dateTime)
         gdate2 = GregorianDate(year: (gdate?.year)!, month: (gdate?.month)!, day: (gdate?.day)!, hour: (gdate?.hour)!, minute: (gdate?.minute)!, second: (gdate?.second)!, timezone: (gdate?.timezone)!)
-        XCTAssertEqual(string, gdate2?.dateTime)
+        XCTAssertEqual(string, gdate2.dateTime)
         string = "-1203-03-12T12:23:54.983244+02:00"
         gdate = GregorianDate(dateTime: string)
-        XCTAssertEqual(string, gdate?.dateTime)
+        XCTAssertEqual(string, gdate!.dateTime)
         gdate2 = GregorianDate(year: (gdate?.year)!, month: (gdate?.month)!, day: (gdate?.day)!, hour: (gdate?.hour)!, minute: (gdate?.minute)!, second: (gdate?.second)!, timezone: (gdate?.timezone)!)
-        XCTAssertEqual(string, gdate2?.dateTime)
+        XCTAssertEqual(string, gdate2.dateTime)
     }
     
     func testDate() {
@@ -61,27 +61,27 @@ class DateTests: XCTestCase {
         var gdate = GregorianDate(date: string)
         XCTAssertEqual(string, gdate?.date)
         var gdate2 = GregorianDate(year: (gdate?.year)!, month: (gdate?.month)!, day: (gdate?.day)!, timezone: (gdate?.timezone)!)
-        XCTAssertEqual(string, gdate2?.date)
+        XCTAssertEqual(string, gdate2.date)
         string = "2012-03-12+02:00"
         gdate = GregorianDate(date: string)
         XCTAssertEqual(string, gdate?.date)
         gdate2 = GregorianDate(year: (gdate?.year)!, month: (gdate?.month)!, day: (gdate?.day)!, timezone: (gdate?.timezone)!)
-        XCTAssertEqual(string, gdate2?.date)
+        XCTAssertEqual(string, gdate2.date)
         string = "2012-03-12-08:30"
         gdate = GregorianDate(date: string)
         XCTAssertEqual(string, gdate?.date)
         gdate2 = GregorianDate(year: (gdate?.year)!, month: (gdate?.month)!, day: (gdate?.day)!, timezone: (gdate?.timezone)!)
-        XCTAssertEqual(string, gdate2?.date)
+        XCTAssertEqual(string, gdate2.date)
         string = "2012-03-12-10:30"
         gdate = GregorianDate(date: string)
         XCTAssertEqual(string, gdate?.date)
         gdate2 = GregorianDate(year: (gdate?.year)!, month: (gdate?.month)!, day: (gdate?.day)!, timezone: (gdate?.timezone)!)
-        XCTAssertEqual(string, gdate2?.date)
+        XCTAssertEqual(string, gdate2.date)
         string = "-1203-03-12+02:00"
         gdate = GregorianDate(date: string)
-        XCTAssertEqual(string, gdate?.date)
+        XCTAssertEqual(string, gdate!.date)
         gdate2 = GregorianDate(year: (gdate?.year)!, month: (gdate?.month)!, day: (gdate?.day)!, timezone: (gdate?.timezone)!)
-        XCTAssertEqual(string, gdate2?.date)
+        XCTAssertEqual(string, gdate2.date)
     }
     
     func testgYearMonth() {
@@ -89,27 +89,27 @@ class DateTests: XCTestCase {
         var gdate = GregorianDate(gYearMonth: string)
         XCTAssertEqual(string, gdate?.gYearMonth)
         var gdate2 = GregorianDate(year: (gdate?.year)!, month: (gdate?.month)!, timezone: (gdate?.timezone)!)
-        XCTAssertEqual(string, gdate2?.gYearMonth)
+        XCTAssertEqual(string, gdate2.gYearMonth)
         string = "2012-03+02:00"
         gdate = GregorianDate(gYearMonth: string)
         XCTAssertEqual(string, gdate?.gYearMonth)
         gdate2 = GregorianDate(year: (gdate?.year)!, month: (gdate?.month)!, timezone: (gdate?.timezone)!)
-        XCTAssertEqual(string, gdate2?.gYearMonth)
+        XCTAssertEqual(string, gdate2.gYearMonth)
         string = "2012-03-08:30"
         gdate = GregorianDate(gYearMonth: string)
         XCTAssertEqual(string, gdate?.gYearMonth)
         gdate2 = GregorianDate(year: (gdate?.year)!, month: (gdate?.month)!, timezone: (gdate?.timezone)!)
-        XCTAssertEqual(string, gdate2?.gYearMonth)
+        XCTAssertEqual(string, gdate2.gYearMonth)
         string = "2012-03-10:30"
         gdate = GregorianDate(gYearMonth: string)
         XCTAssertEqual(string, gdate?.gYearMonth)
         gdate2 = GregorianDate(year: (gdate?.year)!, month: (gdate?.month)!, timezone: (gdate?.timezone)!)
-        XCTAssertEqual(string, gdate2?.gYearMonth)
+        XCTAssertEqual(string, gdate2.gYearMonth)
         string = "-1203-03+02:00"
         gdate = GregorianDate(gYearMonth: string)
         XCTAssertEqual(string, gdate?.gYearMonth)
         gdate2 = GregorianDate(year: (gdate?.year)!, month: (gdate?.month)!, timezone: (gdate?.timezone)!)
-        XCTAssertEqual(string, gdate2?.gYearMonth)
+        XCTAssertEqual(string, gdate2.gYearMonth)
     }
     
     func testgYear() {
@@ -117,27 +117,27 @@ class DateTests: XCTestCase {
         var gdate = GregorianDate(gYear: string)
         XCTAssertEqual(string, gdate?.gYear)
         var gdate2 = GregorianDate(year: (gdate?.year)!, timezone: (gdate?.timezone)!)
-        XCTAssertEqual(string, gdate2?.gYear)
+        XCTAssertEqual(string, gdate2.gYear)
         string = "2012+02:00"
         gdate = GregorianDate(gYear: string)
         XCTAssertEqual(string, gdate?.gYear)
         gdate2 = GregorianDate(year: (gdate?.year)!, timezone: (gdate?.timezone)!)
-        XCTAssertEqual(string, gdate2?.gYear)
+        XCTAssertEqual(string, gdate2.gYear)
         string = "2012-08:30"
         gdate = GregorianDate(gYear: string)
         XCTAssertEqual(string, gdate?.gYear)
         gdate2 = GregorianDate(year: (gdate?.year)!, timezone: (gdate?.timezone)!)
-        XCTAssertEqual(string, gdate2?.gYear)
+        XCTAssertEqual(string, gdate2.gYear)
         string = "2012-10:30"
         gdate = GregorianDate(gYear: string)
         XCTAssertEqual(string, gdate?.gYear)
         gdate2 = GregorianDate(year: (gdate?.year)!, timezone: (gdate?.timezone)!)
-        XCTAssertEqual(string, gdate2?.gYear)
+        XCTAssertEqual(string, gdate2.gYear)
         string = "-1203+02:00"
         gdate = GregorianDate(gYear: string)
         XCTAssertEqual(string, gdate?.gYear)
         gdate2 = GregorianDate(year: (gdate?.year)!, timezone: (gdate?.timezone)!)
-        XCTAssertEqual(string, gdate2?.gYear)
+        XCTAssertEqual(string, gdate2.gYear)
     }
     
     func testDateTimeDateValue() {
@@ -146,7 +146,7 @@ class DateTests: XCTestCase {
         var sdate = gdate!.startDate
         XCTAssertTrue(1450028372.233 == sdate!.timeIntervalSince1970)
         var edate = gdate!.endDate
-        XCTAssertTrue(1450028373.233 == edate!.timeIntervalSince1970)
+        XCTAssertTrue(1450028372.233 == edate!.timeIntervalSince1970)
         string = "2015-12-13+02:00"
         gdate = GregorianDate(date: string)
         sdate = gdate!.startDate
