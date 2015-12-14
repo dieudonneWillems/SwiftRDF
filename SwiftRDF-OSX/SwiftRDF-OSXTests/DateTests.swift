@@ -54,6 +54,11 @@ class DateTests: XCTestCase {
         XCTAssertEqual(string, gdate!.dateTime)
         gdate2 = GregorianDate(year: (gdate?.year)!, month: (gdate?.month)!, day: (gdate?.day)!, hour: (gdate?.hour)!, minute: (gdate?.minute)!, second: (gdate?.second)!, timezone: (gdate?.timezone)!)
         XCTAssertEqual(string, gdate2.dateTime)
+        string = "-1203-03-12T12:23:54.983244"
+        gdate = GregorianDate(dateTime: string)
+        XCTAssertEqual(string, gdate!.dateTime)
+        gdate2 = GregorianDate(year: (gdate?.year)!, month: (gdate?.month)!, day: (gdate?.day)!, hour: (gdate?.hour)!, minute: (gdate?.minute)!, second: (gdate?.second)!, timezone: (gdate?.timezone))
+        XCTAssertEqual(string, gdate2.dateTime)
     }
     
     func testDate() {
@@ -81,6 +86,11 @@ class DateTests: XCTestCase {
         gdate = GregorianDate(date: string)
         XCTAssertEqual(string, gdate!.date)
         gdate2 = GregorianDate(year: (gdate?.year)!, month: (gdate?.month)!, day: (gdate?.day)!, timezone: (gdate?.timezone)!)
+        XCTAssertEqual(string, gdate2.date)
+        string = "-1203-03-12"
+        gdate = GregorianDate(date: string)
+        XCTAssertEqual(string, gdate!.date)
+        gdate2 = GregorianDate(year: (gdate?.year)!, month: (gdate?.month)!, day: (gdate?.day)!, timezone: (gdate?.timezone))
         XCTAssertEqual(string, gdate2.date)
     }
     
@@ -191,6 +201,12 @@ class DateTests: XCTestCase {
         XCTAssertEqual(string, gdate!.time)
         XCTAssertTrue(gdate!.isRecurring)
         gdate2 = GregorianDate(year: (gdate?.year), month: (gdate?.month), day: (gdate?.day), hour: (gdate?.hour)!, minute: (gdate?.minute)!, second: (gdate?.second)!, timezone: (gdate?.timezone)!)
+        XCTAssertEqual(string, gdate2.time)
+        string = "12:23:54.983244"
+        gdate = GregorianDate(time: string)
+        XCTAssertEqual(string, gdate!.time)
+        XCTAssertTrue(gdate!.isRecurring)
+        gdate2 = GregorianDate(year: (gdate?.year), month: (gdate?.month), day: (gdate?.day), hour: (gdate?.hour)!, minute: (gdate?.minute)!, second: (gdate?.second)!, timezone: (gdate?.timezone))
         XCTAssertEqual(string, gdate2.time)
     }
 }

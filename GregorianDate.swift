@@ -21,12 +21,12 @@ import Foundation
  */
 public class GregorianDate : CustomStringConvertible {
     
-    // regex dateTime pattern: ^((?:[+-]?)(?:\d{4,}))-((?:0[1-9])|(?:1[0-2]))-((?:0[1-9])|(?:[1-2][0-9])|(?:3[0-1]))T((?:[0-1][0-9])|(?:2[0-4])):([0-5][0-9]):((?:(?:[0-5][0-9])|60)(?:\.\d*)?)(Z|(?:([+-](?:(?:0[0-9])|(?:1[0-2]))):((?:00)|(?:30))))$
-    private static let dateTimePattern = "^((?:[+-]?)(?:\\d{4,}))-((?:0[1-9])|(?:1[0-2]))-((?:0[1-9])|(?:[1-2][0-9])|(?:3[0-1]))T((?:[0-1][0-9])|(?:2[0-4])):([0-5][0-9]):((?:(?:[0-5][0-9])|60)(?:\\.\\d*)?)(Z|(?:([+-](?:(?:0[0-9])|(?:1[0-2]))):((?:00)|(?:30))))$"
-    private static let datePattern = "^((?:[+-]?)(?:\\d{4,}))-((?:0[1-9])|(?:1[0-2]))-((?:0[1-9])|(?:[1-2][0-9])|(?:3[0-1]))(Z|(?:([+-](?:(?:0[0-9])|(?:1[0-2]))):((?:00)|(?:30))))$"
-    private static let gYearMonthPattern = "^((?:[+-]?)(?:\\d*))-((?:0[1-9])|(?:1[0-2]))(Z|(?:([+-](?:(?:0[0-9])|(?:1[0-2]))):((?:00)|(?:30))))$"
-    private static let gYearPattern = "^((?:[+-]?)(?:\\d{4,}))(Z|(?:([+-](?:(?:0[0-9])|(?:1[0-2]))):((?:00)|(?:30))))$"
-    private static let timePattern = "^((?:[0-1][0-9])|(?:2[0-4])):([0-5][0-9]):((?:(?:[0-5][0-9])|60)(?:\\.\\d*)?)(Z|(?:([+-](?:(?:0[0-9])|(?:1[0-2]))):((?:00)|(?:30))))$"
+    // regex dateTime pattern: ^((?:[+-]?)(?:\d{4,}))-((?:0[1-9])|(?:1[0-2]))-((?:0[1-9])|(?:[1-2][0-9])|(?:3[0-1]))T((?:[0-1][0-9])|(?:2[0-4])):([0-5][0-9]):((?:(?:[0-5][0-9])|60)(?:\.\d*)?)(Z|(?:([+-](?:(?:0[0-9])|(?:1[0-2]))):((?:00)|(?:30))))?$
+    private static let dateTimePattern = "^((?:[+-]?)(?:\\d{4,}))-((?:0[1-9])|(?:1[0-2]))-((?:0[1-9])|(?:[1-2][0-9])|(?:3[0-1]))T((?:[0-1][0-9])|(?:2[0-4])):([0-5][0-9]):((?:(?:[0-5][0-9])|60)(?:\\.\\d*)?)(Z|(?:([+-](?:(?:0[0-9])|(?:1[0-2]))):((?:00)|(?:30))))?$"
+    private static let datePattern = "^((?:[+-]?)(?:\\d{4,}))-((?:0[1-9])|(?:1[0-2]))-((?:0[1-9])|(?:[1-2][0-9])|(?:3[0-1]))(Z|(?:([+-](?:(?:0[0-9])|(?:1[0-2]))):((?:00)|(?:30))))?$"
+    private static let gYearMonthPattern = "^((?:[+-]?)(?:\\d*))-((?:0[1-9])|(?:1[0-2]))(Z|(?:([+-](?:(?:0[0-9])|(?:1[0-2]))):((?:00)|(?:30))))?$"
+    private static let gYearPattern = "^((?:[+-]?)(?:\\d{4,}))(Z|(?:([+-](?:(?:0[0-9])|(?:1[0-2]))):((?:00)|(?:30))))?$"
+    private static let timePattern = "^((?:[0-1][0-9])|(?:2[0-4])):([0-5][0-9]):((?:(?:[0-5][0-9])|60)(?:\\.\\d*)?)(Z|(?:([+-](?:(?:0[0-9])|(?:1[0-2]))):((?:00)|(?:30))))?$"
     
     private static let calendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)!
     
@@ -80,7 +80,7 @@ public class GregorianDate : CustomStringConvertible {
     public private(set) var second : Double?
     
     /// The timezone used for this `GregorianDate`.
-    public private(set) var timezone : NSTimeZone = NSTimeZone.localTimeZone()
+    public private(set) var timezone : NSTimeZone?
     
     
     
@@ -110,7 +110,6 @@ public class GregorianDate : CustomStringConvertible {
                             components.second = Int(second!)
                             let ns = Int((second!-Double(Int(second!)))*1e9)
                             components.nanosecond = ns
-                            
                         } else { // xsd:date
                             components.hour = 0
                             components.minute = 0
@@ -122,7 +121,11 @@ public class GregorianDate : CustomStringConvertible {
                 } else { // xsd:gYear
                     components.month = 1
                 }
-                GregorianDate.calendar.timeZone = timezone
+                if timezone != nil {
+                    GregorianDate.calendar.timeZone = timezone!
+                } else {
+                    GregorianDate.calendar.timeZone = NSTimeZone(forSecondsFromGMT: 0)
+                }
                 let date = GregorianDate.calendar.dateFromComponents(components)
                 return date
             } else {
@@ -278,28 +281,30 @@ public class GregorianDate : CustomStringConvertible {
             components.second = Int(second!)
             components.nanosecond = Int(second!-Double(Int(second!))*1e9)
             let date = GregorianDate.calendar.dateFromComponents(components)
-            let sgmt = timezone.secondsFromGMTForDate(date!)
-            var mgmt = Int(sgmt / 60)
-            var hgmt = Int(mgmt / 60)
-            mgmt = Int(abs(mgmt) % 60)
-            if hgmt == 0 && mgmt == 0 {
-                dateTime += "Z"
-            } else {
-                if hgmt < 0 {
-                    dateTime += "-"
+            if timezone != nil {
+                let sgmt = timezone!.secondsFromGMTForDate(date!)
+                var mgmt = Int(sgmt / 60)
+                var hgmt = Int(mgmt / 60)
+                mgmt = Int(abs(mgmt) % 60)
+                if hgmt == 0 && mgmt == 0 {
+                    dateTime += "Z"
                 } else {
-                    dateTime += "+"
-                }
-                hgmt = abs(hgmt)
-                if hgmt < 10 {
-                    dateTime += "0\(hgmt):"
-                } else {
-                    dateTime += "\(hgmt):"
-                }
-                if mgmt < 10 {
-                    dateTime += "0\(mgmt)"
-                } else {
-                    dateTime += "\(mgmt)"
+                    if hgmt < 0 {
+                        dateTime += "-"
+                    } else {
+                        dateTime += "+"
+                    }
+                    hgmt = abs(hgmt)
+                    if hgmt < 10 {
+                        dateTime += "0\(hgmt):"
+                    } else {
+                        dateTime += "\(hgmt):"
+                    }
+                    if mgmt < 10 {
+                        dateTime += "0\(mgmt)"
+                    } else {
+                        dateTime += "\(mgmt)"
+                    }
                 }
             }
             return dateTime
@@ -333,28 +338,30 @@ public class GregorianDate : CustomStringConvertible {
             components.month = month!
             components.day = day!
             let date = GregorianDate.calendar.dateFromComponents(components)
-            let sgmt = timezone.secondsFromGMTForDate(date!)
-            var mgmt = Int(sgmt / 60)
-            var hgmt = Int(mgmt / 60)
-            mgmt = Int(abs(mgmt) % 60)
-            if hgmt == 0 && mgmt == 0 {
-                dateTime += "Z"
-            } else {
-                if hgmt < 0 {
-                    dateTime += "-"
+            if timezone != nil {
+                let sgmt = timezone!.secondsFromGMTForDate(date!)
+                var mgmt = Int(sgmt / 60)
+                var hgmt = Int(mgmt / 60)
+                mgmt = Int(abs(mgmt) % 60)
+                if hgmt == 0 && mgmt == 0 {
+                    dateTime += "Z"
                 } else {
-                    dateTime += "+"
-                }
-                hgmt = abs(hgmt)
-                if hgmt < 10 {
-                    dateTime += "0\(hgmt):"
-                } else {
-                    dateTime += "\(hgmt):"
-                }
-                if mgmt < 10 {
-                    dateTime += "0\(mgmt)"
-                } else {
-                    dateTime += "\(mgmt)"
+                    if hgmt < 0 {
+                        dateTime += "-"
+                    } else {
+                        dateTime += "+"
+                    }
+                    hgmt = abs(hgmt)
+                    if hgmt < 10 {
+                        dateTime += "0\(hgmt):"
+                    } else {
+                        dateTime += "\(hgmt):"
+                    }
+                    if mgmt < 10 {
+                        dateTime += "0\(mgmt)"
+                    } else {
+                        dateTime += "\(mgmt)"
+                    }
                 }
             }
             return dateTime
@@ -382,28 +389,30 @@ public class GregorianDate : CustomStringConvertible {
             components.year = year!
             components.month = month!
             let date = GregorianDate.calendar.dateFromComponents(components)
-            let sgmt = timezone.secondsFromGMTForDate(date!)
-            var mgmt = Int(sgmt / 60)
-            var hgmt = Int(mgmt / 60)
-            mgmt = Int(abs(mgmt) % 60)
-            if hgmt == 0 && mgmt == 0 {
-                dateTime += "Z"
-            } else {
-                if hgmt < 0 {
-                    dateTime += "-"
+            if timezone != nil {
+                let sgmt = timezone!.secondsFromGMTForDate(date!)
+                var mgmt = Int(sgmt / 60)
+                var hgmt = Int(mgmt / 60)
+                mgmt = Int(abs(mgmt) % 60)
+                if hgmt == 0 && mgmt == 0 {
+                    dateTime += "Z"
                 } else {
-                    dateTime += "+"
-                }
-                hgmt = abs(hgmt)
-                if hgmt < 10 {
-                    dateTime += "0\(hgmt):"
-                } else {
-                    dateTime += "\(hgmt):"
-                }
-                if mgmt < 10 {
-                    dateTime += "0\(mgmt)"
-                } else {
-                    dateTime += "\(mgmt)"
+                    if hgmt < 0 {
+                        dateTime += "-"
+                    } else {
+                        dateTime += "+"
+                    }
+                    hgmt = abs(hgmt)
+                    if hgmt < 10 {
+                        dateTime += "0\(hgmt):"
+                    } else {
+                        dateTime += "\(hgmt):"
+                    }
+                    if mgmt < 10 {
+                        dateTime += "0\(mgmt)"
+                    } else {
+                        dateTime += "\(mgmt)"
+                    }
                 }
             }
             return dateTime
@@ -425,28 +434,30 @@ public class GregorianDate : CustomStringConvertible {
             let components = NSDateComponents()
             components.year = year!
             let date = GregorianDate.calendar.dateFromComponents(components)
-            let sgmt = timezone.secondsFromGMTForDate(date!)
-            var mgmt = Int(sgmt / 60)
-            var hgmt = Int(mgmt / 60)
-            mgmt = Int(abs(mgmt) % 60)
-            if hgmt == 0 && mgmt == 0 {
-                dateTime += "Z"
-            } else {
-                if hgmt < 0 {
-                    dateTime += "-"
+            if timezone != nil {
+                let sgmt = timezone!.secondsFromGMTForDate(date!)
+                var mgmt = Int(sgmt / 60)
+                var hgmt = Int(mgmt / 60)
+                mgmt = Int(abs(mgmt) % 60)
+                if hgmt == 0 && mgmt == 0 {
+                    dateTime += "Z"
                 } else {
-                    dateTime += "+"
-                }
-                hgmt = abs(hgmt)
-                if hgmt < 10 {
-                    dateTime += "0\(hgmt):"
-                } else {
-                    dateTime += "\(hgmt):"
-                }
-                if mgmt < 10 {
-                    dateTime += "0\(mgmt)"
-                } else {
-                    dateTime += "\(mgmt)"
+                    if hgmt < 0 {
+                        dateTime += "-"
+                    } else {
+                        dateTime += "+"
+                    }
+                    hgmt = abs(hgmt)
+                    if hgmt < 10 {
+                        dateTime += "0\(hgmt):"
+                    } else {
+                        dateTime += "\(hgmt):"
+                    }
+                    if mgmt < 10 {
+                        dateTime += "0\(mgmt)"
+                    } else {
+                        dateTime += "\(mgmt)"
+                    }
                 }
             }
             return dateTime
@@ -494,28 +505,30 @@ public class GregorianDate : CustomStringConvertible {
             components.second = Int(second!)
             components.nanosecond = Int(second!-Double(Int(second!))*1e9)
             let date = GregorianDate.calendar.dateFromComponents(components)
-            let sgmt = timezone.secondsFromGMTForDate(date!)
-            var mgmt = Int(sgmt / 60)
-            var hgmt = Int(mgmt / 60)
-            mgmt = Int(abs(mgmt) % 60)
-            if hgmt == 0 && mgmt == 0 {
-                dateTime += "Z"
-            } else {
-                if hgmt < 0 {
-                    dateTime += "-"
+            if timezone != nil {
+                let sgmt = timezone!.secondsFromGMTForDate(date!)
+                var mgmt = Int(sgmt / 60)
+                var hgmt = Int(mgmt / 60)
+                mgmt = Int(abs(mgmt) % 60)
+                if hgmt == 0 && mgmt == 0 {
+                    dateTime += "Z"
                 } else {
-                    dateTime += "+"
-                }
-                hgmt = abs(hgmt)
-                if hgmt < 10 {
-                    dateTime += "0\(hgmt):"
-                } else {
-                    dateTime += "\(hgmt):"
-                }
-                if mgmt < 10 {
-                    dateTime += "0\(mgmt)"
-                } else {
-                    dateTime += "\(mgmt)"
+                    if hgmt < 0 {
+                        dateTime += "-"
+                    } else {
+                        dateTime += "+"
+                    }
+                    hgmt = abs(hgmt)
+                    if hgmt < 10 {
+                        dateTime += "0\(hgmt):"
+                    } else {
+                        dateTime += "\(hgmt):"
+                    }
+                    if mgmt < 10 {
+                        dateTime += "0\(mgmt)"
+                    } else {
+                        dateTime += "\(mgmt)"
+                    }
                 }
             }
             return dateTime
@@ -549,10 +562,14 @@ public class GregorianDate : CustomStringConvertible {
      - parameter date: The `NSDate` object that represents the date and time.
      - parameter timeZone: The time zone of the date.
      */
-    public init(date: NSDate, timeZone : NSTimeZone) {
+    public init(date: NSDate, timeZone : NSTimeZone?) {
         timezone = timeZone
         let unitFlags: NSCalendarUnit = [.Hour, .Day, .Month, .Year, .Minute, .Second, .Nanosecond]
-        GregorianDate.calendar.timeZone = timezone
+        if timezone != nil {
+            GregorianDate.calendar.timeZone = timezone!
+        } else {
+            GregorianDate.calendar.timeZone = NSTimeZone(forSecondsFromGMT: 0)
+        }
         let components = GregorianDate.calendar.components(unitFlags, fromDate:date)
         year = components.year
         month = components.month
@@ -576,7 +593,7 @@ public class GregorianDate : CustomStringConvertible {
      - parameter second: The second component of the time.
      - parameter timezone: The time zone for the `GregorianDate`.
      */
-    public init(year: Int?, month: Int?, day: Int?, hour: Int?, minute: Int?, second: Double?, timezone: NSTimeZone) {
+    public init(year: Int?, month: Int?, day: Int?, hour: Int?, minute: Int?, second: Double?, timezone: NSTimeZone?) {
         self.year = year
         self.month = month
         self.day = day
@@ -614,7 +631,7 @@ public class GregorianDate : CustomStringConvertible {
      - parameter day: The day component of the date.
      - parameter timezone: The time zone for the `GregorianDate`.
      */
-    public convenience init(year: Int, month: Int, day: Int, timezone: NSTimeZone) {
+    public convenience init(year: Int, month: Int, day: Int, timezone: NSTimeZone?) {
         self.init(year:year, month:month, day: day, hour:nil, minute:nil, second:nil, timezone:timezone)
     }
     
@@ -646,7 +663,7 @@ public class GregorianDate : CustomStringConvertible {
      - parameter month: The month component of the date.
      - parameter timezone: The time zone for the `GregorianDate`.
      */
-    public convenience init(year: Int, month: Int, timezone: NSTimeZone) {
+    public convenience init(year: Int, month: Int, timezone: NSTimeZone?) {
         self.init(year:year, month:month, day: nil, hour:nil, minute:nil, second:nil, timezone:timezone)
     }
     
@@ -676,7 +693,7 @@ public class GregorianDate : CustomStringConvertible {
      - parameter year: The year of the date.
      - parameter timezone: The time zone for the `GregorianDate`.
      */
-    public convenience init(year: Int, timezone: NSTimeZone) {
+    public convenience init(year: Int, timezone: NSTimeZone?) {
         self.init(year:year, month:nil, day: nil, hour:nil, minute:nil, second:nil, timezone:timezone)
     }
     
@@ -707,7 +724,7 @@ public class GregorianDate : CustomStringConvertible {
      - parameter second: The second component of the time.
      - parameter timezone: The time zone for the `GregorianDate`.
      */
-    public init(hour: Int?, minute: Int?, second: Double?, timezone: NSTimeZone) {
+    public init(hour: Int?, minute: Int?, second: Double?, timezone: NSTimeZone?) {
         self.hour = hour
         self.minute = minute
         self.second = second
@@ -754,7 +771,11 @@ public class GregorianDate : CustomStringConvertible {
         components.minute = sign*Int(duration.minutes)
         components.second = sign*Int(duration.seconds)
         components.nanosecond = sign*Int((duration.seconds-Double(Int(duration.seconds)))*1e9)
-        GregorianDate.calendar.timeZone = timezone
+        if timezone != nil {
+            GregorianDate.calendar.timeZone = timezone!
+        } else {
+            GregorianDate.calendar.timeZone = NSTimeZone(forSecondsFromGMT: 0)
+        }
         let sdate = self.startDate
         if sdate == nil {
             return nil
