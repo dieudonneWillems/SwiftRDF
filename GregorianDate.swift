@@ -26,6 +26,7 @@ public class GregorianDate : CustomStringConvertible {
     private static let datePattern = "^((?:[+-]?)(?:\\d{4,}))-((?:0[1-9])|(?:1[0-2]))-((?:0[1-9])|(?:[1-2][0-9])|(?:3[0-1]))(Z|(?:([+-](?:(?:0[0-9])|(?:1[0-2]))):((?:00)|(?:30))))$"
     private static let gYearMonthPattern = "^((?:[+-]?)(?:\\d*))-((?:0[1-9])|(?:1[0-2]))(Z|(?:([+-](?:(?:0[0-9])|(?:1[0-2]))):((?:00)|(?:30))))$"
     private static let gYearPattern = "^((?:[+-]?)(?:\\d{4,}))(Z|(?:([+-](?:(?:0[0-9])|(?:1[0-2]))):((?:00)|(?:30))))$"
+    private static let timePattern = "^((?:[0-1][0-9])|(?:2[0-4])):([0-5][0-9]):((?:(?:[0-5][0-9])|60)(?:\\.\\d*)?)(Z|(?:([+-](?:(?:0[0-9])|(?:1[0-2]))):((?:00)|(?:30))))$"
     
     private static let calendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)!
     
@@ -48,6 +49,8 @@ public class GregorianDate : CustomStringConvertible {
                 descr = gYearMonth
             }else if datatype! == XSD.gYear {
                 descr = gYear
+            }else if datatype! == XSD.time {
+                descr = time
             }
             if descr == nil {
                 return "GregorianDate"
@@ -213,6 +216,8 @@ public class GregorianDate : CustomStringConvertible {
                 } else {
                     return XSD.gYear
                 }
+            }else if hour != nil && minute != nil && second != nil {
+                return XSD.time
             }
             return nil
         }
@@ -221,7 +226,7 @@ public class GregorianDate : CustomStringConvertible {
     /**
      The `xsd:dateTime` textual representation of the `GregorianDate`. The textual representation is of the form:
      `±[year]-[month]-[day]T[hour]:[minute]:[second][timezone]`, e.g. `2015-12-14T11:29:54.2323+02:00`, or
-     `-1203-03-02T:23:12:04Z`. If `GregorianDate.XSDDataType` does not equal `XSD.dateTime`, this optional property
+     `-1203-03-02T23:12:04Z`. If `GregorianDate.XSDDataType` does not equal `XSD.dateTime`, this optional property
      will be `nil`.
      */
     public var dateTime : String? {
@@ -448,6 +453,75 @@ public class GregorianDate : CustomStringConvertible {
         }
     }
     
+    /**
+     The `xsd:time` textual representation of the `GregorianDate`. The textual representation is of the form:
+     `[hour]:[minute]:[second][timezone]`, e.g. `11:29:54.2323+02:00`, or
+     `23:12:04Z`. If `GregorianDate.XSDDataType` does not equal `XSD.time`, this optional property
+     will be `nil`.
+     */
+    public var time : String? {
+        get {
+            if hour == nil || minute == nil || second == nil {
+                return nil
+            }
+            var dateTime = ""
+            if hour < 10 {
+                dateTime += "0\(hour!):"
+            } else {
+                dateTime += "\(hour!):"
+            }
+            if minute < 10 {
+                dateTime += "0\(minute!):"
+            } else {
+                dateTime += "\(minute!):"
+            }
+            if Double(Int(second!)) == second! {
+                if second < 10 {
+                    dateTime += "0\(Int(second!))"
+                } else {
+                    dateTime += "\(Int(second!))"
+                }
+            } else {
+                if second < 10 {
+                    dateTime += "0\(second!)"
+                } else {
+                    dateTime += "\(second!)"
+                }
+            }
+            let components = NSDateComponents()
+            components.hour = hour!
+            components.minute = minute!
+            components.second = Int(second!)
+            components.nanosecond = Int(second!-Double(Int(second!))*1e9)
+            let date = GregorianDate.calendar.dateFromComponents(components)
+            let sgmt = timezone.secondsFromGMTForDate(date!)
+            var mgmt = Int(sgmt / 60)
+            var hgmt = Int(mgmt / 60)
+            mgmt = Int(abs(mgmt) % 60)
+            if hgmt == 0 && mgmt == 0 {
+                dateTime += "Z"
+            } else {
+                if hgmt < 0 {
+                    dateTime += "-"
+                } else {
+                    dateTime += "+"
+                }
+                hgmt = abs(hgmt)
+                if hgmt < 10 {
+                    dateTime += "0\(hgmt):"
+                } else {
+                    dateTime += "\(hgmt):"
+                }
+                if mgmt < 10 {
+                    dateTime += "0\(mgmt)"
+                } else {
+                    dateTime += "\(mgmt)"
+                }
+            }
+            return dateTime
+        }
+    }
+    
     
     // MARK: Initialisers
     
@@ -516,7 +590,7 @@ public class GregorianDate : CustomStringConvertible {
      Creates a new `GregorianDate` with the date and time parsed from the specified textual representation of
      a date and time as defined for the `xsd:dateTime` data type. The textual representation should be of the form
      `±[year]-[month]-[day]T[hour]:[minute]:[second][timezone]`, e.g. `2015-12-14T11:29:54.2323+02:00`, or
-     `-1203-03-02T:23:12:04Z`. If the string is not of this required format, the initialisation method will 
+     `-1203-03-02T23:12:04Z`. If the string is not of this required format, the initialisation method will
      return `nil`.
      
      - parameter dateTime: The textual representation of a date in `xsd:dateTime` format.
@@ -622,7 +696,40 @@ public class GregorianDate : CustomStringConvertible {
         if !parsed {
             return nil
         }
-        
+    }
+    
+    /**
+     Creates a new recurring `GregorianDate` with the specified time components and for the specified time zone.
+     The corresponding XSD datatype is `xsd:time`.
+     
+     - parameter hour: The hour component of the date.
+     - parameter minute: The minute component of the date.
+     - parameter second: The second component of the time.
+     - parameter timezone: The time zone for the `GregorianDate`.
+     */
+    public init(hour: Int?, minute: Int?, second: Double?, timezone: NSTimeZone) {
+        self.hour = hour
+        self.minute = minute
+        self.second = second
+        self.timezone = timezone
+    }
+    
+    /**
+     Creates a new recurring `GregorianDate` with the time parsed from the specified textual representation of
+     a time as defined for the `xsd:time` data type. The textual representation should be of the form
+     `[hour]:[minute]:[second][timezone]`, e.g. `11:29:54.2323+02:00`, or
+     `23:12:04Z`. If the string is not of this required format, the initialisation method will
+     return `nil`.
+     
+     - parameter time: The textual representation of a recurring time in `xsd:time` format.
+     - returns: An optional instance of `GregorianDate` which represents the time, or `nil` if the
+     string could not be parsed.
+     */
+    public init?(time: String) {
+        let parsed = parseTimeString(time, pattern: GregorianDate.timePattern)
+        if !parsed {
+            return nil
+        }
     }
     
     
@@ -704,6 +811,51 @@ public class GregorianDate : CustomStringConvertible {
                 }
                 if match.numberOfRanges >= 10 && match.rangeAtIndex(6).location != NSNotFound {
                     let str = nsstring.substringWithRange(match.rangeAtIndex(6)) as String
+                    second = Double(str)!
+                }
+                return true
+            }
+        } catch {
+            
+        }
+        return false
+    }
+    
+    private func parseTimeString(stringValue: String, pattern : String) -> Bool {
+        do {
+            let regex = try NSRegularExpression(pattern: pattern, options: [])
+            let matches = regex.matchesInString(stringValue, options: [], range: NSMakeRange(0, stringValue.characters.count)) as Array<NSTextCheckingResult>
+            if matches.count == 0 {
+                return false
+            }else{
+                let match = matches[0]
+                let nsstring = stringValue as NSString
+                if match.rangeAtIndex(match.numberOfRanges-3).location != NSNotFound {
+                    var tzhrs = 0;
+                    var tzmins = 0;
+                    if match.rangeAtIndex(match.numberOfRanges-2).location != NSNotFound {
+                        let tzhrsStr = nsstring.substringWithRange(match.rangeAtIndex(match.numberOfRanges-2)) as String
+                        tzhrs = Int(tzhrsStr)!
+                    }
+                    if match.rangeAtIndex(match.numberOfRanges-1).location != NSNotFound {
+                        let tzminsStr = nsstring.substringWithRange(match.rangeAtIndex(match.numberOfRanges-1)) as String
+                        tzmins = Int(tzminsStr)!
+                    }
+                    if tzhrs < 0 {
+                        tzmins = -tzmins
+                    }
+                    timezone = NSTimeZone.init(forSecondsFromGMT: tzhrs*3600+tzmins*60)
+                }
+                if match.rangeAtIndex(1).location != NSNotFound {
+                    let str = nsstring.substringWithRange(match.rangeAtIndex(1)) as String
+                    hour = Int(str)!
+                }
+                if match.numberOfRanges >= 6 && match.rangeAtIndex(2).location != NSNotFound {
+                    let str = nsstring.substringWithRange(match.rangeAtIndex(2)) as String
+                    minute = Int(str)!
+                }
+                if match.numberOfRanges >= 7 && match.rangeAtIndex(3).location != NSNotFound {
+                    let str = nsstring.substringWithRange(match.rangeAtIndex(3)) as String
                     second = Double(str)!
                 }
                 return true
