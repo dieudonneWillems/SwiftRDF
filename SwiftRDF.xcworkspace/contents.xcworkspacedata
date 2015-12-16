@@ -76,13 +76,19 @@
             location = "group:source code/utilities/Datatype.swift">
          </FileRef>
          <FileRef
-            location = "group:Decimal.swift">
+            location = "group:source code/utilities/Decimal.swift">
          </FileRef>
          <FileRef
             location = "group:source code/utilities/Duration.swift">
          </FileRef>
          <FileRef
-            location = "group:/Users/wonco/Development/SwiftRDF/GregorianDate.swift">
+            location = "group:source code/utilities/GregorianDate.swift">
+         </FileRef>
+         <FileRef
+            location = "group:source code/utilities/NSData-extensions.swift">
+         </FileRef>
+         <FileRef
+            location = "group:source code/utilities/NSString-extensions.swift">
          </FileRef>
       </Group>
    </Group>
