@@ -346,9 +346,9 @@ that datatype is used in the textual representation.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vC11SwiftRDFOSX13GregorianDate8timezoneCSo10NSTimeZone"></a>
+                    <a name="/s:vC11SwiftRDFOSX13GregorianDate8timezoneGSqCSo10NSTimeZone_"></a>
                     <a name="//apple_ref/swift/Property/timezone" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC11SwiftRDFOSX13GregorianDate8timezoneCSo10NSTimeZone">timezone</a>
+                    <a class="token" href="#/s:vC11SwiftRDFOSX13GregorianDate8timezoneGSqCSo10NSTimeZone_">timezone</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -363,7 +363,7 @@ that datatype is used in the textual representation.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">private(set)</span> <span class="k">var</span> <span class="nv">timezone</span> <span class="p">:</span> <span class="kt">NSTimeZone</span> <span class="o">=</span> <span class="kt">NSTimeZone</span><span class="o">.</span><span class="nf">localTimeZone</span><span class="p">()</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">private(set)</span> <span class="k">var</span> <span class="nv">timezone</span> <span class="p">:</span> <span class="kt">NSTimeZone</span><span class="p">?</span></code></pre>
 
                         </div>
                       </div>
@@ -573,7 +573,7 @@ such as <code><a href="../Classes/XSD.html#/s:ZvC11SwiftRDFOSX3XSD8dateTimeCS_8D
                       <div class="abstract">
                         <p>The <code>xsd:dateTime</code> textual representation of the <code><a href="../Classes/GregorianDate.html">GregorianDate</a></code>. The textual representation is of the form:
 <code>±[year]-[month]-[day]T[hour]:[minute]:[second][timezone]</code>, e.g. <code>2015-12-14T11:29:54.2323+02:00</code>, or
-<code>-1203-03-02T:23:12:04Z</code>. If <code><a href="../Classes/GregorianDate.html#/s:vC11SwiftRDFOSX13GregorianDate11XSDDataTypeGSqCS_8Datatype_">GregorianDate.XSDDataType</a></code> does not equal <code><a href="../Classes/XSD.html#/s:ZvC11SwiftRDFOSX3XSD8dateTimeCS_8Datatype">XSD.dateTime</a></code>, this optional property
+<code>-1203-03-02T23:12:04Z</code>. If <code><a href="../Classes/GregorianDate.html#/s:vC11SwiftRDFOSX13GregorianDate11XSDDataTypeGSqCS_8Datatype_">GregorianDate.XSDDataType</a></code> does not equal <code><a href="../Classes/XSD.html#/s:ZvC11SwiftRDFOSX3XSD8dateTimeCS_8Datatype">XSD.dateTime</a></code>, this optional property
 will be <code>nil</code>.</p>
 
                       </div>
@@ -678,6 +678,126 @@ will be <code>nil</code>.</p>
                     </section>
                   </div>
                 </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC11SwiftRDFOSX13GregorianDate4timeGSqSS_"></a>
+                    <a name="//apple_ref/swift/Property/time" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC11SwiftRDFOSX13GregorianDate4timeGSqSS_">time</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The <code>xsd:time</code> textual representation of the <code><a href="../Classes/GregorianDate.html">GregorianDate</a></code>. The textual representation is of the form:
+<code>[hour]:[minute]:[second][timezone]</code>, e.g. <code>11:29:54.2323+02:00</code>, or
+<code>23:12:04Z</code>. If <code><a href="../Classes/GregorianDate.html#/s:vC11SwiftRDFOSX13GregorianDate11XSDDataTypeGSqCS_8Datatype_">GregorianDate.XSDDataType</a></code> does not equal <code><a href="../Classes/XSD.html#/s:ZvC11SwiftRDFOSX3XSD4timeCS_8Datatype">XSD.time</a></code>, this optional property
+will be <code>nil</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">time</span> <span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC11SwiftRDFOSX13GregorianDate9gMonthDayGSqSS_"></a>
+                    <a name="//apple_ref/swift/Property/gMonthDay" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC11SwiftRDFOSX13GregorianDate9gMonthDayGSqSS_">gMonthDay</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The <code>xsd:gMonthDay</code> textual representation of the <code><a href="../Classes/GregorianDate.html">GregorianDate</a></code>. The textual representation is of the form:
+<code>--[month]-[day][timezone]</code>, e.g. <code>--12-14+02:00</code>, or
+<code>--03-02Z</code>. If <code><a href="../Classes/GregorianDate.html#/s:vC11SwiftRDFOSX13GregorianDate11XSDDataTypeGSqCS_8Datatype_">GregorianDate.XSDDataType</a></code> does not equal <code><a href="../Classes/XSD.html#/s:ZvC11SwiftRDFOSX3XSD9gMonthDayCS_8Datatype">XSD.gMonthDay</a></code>, this optional property
+will be <code>nil</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">gMonthDay</span> <span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC11SwiftRDFOSX13GregorianDate6gMonthGSqSS_"></a>
+                    <a name="//apple_ref/swift/Property/gMonth" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC11SwiftRDFOSX13GregorianDate6gMonthGSqSS_">gMonth</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The <code>xsd:gMonth</code> textual representation of the <code><a href="../Classes/GregorianDate.html">GregorianDate</a></code>. The textual representation is of the form:
+<code>--[month][timezone]</code>, e.g. <code>--12+02:00</code>, or
+<code>--03Z</code>. If <code><a href="../Classes/GregorianDate.html#/s:vC11SwiftRDFOSX13GregorianDate11XSDDataTypeGSqCS_8Datatype_">GregorianDate.XSDDataType</a></code> does not equal <code><a href="../Classes/XSD.html#/s:ZvC11SwiftRDFOSX3XSD6gMonthCS_8Datatype">XSD.gMonth</a></code>, this optional property
+will be <code>nil</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">gMonth</span> <span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC11SwiftRDFOSX13GregorianDate4gDayGSqSS_"></a>
+                    <a name="//apple_ref/swift/Property/gDay" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC11SwiftRDFOSX13GregorianDate4gDayGSqSS_">gDay</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The <code>xsd:gDay</code> textual representation of the <code><a href="../Classes/GregorianDate.html">GregorianDate</a></code>. The textual representation is of the form:
+<code>---[day][timezone]</code>, e.g. <code>---14+02:00</code>, or
+<code>---02Z</code>. If <code><a href="../Classes/GregorianDate.html#/s:vC11SwiftRDFOSX13GregorianDate11XSDDataTypeGSqCS_8Datatype_">GregorianDate.XSDDataType</a></code> does not equal <code><a href="../Classes/XSD.html#/s:ZvC11SwiftRDFOSX3XSD4gDayCS_8Datatype">XSD.gDay</a></code>, this optional property
+will be <code>nil</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">gDay</span> <span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
               </ul>
             </div>
             <div class="task-group">
@@ -767,9 +887,9 @@ The time zone of the Gregorian Date will be Greenwich Mean Time (GMT).</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC11SwiftRDFOSX13GregorianDatecFMS0_FT4dateCSo6NSDate8timeZoneCSo10NSTimeZone_S0_"></a>
+                    <a name="/s:FC11SwiftRDFOSX13GregorianDatecFMS0_FT4dateCSo6NSDate8timeZoneGSqCSo10NSTimeZone__S0_"></a>
                     <a name="//apple_ref/swift/Method/init(date:timeZone:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC11SwiftRDFOSX13GregorianDatecFMS0_FT4dateCSo6NSDate8timeZoneCSo10NSTimeZone_S0_">init(date:timeZone:)</a>
+                    <a class="token" href="#/s:FC11SwiftRDFOSX13GregorianDatecFMS0_FT4dateCSo6NSDate8timeZoneGSqCSo10NSTimeZone__S0_">init(date:timeZone:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -784,7 +904,7 @@ The time zone of the Gregorian Date will be Greenwich Mean Time (GMT).</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">date</span><span class="p">:</span> <span class="kt">NSDate</span><span class="p">,</span> <span class="nv">timeZone</span> <span class="p">:</span> <span class="kt">NSTimeZone</span><span class="p">)</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">date</span><span class="p">:</span> <span class="kt">NSDate</span><span class="p">,</span> <span class="nv">timeZone</span> <span class="p">:</span> <span class="kt">NSTimeZone</span><span class="p">?)</span></code></pre>
 
                         </div>
                       </div>
@@ -827,9 +947,9 @@ The time zone of the Gregorian Date will be Greenwich Mean Time (GMT).</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC11SwiftRDFOSX13GregorianDatecFMS0_FT4yearGSqSi_5monthGSqSi_3dayGSqSi_4hourGSqSi_6minuteGSqSi_6secondGSqSd_8timezoneCSo10NSTimeZone_S0_"></a>
+                    <a name="/s:FC11SwiftRDFOSX13GregorianDatecFMS0_FT4yearGSqSi_5monthGSqSi_3dayGSqSi_4hourGSqSi_6minuteGSqSi_6secondGSqSd_8timezoneGSqCSo10NSTimeZone__S0_"></a>
                     <a name="//apple_ref/swift/Method/init(year:month:day:hour:minute:second:timezone:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC11SwiftRDFOSX13GregorianDatecFMS0_FT4yearGSqSi_5monthGSqSi_3dayGSqSi_4hourGSqSi_6minuteGSqSi_6secondGSqSd_8timezoneCSo10NSTimeZone_S0_">init(year:month:day:hour:minute:second:timezone:)</a>
+                    <a class="token" href="#/s:FC11SwiftRDFOSX13GregorianDatecFMS0_FT4yearGSqSi_5monthGSqSi_3dayGSqSi_4hourGSqSi_6minuteGSqSi_6secondGSqSd_8timezoneGSqCSo10NSTimeZone__S0_">init(year:month:day:hour:minute:second:timezone:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -845,7 +965,7 @@ All components can be optional, for instance to define a whole year, or to defin
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">year</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?,</span> <span class="nv">month</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?,</span> <span class="nv">day</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?,</span> <span class="nv">hour</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?,</span> <span class="nv">minute</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?,</span> <span class="nv">second</span><span class="p">:</span> <span class="kt">Double</span><span class="p">?,</span> <span class="nv">timezone</span><span class="p">:</span> <span class="kt">NSTimeZone</span><span class="p">)</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">year</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?,</span> <span class="nv">month</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?,</span> <span class="nv">day</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?,</span> <span class="nv">hour</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?,</span> <span class="nv">minute</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?,</span> <span class="nv">second</span><span class="p">:</span> <span class="kt">Double</span><span class="p">?,</span> <span class="nv">timezone</span><span class="p">:</span> <span class="kt">NSTimeZone</span><span class="p">?)</span></code></pre>
 
                         </div>
                       </div>
@@ -966,7 +1086,7 @@ All components can be optional, for instance to define a whole year, or to defin
                         <p>Creates a new <code><a href="../Classes/GregorianDate.html">GregorianDate</a></code> with the date and time parsed from the specified textual representation of
 a date and time as defined for the <code>xsd:dateTime</code> data type. The textual representation should be of the form
 <code>±[year]-[month]-[day]T[hour]:[minute]:[second][timezone]</code>, e.g. <code>2015-12-14T11:29:54.2323+02:00</code>, or
-<code>-1203-03-02T:23:12:04Z</code>. If the string is not of this required format, the initialisation method will 
+<code>-1203-03-02T23:12:04Z</code>. If the string is not of this required format, the initialisation method will
 return <code>nil</code>.</p>
 
                       </div>
@@ -1009,9 +1129,9 @@ return <code>nil</code>.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC11SwiftRDFOSX13GregorianDatecFMS0_FT4yearSi5monthSi3daySi8timezoneCSo10NSTimeZone_S0_"></a>
+                    <a name="/s:FC11SwiftRDFOSX13GregorianDatecFMS0_FT4yearSi5monthSi3daySi8timezoneGSqCSo10NSTimeZone__S0_"></a>
                     <a name="//apple_ref/swift/Method/init(year:month:day:timezone:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC11SwiftRDFOSX13GregorianDatecFMS0_FT4yearSi5monthSi3daySi8timezoneCSo10NSTimeZone_S0_">init(year:month:day:timezone:)</a>
+                    <a class="token" href="#/s:FC11SwiftRDFOSX13GregorianDatecFMS0_FT4yearSi5monthSi3daySi8timezoneGSqCSo10NSTimeZone__S0_">init(year:month:day:timezone:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1028,7 +1148,7 @@ The corresponding XSD datatype is <code>xsd:date</code>.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="n">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="nv">year</span><span class="p">:</span> <span class="kt">Int</span><span class="p">,</span> <span class="nv">month</span><span class="p">:</span> <span class="kt">Int</span><span class="p">,</span> <span class="nv">day</span><span class="p">:</span> <span class="kt">Int</span><span class="p">,</span> <span class="nv">timezone</span><span class="p">:</span> <span class="kt">NSTimeZone</span><span class="p">)</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="n">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="nv">year</span><span class="p">:</span> <span class="kt">Int</span><span class="p">,</span> <span class="nv">month</span><span class="p">:</span> <span class="kt">Int</span><span class="p">,</span> <span class="nv">day</span><span class="p">:</span> <span class="kt">Int</span><span class="p">,</span> <span class="nv">timezone</span><span class="p">:</span> <span class="kt">NSTimeZone</span><span class="p">?)</span></code></pre>
 
                         </div>
                       </div>
@@ -1153,9 +1273,9 @@ return <code>nil</code>.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC11SwiftRDFOSX13GregorianDatecFMS0_FT4yearSi5monthSi8timezoneCSo10NSTimeZone_S0_"></a>
+                    <a name="/s:FC11SwiftRDFOSX13GregorianDatecFMS0_FT4yearSi5monthSi8timezoneGSqCSo10NSTimeZone__S0_"></a>
                     <a name="//apple_ref/swift/Method/init(year:month:timezone:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC11SwiftRDFOSX13GregorianDatecFMS0_FT4yearSi5monthSi8timezoneCSo10NSTimeZone_S0_">init(year:month:timezone:)</a>
+                    <a class="token" href="#/s:FC11SwiftRDFOSX13GregorianDatecFMS0_FT4yearSi5monthSi8timezoneGSqCSo10NSTimeZone__S0_">init(year:month:timezone:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1172,7 +1292,7 @@ return <code>nil</code>.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="n">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="nv">year</span><span class="p">:</span> <span class="kt">Int</span><span class="p">,</span> <span class="nv">month</span><span class="p">:</span> <span class="kt">Int</span><span class="p">,</span> <span class="nv">timezone</span><span class="p">:</span> <span class="kt">NSTimeZone</span><span class="p">)</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="n">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="nv">year</span><span class="p">:</span> <span class="kt">Int</span><span class="p">,</span> <span class="nv">month</span><span class="p">:</span> <span class="kt">Int</span><span class="p">,</span> <span class="nv">timezone</span><span class="p">:</span> <span class="kt">NSTimeZone</span><span class="p">?)</span></code></pre>
 
                         </div>
                       </div>
@@ -1284,9 +1404,9 @@ return <code>nil</code>.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC11SwiftRDFOSX13GregorianDatecFMS0_FT4yearSi8timezoneCSo10NSTimeZone_S0_"></a>
+                    <a name="/s:FC11SwiftRDFOSX13GregorianDatecFMS0_FT4yearSi8timezoneGSqCSo10NSTimeZone__S0_"></a>
                     <a name="//apple_ref/swift/Method/init(year:timezone:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC11SwiftRDFOSX13GregorianDatecFMS0_FT4yearSi8timezoneCSo10NSTimeZone_S0_">init(year:timezone:)</a>
+                    <a class="token" href="#/s:FC11SwiftRDFOSX13GregorianDatecFMS0_FT4yearSi8timezoneGSqCSo10NSTimeZone__S0_">init(year:timezone:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1303,7 +1423,7 @@ return <code>nil</code>.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="n">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="nv">year</span><span class="p">:</span> <span class="kt">Int</span><span class="p">,</span> <span class="nv">timezone</span><span class="p">:</span> <span class="kt">NSTimeZone</span><span class="p">)</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="n">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="nv">year</span><span class="p">:</span> <span class="kt">Int</span><span class="p">,</span> <span class="nv">timezone</span><span class="p">:</span> <span class="kt">NSTimeZone</span><span class="p">?)</span></code></pre>
 
                         </div>
                       </div>
@@ -1399,6 +1519,519 @@ return <code>nil</code>.</p>
                     </section>
                   </div>
                 </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC11SwiftRDFOSX13GregorianDatecFMS0_FT4hourGSqSi_6minuteGSqSi_6secondGSqSd_8timezoneGSqCSo10NSTimeZone__S0_"></a>
+                    <a name="//apple_ref/swift/Method/init(hour:minute:second:timezone:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC11SwiftRDFOSX13GregorianDatecFMS0_FT4hourGSqSi_6minuteGSqSi_6secondGSqSd_8timezoneGSqCSo10NSTimeZone__S0_">init(hour:minute:second:timezone:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates a new recurring <code><a href="../Classes/GregorianDate.html">GregorianDate</a></code> with the specified time components and for the specified time zone.
+ The corresponding XSD datatype is <code>xsd:time</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="n">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="nv">hour</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?,</span> <span class="nv">minute</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?,</span> <span class="nv">second</span><span class="p">:</span> <span class="kt">Double</span><span class="p">?,</span> <span class="nv">timezone</span><span class="p">:</span> <span class="kt">NSTimeZone</span><span class="p">?)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>hour</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The hour component of the date.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>minute</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The minute component of the date.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>second</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The second component of the time.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>timezone</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The time zone for the <code>GregorianDate</code>.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC11SwiftRDFOSX13GregorianDatecFMS0_FT4timeSS_GSqS0__"></a>
+                    <a name="//apple_ref/swift/Method/init(time:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC11SwiftRDFOSX13GregorianDatecFMS0_FT4timeSS_GSqS0__">init(time:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates a new recurring <code><a href="../Classes/GregorianDate.html">GregorianDate</a></code> with the time parsed from the specified textual representation of
+ a time as defined for the <code>xsd:time</code> data type. The textual representation should be of the form
+ <code>[hour]:[minute]:[second][timezone]</code>, e.g. <code>11:29:54.2323+02:00</code>, or
+ <code>23:12:04Z</code>. If the string is not of this required format, the initialisation method will
+ return <code>nil</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">?(</span><span class="nv">time</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>time</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The textual representation of a recurring time in <code>xsd:time</code> format.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>An optional instance of <code><a href="../Classes/GregorianDate.html">GregorianDate</a></code> which represents the time, or <code>nil</code> if the string could not be parsed.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC11SwiftRDFOSX13GregorianDatecFMS0_FT5monthGSqSi_3dayGSqSi_8timezoneGSqCSo10NSTimeZone__S0_"></a>
+                    <a name="//apple_ref/swift/Method/init(month:day:timezone:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC11SwiftRDFOSX13GregorianDatecFMS0_FT5monthGSqSi_3dayGSqSi_8timezoneGSqCSo10NSTimeZone__S0_">init(month:day:timezone:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates a new recurring <code><a href="../Classes/GregorianDate.html">GregorianDate</a></code> with the specified month and day components 
+ and for the specified time zone. It represents a date (month and day) that recurs every year.
+ The corresponding XSD datatype is <code>xsd:gMonthDay</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="n">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="nv">month</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?,</span> <span class="nv">day</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?,</span> <span class="nv">timezone</span><span class="p">:</span> <span class="kt">NSTimeZone</span><span class="p">?)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>month</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The month component of the date.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>day</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The day component of the date.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>timezone</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The time zone for the <code>GregorianDate</code>.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC11SwiftRDFOSX13GregorianDatecFMS0_FT9gMonthDaySS_GSqS0__"></a>
+                    <a name="//apple_ref/swift/Method/init(gMonthDay:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC11SwiftRDFOSX13GregorianDatecFMS0_FT9gMonthDaySS_GSqS0__">init(gMonthDay:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates a new recurring <code><a href="../Classes/GregorianDate.html">GregorianDate</a></code> with the month and day parsed from the specified 
+ textual representation of a recuring date as defined for the <code>xsd:gMonthDay</code> data type.
+ It represents a date (month and day) that recurs every year.
+ The textual representation should be of the form
+ <code>--[month]-[day][timezone]</code>, e.g. <code>--11-03+02:00</code>, or <code>--03-23Z</code>. If the string is not 
+ of this required format, the initialisation method will return <code>nil</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">?(</span><span class="nv">gMonthDay</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>gMonthDay</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The textual representation of a recurring date in <code>xsd:gMonthDay</code> format.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>An optional instance of <code><a href="../Classes/GregorianDate.html">GregorianDate</a></code> which represents the date, or <code>nil</code> if the string could not be parsed.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC11SwiftRDFOSX13GregorianDatecFMS0_FT5monthGSqSi_8timezoneGSqCSo10NSTimeZone__S0_"></a>
+                    <a name="//apple_ref/swift/Method/init(month:timezone:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC11SwiftRDFOSX13GregorianDatecFMS0_FT5monthGSqSi_8timezoneGSqCSo10NSTimeZone__S0_">init(month:timezone:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates a new recurring <code><a href="../Classes/GregorianDate.html">GregorianDate</a></code> with the specified month component
+ and for the specified time zone. It represents a month that recurs every year.
+ The corresponding XSD datatype is <code>xsd:gMonth</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="n">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="nv">month</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?,</span> <span class="nv">timezone</span><span class="p">:</span> <span class="kt">NSTimeZone</span><span class="p">?)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>month</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The month component of the date.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>timezone</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The time zone for the <code>GregorianDate</code>.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC11SwiftRDFOSX13GregorianDatecFMS0_FT6gMonthSS_GSqS0__"></a>
+                    <a name="//apple_ref/swift/Method/init(gMonth:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC11SwiftRDFOSX13GregorianDatecFMS0_FT6gMonthSS_GSqS0__">init(gMonth:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates a new recurring <code><a href="../Classes/GregorianDate.html">GregorianDate</a></code> with the month parsed from the specified
+ textual representation of a recuring date as defined for the <code>xsd:gMonth</code> data type.
+ It represents a month that recurs every year.
+ The textual representation should be of the form
+ <code>--[month][timezone]</code>, e.g. <code>--11+02:00</code>, or <code>--03Z</code>. If the string is not
+ of this required format, the initialisation method will return <code>nil</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">?(</span><span class="nv">gMonth</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>gMonth</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The textual representation of a recurring month in <code>xsd:gMonth</code> format.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>An optional instance of <code><a href="../Classes/GregorianDate.html">GregorianDate</a></code> which represents the month, or <code>nil</code> if the string could not be parsed.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC11SwiftRDFOSX13GregorianDatecFMS0_FT3dayGSqSi_8timezoneGSqCSo10NSTimeZone__S0_"></a>
+                    <a name="//apple_ref/swift/Method/init(day:timezone:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC11SwiftRDFOSX13GregorianDatecFMS0_FT3dayGSqSi_8timezoneGSqCSo10NSTimeZone__S0_">init(day:timezone:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates a new recurring <code><a href="../Classes/GregorianDate.html">GregorianDate</a></code> with the specified day component
+ and for the specified time zone. It represents a day that recurs every month.
+ The corresponding XSD datatype is <code>xsd:gDay</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="n">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="nv">day</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?,</span> <span class="nv">timezone</span><span class="p">:</span> <span class="kt">NSTimeZone</span><span class="p">?)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>day</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The day component of the date.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>timezone</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The time zone for the <code>GregorianDate</code>.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC11SwiftRDFOSX13GregorianDatecFMS0_FT4gDaySS_GSqS0__"></a>
+                    <a name="//apple_ref/swift/Method/init(gDay:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC11SwiftRDFOSX13GregorianDatecFMS0_FT4gDaySS_GSqS0__">init(gDay:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates a new recurring <code><a href="../Classes/GregorianDate.html">GregorianDate</a></code> with the day parsed from the specified
+ textual representation of recuring date as defined for the <code>xsd:gDay</code> data type.
+ It represents a day that recurs every month.
+ The textual representation should be of the form
+ <code>---[day][timezone]</code>, e.g. <code>---03+02:00</code>, or <code>---23Z</code>. If the string is not
+ of this required format, the initialisation method will return <code>nil</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">?(</span><span class="nv">gDay</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>gMonthDay</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The textual representation of a recurring date in <code>xsd:gDay</code> format.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>An optional instance of <code><a href="../Classes/GregorianDate.html">GregorianDate</a></code> which represents the date, or <code>nil</code> if the string could not be parsed.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
               </ul>
             </div>
             <div class="task-group">
@@ -1467,7 +2100,7 @@ return <code>nil</code>.</p>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2015 <a class="link" href="" target="_blank" rel="external"></a>. All rights reserved. (Last updated: 2015-12-14)</p>
+          <p>&copy; 2015 <a class="link" href="" target="_blank" rel="external"></a>. All rights reserved. (Last updated: 2015-12-17)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.4.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
