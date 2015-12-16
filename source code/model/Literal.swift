@@ -575,8 +575,13 @@ public class Literal: Value {
      Creates a new Literal with a Gregorian date and time as value and with an `XSD.dateTime` datatype.
      
      - parameter dateValue: The date value.
+     - returns: The created literal or `nil` if the Gregorian date is not of type `xsd:dateTime`.
      */
-    public convenience init(dateTimeValue : GregorianDate) {
+    public convenience init?(dateTimeValue : GregorianDate) {
+        let datatype = dateTimeValue.XSDDataType
+        if datatype == nil ||  datatype! != XSD.dateTime {
+            return nil
+        }
         self.init(stringValue: "\(dateTimeValue)")
         self.dateValue = dateTimeValue
         self.dataType = XSD.dateTime
@@ -589,8 +594,13 @@ public class Literal: Value {
      This date, therefore, specifies a whole day.
      
      - parameter dateValue: The date value.
+     - returns: The created literal or `nil` if the Gregorian date is not of type `xsd:date`.
      */
-    public convenience init(dateValue : GregorianDate) {
+    public convenience init?(dateValue : GregorianDate) {
+        let datatype = dateValue.XSDDataType
+        if datatype == nil ||  datatype! != XSD.date {
+            return nil
+        }
         self.init(stringValue: "\(dateValue)")
         self.dateValue = dateValue
         self.dataType = XSD.date
@@ -601,8 +611,13 @@ public class Literal: Value {
      `XSD.gYearMonth` datatype. This date specifies a whole month.
      
      - parameter gYearMonthValue: The date value containing only year and month.
+     - returns: The created literal or `nil` if the Gregorian date is not of type `xsd:gYearMonth`.
      */
-    public convenience init(gYearMonthValue : GregorianDate) {
+    public convenience init?(gYearMonthValue : GregorianDate) {
+        let datatype = gYearMonthValue.XSDDataType
+        if datatype == nil ||  datatype! != XSD.gYearMonth {
+            return nil
+        }
         self.init(stringValue: "\(gYearMonthValue)")
         self.dateValue = gYearMonthValue
         self.dataType = XSD.gYearMonth
@@ -613,8 +628,13 @@ public class Literal: Value {
      `XSD.gYear` datatype. This date specifies a whole year.
      
      - parameter gYearValue: The date value containing only year.
+     - returns: The created literal or `nil` if the Gregorian date is not of type `xsd:gYear`.
      */
-    public convenience init(gYearValue : GregorianDate) {
+    public convenience init?(gYearValue : GregorianDate) {
+        let datatype = gYearValue.XSDDataType
+        if datatype == nil ||  datatype! != XSD.gYear {
+            return nil
+        }
         self.init(stringValue: "\(gYearValue)")
         self.dateValue = gYearValue
         self.dataType = XSD.gYear
