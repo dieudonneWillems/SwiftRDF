@@ -275,7 +275,11 @@ public class Literal: Value {
                 } else if dataType! == XSD.gDay {
                     return "\"\(dateValue!.gDay!)\"^^xsd:gDay";
                 } else if dataType! == XSD.anyURI {
-                    return "\"\(anyURIValue!)\"^^xsd:anyURI";
+                    return "\"\(stringValue)\"^^xsd:anyURI";
+                } else if dataType! == XSD.base64Binary {
+                    return "\"\(stringValue)\"^^xsd:base64Binary";
+                } else if dataType! == XSD.hexBinary {
+                    return "\"\(stringValue)\"^^xsd:hexBinary";
                 }
             }
             return "\"\(self.stringValue)\""
@@ -406,8 +410,11 @@ public class Literal: Value {
                         datatypeFS = XSD.gDay
                     } else if dtypeStr! == "xsd:anyURI" {
                         datatypeFS = XSD.anyURI
+                    } else if dtypeStr! == "xsd:base64Binary" {
+                        datatypeFS = XSD.base64Binary
+                    } else if dtypeStr! == "xsd:hexBinary" {
+                        datatypeFS = XSD.hexBinary
                     } else {
-                        // TODO: add other datatype initialisers
                         datatypeFS = try Datatype(namespace: XSD.namespace(), localName: dtypeStr!, derivedFromDatatype: nil, isListDataType: false)
                     }
                 } else {
@@ -607,12 +614,25 @@ public class Literal: Value {
                 } catch {
                     return nil
                 }
+            }else if dataType == XSD.base64Binary {
+                dataValue = stringValue.dataFromBase64BinaryString()
+                if dataValue == nil {
+                    return nil
+                }
+            }else if dataType == XSD.hexBinary {
+                dataValue = stringValue.dataFromHexadecimalString()
+                if dataValue == nil {
+                    return nil
+                }
             }else {
             }
         } catch {
            return nil
         }
     }
+    
+    // MARK: Initialisers for String subtypes
+    // TODO: Initialisers for string subtypes
     
     // MARK: Initialisers for Date and Time Literals
     
@@ -1113,21 +1133,35 @@ public class Literal: Value {
     
     /**
      Creates a new Literal with a NSData instance as value and with an `XSD.base64Binary` datatype.
+     The Base-64 string representation of the data is stored in the `stringValue`.
      
      - parameter base64BinaryValue: The data value.
      */
     public convenience init(base64BinaryValue: NSData) {
-        let datastr = base64BinaryValue.base64EncodedDataWithOptions(NSDataBase64EncodingOptions(rawValue: 0))
-        self.init(stringValue: "\(datastr)")
+        let datastr = base64BinaryValue.base64String()
+        self.init(stringValue: datastr)
         self.dataValue = base64BinaryValue
         self.dataType = XSD.base64Binary
     }
     
-    // TODO: Initialiser for hexBinary
+    /**
+     Creates a new Literal with a NSData instance as value and with an `XSD.base64Binary` datatype.
+     The Base-64 string representation of the data is stored in the `stringValue`.
+     
+     - parameter base64BinaryValue: The data value.
+     */
+    public convenience init(hexadecimalBinaryValue: NSData) {
+        let datastr = hexadecimalBinaryValue.hexadecimalString()
+        self.init(stringValue: datastr)
+        self.dataValue = hexadecimalBinaryValue
+        self.dataType = XSD.hexBinary
+    }
     
     // TODO: Initialiser for QName
     // TODO: Initialiser for NOTATION
     
+    
+    // MARK: Private functions
     private func setIntegerValues(long : Int64){
         if long >= 0 {
             setUnsignedIntegerValues(UInt64(long))

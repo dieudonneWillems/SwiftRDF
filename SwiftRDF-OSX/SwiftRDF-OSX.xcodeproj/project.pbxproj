@@ -24,6 +24,7 @@
 		022D68371C21D64B00C4000D /* NSData-extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022D68331C21D64B00C4000D /* NSData-extensions.swift */; };
 		022D68381C21D64B00C4000D /* NSString-extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022D68341C21D64B00C4000D /* NSString-extensions.swift */; };
 		022D683A1C22015E00C4000D /* BinaryDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022D68391C22015E00C4000D /* BinaryDataTests.swift */; };
+		022D683C1C22265100C4000D /* MiscellaneousTypesLiteralTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022D683B1C22265100C4000D /* MiscellaneousTypesLiteralTests.swift */; };
 		024E09651C11DEF2002EE84C /* LiteralFormattingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 024E09641C11DEF2002EE84C /* LiteralFormattingError.swift */; };
 		024E09671C124A9C002EE84C /* NumericLiteralTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 024E09661C124A9C002EE84C /* NumericLiteralTests.swift */; };
 		024E09691C12DE49002EE84C /* StringLiteralTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 024E09681C12DE49002EE84C /* StringLiteralTests.swift */; };
@@ -72,6 +73,7 @@
 		022D68331C21D64B00C4000D /* NSData-extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSData-extensions.swift"; path = "../source code/utilities/NSData-extensions.swift"; sourceTree = "<group>"; };
 		022D68341C21D64B00C4000D /* NSString-extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSString-extensions.swift"; path = "../source code/utilities/NSString-extensions.swift"; sourceTree = "<group>"; };
 		022D68391C22015E00C4000D /* BinaryDataTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BinaryDataTests.swift; sourceTree = "<group>"; };
+		022D683B1C22265100C4000D /* MiscellaneousTypesLiteralTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MiscellaneousTypesLiteralTests.swift; sourceTree = "<group>"; };
 		024E09641C11DEF2002EE84C /* LiteralFormattingError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LiteralFormattingError.swift; path = "/Users/wonco/Development/SwiftRDF/source code/errors/LiteralFormattingError.swift"; sourceTree = "<absolute>"; };
 		024E09661C124A9C002EE84C /* NumericLiteralTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NumericLiteralTests.swift; sourceTree = "<group>"; };
 		024E09681C12DE49002EE84C /* StringLiteralTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringLiteralTests.swift; sourceTree = "<group>"; };
@@ -145,6 +147,7 @@
 				024E09681C12DE49002EE84C /* StringLiteralTests.swift */,
 				024E096E1C15B8F9002EE84C /* SPARQLLiteralTests.swift */,
 				024E09741C162E27002EE84C /* TimeLiteralTests.swift */,
+				022D683B1C22265100C4000D /* MiscellaneousTypesLiteralTests.swift */,
 				024E09721C161B65002EE84C /* DurationTests.swift */,
 				024E096C1C1374C7002EE84C /* DecimalTests.swift */,
 				022D68391C22015E00C4000D /* BinaryDataTests.swift */,
@@ -318,6 +321,7 @@
 			files = (
 				024E09791C177240002EE84C /* DateTests.swift in Sources */,
 				024E09751C162E27002EE84C /* TimeLiteralTests.swift in Sources */,
+				022D683C1C22265100C4000D /* MiscellaneousTypesLiteralTests.swift in Sources */,
 				022232221BFF719D00362D9B /* URITests.swift in Sources */,
 				0262BB131C0C5E45002E24A4 /* DatatypeTests.swift in Sources */,
 				024E09691C12DE49002EE84C /* StringLiteralTests.swift in Sources */,
