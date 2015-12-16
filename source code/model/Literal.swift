@@ -178,6 +178,14 @@ public class Literal: Value {
         }
     }
     
+    // MARK: Miscellaneous values
+    
+    /// The URI value of the literal corresponding with a value of XSD type `xsd:anyURI`.
+    public private(set) var anyURIValue : URI?
+    
+    /// The NSData value of the literal corresponding with a value of XSD type `xsd:base64Binary` or `xsd:hexBinary`.
+    public private(set) var dataValue : NSData?
+    
     // MARK: SPARQL properties
     
     /**
@@ -266,6 +274,8 @@ public class Literal: Value {
                     return "\"\(dateValue!.gMonth!)\"^^xsd:gMonth";
                 } else if dataType! == XSD.gDay {
                     return "\"\(dateValue!.gDay!)\"^^xsd:gDay";
+                } else if dataType! == XSD.anyURI {
+                    return "\"\(anyURIValue!)\"^^xsd:anyURI";
                 }
             }
             return "\"\(self.stringValue)\""
@@ -394,6 +404,8 @@ public class Literal: Value {
                         datatypeFS = XSD.gMonth
                     } else if dtypeStr! == "xsd:gDay" {
                         datatypeFS = XSD.gDay
+                    } else if dtypeStr! == "xsd:anyURI" {
+                        datatypeFS = XSD.anyURI
                     } else {
                         // TODO: add other datatype initialisers
                         datatypeFS = try Datatype(namespace: XSD.namespace(), localName: dtypeStr!, derivedFromDatatype: nil, isListDataType: false)
@@ -584,6 +596,15 @@ public class Literal: Value {
             }else if dataType == XSD.gDay {
                 dateValue = GregorianDate(gDay:stringValue)
                 if dateValue == nil {
+                    return nil
+                }
+            }else if dataType == XSD.anyURI {
+                do {
+                    anyURIValue = try URI(string: stringValue)
+                    if anyURIValue == nil {
+                        return nil
+                    }
+                } catch {
                     return nil
                 }
             }else {
@@ -1077,15 +1098,32 @@ public class Literal: Value {
         self.dataType = XSD.double
     }
     
-    // TODO: Initialiser for time
-    // TODO: Initialiser for gMonthDay
-    // TODO: Initialiser for gMonth
-    // TODO: Initialiser for gDay
+    // MARK: Initialisers for Miscellaneous data types
     
-    // TODO: Initialiser for base64Binary
+    /**
+    Creates a new Literal with a URI as value and with an `XSD.anyURI` datatype.
+    
+    - parameter anyURIValue: The URI value.
+    */
+    public convenience init(anyURIValue: URI) {
+        self.init(stringValue: "\(anyURIValue.stringValue)")
+        self.anyURIValue = anyURIValue
+        self.dataType = XSD.anyURI
+    }
+    
+    /**
+     Creates a new Literal with a NSData instance as value and with an `XSD.base64Binary` datatype.
+     
+     - parameter base64BinaryValue: The data value.
+     */
+    public convenience init(base64BinaryValue: NSData) {
+        let datastr = base64BinaryValue.base64EncodedDataWithOptions(NSDataBase64EncodingOptions(rawValue: 0))
+        self.init(stringValue: "\(datastr)")
+        self.dataValue = base64BinaryValue
+        self.dataType = XSD.base64Binary
+    }
+    
     // TODO: Initialiser for hexBinary
-    
-    // TODO: Initialiser for anyURI
     
     // TODO: Initialiser for QName
     // TODO: Initialiser for NOTATION
