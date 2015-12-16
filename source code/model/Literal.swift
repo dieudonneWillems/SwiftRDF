@@ -37,7 +37,7 @@ public class Literal: Value {
     
     // MARK: Date and Time values
     
-    /// The date value of the literal.
+    /// The date value of the literal. This value can encapsulate all date/time values, including recuring dates/times.
     public private(set) var dateValue : GregorianDate?
     
     /// The duration value of the literal.
@@ -251,13 +251,21 @@ public class Literal: Value {
                 } else if dataType! == XSD.float {
                     return "\"\(floatValue!)\"^^xsd:float";
                 } else if dataType! == XSD.dateTime {
-                    return "\"-\(dateValue!.dateTime)\"^^xsd:dateTime";
+                    return "\"\(dateValue!.dateTime)\"^^xsd:dateTime";
                 } else if dataType! == XSD.date {
-                    return "\"-\(dateValue!.date!)\"^^xsd:date";
+                    return "\"\(dateValue!.date!)\"^^xsd:date";
                 } else if dataType! == XSD.gYearMonth {
-                    return "\"-\(dateValue!.gYearMonth!)\"^^xsd:gYearMonth";
+                    return "\"\(dateValue!.gYearMonth!)\"^^xsd:gYearMonth";
                 } else if dataType! == XSD.gYear {
-                    return "\"-\(dateValue!.gYear!)\"^^xsd:gYear";
+                    return "\"\(dateValue!.gYear!)\"^^xsd:gYear";
+                } else if dataType! == XSD.time {
+                    return "\"\(dateValue!.gYear!)\"^^xsd:time";
+                } else if dataType! == XSD.gMonthDay {
+                    return "\"\(dateValue!.gYear!)\"^^xsd:gMonthDay";
+                } else if dataType! == XSD.gMonth {
+                    return "\"\(dateValue!.gYear!)\"^^xsd:gMonth";
+                } else if dataType! == XSD.gDay {
+                    return "\"\(dateValue!.gYear!)\"^^xsd:gDay";
                 }
             }
             return "\"\(self.stringValue)\""
@@ -378,6 +386,14 @@ public class Literal: Value {
                         datatypeFS = XSD.gYearMonth
                     } else if dtypeStr! == "xsd:gYear" {
                         datatypeFS = XSD.gYear
+                    } else if dtypeStr! == "xsd:time" {
+                        datatypeFS = XSD.time
+                    } else if dtypeStr! == "xsd:gMonthDay" {
+                        datatypeFS = XSD.gMonthDay
+                    } else if dtypeStr! == "xsd:gMonth" {
+                        datatypeFS = XSD.gMonth
+                    } else if dtypeStr! == "xsd:gDay" {
+                        datatypeFS = XSD.gDay
                     } else {
                         // TODO: add other datatype initialisers
                         datatypeFS = try Datatype(namespace: XSD.namespace(), localName: dtypeStr!, derivedFromDatatype: nil, isListDataType: false)
@@ -550,6 +566,26 @@ public class Literal: Value {
                 if dateValue == nil {
                     return nil
                 }
+            }else if dataType == XSD.time {
+                dateValue = GregorianDate(time:stringValue)
+                if dateValue == nil {
+                    return nil
+                }
+            }else if dataType == XSD.gMonthDay {
+                dateValue = GregorianDate(gMonthDay:stringValue)
+                if dateValue == nil {
+                    return nil
+                }
+            }else if dataType == XSD.gMonth {
+                dateValue = GregorianDate(gMonth:stringValue)
+                if dateValue == nil {
+                    return nil
+                }
+            }else if dataType == XSD.gDay {
+                dateValue = GregorianDate(gDay:stringValue)
+                if dateValue == nil {
+                    return nil
+                }
             }else {
             }
         } catch {
@@ -638,6 +674,74 @@ public class Literal: Value {
         self.init(stringValue: "\(gYearValue)")
         self.dateValue = gYearValue
         self.dataType = XSD.gYear
+    }
+    
+    /**
+     Creates a new Literal with a recuring Gregorian date, containing the time of day as value and with an
+     `XSD.time` datatype. This date specifies a time that recurs every day.
+     
+     - parameter timeValue: The time value.
+     - returns: The created literal or `nil` if the Gregorian date is not of type `xsd:time`.
+     */
+    public convenience init?(timeValue : GregorianDate) {
+        let datatype = timeValue.XSDDataType
+        if datatype == nil ||  datatype! != XSD.time {
+            return nil
+        }
+        self.init(stringValue: "\(timeValue)")
+        self.dateValue = timeValue
+        self.dataType = XSD.time
+    }
+    
+    /**
+     Creates a new Literal with a recuring Gregorian date, containing the month and day components as value and with an
+     `XSD.gMonthDay` datatype. This date specifies a date that recurs every year.
+     
+     - parameter gMonthDayValue: The date value containing the month and day components.
+     - returns: The created literal or `nil` if the Gregorian date is not of type `xsd:gMonthDay`.
+     */
+    public convenience init?(gMonthDayValue : GregorianDate) {
+        let datatype = gMonthDayValue.XSDDataType
+        if datatype == nil ||  datatype! != XSD.gMonthDay {
+            return nil
+        }
+        self.init(stringValue: "\(gMonthDayValue)")
+        self.dateValue = gMonthDayValue
+        self.dataType = XSD.gMonthDay
+    }
+    
+    /**
+     Creates a new Literal with a recuring Gregorian date, containing the month as value and with an
+     `XSD.gMonth` datatype. This date specifies a month that recurs every year.
+     
+     - parameter gMonthValue: The month value.
+     - returns: The created literal or `nil` if the Gregorian date is not of type `xsd:gMonth`.
+     */
+    public convenience init?(gMonthValue : GregorianDate) {
+        let datatype = gMonthValue.XSDDataType
+        if datatype == nil ||  datatype! != XSD.gMonth {
+            return nil
+        }
+        self.init(stringValue: "\(gMonthValue)")
+        self.dateValue = gMonthValue
+        self.dataType = XSD.gMonth
+    }
+    
+    /**
+     Creates a new Literal with a recuring Gregorian date, containing the day as value and with an
+     `XSD.gDay` datatype. This date specifies a day that recurs every month.
+     
+     - parameter gDayValue: The month value.
+     - returns: The created literal or `nil` if the Gregorian date is not of type `xsd:gDay`.
+     */
+    public convenience init?(gDayValue : GregorianDate) {
+        let datatype = gDayValue.XSDDataType
+        if datatype == nil ||  datatype! != XSD.gDay {
+            return nil
+        }
+        self.init(stringValue: "\(gDayValue)")
+        self.dateValue = gDayValue
+        self.dataType = XSD.gDay
     }
     
     /**
