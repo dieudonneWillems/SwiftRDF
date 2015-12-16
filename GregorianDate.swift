@@ -27,6 +27,9 @@ public class GregorianDate : CustomStringConvertible {
     private static let gYearMonthPattern = "^((?:[+-]?)(?:\\d*))-((?:0[1-9])|(?:1[0-2]))(Z|(?:([+-](?:(?:0[0-9])|(?:1[0-2]))):((?:00)|(?:30))))?$"
     private static let gYearPattern = "^((?:[+-]?)(?:\\d{4,}))(Z|(?:([+-](?:(?:0[0-9])|(?:1[0-2]))):((?:00)|(?:30))))?$"
     private static let timePattern = "^((?:[0-1][0-9])|(?:2[0-4])):([0-5][0-9]):((?:(?:[0-5][0-9])|60)(?:\\.\\d*)?)(Z|(?:([+-](?:(?:0[0-9])|(?:1[0-2]))):((?:00)|(?:30))))?$"
+    private static let gMonthDayPattern = "^--((?:0[1-9])|(?:1[0-2]))-((?:0[1-9])|(?:[1-2][0-9])|(?:3[0-1]))(Z|(?:([+-](?:(?:0[0-9])|(?:1[0-2]))):((?:00)|(?:30))))?$"
+    private static let gMonthPattern = "^--((?:0[1-9])|(?:1[0-2]))(Z|(?:([+-](?:(?:0[0-9])|(?:1[0-2]))):((?:00)|(?:30))))?$"
+    private static let gDayPattern = "^---((?:0[1-9])|(?:[1-2][0-9])|(?:3[0-1]))(Z|(?:([+-](?:(?:0[0-9])|(?:1[0-2]))):((?:00)|(?:30))))?$"
     
     private static let calendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)!
     
@@ -51,6 +54,12 @@ public class GregorianDate : CustomStringConvertible {
                 descr = gYear
             }else if datatype! == XSD.time {
                 descr = time
+            }else if datatype! == XSD.gMonthDay {
+                descr = gMonthDay
+            }else if datatype! == XSD.gMonth {
+                descr = gMonth
+            }else if datatype! == XSD.gDay {
+                descr = gDay
             }
             if descr == nil {
                 return "GregorianDate"
@@ -129,7 +138,7 @@ public class GregorianDate : CustomStringConvertible {
                 let date = GregorianDate.calendar.dateFromComponents(components)
                 return date
             } else {
-                
+                // TODO: Start date for recuring dates/times
                 
             }
             return nil
@@ -221,6 +230,12 @@ public class GregorianDate : CustomStringConvertible {
                 }
             }else if hour != nil && minute != nil && second != nil {
                 return XSD.time
+            }else if month != nil && day != nil {
+                return XSD.gMonthDay
+            }else if month != nil {
+                return XSD.gMonth
+            }else if day != nil {
+                return XSD.gDay
             }
             return nil
         }
@@ -535,6 +550,163 @@ public class GregorianDate : CustomStringConvertible {
         }
     }
     
+    /**
+     The `xsd:gMonthDay` textual representation of the `GregorianDate`. The textual representation is of the form:
+     `--[month]-[day][timezone]`, e.g. `--12-14+02:00`, or
+     `--03-02Z`. If `GregorianDate.XSDDataType` does not equal `XSD.gMonthDay`, this optional property
+     will be `nil`.
+     */
+    public var gMonthDay : String? {
+        get {
+            if day == nil || month == nil {
+                return nil
+            }
+            var dateTime = "--"
+            if month < 10 {
+                dateTime += "0\(month!)-"
+            } else {
+                dateTime += "\(month!)-"
+            }
+            if day < 10 {
+                dateTime += "0\(day!)"
+            } else {
+                dateTime += "\(day!)"
+            }
+            let components = NSDateComponents()
+            components.month = month!
+            components.day = day!
+            let date = GregorianDate.calendar.dateFromComponents(components)
+            if timezone != nil {
+                let sgmt = timezone!.secondsFromGMTForDate(date!)
+                var mgmt = Int(sgmt / 60)
+                var hgmt = Int(mgmt / 60)
+                mgmt = Int(abs(mgmt) % 60)
+                if hgmt == 0 && mgmt == 0 {
+                    dateTime += "Z"
+                } else {
+                    if hgmt < 0 {
+                        dateTime += "-"
+                    } else {
+                        dateTime += "+"
+                    }
+                    hgmt = abs(hgmt)
+                    if hgmt < 10 {
+                        dateTime += "0\(hgmt):"
+                    } else {
+                        dateTime += "\(hgmt):"
+                    }
+                    if mgmt < 10 {
+                        dateTime += "0\(mgmt)"
+                    } else {
+                        dateTime += "\(mgmt)"
+                    }
+                }
+            }
+            return dateTime
+        }
+    }
+    
+    /**
+     The `xsd:gMonth` textual representation of the `GregorianDate`. The textual representation is of the form:
+     `--[month][timezone]`, e.g. `--12+02:00`, or
+     `--03Z`. If `GregorianDate.XSDDataType` does not equal `XSD.gMonth`, this optional property
+     will be `nil`.
+     */
+    public var gMonth : String? {
+        get {
+            if month == nil {
+                return nil
+            }
+            var dateTime = "--"
+            if month < 10 {
+                dateTime += "0\(month!)"
+            } else {
+                dateTime += "\(month!)"
+            }
+            let components = NSDateComponents()
+            components.month = month!
+            let date = GregorianDate.calendar.dateFromComponents(components)
+            if timezone != nil {
+                let sgmt = timezone!.secondsFromGMTForDate(date!)
+                var mgmt = Int(sgmt / 60)
+                var hgmt = Int(mgmt / 60)
+                mgmt = Int(abs(mgmt) % 60)
+                if hgmt == 0 && mgmt == 0 {
+                    dateTime += "Z"
+                } else {
+                    if hgmt < 0 {
+                        dateTime += "-"
+                    } else {
+                        dateTime += "+"
+                    }
+                    hgmt = abs(hgmt)
+                    if hgmt < 10 {
+                        dateTime += "0\(hgmt):"
+                    } else {
+                        dateTime += "\(hgmt):"
+                    }
+                    if mgmt < 10 {
+                        dateTime += "0\(mgmt)"
+                    } else {
+                        dateTime += "\(mgmt)"
+                    }
+                }
+            }
+            return dateTime
+        }
+    }
+    
+    /**
+     The `xsd:gDay` textual representation of the `GregorianDate`. The textual representation is of the form:
+     `---[day][timezone]`, e.g. `---14+02:00`, or
+     `---02Z`. If `GregorianDate.XSDDataType` does not equal `XSD.gDay`, this optional property
+     will be `nil`.
+     */
+    public var gDay : String? {
+        get {
+            if day == nil {
+                return nil
+            }
+            var dateTime = "---"
+            if day < 10 {
+                dateTime += "0\(day!)"
+            } else {
+                dateTime += "\(day!)"
+            }
+            let components = NSDateComponents()
+            components.day = day!
+            let date = GregorianDate.calendar.dateFromComponents(components)
+            if timezone != nil {
+                let sgmt = timezone!.secondsFromGMTForDate(date!)
+                var mgmt = Int(sgmt / 60)
+                var hgmt = Int(mgmt / 60)
+                mgmt = Int(abs(mgmt) % 60)
+                if hgmt == 0 && mgmt == 0 {
+                    dateTime += "Z"
+                } else {
+                    if hgmt < 0 {
+                        dateTime += "-"
+                    } else {
+                        dateTime += "+"
+                    }
+                    hgmt = abs(hgmt)
+                    if hgmt < 10 {
+                        dateTime += "0\(hgmt):"
+                    } else {
+                        dateTime += "\(hgmt):"
+                    }
+                    if mgmt < 10 {
+                        dateTime += "0\(mgmt)"
+                    } else {
+                        dateTime += "\(mgmt)"
+                    }
+                }
+            }
+            return dateTime
+        }
+    }
+
+    
     
     // MARK: Initialisers
     
@@ -724,11 +896,8 @@ public class GregorianDate : CustomStringConvertible {
      - parameter second: The second component of the time.
      - parameter timezone: The time zone for the `GregorianDate`.
      */
-    public init(hour: Int?, minute: Int?, second: Double?, timezone: NSTimeZone?) {
-        self.hour = hour
-        self.minute = minute
-        self.second = second
-        self.timezone = timezone
+    public convenience init(hour: Int?, minute: Int?, second: Double?, timezone: NSTimeZone?) {
+        self.init(year:nil, month:nil, day: nil, hour:hour, minute:minute, second:second, timezone:timezone)
     }
     
     /**
@@ -744,6 +913,100 @@ public class GregorianDate : CustomStringConvertible {
      */
     public init?(time: String) {
         let parsed = parseTimeString(time, pattern: GregorianDate.timePattern)
+        if !parsed {
+            return nil
+        }
+    }
+    
+    /**
+     Creates a new recurring `GregorianDate` with the specified month and day components 
+     and for the specified time zone. It represents a date (month and day) that recurs every year.
+     The corresponding XSD datatype is `xsd:gMonthDay`.
+     
+     - parameter month: The month component of the date.
+     - parameter day: The day component of the date.
+     - parameter timezone: The time zone for the `GregorianDate`.
+     */
+    public convenience init(month: Int?, day: Int?, timezone: NSTimeZone?) {
+        self.init(year:nil, month:month, day: day, hour:nil, minute:nil, second:nil, timezone:timezone)
+    }
+    
+    /**
+     Creates a new recurring `GregorianDate` with the month and day parsed from the specified 
+     textual representation of a recuring date as defined for the `xsd:gMonthDay` data type.
+     It represents a date (month and day) that recurs every year.
+     The textual representation should be of the form
+     `--[month]-[day][timezone]`, e.g. `--11-03+02:00`, or `--03-23Z`. If the string is not 
+     of this required format, the initialisation method will return `nil`.
+     
+     - parameter gMonthDay: The textual representation of a recurring date in `xsd:gMonthDay` format.
+     - returns: An optional instance of `GregorianDate` which represents the date, or `nil` if the
+     string could not be parsed.
+     */
+    public init?(gMonthDay: String) {
+        let parsed = parsegMonthDayString(gMonthDay, pattern: GregorianDate.gMonthDayPattern)
+        if !parsed {
+            return nil
+        }
+    }
+    
+    /**
+     Creates a new recurring `GregorianDate` with the specified month component
+     and for the specified time zone. It represents a month that recurs every year.
+     The corresponding XSD datatype is `xsd:gMonth`.
+     
+     - parameter month: The month component of the date.
+     - parameter timezone: The time zone for the `GregorianDate`.
+     */
+    public convenience init(month: Int?, timezone: NSTimeZone?) {
+        self.init(year:nil, month:month, day: nil, hour:nil, minute:nil, second:nil, timezone:timezone)
+    }
+    
+    /**
+     Creates a new recurring `GregorianDate` with the month parsed from the specified
+     textual representation of a recuring date as defined for the `xsd:gMonth` data type.
+     It represents a month that recurs every year.
+     The textual representation should be of the form
+     `--[month][timezone]`, e.g. `--11+02:00`, or `--03Z`. If the string is not
+     of this required format, the initialisation method will return `nil`.
+     
+     - parameter gMonth: The textual representation of a recurring month in `xsd:gMonth` format.
+     - returns: An optional instance of `GregorianDate` which represents the month, or `nil` if the
+     string could not be parsed.
+     */
+    public init?(gMonth: String) {
+        let parsed = parsegMonthString(gMonth, pattern: GregorianDate.gMonthPattern)
+        if !parsed {
+            return nil
+        }
+    }
+    
+    /**
+     Creates a new recurring `GregorianDate` with the specified day component
+     and for the specified time zone. It represents a day that recurs every month.
+     The corresponding XSD datatype is `xsd:gDay`.
+     
+     - parameter day: The day component of the date.
+     - parameter timezone: The time zone for the `GregorianDate`.
+     */
+    public convenience init(day: Int?, timezone: NSTimeZone?) {
+        self.init(year:nil, month:nil, day: day, hour:nil, minute:nil, second:nil, timezone:timezone)
+    }
+    
+    /**
+     Creates a new recurring `GregorianDate` with the day parsed from the specified
+     textual representation of recuring date as defined for the `xsd:gDay` data type.
+     It represents a day that recurs every month.
+     The textual representation should be of the form
+     `---[day][timezone]`, e.g. `---03+02:00`, or `---23Z`. If the string is not
+     of this required format, the initialisation method will return `nil`.
+     
+     - parameter gMonthDay: The textual representation of a recurring date in `xsd:gDay` format.
+     - returns: An optional instance of `GregorianDate` which represents the date, or `nil` if the
+     string could not be parsed.
+     */
+    public init?(gDay: String) {
+        let parsed = parsegDayString(gDay, pattern: GregorianDate.gDayPattern)
         if !parsed {
             return nil
         }
@@ -878,6 +1141,121 @@ public class GregorianDate : CustomStringConvertible {
                 if match.numberOfRanges >= 7 && match.rangeAtIndex(3).location != NSNotFound {
                     let str = nsstring.substringWithRange(match.rangeAtIndex(3)) as String
                     second = Double(str)!
+                }
+                return true
+            }
+        } catch {
+            
+        }
+        return false
+    }
+    
+    private func parsegMonthDayString(stringValue: String, pattern : String) -> Bool {
+        do {
+            let regex = try NSRegularExpression(pattern: pattern, options: [])
+            let matches = regex.matchesInString(stringValue, options: [], range: NSMakeRange(0, stringValue.characters.count)) as Array<NSTextCheckingResult>
+            if matches.count == 0 {
+                return false
+            }else{
+                let match = matches[0]
+                let nsstring = stringValue as NSString
+                if match.rangeAtIndex(match.numberOfRanges-3).location != NSNotFound {
+                    var tzhrs = 0;
+                    var tzmins = 0;
+                    if match.rangeAtIndex(match.numberOfRanges-2).location != NSNotFound {
+                        let tzhrsStr = nsstring.substringWithRange(match.rangeAtIndex(match.numberOfRanges-2)) as String
+                        tzhrs = Int(tzhrsStr)!
+                    }
+                    if match.rangeAtIndex(match.numberOfRanges-1).location != NSNotFound {
+                        let tzminsStr = nsstring.substringWithRange(match.rangeAtIndex(match.numberOfRanges-1)) as String
+                        tzmins = Int(tzminsStr)!
+                    }
+                    if tzhrs < 0 {
+                        tzmins = -tzmins
+                    }
+                    timezone = NSTimeZone.init(forSecondsFromGMT: tzhrs*3600+tzmins*60)
+                }
+                if match.rangeAtIndex(1).location != NSNotFound {
+                    let str = nsstring.substringWithRange(match.rangeAtIndex(1)) as String
+                    month = Int(str)!
+                }
+                if match.numberOfRanges >= 5 && match.rangeAtIndex(2).location != NSNotFound {
+                    let str = nsstring.substringWithRange(match.rangeAtIndex(2)) as String
+                    day = Int(str)!
+                }
+                return true
+            }
+        } catch {
+            
+        }
+        return false
+    }
+    
+    private func parsegMonthString(stringValue: String, pattern : String) -> Bool {
+        do {
+            let regex = try NSRegularExpression(pattern: pattern, options: [])
+            let matches = regex.matchesInString(stringValue, options: [], range: NSMakeRange(0, stringValue.characters.count)) as Array<NSTextCheckingResult>
+            if matches.count == 0 {
+                return false
+            }else{
+                let match = matches[0]
+                let nsstring = stringValue as NSString
+                if match.rangeAtIndex(match.numberOfRanges-3).location != NSNotFound {
+                    var tzhrs = 0;
+                    var tzmins = 0;
+                    if match.rangeAtIndex(match.numberOfRanges-2).location != NSNotFound {
+                        let tzhrsStr = nsstring.substringWithRange(match.rangeAtIndex(match.numberOfRanges-2)) as String
+                        tzhrs = Int(tzhrsStr)!
+                    }
+                    if match.rangeAtIndex(match.numberOfRanges-1).location != NSNotFound {
+                        let tzminsStr = nsstring.substringWithRange(match.rangeAtIndex(match.numberOfRanges-1)) as String
+                        tzmins = Int(tzminsStr)!
+                    }
+                    if tzhrs < 0 {
+                        tzmins = -tzmins
+                    }
+                    timezone = NSTimeZone.init(forSecondsFromGMT: tzhrs*3600+tzmins*60)
+                }
+                if match.rangeAtIndex(1).location != NSNotFound {
+                    let str = nsstring.substringWithRange(match.rangeAtIndex(1)) as String
+                    month = Int(str)!
+                }
+                return true
+            }
+        } catch {
+            
+        }
+        return false
+    }
+    
+    private func parsegDayString(stringValue: String, pattern : String) -> Bool {
+        do {
+            let regex = try NSRegularExpression(pattern: pattern, options: [])
+            let matches = regex.matchesInString(stringValue, options: [], range: NSMakeRange(0, stringValue.characters.count)) as Array<NSTextCheckingResult>
+            if matches.count == 0 {
+                return false
+            }else{
+                let match = matches[0]
+                let nsstring = stringValue as NSString
+                if match.rangeAtIndex(match.numberOfRanges-3).location != NSNotFound {
+                    var tzhrs = 0;
+                    var tzmins = 0;
+                    if match.rangeAtIndex(match.numberOfRanges-2).location != NSNotFound {
+                        let tzhrsStr = nsstring.substringWithRange(match.rangeAtIndex(match.numberOfRanges-2)) as String
+                        tzhrs = Int(tzhrsStr)!
+                    }
+                    if match.rangeAtIndex(match.numberOfRanges-1).location != NSNotFound {
+                        let tzminsStr = nsstring.substringWithRange(match.rangeAtIndex(match.numberOfRanges-1)) as String
+                        tzmins = Int(tzminsStr)!
+                    }
+                    if tzhrs < 0 {
+                        tzmins = -tzmins
+                    }
+                    timezone = NSTimeZone.init(forSecondsFromGMT: tzhrs*3600+tzmins*60)
+                }
+                if match.rangeAtIndex(1).location != NSNotFound {
+                    let str = nsstring.substringWithRange(match.rangeAtIndex(1)) as String
+                    day = Int(str)!
                 }
                 return true
             }

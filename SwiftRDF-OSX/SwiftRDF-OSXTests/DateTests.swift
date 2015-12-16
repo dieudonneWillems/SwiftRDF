@@ -209,6 +209,129 @@ class DateTests: XCTestCase {
         gdate2 = GregorianDate(year: (gdate?.year), month: (gdate?.month), day: (gdate?.day), hour: (gdate?.hour)!, minute: (gdate?.minute)!, second: (gdate?.second)!, timezone: (gdate?.timezone))
         XCTAssertEqual(string, gdate2.time)
     }
+    
+    func testgMonthDay() {
+        var string = "--12-15Z"
+        var gdate = GregorianDate(gMonthDay: string)
+        XCTAssertEqual(string, gdate?.gMonthDay)
+        XCTAssertTrue(gdate!.isRecurring)
+        var gdate2 = GregorianDate(year: (gdate?.year), month: (gdate?.month), day: (gdate?.day), hour: (gdate?.hour), minute: (gdate?.minute), second: (gdate?.second), timezone: (gdate?.timezone))
+        XCTAssertEqual(string, gdate2.gMonthDay)
+        string = "--05-22+00:30"
+        gdate = GregorianDate(gMonthDay: string)
+        XCTAssertEqual(string, gdate?.gMonthDay)
+        XCTAssertTrue(gdate!.isRecurring)
+        gdate2 = GregorianDate(year: (gdate?.year), month: (gdate?.month), day: (gdate?.day), hour: (gdate?.hour), minute: (gdate?.minute), second: (gdate?.second), timezone: (gdate?.timezone))
+        XCTAssertEqual(string, gdate2.gMonthDay)
+        string = "--01-12-04:00"
+        gdate = GregorianDate(gMonthDay: string)
+        XCTAssertEqual(string, gdate?.gMonthDay)
+        XCTAssertTrue(gdate!.isRecurring)
+        gdate2 = GregorianDate(year: (gdate?.year), month: (gdate?.month), day: (gdate?.day), hour: (gdate?.hour), minute: (gdate?.minute), second: (gdate?.second), timezone: (gdate?.timezone))
+        XCTAssertEqual(string, gdate2.gMonthDay)
+        string = "--01-12"
+        gdate = GregorianDate(gMonthDay: string)
+        XCTAssertEqual(string, gdate?.gMonthDay)
+        XCTAssertTrue(gdate!.isRecurring)
+        gdate2 = GregorianDate(year: (gdate?.year), month: (gdate?.month), day: (gdate?.day), hour: (gdate?.hour), minute: (gdate?.minute), second: (gdate?.second), timezone: (gdate?.timezone))
+        XCTAssertEqual(string, gdate2.gMonthDay)
+        string = "-02-12Z"
+        gdate = GregorianDate(gMonthDay: string)
+        XCTAssertNil(gdate)
+        string = "--00-12Z"
+        gdate = GregorianDate(gMonthDay: string)
+        XCTAssertNil(gdate)
+        string = "--13-12Z"
+        gdate = GregorianDate(gMonthDay: string)
+        XCTAssertNil(gdate)
+        string = "--2-12Z"
+        gdate = GregorianDate(gMonthDay: string)
+        XCTAssertNil(gdate)
+        string = "12:23:54.983244+02:00"
+        gdate = GregorianDate(gMonthDay: string)
+        XCTAssertNil(gdate)
+    }
+    
+    func testgMonth() {
+        var string = "--12Z"
+        var gdate = GregorianDate(gMonth: string)
+        XCTAssertEqual(string, gdate?.gMonth)
+        XCTAssertTrue(gdate!.isRecurring)
+        var gdate2 = GregorianDate(year: (gdate?.year), month: (gdate?.month), day: (gdate?.day), hour: (gdate?.hour), minute: (gdate?.minute), second: (gdate?.second), timezone: (gdate?.timezone))
+        XCTAssertEqual(string, gdate2.gMonth)
+        string = "--05+00:30"
+        gdate = GregorianDate(gMonth: string)
+        XCTAssertEqual(string, gdate?.gMonth)
+        XCTAssertTrue(gdate!.isRecurring)
+        gdate2 = GregorianDate(year: (gdate?.year), month: (gdate?.month), day: (gdate?.day), hour: (gdate?.hour), minute: (gdate?.minute), second: (gdate?.second), timezone: (gdate?.timezone))
+        XCTAssertEqual(string, gdate2.gMonth)
+        string = "--01-04:00"
+        gdate = GregorianDate(gMonth: string)
+        XCTAssertEqual(string, gdate?.gMonth)
+        XCTAssertTrue(gdate!.isRecurring)
+        gdate2 = GregorianDate(year: (gdate?.year), month: (gdate?.month), day: (gdate?.day), hour: (gdate?.hour), minute: (gdate?.minute), second: (gdate?.second), timezone: (gdate?.timezone))
+        XCTAssertEqual(string, gdate2.gMonth)
+        string = "--01"
+        gdate = GregorianDate(gMonth: string)
+        XCTAssertEqual(string, gdate?.gMonth)
+        XCTAssertTrue(gdate!.isRecurring)
+        gdate2 = GregorianDate(year: (gdate?.year), month: (gdate?.month), day: (gdate?.day), hour: (gdate?.hour), minute: (gdate?.minute), second: (gdate?.second), timezone: (gdate?.timezone))
+        XCTAssertEqual(string, gdate2.gMonth)
+        string = "--05-12Z"
+        gdate = GregorianDate(gMonth: string)
+        XCTAssertNil(gdate)
+        string = "-02Z"
+        gdate = GregorianDate(gMonth: string)
+        XCTAssertNil(gdate)
+        string = "---02Z"
+        gdate = GregorianDate(gMonth: string)
+        XCTAssertNil(gdate)
+        string = "--00-12Z"
+        gdate = GregorianDate(gMonth: string)
+        XCTAssertNil(gdate)
+        string = "--13-12Z"
+        gdate = GregorianDate(gMonth: string)
+        XCTAssertNil(gdate)
+        string = "--2-12Z"
+        gdate = GregorianDate(gMonth: string)
+        XCTAssertNil(gdate)
+        string = "12:23:54.983244+02:00"
+        gdate = GregorianDate(gMonth: string)
+        XCTAssertNil(gdate)
+    }
+    
+    func testgDay() {
+        var string = "---12Z"
+        var gdate = GregorianDate(gDay: string)
+        XCTAssertEqual(string, gdate?.gDay)
+        XCTAssertTrue(gdate!.isRecurring)
+        var gdate2 = GregorianDate(year: (gdate?.year), month: (gdate?.month), day: (gdate?.day), hour: (gdate?.hour), minute: (gdate?.minute), second: (gdate?.second), timezone: (gdate?.timezone))
+        XCTAssertEqual(string, gdate2.gDay)
+        string = "---05+00:30"
+        gdate = GregorianDate(gDay: string)
+        XCTAssertEqual(string, gdate?.gDay)
+        XCTAssertTrue(gdate!.isRecurring)
+        gdate2 = GregorianDate(year: (gdate?.year), month: (gdate?.month), day: (gdate?.day), hour: (gdate?.hour), minute: (gdate?.minute), second: (gdate?.second), timezone: (gdate?.timezone))
+        XCTAssertEqual(string, gdate2.gDay)
+        string = "---01-04:00"
+        gdate = GregorianDate(gDay: string)
+        XCTAssertEqual(string, gdate?.gDay)
+        XCTAssertTrue(gdate!.isRecurring)
+        gdate2 = GregorianDate(year: (gdate?.year), month: (gdate?.month), day: (gdate?.day), hour: (gdate?.hour), minute: (gdate?.minute), second: (gdate?.second), timezone: (gdate?.timezone))
+        XCTAssertEqual(string, gdate2.gDay)
+        string = "---01"
+        gdate = GregorianDate(gDay: string)
+        XCTAssertEqual(string, gdate?.gDay)
+        XCTAssertTrue(gdate!.isRecurring)
+        gdate2 = GregorianDate(year: (gdate?.year), month: (gdate?.month), day: (gdate?.day), hour: (gdate?.hour), minute: (gdate?.minute), second: (gdate?.second), timezone: (gdate?.timezone))
+        XCTAssertEqual(string, gdate2.gDay)
+        string = "--02Z"
+        gdate = GregorianDate(gDay: string)
+        XCTAssertNil(gdate)
+        string = "12:23:54.983244+02:00"
+        gdate = GregorianDate(gDay: string)
+        XCTAssertNil(gdate)
+    }
 }
 
 
