@@ -56,4 +56,384 @@ class TimeLiteralTests: XCTestCase {
         XCTAssertNil(lit2.longValue)
         
     }
+    
+    func testDateTimeLiteral(){
+        var date = GregorianDate(year: 2015, month: 12, day: 16, hour: 12, minute: 10, second: 32.32, timezone: NSTimeZone(forSecondsFromGMT: 7200))
+        var lit = Literal(gregorianDate: date)
+        XCTAssertEqual("2015-12-16T12:10:32.32+02:00", lit.stringValue)
+        XCTAssertEqual("\"2015-12-16T12:10:32.32+02:00\"^^xsd:dateTime", lit.sparql)
+        XCTAssertTrue(lit.dataType! == XSD.dateTime)
+        XCTAssertNil(lit.language)
+        XCTAssertNil(lit.longValue)
+        lit = Literal(dateTimeValue: date)!
+        XCTAssertEqual("2015-12-16T12:10:32.32+02:00", lit.stringValue)
+        XCTAssertEqual("\"2015-12-16T12:10:32.32+02:00\"^^xsd:dateTime", lit.sparql)
+        XCTAssertFalse(lit.dateValue!.isRecurring)
+        
+        date = GregorianDate(year: -2015, month: 12, day: 16, hour: 12, minute: 10, second: 32.32, timezone: NSTimeZone(forSecondsFromGMT: 7200))
+        lit = Literal(gregorianDate: date)
+        XCTAssertEqual("-2015-12-16T12:10:32.32+02:00", lit.stringValue)
+        XCTAssertEqual("\"-2015-12-16T12:10:32.32+02:00\"^^xsd:dateTime", lit.sparql)
+        lit = Literal(dateTimeValue: date)!
+        XCTAssertEqual("-2015-12-16T12:10:32.32+02:00", lit.stringValue)
+        XCTAssertEqual("\"-2015-12-16T12:10:32.32+02:00\"^^xsd:dateTime", lit.sparql)
+        XCTAssertTrue(lit.dataType! == XSD.dateTime)
+        XCTAssertNil(lit.language)
+        XCTAssertNil(lit.longValue)
+        XCTAssertFalse(lit.dateValue!.isRecurring)
+    }
+    
+    func testDateTimeLiteralFromString(){
+        var string = "2015-12-16T12:10:32.32+02:00"
+        var lit = Literal(stringValue: string, dataType: XSD.dateTime)!
+        XCTAssertEqual(string, lit.stringValue)
+        XCTAssertEqual("\"\(string)\"^^xsd:dateTime", lit.sparql)
+        XCTAssertTrue(lit.dataType! == XSD.dateTime)
+        XCTAssertNil(lit.language)
+        XCTAssertNil(lit.longValue)
+        XCTAssertEqual(string, lit.dateValue?.dateTime)
+        XCTAssertFalse(lit.dateValue!.isRecurring)
+        
+        string = "-2015-12-16T12:10:32.32+02:00"
+        lit = Literal(stringValue: string, dataType: XSD.dateTime)!
+        XCTAssertEqual(string, lit.stringValue)
+        XCTAssertEqual("\"\(string)\"^^xsd:dateTime", lit.sparql)
+        XCTAssertTrue(lit.dataType! == XSD.dateTime)
+        XCTAssertNil(lit.language)
+        XCTAssertNil(lit.longValue)
+        XCTAssertEqual(string, lit.dateValue?.dateTime)
+        XCTAssertFalse(lit.dateValue!.isRecurring)
+        
+        string = "-2015-12-16T12:10:32.32"
+        lit = Literal(stringValue: string, dataType: XSD.dateTime)!
+        XCTAssertEqual(string, lit.stringValue)
+        XCTAssertEqual("\"\(string)\"^^xsd:dateTime", lit.sparql)
+        XCTAssertTrue(lit.dataType! == XSD.dateTime)
+        XCTAssertNil(lit.language)
+        XCTAssertNil(lit.longValue)
+        XCTAssertEqual(string, lit.dateValue?.dateTime)
+        XCTAssertFalse(lit.dateValue!.isRecurring)
+    }
+    
+    func testDateLiteral(){
+        var date = GregorianDate(year: 2015, month: 12, day: 16, timezone: NSTimeZone(forSecondsFromGMT: 7200))
+        var lit = Literal(gregorianDate: date)
+        XCTAssertEqual("2015-12-16+02:00", lit.stringValue)
+        XCTAssertEqual("\"2015-12-16+02:00\"^^xsd:date", lit.sparql)
+        XCTAssertTrue(lit.dataType! == XSD.date)
+        XCTAssertNil(lit.language)
+        XCTAssertNil(lit.longValue)
+        lit = Literal(dateValue: date)!
+        XCTAssertEqual("2015-12-16+02:00", lit.stringValue)
+        XCTAssertFalse(lit.dateValue!.isRecurring)
+        XCTAssertEqual("\"2015-12-16+02:00\"^^xsd:date", lit.sparql)
+        
+        date = GregorianDate(year: -2015, month: 12, day: 16, timezone: NSTimeZone(forSecondsFromGMT: 7200))
+        lit = Literal(gregorianDate: date)
+        XCTAssertEqual("-2015-12-16+02:00", lit.stringValue)
+        XCTAssertEqual("\"-2015-12-16+02:00\"^^xsd:date", lit.sparql)
+        lit = Literal(dateValue: date)!
+        XCTAssertEqual("-2015-12-16+02:00", lit.stringValue)
+        XCTAssertEqual("\"-2015-12-16+02:00\"^^xsd:date", lit.sparql)
+        XCTAssertTrue(lit.dataType! == XSD.date)
+        XCTAssertNil(lit.language)
+        XCTAssertNil(lit.longValue)
+        XCTAssertFalse(lit.dateValue!.isRecurring)
+    }
+    
+    func testDateLiteralFromString(){
+        var string = "2015-12-16+02:00"
+        var lit = Literal(stringValue: string, dataType: XSD.date)!
+        XCTAssertEqual(string, lit.stringValue)
+        XCTAssertEqual("\"\(string)\"^^xsd:date", lit.sparql)
+        XCTAssertTrue(lit.dataType! == XSD.date)
+        XCTAssertNil(lit.language)
+        XCTAssertNil(lit.longValue)
+        XCTAssertEqual(string, lit.dateValue?.date)
+        XCTAssertFalse(lit.dateValue!.isRecurring)
+        
+        string = "-2015-12-16+02:00"
+        lit = Literal(stringValue: string, dataType: XSD.date)!
+        XCTAssertEqual(string, lit.stringValue)
+        XCTAssertEqual("\"\(string)\"^^xsd:date", lit.sparql)
+        XCTAssertTrue(lit.dataType! == XSD.date)
+        XCTAssertNil(lit.language)
+        XCTAssertNil(lit.longValue)
+        XCTAssertEqual(string, lit.dateValue?.date)
+        XCTAssertFalse(lit.dateValue!.isRecurring)
+        
+        string = "-2015-12-16"
+        lit = Literal(stringValue: string, dataType: XSD.date)!
+        XCTAssertEqual(string, lit.stringValue)
+        XCTAssertEqual("\"\(string)\"^^xsd:date", lit.sparql)
+        XCTAssertTrue(lit.dataType! == XSD.date)
+        XCTAssertNil(lit.language)
+        XCTAssertNil(lit.longValue)
+        XCTAssertEqual(string, lit.dateValue?.date)
+        XCTAssertFalse(lit.dateValue!.isRecurring)
+    }
+    
+    func testgYearMonthLiteral(){
+        var date = GregorianDate(year: 2015, month: 12, timezone: NSTimeZone(forSecondsFromGMT: 7200))
+        var lit = Literal(gregorianDate: date)
+        XCTAssertEqual("2015-12+02:00", lit.stringValue)
+        XCTAssertEqual("\"2015-12+02:00\"^^xsd:gYearMonth", lit.sparql)
+        XCTAssertTrue(lit.dataType! == XSD.gYearMonth)
+        XCTAssertNil(lit.language)
+        XCTAssertNil(lit.longValue)
+        lit = Literal(gYearMonthValue: date)!
+        XCTAssertEqual("2015-12+02:00", lit.stringValue)
+        XCTAssertEqual("\"2015-12+02:00\"^^xsd:gYearMonth", lit.sparql)
+        XCTAssertFalse(lit.dateValue!.isRecurring)
+        
+        date = GregorianDate(year: -2015, month: 12, timezone: NSTimeZone(forSecondsFromGMT: 7200))
+        lit = Literal(gregorianDate: date)
+        XCTAssertEqual("-2015-12+02:00", lit.stringValue)
+        XCTAssertEqual("\"-2015-12+02:00\"^^xsd:gYearMonth", lit.sparql)
+        lit = Literal(gYearMonthValue: date)!
+        XCTAssertEqual("-2015-12+02:00", lit.stringValue)
+        XCTAssertEqual("\"-2015-12+02:00\"^^xsd:gYearMonth", lit.sparql)
+        XCTAssertTrue(lit.dataType! == XSD.gYearMonth)
+        XCTAssertNil(lit.language)
+        XCTAssertNil(lit.longValue)
+        XCTAssertFalse(lit.dateValue!.isRecurring)
+    }
+    
+    func testgYearMonthLiteralFromString(){
+        var string = "2015-12+02:00"
+        var lit = Literal(stringValue: string, dataType: XSD.gYearMonth)!
+        XCTAssertEqual(string, lit.stringValue)
+        XCTAssertEqual("\"\(string)\"^^xsd:gYearMonth", lit.sparql)
+        XCTAssertTrue(lit.dataType! == XSD.gYearMonth)
+        XCTAssertNil(lit.language)
+        XCTAssertNil(lit.longValue)
+        XCTAssertEqual(string, lit.dateValue?.gYearMonth)
+        XCTAssertFalse(lit.dateValue!.isRecurring)
+        
+        string = "-2015-12+02:00"
+        lit = Literal(stringValue: string, dataType: XSD.gYearMonth)!
+        XCTAssertEqual(string, lit.stringValue)
+        XCTAssertEqual("\"\(string)\"^^xsd:gYearMonth", lit.sparql)
+        XCTAssertTrue(lit.dataType! == XSD.gYearMonth)
+        XCTAssertNil(lit.language)
+        XCTAssertNil(lit.longValue)
+        XCTAssertEqual(string, lit.dateValue?.gYearMonth)
+        XCTAssertFalse(lit.dateValue!.isRecurring)
+        
+        string = "-2015-12"
+        lit = Literal(stringValue: string, dataType: XSD.gYearMonth)!
+        XCTAssertEqual(string, lit.stringValue)
+        XCTAssertEqual("\"\(string)\"^^xsd:gYearMonth", lit.sparql)
+        XCTAssertTrue(lit.dataType! == XSD.gYearMonth)
+        XCTAssertNil(lit.language)
+        XCTAssertNil(lit.longValue)
+        XCTAssertEqual(string, lit.dateValue?.gYearMonth)
+        XCTAssertFalse(lit.dateValue!.isRecurring)
+    }
+    
+    func testgYearLiteral(){
+        var date = GregorianDate(year: 2015, timezone: NSTimeZone(forSecondsFromGMT: 7200))
+        var lit = Literal(gregorianDate: date)
+        XCTAssertEqual("2015+02:00", lit.stringValue)
+        XCTAssertEqual("\"2015+02:00\"^^xsd:gYear", lit.sparql)
+        XCTAssertTrue(lit.dataType! == XSD.gYear)
+        XCTAssertNil(lit.language)
+        XCTAssertNil(lit.longValue)
+        lit = Literal(gYearValue: date)!
+        XCTAssertEqual("2015+02:00", lit.stringValue)
+        XCTAssertEqual("\"2015+02:00\"^^xsd:gYear", lit.sparql)
+        XCTAssertFalse(lit.dateValue!.isRecurring)
+        
+        date = GregorianDate(year: -2015, timezone: NSTimeZone(forSecondsFromGMT: 7200))
+        lit = Literal(gregorianDate: date)
+        XCTAssertEqual("-2015+02:00", lit.stringValue)
+        XCTAssertEqual("\"-2015+02:00\"^^xsd:gYear", lit.sparql)
+        lit = Literal(gYearValue: date)!
+        XCTAssertEqual("-2015+02:00", lit.stringValue)
+        XCTAssertEqual("\"-2015+02:00\"^^xsd:gYear", lit.sparql)
+        XCTAssertTrue(lit.dataType! == XSD.gYear)
+        XCTAssertNil(lit.language)
+        XCTAssertNil(lit.longValue)
+        XCTAssertFalse(lit.dateValue!.isRecurring)
+    }
+    
+    func testgYearLiteralFromString(){
+        var string = "2015+02:00"
+        var lit = Literal(stringValue: string, dataType: XSD.gYear)!
+        XCTAssertEqual(string, lit.stringValue)
+        XCTAssertEqual("\"\(string)\"^^xsd:gYear", lit.sparql)
+        XCTAssertTrue(lit.dataType! == XSD.gYear)
+        XCTAssertNil(lit.language)
+        XCTAssertNil(lit.longValue)
+        XCTAssertEqual(string, lit.dateValue?.gYear)
+        XCTAssertFalse(lit.dateValue!.isRecurring)
+        
+        string = "-2015+02:00"
+        lit = Literal(stringValue: string, dataType: XSD.gYear)!
+        XCTAssertEqual(string, lit.stringValue)
+        XCTAssertEqual("\"\(string)\"^^xsd:gYear", lit.sparql)
+        XCTAssertTrue(lit.dataType! == XSD.gYear)
+        XCTAssertNil(lit.language)
+        XCTAssertNil(lit.longValue)
+        XCTAssertEqual(string, lit.dateValue?.gYear)
+        XCTAssertFalse(lit.dateValue!.isRecurring)
+        
+        string = "-2015"
+        lit = Literal(stringValue: string, dataType: XSD.gYear)!
+        XCTAssertEqual(string, lit.stringValue)
+        XCTAssertEqual("\"\(string)\"^^xsd:gYear", lit.sparql)
+        XCTAssertTrue(lit.dataType! == XSD.gYear)
+        XCTAssertNil(lit.language)
+        XCTAssertNil(lit.longValue)
+        XCTAssertEqual(string, lit.dateValue?.gYear)
+        XCTAssertFalse(lit.dateValue!.isRecurring)
+    }
+    
+    func testTimeLiteral(){
+        let date = GregorianDate(hour: 12, minute: 10, second: 32.32, timezone: NSTimeZone(forSecondsFromGMT: 7200))
+        var lit = Literal(gregorianDate: date)
+        XCTAssertEqual("12:10:32.32+02:00", lit.stringValue)
+        XCTAssertEqual("\"12:10:32.32+02:00\"^^xsd:time", lit.sparql)
+        XCTAssertTrue(lit.dataType! == XSD.time)
+        XCTAssertNil(lit.language)
+        XCTAssertNil(lit.longValue)
+        XCTAssertTrue(lit.dateValue!.isRecurring)
+        lit = Literal(timeValue: date)!
+        XCTAssertEqual("12:10:32.32+02:00", lit.stringValue)
+        XCTAssertEqual("\"12:10:32.32+02:00\"^^xsd:time", lit.sparql)
+        XCTAssertTrue(lit.dateValue!.isRecurring)
+    }
+    
+    func testTimeLiteralFromString(){
+        var string = "12:10:32.32+02:00"
+        var lit = Literal(stringValue: string, dataType: XSD.time)!
+        XCTAssertTrue(lit.dateValue!.isRecurring)
+        XCTAssertEqual(string, lit.stringValue)
+        XCTAssertEqual("\"\(string)\"^^xsd:time", lit.sparql)
+        XCTAssertTrue(lit.dataType! == XSD.time)
+        XCTAssertNil(lit.language)
+        XCTAssertNil(lit.longValue)
+        XCTAssertEqual(string, lit.dateValue?.time)
+        
+        string = "06:10:32.32"
+        lit = Literal(stringValue: string, dataType: XSD.time)!
+        XCTAssertTrue(lit.dateValue!.isRecurring)
+        XCTAssertEqual(string, lit.stringValue)
+        XCTAssertEqual("\"\(string)\"^^xsd:time", lit.sparql)
+        XCTAssertTrue(lit.dataType! == XSD.time)
+        XCTAssertNil(lit.language)
+        XCTAssertNil(lit.longValue)
+        XCTAssertEqual(string, lit.dateValue?.time)
+    }
+    
+    func testgMonthDayLiteral(){
+        let date = GregorianDate(month: 4, day: 5, timezone: NSTimeZone(forSecondsFromGMT: -7200))
+        var lit = Literal(gregorianDate: date)
+        XCTAssertEqual("--04-05-02:00", lit.stringValue)
+        XCTAssertEqual("\"--04-05-02:00\"^^xsd:gMonthDay", lit.sparql)
+        XCTAssertTrue(lit.dataType! == XSD.gMonthDay)
+        XCTAssertNil(lit.language)
+        XCTAssertNil(lit.longValue)
+        XCTAssertTrue(lit.dateValue!.isRecurring)
+        lit = Literal(gMonthDayValue: date)!
+        XCTAssertEqual("--04-05-02:00", lit.stringValue)
+        XCTAssertEqual("\"--04-05-02:00\"^^xsd:gMonthDay", lit.sparql)
+        XCTAssertTrue(lit.dateValue!.isRecurring)
+    }
+    
+    func testgMonthDayLiteralFromString(){
+        var string = "--04-05-02:00"
+        var lit = Literal(stringValue: string, dataType: XSD.gMonthDay)!
+        XCTAssertTrue(lit.dateValue!.isRecurring)
+        XCTAssertEqual(string, lit.stringValue)
+        XCTAssertEqual("\"\(string)\"^^xsd:gMonthDay", lit.sparql)
+        XCTAssertTrue(lit.dataType! == XSD.gMonthDay)
+        XCTAssertNil(lit.language)
+        XCTAssertNil(lit.longValue)
+        XCTAssertEqual(string, lit.dateValue?.gMonthDay)
+        
+        string = "--04-05"
+        lit = Literal(stringValue: string, dataType: XSD.gMonthDay)!
+        XCTAssertTrue(lit.dateValue!.isRecurring)
+        XCTAssertEqual(string, lit.stringValue)
+        XCTAssertEqual("\"\(string)\"^^xsd:gMonthDay", lit.sparql)
+        XCTAssertTrue(lit.dataType! == XSD.gMonthDay)
+        XCTAssertNil(lit.language)
+        XCTAssertNil(lit.longValue)
+        XCTAssertEqual(string, lit.dateValue?.gMonthDay)
+    }
+    
+    func testgMonthLiteral(){
+        let date = GregorianDate(month: 4, timezone: NSTimeZone(forSecondsFromGMT: -7200))
+        var lit = Literal(gregorianDate: date)
+        XCTAssertEqual("--04-02:00", lit.stringValue)
+        XCTAssertEqual("\"--04-02:00\"^^xsd:gMonth", lit.sparql)
+        XCTAssertTrue(lit.dataType! == XSD.gMonth)
+        XCTAssertNil(lit.language)
+        XCTAssertNil(lit.longValue)
+        XCTAssertTrue(lit.dateValue!.isRecurring)
+        lit = Literal(gMonthValue: date)!
+        XCTAssertEqual("--04-02:00", lit.stringValue)
+        XCTAssertEqual("\"--04-02:00\"^^xsd:gMonth", lit.sparql)
+        XCTAssertTrue(lit.dateValue!.isRecurring)
+    }
+    
+    func testgMonthLiteralFromString(){
+        var string = "--04-02:00"
+        var lit = Literal(stringValue: string, dataType: XSD.gMonth)!
+        XCTAssertTrue(lit.dateValue!.isRecurring)
+        XCTAssertEqual(string, lit.stringValue)
+        XCTAssertEqual("\"\(string)\"^^xsd:gMonth", lit.sparql)
+        XCTAssertTrue(lit.dataType! == XSD.gMonth)
+        XCTAssertNil(lit.language)
+        XCTAssertNil(lit.longValue)
+        XCTAssertEqual(string, lit.dateValue?.gMonth)
+        
+        string = "--04"
+        lit = Literal(stringValue: string, dataType: XSD.gMonth)!
+        XCTAssertTrue(lit.dateValue!.isRecurring)
+        XCTAssertEqual(string, lit.stringValue)
+        XCTAssertEqual("\"\(string)\"^^xsd:gMonth", lit.sparql)
+        XCTAssertTrue(lit.dataType! == XSD.gMonth)
+        XCTAssertNil(lit.language)
+        XCTAssertNil(lit.longValue)
+        XCTAssertEqual(string, lit.dateValue?.gMonth)
+    }
+    
+    func testgDayLiteral(){
+        let date = GregorianDate(day: 4, timezone: NSTimeZone(forSecondsFromGMT: -7200))
+        var lit = Literal(gregorianDate: date)
+        XCTAssertEqual("---04-02:00", lit.stringValue)
+        XCTAssertEqual("\"---04-02:00\"^^xsd:gDay", lit.sparql)
+        XCTAssertTrue(lit.dataType! == XSD.gDay)
+        XCTAssertNil(lit.language)
+        XCTAssertNil(lit.longValue)
+        XCTAssertTrue(lit.dateValue!.isRecurring)
+        lit = Literal(gDayValue: date)!
+        XCTAssertEqual("---04-02:00", lit.stringValue)
+        XCTAssertEqual("\"---04-02:00\"^^xsd:gDay", lit.sparql)
+        XCTAssertTrue(lit.dateValue!.isRecurring)
+    }
+    
+    func testgDayLiteralFromString(){
+        var string = "---04-02:00"
+        var lit = Literal(stringValue: string, dataType: XSD.gDay)!
+        XCTAssertTrue(lit.dateValue!.isRecurring)
+        XCTAssertEqual(string, lit.stringValue)
+        XCTAssertEqual("\"\(string)\"^^xsd:gDay", lit.sparql)
+        XCTAssertTrue(lit.dataType! == XSD.gDay)
+        XCTAssertNil(lit.language)
+        XCTAssertNil(lit.longValue)
+        XCTAssertEqual(string, lit.dateValue?.gDay)
+        
+        string = "---04"
+        lit = Literal(stringValue: string, dataType: XSD.gDay)!
+        XCTAssertTrue(lit.dateValue!.isRecurring)
+        XCTAssertEqual(string, lit.stringValue)
+        XCTAssertEqual("\"\(string)\"^^xsd:gDay", lit.sparql)
+        XCTAssertTrue(lit.dataType! == XSD.gDay)
+        XCTAssertNil(lit.language)
+        XCTAssertNil(lit.longValue)
+        XCTAssertEqual(string, lit.dateValue?.gDay)
+    }
 }

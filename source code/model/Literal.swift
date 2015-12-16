@@ -251,7 +251,7 @@ public class Literal: Value {
                 } else if dataType! == XSD.float {
                     return "\"\(floatValue!)\"^^xsd:float";
                 } else if dataType! == XSD.dateTime {
-                    return "\"\(dateValue!.dateTime)\"^^xsd:dateTime";
+                    return "\"\(dateValue!.dateTime!)\"^^xsd:dateTime";
                 } else if dataType! == XSD.date {
                     return "\"\(dateValue!.date!)\"^^xsd:date";
                 } else if dataType! == XSD.gYearMonth {
@@ -259,13 +259,13 @@ public class Literal: Value {
                 } else if dataType! == XSD.gYear {
                     return "\"\(dateValue!.gYear!)\"^^xsd:gYear";
                 } else if dataType! == XSD.time {
-                    return "\"\(dateValue!.gYear!)\"^^xsd:time";
+                    return "\"\(dateValue!.time!)\"^^xsd:time";
                 } else if dataType! == XSD.gMonthDay {
-                    return "\"\(dateValue!.gYear!)\"^^xsd:gMonthDay";
+                    return "\"\(dateValue!.gMonthDay!)\"^^xsd:gMonthDay";
                 } else if dataType! == XSD.gMonth {
-                    return "\"\(dateValue!.gYear!)\"^^xsd:gMonth";
+                    return "\"\(dateValue!.gMonth!)\"^^xsd:gMonth";
                 } else if dataType! == XSD.gDay {
-                    return "\"\(dateValue!.gYear!)\"^^xsd:gDay";
+                    return "\"\(dateValue!.gDay!)\"^^xsd:gDay";
                 }
             }
             return "\"\(self.stringValue)\""
@@ -602,6 +602,18 @@ public class Literal: Value {
     - parameter gregorianDate: The Gregorian date value.
     */
     public convenience init(gregorianDate : GregorianDate) {
+        self.init(stringValue: "\(gregorianDate)")
+        self.dateValue = gregorianDate
+        self.dataType = gregorianDate.XSDDataType
+    }
+    
+    /**
+     Creates a new Literal with the specified `NSDate` instance.
+     
+     - parameter date: The date as an `NSDate` instance.
+     */
+    public convenience init(date : NSDate) {
+        let gregorianDate = GregorianDate(date: date)
         self.init(stringValue: "\(gregorianDate)")
         self.dateValue = gregorianDate
         self.dataType = gregorianDate.XSDDataType
