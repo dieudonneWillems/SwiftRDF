@@ -15,6 +15,31 @@ import Foundation
 extension String {
     
     /**
+     Is true when the string is a normalised string, i.e. without newline, carriage return or tab characters.
+     */
+    var isNormalised : Bool {
+        let set = NSCharacterSet(charactersInString: "\n\r\t")
+        let range = self.rangeOfCharacterFromSet(set);
+        return range == nil
+    }
+    
+    /**
+     Is true when the string is a tokenised string, i.e. without newline, carriage return or tab characters, 
+     without leading or trailing spaces and without sequences of two or more spaces.
+     */
+    var isTokenised : Bool {
+        if !isNormalised {
+            return false
+        }
+        let trimmed = self.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+        if trimmed != self {
+            return false
+        }
+        let range = self.rangeOfString("  ")
+        return range == nil
+    }
+    
+    /**
      Creates a `NSData` instance from a hexadecimal string representation
      It takes a hexadecimal representation and creates an NSData object.
      Note, if the string has any spaces, those are removed. 
