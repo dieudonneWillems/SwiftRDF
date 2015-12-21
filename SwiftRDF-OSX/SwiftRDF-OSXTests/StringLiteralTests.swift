@@ -25,17 +25,109 @@ class StringLiteralTests: XCTestCase {
     
     
     func testStringLiteral() {
-        let lit1 = Literal(stringValue: "Hello World")
-        XCTAssertEqual("Hello World", lit1.stringValue)
-        XCTAssertEqual("\"Hello World\"", lit1.sparql)
-        XCTAssertNil(lit1.dataType)
-        XCTAssertNil(lit1.language)
-        XCTAssertNil(lit1.longValue)
-        let lit2 = Literal(stringValue: "Hello World", language: "en")
-        XCTAssertEqual("Hello World", lit2.stringValue)
-        XCTAssertEqual("\"Hello World\"@en", lit2.sparql)
-        XCTAssertEqual("en", lit2.language)
-        XCTAssertTrue(XSD.string == lit2.dataType!)
-        XCTAssertNil(lit2.longValue)
+        var lit = Literal(stringValue: "Hello World")
+        XCTAssertEqual("Hello World", lit.stringValue)
+        XCTAssertEqual("\"Hello World\"", lit.sparql)
+        XCTAssertNil(lit.dataType)
+        XCTAssertNil(lit.language)
+        XCTAssertNil(lit.longValue)
+        
+        lit = Literal(stringValue: "Hello World", language: "en")
+        XCTAssertEqual("Hello World", lit.stringValue)
+        XCTAssertEqual("\"Hello World\"@en", lit.sparql)
+        XCTAssertEqual("en", lit.language)
+        XCTAssertTrue(XSD.string == lit.dataType!)
+        XCTAssertNil(lit.longValue)
+        
+        lit = Literal(stringValue: "Hello\n World", language: "en")
+        XCTAssertEqual("Hello\n World", lit.stringValue)
+        XCTAssertEqual("\"Hello\n World\"@en", lit.sparql)
+        XCTAssertEqual("en", lit.language)
+        XCTAssertTrue(XSD.string == lit.dataType!)
+        XCTAssertNil(lit.longValue)
+        
+        lit = Literal(stringValue: "Hello\t World", language: "en")
+        XCTAssertEqual("Hello\t World", lit.stringValue)
+        XCTAssertEqual("\"Hello\t World\"@en", lit.sparql)
+        XCTAssertEqual("en", lit.language)
+        XCTAssertTrue(XSD.string == lit.dataType!)
+        XCTAssertNil(lit.longValue)
+        
+        lit = Literal(stringValue: "Hello\r World", language: "en")
+        XCTAssertEqual("Hello\r World", lit.stringValue)
+        XCTAssertEqual("\"Hello\r World\"@en", lit.sparql)
+        XCTAssertEqual("en", lit.language)
+        XCTAssertTrue(XSD.string == lit.dataType!)
+        XCTAssertNil(lit.longValue)
+        
+        lit = Literal(sparqlString: "\"Hello\r World\"@en")!
+        XCTAssertEqual("Hello\r World", lit.stringValue)
+        XCTAssertEqual("\"Hello\r World\"@en", lit.sparql)
+        XCTAssertEqual("en", lit.language)
+        XCTAssertTrue(XSD.string == lit.dataType!)
+        XCTAssertNil(lit.longValue)
+        
+        lit = Literal(sparqlString: "\"Hello\r World\"@en")!
+        XCTAssertEqual("Hello\r World", lit.stringValue)
+        XCTAssertEqual("\"Hello\r World\"@en", lit.sparql)
+        XCTAssertEqual("en", lit.language)
+        XCTAssertTrue(XSD.string == lit.dataType!)
+        XCTAssertNil(lit.longValue)
+    }
+    
+    func testNormalisedStringLiteral() {
+        var normalisedString = "  A  normalised string. "
+        var lit = Literal(normalisedString: normalisedString)
+        XCTAssertTrue(lit!.dataType! == XSD.normalizedString)
+        XCTAssertEqual(normalisedString, lit!.stringValue)
+        
+        normalisedString = "  A  normalised \nstring. "
+        lit = Literal(normalisedString: normalisedString)
+        XCTAssertNil(lit)
+        
+        normalisedString = "  A  normalised string. "
+        var sparqlString = "\""+normalisedString+"\"^^xsd:normalizedString"
+        lit = Literal(sparqlString: sparqlString)
+        XCTAssertTrue(lit!.dataType! == XSD.normalizedString)
+        XCTAssertEqual(normalisedString, lit!.stringValue)
+        
+        normalisedString = "  A  normalised \nstring. "
+        sparqlString = "\""+normalisedString+"\"^^xsd:normalizedString"
+        lit = Literal(sparqlString: sparqlString)
+        XCTAssertNil(lit)
+    }
+    
+    func testTokenisedStringLiteral() {
+        var tokenisedString = "A tokenised string."
+        var lit = Literal(token: tokenisedString)
+        XCTAssertTrue(lit!.dataType! == XSD.token)
+        XCTAssertEqual(tokenisedString, lit!.stringValue)
+        
+        tokenisedString = "A  tokenised string."
+        lit = Literal(token: tokenisedString)
+        XCTAssertNil(lit)
+        
+        tokenisedString = " A tokenised string."
+        lit = Literal(token: tokenisedString)
+        XCTAssertNil(lit)
+        
+        tokenisedString = "A tokenised string. "
+        lit = Literal(token: tokenisedString)
+        XCTAssertNil(lit)
+        
+        tokenisedString = "A\ntokenised string."
+        lit = Literal(token: tokenisedString)
+        XCTAssertNil(lit)
+        
+        tokenisedString = "A tokenised string."
+        var sparqlString = "\""+tokenisedString+"\"^^xsd:token"
+        lit = Literal(sparqlString: sparqlString)
+        XCTAssertTrue(lit!.dataType! == XSD.token)
+        XCTAssertEqual(tokenisedString, lit!.stringValue)
+        
+        tokenisedString = "A  tokenised string."
+        sparqlString = "\""+tokenisedString+"\"^^xsd:token"
+        lit = Literal(sparqlString: sparqlString)
+        XCTAssertNil(lit)
     }
 }

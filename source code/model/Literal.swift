@@ -280,6 +280,10 @@ public class Literal: Value {
                     return "\"\(stringValue)\"^^xsd:base64Binary";
                 } else if dataType! == XSD.hexBinary {
                     return "\"\(stringValue)\"^^xsd:hexBinary";
+                } else if dataType! == XSD.normalizedString {
+                    return "\"\(stringValue)\"^^xsd:normalizedString";
+                } else if dataType! == XSD.token {
+                    return "\"\(stringValue)\"^^xsd:token";
                 }
             }
             return "\"\(self.stringValue)\""
@@ -325,7 +329,7 @@ public class Literal: Value {
      */
     public convenience init?(sparqlString : String){
         do {
-            let regex = try NSRegularExpression(pattern: Literal.literalPattern, options: [.CaseInsensitive])
+            let regex = try NSRegularExpression(pattern: Literal.literalPattern, options: [.DotMatchesLineSeparators])
             let matches = regex.matchesInString(sparqlString, options: [], range: NSMakeRange(0, sparqlString.characters.count)) as Array<NSTextCheckingResult>
             if matches.count == 0 {
                 self.init(stringValue : sparqlString)
@@ -414,6 +418,10 @@ public class Literal: Value {
                         datatypeFS = XSD.base64Binary
                     } else if dtypeStr! == "xsd:hexBinary" {
                         datatypeFS = XSD.hexBinary
+                    } else if dtypeStr! == "xsd:token" {
+                        datatypeFS = XSD.token
+                    } else if dtypeStr! == "xsd:normalizedString" || dtypeStr! == "normalizedString" {
+                        datatypeFS = XSD.normalizedString
                     } else {
                         datatypeFS = try Datatype(namespace: XSD.namespace(), localName: dtypeStr!, derivedFromDatatype: nil, isListDataType: false)
                     }
@@ -624,6 +632,14 @@ public class Literal: Value {
                 if dataValue == nil {
                     return nil
                 }
+            }else if dataType == XSD.normalizedString {
+                if !stringValue.isNormalised {
+                    return nil
+                }
+            }else if dataType == XSD.token {
+                if !stringValue.isTokenised {
+                    return nil
+                }
             }else {
             }
         } catch {
@@ -632,6 +648,39 @@ public class Literal: Value {
     }
     
     // MARK: Initialisers for String subtypes
+    
+    /**
+     Creates a new Literal with the specified normalised string as value. If the string is not a 
+     normalised string (i.e. with a newline, carriage return, or tab characters) `nil` will
+     be returned. The data type of the literal will be `xsd:normalizedString`.
+     
+     - parameter normalisedString: The normalised string value.
+     - returns: The literal containing the normalised string, or `nil` if the string parameter is not
+     a normalised string.
+     */
+    public convenience init?(normalisedString : String){
+        if !normalisedString.isNormalised {
+            return nil
+        }
+        self.init(stringValue: normalisedString, dataType: XSD.normalizedString)
+    }
+    
+    /**
+     Creates a new Literal with the specified token as value. If the string is not a
+     token (i.e. with a newline, carriage return, or tab characters, leading or trailing spaces
+     or sequences of two or more spaces) `nil` will
+     be returned. The data type of the literal will be `xsd:token`.
+     
+     - parameter token: The token value.
+     - returns: The literal containing the token, or `nil` if the string parameter is not a token.
+     */
+    public convenience init?(token : String){
+        if !token.isTokenised {
+            return nil
+        }
+        self.init(stringValue: token, dataType: XSD.token)
+    }
+    
     // TODO: Initialisers for string subtypes
     
     // MARK: Initialisers for Date and Time Literals
