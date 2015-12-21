@@ -89,6 +89,22 @@ public class Literal: Value {
         return stringValue
     }
     
+    /**
+     The ID value, or `nil` if the string value is not a valid ID, i.e. not a 'non-colonized' name
+     of datatype `xsd:ID`.
+     */
+    public var IDValue : String? {
+        return NCNameValue
+    }
+    
+    /**
+     The IDREF value, or `nil` if the string value is not a valid IDREF, i.e. not a 'non-colonized' name
+     of datatype `xsd:IDREF`.
+     */
+    public var IDREFValue : String? {
+        return NCNameValue
+    }
+    
     
     // MARK: Date and Time values
     
@@ -345,6 +361,10 @@ public class Literal: Value {
                     return "\"\(stringValue)\"^^xsd:Name";
                 } else if dataType! == XSD.NCName {
                     return "\"\(stringValue)\"^^xsd:NCName";
+                } else if dataType! == XSD.ID {
+                    return "\"\(stringValue)\"^^xsd:ID";
+                } else if dataType! == XSD.IDREF {
+                    return "\"\(stringValue)\"^^xsd:IDREF";
                 }
             }
             return "\"\(self.stringValue)\""
@@ -489,6 +509,10 @@ public class Literal: Value {
                         datatypeFS = XSD.Name
                     } else if dtypeStr! == "xsd:NCName" || dtypeStr! == "NCName" {
                         datatypeFS = XSD.NCName
+                    } else if dtypeStr! == "xsd:ID" || dtypeStr! == "ID" {
+                        datatypeFS = XSD.ID
+                    } else if dtypeStr! == "xsd:IDREF" || dtypeStr! == "IDREF" {
+                        datatypeFS = XSD.IDREF
                     } else {
                         datatypeFS = try Datatype(namespace: XSD.namespace(), localName: dtypeStr!, derivedFromDatatype: nil, isListDataType: false)
                     }
@@ -724,6 +748,14 @@ public class Literal: Value {
                 if !stringValue.validNCName {
                     return nil
                 }
+            }else if dataType == XSD.ID {
+                if !stringValue.validNCName {
+                    return nil
+                }
+            }else if dataType == XSD.IDREF {
+                if !stringValue.validNCName {
+                    return nil
+                }
             }else {
             }
         } catch {
@@ -799,15 +831,45 @@ public class Literal: Value {
      Creates a new Literal with the specified 'non-colonized' Name as value. If the string is not a
      valid 'non-colonized' Name `nil` will be returned. The data type of the literal will be `xsd:NCName`.
      
-     - parameter NCNameValue: The NCName value.
-     - returns: The literal containing the NCName, or `nil` if the string parameter is not a
-     valid NCName.
+     - parameter NCNameValue: The 'non-colonized' Name value.
+     - returns: The literal containing the 'non-colonized' Name, or `nil` if the string parameter is not a
+     valid 'non-colonized' Name.
      */
     public convenience init?(NCNameValue : String){
-        if !NCNameValue.validNCName {
+        if !NCNameValue.validName {
             return nil
         }
         self.init(stringValue: NCNameValue, dataType: XSD.NCName)
+    }
+    
+    /**
+     Creates a new Literal with the specified ID as value. If the string is not a
+     valid ID `nil` will be returned. The data type of the literal will be `xsd:ID`.
+     
+     - parameter IDValue: The ID value.
+     - returns: The literal containing the ID, or `nil` if the string parameter is not a
+     valid ID.
+     */
+    public convenience init?(IDValue : String){
+        if !IDValue.validNCName {
+            return nil
+        }
+        self.init(stringValue: IDValue, dataType: XSD.ID)
+    }
+    
+    /**
+     Creates a new Literal with the specified IDREF as value. If the string is not a
+     valid IDREF `nil` will be returned. The data type of the literal will be `xsd:IDREF`.
+     
+     - parameter IDREFValue: The IDREF value.
+     - returns: The literal containing the IDREF, or `nil` if the string parameter is not a
+     valid IDREF.
+     */
+    public convenience init?(IDREFValue : String){
+        if !IDREFValue.validNCName {
+            return nil
+        }
+        self.init(stringValue: IDREFValue, dataType: XSD.IDREF)
     }
     
     // TODO: Initialisers for string subtypes

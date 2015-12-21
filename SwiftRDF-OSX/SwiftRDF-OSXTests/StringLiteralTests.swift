@@ -212,4 +212,112 @@ class StringLiteralTests: XCTestCase {
         lit = Literal(sparqlString: sparqlString)
         XCTAssertNil(lit)
     }
+    
+    func testNCNameLiteral() {
+        var nameString = "énname"
+        var lit = Literal(NCNameValue: nameString)
+        XCTAssertTrue(lit!.dataType! == XSD.NCName)
+        XCTAssertEqual(nameString, lit!.stringValue)
+        XCTAssertEqual(nameString, lit!.NCNameValue)
+        
+        nameString = "en:name"
+        lit = Literal(NCNameValue: nameString)
+        XCTAssertNil(lit)
+        
+        nameString = " en"
+        lit = Literal(NCNameValue: nameString)
+        XCTAssertNil(lit)
+        
+        nameString = "en pole"
+        lit = Literal(NCNameValue: nameString)
+        XCTAssertNil(lit)
+        
+        nameString = "en\nnss"
+        lit = Literal(NCNameValue: nameString)
+        XCTAssertNil(lit)
+        
+        nameString = "_blaname"
+        var sparqlString = "\""+nameString+"\"^^xsd:NCName"
+        lit = Literal(sparqlString: sparqlString)
+        XCTAssertTrue(lit!.dataType! == XSD.NCName)
+        XCTAssertEqual(nameString, lit!.stringValue)
+        XCTAssertEqual(nameString, lit!.NCNameValue)
+        
+        nameString = "_:test"
+        sparqlString = "\""+nameString+"\"^^xsd:NCName"
+        lit = Literal(sparqlString: sparqlString)
+        XCTAssertNil(lit)
+    }
+    
+    func testIDLiteral() {
+        var nameString = "énname"
+        var lit = Literal(IDValue: nameString)
+        XCTAssertTrue(lit!.dataType! == XSD.ID)
+        XCTAssertEqual(nameString, lit!.stringValue)
+        XCTAssertEqual(nameString, lit!.NCNameValue)
+        
+        nameString = "en:name"
+        lit = Literal(IDValue: nameString)
+        XCTAssertNil(lit)
+        
+        nameString = " en"
+        lit = Literal(IDValue: nameString)
+        XCTAssertNil(lit)
+        
+        nameString = "en pole"
+        lit = Literal(IDValue: nameString)
+        XCTAssertNil(lit)
+        
+        nameString = "en\nnss"
+        lit = Literal(IDValue: nameString)
+        XCTAssertNil(lit)
+        
+        nameString = "_blaname"
+        var sparqlString = "\""+nameString+"\"^^xsd:ID"
+        lit = Literal(sparqlString: sparqlString)
+        XCTAssertTrue(lit!.dataType! == XSD.ID)
+        XCTAssertEqual(nameString, lit!.stringValue)
+        XCTAssertEqual(nameString, lit!.NCNameValue)
+        
+        nameString = "_:test"
+        sparqlString = "\""+nameString+"\"^^xsd:ID"
+        lit = Literal(sparqlString: sparqlString)
+        XCTAssertNil(lit)
+    }
+    
+    func testIDREFLiteral() {
+        var nameString = "énname"
+        var lit = Literal(IDREFValue: nameString)
+        XCTAssertTrue(lit!.dataType! == XSD.IDREF)
+        XCTAssertEqual(nameString, lit!.stringValue)
+        XCTAssertEqual(nameString, lit!.NCNameValue)
+        
+        nameString = "en:name"
+        lit = Literal(IDREFValue: nameString)
+        XCTAssertNil(lit)
+        
+        nameString = " en"
+        lit = Literal(IDREFValue: nameString)
+        XCTAssertNil(lit)
+        
+        nameString = "en pole"
+        lit = Literal(IDREFValue: nameString)
+        XCTAssertNil(lit)
+        
+        nameString = "en\nnss"
+        lit = Literal(IDREFValue: nameString)
+        XCTAssertNil(lit)
+        
+        nameString = "_blaname"
+        var sparqlString = "\""+nameString+"\"^^xsd:IDREF"
+        lit = Literal(sparqlString: sparqlString)
+        XCTAssertTrue(lit!.dataType! == XSD.IDREF)
+        XCTAssertEqual(nameString, lit!.stringValue)
+        XCTAssertEqual(nameString, lit!.NCNameValue)
+        
+        nameString = "_:test"
+        sparqlString = "\""+nameString+"\"^^xsd:IDREF"
+        lit = Literal(sparqlString: sparqlString)
+        XCTAssertNil(lit)
+    }
 }
