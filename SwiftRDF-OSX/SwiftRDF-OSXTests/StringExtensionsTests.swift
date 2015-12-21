@@ -143,4 +143,31 @@ class DatStringExtensionsTestseTests: XCTestCase {
         string = " nottrimmed "
         XCTAssertFalse(string.validNCName)
     }
+    
+    func testQualifiedName(){
+        var string = "prefix:localPart"
+        XCTAssertTrue(string.isQualifiedName)
+        XCTAssertEqual("prefix", string.qualifiedNamePrefix)
+        XCTAssertEqual("localPart", string.qualifiedNameLocalPart)
+        
+        string = "_:localPart"
+        XCTAssertTrue(string.isQualifiedName)
+        XCTAssertEqual("_", string.qualifiedNamePrefix)
+        XCTAssertEqual("localPart", string.qualifiedNameLocalPart)
+        
+        string = "localPart"
+        XCTAssertTrue(string.isQualifiedName)
+        XCTAssertNil(string.qualifiedNamePrefix)
+        XCTAssertEqual("localPart", string.qualifiedNameLocalPart)
+        
+        string = "local Part"
+        XCTAssertFalse(string.isQualifiedName)
+        XCTAssertNil(string.qualifiedNamePrefix)
+        XCTAssertNil(string.qualifiedNameLocalPart)
+        
+        string = "90:Part"
+        XCTAssertFalse(string.isQualifiedName)
+        XCTAssertNil(string.qualifiedNamePrefix)
+        XCTAssertNil(string.qualifiedNameLocalPart)
+    }
 }

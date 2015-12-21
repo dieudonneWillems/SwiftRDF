@@ -20,11 +20,14 @@ extension String {
     // Regex pattern for name: ^[\p{L}\p{M}:_][\p{L}\p{M}[0-9]:\.\-_]*$
     private static let namePattern = "^[\\p{L}\\p{M}:_][\\p{L}\\p{M}[0-9]:\\.\\-_]*$"
     
-    // Regex pattern for name: ^[\p{L}\p{M}_][\p{L}\p{M}[0-9]\.\-_]*$
+    // Regex pattern for non-colonized name: ^[\p{L}\p{M}_][\p{L}\p{M}[0-9]\.\-_]*$
     private static let NCNamePattern = "^[\\p{L}\\p{M}_][\\p{L}\\p{M}[0-9]\\.\\-_]*$"
     
-    // Regex pattern for name: ^[\p{L}\p{M}_][\p{L}\p{M}[0-9]\.\-_]*$
+    // Regex pattern for token: ^[\p{L}\p{M}[0-9]:\.\-_]+$
     private static let NMTokenPattern = "^[\\p{L}\\p{M}[0-9]:\\.\\-_]+$"
+    
+    // Regex pattern for qualified name: ^(?:([\p{L}\p{M}_][\p{L}\p{M}[0-9]\.\-_]*):)?([\p{L}\p{M}_][\p{L}\p{M}[0-9]\.\-_]*)$
+    private static let QNAMEPattern = "^(?:([\\p{L}\\p{M}_][\\p{L}\\p{M}[0-9]\\.\\-_]*):)?([\\p{L}\\p{M}_][\\p{L}\\p{M}[0-9]\\.\\-_]*)$"
     
     /**
      Is true when the string is a normalised string, i.e. without newline, carriage return or tab characters.
@@ -119,6 +122,69 @@ extension String {
         } catch {
             return false
         }
+    }
+    
+    /**
+     Is true when the string is a valid qualified name as defined in [Namespaces in XML](http://www.w3.org/TR/1999/REC-xml-names-19990114/#dt-qname).
+     */
+    var isQualifiedName : Bool {
+        do {
+            let regex = try NSRegularExpression(pattern: String.QNAMEPattern, options: [])
+            let matches = regex.matchesInString(self, options: [], range: NSMakeRange(0, self.characters.count)) as Array<NSTextCheckingResult>
+            if matches.count == 0 {
+                return false
+            }else{
+                return true
+            }
+        } catch {
+            return false
+        }
+    }
+    
+    /**
+     The prefix part of the string if the string is a qualified name such as `prefix:localpart`. If the string is not a qualified name
+     or the qualified name does not contains a prefix part, this property will be `nil`.
+     */
+    var qualifiedNamePrefix : String? {
+        do {
+            let regex = try NSRegularExpression(pattern: String.QNAMEPattern, options: [])
+            let matches = regex.matchesInString(self, options: [], range: NSMakeRange(0, self.characters.count)) as Array<NSTextCheckingResult>
+            if matches.count == 0 {
+                return nil
+            }else{
+                let match = matches[0]
+                let nsstring = self as NSString
+                if match.rangeAtIndex(1).location != NSNotFound {
+                    let str = nsstring.substringWithRange(match.rangeAtIndex(1)) as String
+                    return str
+                }
+            }
+        } catch {
+        }
+        return nil
+    }
+    
+    /**
+     The local part of the string if the string is a qualified name such as `prefix:localpart`. If the string is not a qualified name
+     this property will be `nil`.
+     */
+    var qualifiedNameLocalPart : String? {
+        do {
+            let regex = try NSRegularExpression(pattern: String.QNAMEPattern, options: [])
+            let matches = regex.matchesInString(self, options: [], range: NSMakeRange(0, self.characters.count)) as Array<NSTextCheckingResult>
+            if matches.count == 0 {
+                return nil
+            }else{
+                let match = matches[0]
+                let nsstring = self as NSString
+                if match.rangeAtIndex(2).location != NSNotFound {
+                    let str = nsstring.substringWithRange(match.rangeAtIndex(2)) as String
+                    return str
+                }
+            }
+        } catch {
+        }
+        return nil
     }
     
     /**

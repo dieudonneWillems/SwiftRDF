@@ -82,5 +82,110 @@ class MiscellaneousTypesLiteralTests: XCTestCase {
             XCTFail("Error thrown when creating URI.")
         }
     }
+    
+    func testQNameLiterals() {
+        var prefix = "prefix"
+        var localPart = "localPart"
+        var qname = prefix+":"+localPart
+        var lit = Literal(QNameValue:qname)
+        XCTAssertTrue(lit!.dataType! == XSD.QName)
+        XCTAssertEqual(qname, lit!.stringValue)
+        XCTAssertEqual(qname, lit!.QNameValue)
+        XCTAssertEqual(qname, lit!.qualifiedName)
+        XCTAssertEqual(prefix, lit!.qualifiedNamePrefix)
+        XCTAssertEqual(localPart, lit!.qualifiedNameLocalPart)
+        lit = Literal(prefix:prefix, localPart:localPart)
+        XCTAssertTrue(lit!.dataType! == XSD.QName)
+        XCTAssertEqual(qname, lit!.stringValue)
+        XCTAssertEqual(qname, lit!.QNameValue)
+        XCTAssertEqual(qname, lit!.qualifiedName)
+        XCTAssertEqual(prefix, lit!.qualifiedNamePrefix)
+        XCTAssertEqual(localPart, lit!.qualifiedNameLocalPart)
+        lit = Literal(sparqlString: "\"\(qname)\"^^xsd:QName")
+        XCTAssertTrue(lit!.dataType! == XSD.QName)
+        XCTAssertEqual(qname, lit!.stringValue)
+        XCTAssertEqual(qname, lit!.QNameValue)
+        XCTAssertEqual(qname, lit!.qualifiedName)
+        XCTAssertEqual(prefix, lit!.qualifiedNamePrefix)
+        XCTAssertEqual(localPart, lit!.qualifiedNameLocalPart)
+        
+        prefix = "ns1"
+        localPart = "local_Part"
+        qname = prefix+":"+localPart
+        lit = Literal(QNameValue:qname)
+        XCTAssertTrue(lit!.dataType! == XSD.QName)
+        XCTAssertEqual(qname, lit!.stringValue)
+        XCTAssertEqual(qname, lit!.QNameValue)
+        XCTAssertEqual(qname, lit!.qualifiedName)
+        XCTAssertEqual(prefix, lit!.qualifiedNamePrefix)
+        XCTAssertEqual(localPart, lit!.qualifiedNameLocalPart)
+        lit = Literal(prefix:prefix, localPart:localPart)
+        XCTAssertTrue(lit!.dataType! == XSD.QName)
+        XCTAssertEqual(qname, lit!.stringValue)
+        XCTAssertEqual(qname, lit!.QNameValue)
+        XCTAssertEqual(qname, lit!.qualifiedName)
+        XCTAssertEqual(prefix, lit!.qualifiedNamePrefix)
+        XCTAssertEqual(localPart, lit!.qualifiedNameLocalPart)
+        lit = Literal(sparqlString: "\"\(qname)\"^^xsd:QName")
+        XCTAssertTrue(lit!.dataType! == XSD.QName)
+        XCTAssertEqual(qname, lit!.stringValue)
+        XCTAssertEqual(qname, lit!.QNameValue)
+        XCTAssertEqual(qname, lit!.qualifiedName)
+        XCTAssertEqual(prefix, lit!.qualifiedNamePrefix)
+        XCTAssertEqual(localPart, lit!.qualifiedNameLocalPart)
+        
+        prefix = "1ns"
+        localPart = "local_Part"
+        qname = prefix+":"+localPart
+        lit = Literal(QNameValue:qname)
+        XCTAssertNil(lit)
+        lit = Literal(prefix:prefix, localPart:localPart)
+        XCTAssertNil(lit)
+        lit = Literal(sparqlString: "\"\(qname)\"^^xsd:QName")
+        XCTAssertNil(lit)
+        
+        prefix = "ns"
+        localPart = "local Part"
+        qname = prefix+":"+localPart
+        lit = Literal(QNameValue:qname)
+        XCTAssertNil(lit)
+        lit = Literal(prefix:prefix, localPart:localPart)
+        XCTAssertNil(lit)
+        lit = Literal(sparqlString: "\"\(qname)\"^^xsd:QName")
+        XCTAssertNil(lit)
+        
+        localPart = "localPart"
+        qname = localPart
+        lit = Literal(QNameValue:qname)
+        XCTAssertTrue(lit!.dataType! == XSD.QName)
+        XCTAssertEqual(qname, lit!.stringValue)
+        XCTAssertEqual(qname, lit!.QNameValue)
+        XCTAssertEqual(qname, lit!.qualifiedName)
+        XCTAssertNil(lit!.qualifiedNamePrefix)
+        XCTAssertEqual(localPart, lit!.qualifiedNameLocalPart)
+        lit = Literal(prefix:nil, localPart:localPart)
+        XCTAssertTrue(lit!.dataType! == XSD.QName)
+        XCTAssertEqual(qname, lit!.stringValue)
+        XCTAssertEqual(qname, lit!.QNameValue)
+        XCTAssertEqual(qname, lit!.qualifiedName)
+        XCTAssertNil(lit!.qualifiedNamePrefix)
+        XCTAssertEqual(localPart, lit!.qualifiedNameLocalPart)
+        lit = Literal(sparqlString: "\"\(qname)\"^^xsd:QName")
+        XCTAssertTrue(lit!.dataType! == XSD.QName)
+        XCTAssertEqual(qname, lit!.stringValue)
+        XCTAssertEqual(qname, lit!.QNameValue)
+        XCTAssertEqual(qname, lit!.qualifiedName)
+        XCTAssertNil(lit!.qualifiedNamePrefix)
+        XCTAssertEqual(localPart, lit!.qualifiedNameLocalPart)
+        
+        localPart = "local Part"
+        qname = localPart
+        lit = Literal(QNameValue:qname)
+        XCTAssertNil(lit)
+        lit = Literal(prefix:nil, localPart:localPart)
+        XCTAssertNil(lit)
+        lit = Literal(sparqlString: "\"\(qname)\"^^xsd:QName")
+        XCTAssertNil(lit)
+    }
 }
 

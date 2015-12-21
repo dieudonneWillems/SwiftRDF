@@ -137,6 +137,8 @@ It also contains optionally a datatype such as those defined in <code><a href=".
 parameters have a value. Only <code>stringValue</code>, inheritted from <code><a href="../Classes/Value.html">Value</a></code> is not optional. If the datatype is not a string, the <code>stringValue</code>
 will contain a textual representation of the data.</p>
 
+<p>All <a href="http://www.w3.org/TR/xmlschema-2/">XML Schema datatypes</a> except <code>xsd:NOTATION</code>, <code>xsd:ENTITY</code> and <code>xsd:ENTITIES</code> are supported.</p>
+
           </section>
           <section class="section task-group-section">
             <div class="task-group">
@@ -1150,6 +1152,124 @@ of this value does not imply that the datatype of the literal is <code><a href="
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="kd">private(set)</span> <span class="k">var</span> <span class="nv">dataValue</span> <span class="p">:</span> <span class="kt">NSData</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC11SwiftRDFOSX7Literal10QNameValueGSqSS_"></a>
+                    <a name="//apple_ref/swift/Property/QNameValue" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC11SwiftRDFOSX7Literal10QNameValueGSqSS_">QNameValue</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The qualified name value, or <code>nil</code> if the string value is not a valid qualified name,
+i.e. of datatype <code>xsd:QName</code>. An example of a qualified name is <code>prefix:localPart</code>.
+This property is the same as <code><a href="../Classes/Literal.html#/s:vC11SwiftRDFOSX7Literal13qualifiedNameGSqSS_">Literal.qualifiedName</a></code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">QNameValue</span> <span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC11SwiftRDFOSX7Literal13qualifiedNameGSqSS_"></a>
+                    <a name="//apple_ref/swift/Property/qualifiedName" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC11SwiftRDFOSX7Literal13qualifiedNameGSqSS_">qualifiedName</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The qualified name, or <code>nil</code> if the string value is not a valid qualified name,
+i.e. of datatype <code>xsd:QName</code>. An example of a qualified name is <code>prefix:localPart</code>.
+This property is the same as <code><a href="../Classes/Literal.html#/s:vC11SwiftRDFOSX7Literal10QNameValueGSqSS_">Literal.QNameValue</a></code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">qualifiedName</span> <span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC11SwiftRDFOSX7Literal19qualifiedNamePrefixGSqSS_"></a>
+                    <a name="//apple_ref/swift/Property/qualifiedNamePrefix" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC11SwiftRDFOSX7Literal19qualifiedNamePrefixGSqSS_">qualifiedNamePrefix</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The prefix of the qualified name, or <code>nil</code> if the string value is not a valid qualified name,
+i.e. of datatype <code>xsd:QName</code>, or the qualified name does not contain a prefix.
+An example of a qualified name is <code>prefix:localPart</code>, where
+<code>prefix</code> is the prefix of the qualified name</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">qualifiedNamePrefix</span> <span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC11SwiftRDFOSX7Literal22qualifiedNameLocalPartGSqSS_"></a>
+                    <a name="//apple_ref/swift/Property/qualifiedNameLocalPart" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC11SwiftRDFOSX7Literal22qualifiedNameLocalPartGSqSS_">qualifiedNameLocalPart</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The local part of the qualified name, or <code>nil</code> if the string value is not a valid qualified name,
+i.e. of datatype <code>xsd:QName.
+An example of a qualified name is</code>prefix:localPart<code>, where
+</code>localPart` is the local part of the qualified name</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">qualifiedNameLocalPart</span> <span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
 
                         </div>
                       </div>
@@ -3862,12 +3982,134 @@ The Base-64 string representation of the data is stored in the <code>stringValue
                     </section>
                   </div>
                 </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC11SwiftRDFOSX7LiteralcFMS0_FT10QNameValueSS_GSqS0__"></a>
+                    <a name="//apple_ref/swift/Method/init(QNameValue:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC11SwiftRDFOSX7LiteralcFMS0_FT10QNameValueSS_GSqS0__">init(QNameValue:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates a new Literal with the specified Qualified Name as value. If the string is not a
+valid qualified name (QName) <code>nil</code> will be returned. The data type of the literal will be <code>xsd:QName</code>.
+An example of a qualified name is <code>prefix:localPart</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="n">convenience</span> <span class="nf">init</span><span class="p">?(</span><span class="kt">QNameValue</span> <span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>QNameValue</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The Qualified Name value.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The literal containing the Qualified Name, or <code>nil</code> if the string parameter is not a valid Qualified Name.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC11SwiftRDFOSX7LiteralcFMS0_FT6prefixGSqSS_9localPartSS_GSqS0__"></a>
+                    <a name="//apple_ref/swift/Method/init(prefix:localPart:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC11SwiftRDFOSX7LiteralcFMS0_FT6prefixGSqSS_9localPartSS_GSqS0__">init(prefix:localPart:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates a new Literal with the specified prefix and local part of the Qualified Name as value.
+If the prefix or local part are not valid not-colonized names (NCNames) <code>nil</code> will be returned.
+The data type of the literal will be <code>xsd:QName</code>.
+An example of a qualified name is <code>prefix:localPart</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="n">convenience</span> <span class="nf">init</span><span class="p">?(</span><span class="nv">prefix</span> <span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">localPart</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>prefix</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The Qualified Name prefix or <code>nil</code> if the qualified name does not contain a prefix.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>localPart</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The local part of the Qualified Name.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The literal containing the Qualified Name, or <code>nil</code> if the string parameter is not a valid Qualified Name.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
               </ul>
             </div>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2015 <a class="link" href="" target="_blank" rel="external"></a>. All rights reserved. (Last updated: 2015-12-21)</p>
+          <p>&copy; 2015 <a class="link" href="" target="_blank" rel="external"></a>. All rights reserved. (Last updated: 2015-12-22)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.4.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>

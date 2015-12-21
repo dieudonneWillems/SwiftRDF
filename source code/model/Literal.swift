@@ -16,6 +16,8 @@ import Foundation
  All parameters such as `booleanValue` or `durationValue` are optionals and are by default `nil`. Depending on the datatype specific
  parameters have a value. Only `stringValue`, inheritted from `Value` is not optional. If the datatype is not a string, the `stringValue`
  will contain a textual representation of the data.
+ 
+ All [XML Schema datatypes](http://www.w3.org/TR/xmlschema-2/) except `xsd:NOTATION`, `xsd:ENTITY` and `xsd:ENTITIES` are supported.
  */
 public class Literal: Value {
     
@@ -125,6 +127,8 @@ public class Literal: Value {
      The NMTOKENS value, or `nil` if the string value is not a valid list of NMTOKENs, i.e. of type `xsd:NMTOKENS`.
      */
     public private(set) var NMTOKENSValue : [String]?
+    
+    
     
     
     // MARK: Date and Time values
@@ -278,6 +282,52 @@ public class Literal: Value {
     /// The NSData value of the literal corresponding with a value of XSD type `xsd:base64Binary` or `xsd:hexBinary`.
     public private(set) var dataValue : NSData?
     
+    /**
+     The qualified name value, or `nil` if the string value is not a valid qualified name,
+     i.e. of datatype `xsd:QName`. An example of a qualified name is `prefix:localPart`.
+     This property is the same as `Literal.qualifiedName`.
+     */
+    public var QNameValue : String? {
+        if !stringValue.isQualifiedName {
+            return nil
+        }
+        return stringValue
+    }
+    
+    /**
+     The qualified name, or `nil` if the string value is not a valid qualified name,
+     i.e. of datatype `xsd:QName`. An example of a qualified name is `prefix:localPart`.
+     This property is the same as `Literal.QNameValue`.
+     */
+    public var qualifiedName : String? {
+        return QNameValue
+    }
+    
+    /**
+     The prefix of the qualified name, or `nil` if the string value is not a valid qualified name,
+     i.e. of datatype `xsd:QName`, or the qualified name does not contain a prefix.
+     An example of a qualified name is `prefix:localPart`, where
+     `prefix` is the prefix of the qualified name
+     */
+    public var qualifiedNamePrefix : String? {
+        return QNameValue?.qualifiedNamePrefix
+    }
+    
+    /**
+     The local part of the qualified name, or `nil` if the string value is not a valid qualified name,
+     i.e. of datatype `xsd:QName.
+     An example of a qualified name is `prefix:localPart`, where
+     `localPart` is the local part of the qualified name
+     */
+    public var qualifiedNameLocalPart : String? {
+        return QNameValue?.qualifiedNameLocalPart
+    }
+    
+    
+    
+    
+    
+    
     // MARK: SPARQL properties
     
     /**
@@ -392,6 +442,8 @@ public class Literal: Value {
                     return "\"\(stringValue)\"^^xsd:NMTOKEN";
                 } else if dataType! == XSD.NMTOKENS {
                     return "\"\(stringValue)\"^^xsd:NMTOKENS";
+                } else if dataType! == XSD.QName {
+                    return "\"\(stringValue)\"^^xsd:QName";
                 }
             }
             return "\"\(self.stringValue)\""
@@ -546,6 +598,8 @@ public class Literal: Value {
                         datatypeFS = XSD.NMTOKEN
                     } else if dtypeStr! == "xsd:NMTOKENS" || dtypeStr! == "NMTOKENS" {
                         datatypeFS = XSD.NMTOKENS
+                    } else if dtypeStr! == "xsd:QName" || dtypeStr! == "QName" {
+                        datatypeFS = XSD.QName
                     } else {
                         datatypeFS = try Datatype(namespace: XSD.namespace(), localName: dtypeStr!, derivedFromDatatype: nil, isListDataType: false)
                     }
@@ -813,6 +867,10 @@ public class Literal: Value {
                         return nil
                     }
                 }
+            }else if dataType == XSD.QName {
+                if !stringValue.isQualifiedName {
+                    return nil
+                }
             }else {
             }
         } catch {
@@ -998,7 +1056,7 @@ public class Literal: Value {
         self.NMTOKENSValue = NMTOKENSValue
     }
     
-    // TODO: Initialisers for string subtypes
+    
     
     // MARK: Initialisers for Date and Time Literals
     
@@ -1523,8 +1581,44 @@ public class Literal: Value {
         self.dataType = XSD.hexBinary
     }
     
-    // TODO: Initialiser for QName
-    // TODO: Initialiser for NOTATION
+    /**
+     Creates a new Literal with the specified Qualified Name as value. If the string is not a
+     valid qualified name (QName) `nil` will be returned. The data type of the literal will be `xsd:QName`.
+     An example of a qualified name is `prefix:localPart`.
+     
+     - parameter QNameValue: The Qualified Name value.
+     - returns: The literal containing the Qualified Name, or `nil` if the string parameter is not a
+     valid Qualified Name.
+     */
+    public convenience init?(QNameValue : String){
+        if !QNameValue.isQualifiedName {
+            return nil
+        }
+        self.init(stringValue: QNameValue, dataType: XSD.QName)
+    }
+    
+    /**
+     Creates a new Literal with the specified prefix and local part of the Qualified Name as value.
+     If the prefix or local part are not valid not-colonized names (NCNames) `nil` will be returned.
+     The data type of the literal will be `xsd:QName`.
+     An example of a qualified name is `prefix:localPart`.
+     
+     - parameter prefix: The Qualified Name prefix or `nil` if the qualified name does not contain a prefix.
+     - parameter localPart: The local part of the Qualified Name.
+     - returns: The literal containing the Qualified Name, or `nil` if the string parameter is not a
+     valid Qualified Name.
+     */
+    public convenience init?(prefix : String?, localPart: String){
+        var QNameValue = ""
+        if prefix != nil {
+            QNameValue += prefix! + ":"
+        }
+        QNameValue += localPart
+        if !QNameValue.isQualifiedName {
+            return nil
+        }
+        self.init(stringValue: QNameValue, dataType: XSD.QName)
+    }
     
     
     // MARK: Private functions
