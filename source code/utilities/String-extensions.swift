@@ -17,6 +17,12 @@ extension String {
     // Regex pattern for language: ^[a-zA-Z]{1,8}(-[a-zA-Z0-9]{1,8})*$
     private static let languagePattern = "^[a-zA-Z]{1,8}(-[a-zA-Z0-9]{1,8})*$"
     
+    // Regex pattern for name: ^[\p{L}\p{M}:_][\p{L}\p{M}[0-9]:\.\-_]*$
+    private static let namePattern = "^[\\p{L}\\p{M}:_][\\p{L}\\p{M}[0-9]:\\.\\-_]*$"
+    
+    // Regex pattern for name: ^[\p{L}\p{M}_][\p{L}\p{M}[0-9]\.\-_]*$
+    private static let NCNamePattern = "^[\\p{L}\\p{M}_][\\p{L}\\p{M}[0-9]\\.\\-_]*$"
+    
     /**
      Is true when the string is a normalised string, i.e. without newline, carriage return or tab characters.
      */
@@ -44,11 +50,45 @@ extension String {
     
     /**
      Is true when the string is a valid language identifier as defined in [RFC3066](http://www.w3.org/TR/xmlschema-2/#RFC3066).
-     It is not checked whether the string identifies an actual
+     It is not checked whether the string identifies an actual language.
      */
     var validLanguageIdentifier : Bool {
         do {
             let regex = try NSRegularExpression(pattern: String.languagePattern, options: [])
+            let matches = regex.matchesInString(self, options: [], range: NSMakeRange(0, self.characters.count)) as Array<NSTextCheckingResult>
+            if matches.count == 0 {
+                return false
+            }else{
+                return true
+            }
+        } catch {
+            return false
+        }
+    }
+    
+    /**
+     Is true when the string is a valid name as defined in [Extensible Markup Language (XML) 1.0](http://www.w3.org/TR/2000/WD-xml-2e-20000814#NT-Name).
+     */
+    var validName : Bool {
+        do {
+            let regex = try NSRegularExpression(pattern: String.namePattern, options: [])
+            let matches = regex.matchesInString(self, options: [], range: NSMakeRange(0, self.characters.count)) as Array<NSTextCheckingResult>
+            if matches.count == 0 {
+                return false
+            }else{
+                return true
+            }
+        } catch {
+            return false
+        }
+    }
+    
+    /**
+     Is true when the string is a valid 'non-colonized' name as defined in [Namespaces in XML](http://www.w3.org/TR/1999/REC-xml-names-19990114/#NT-NCName).
+     */
+    var validNCName : Bool {    
+        do {
+            let regex = try NSRegularExpression(pattern: String.NCNamePattern, options: [])
             let matches = regex.matchesInString(self, options: [], range: NSMakeRange(0, self.characters.count)) as Array<NSTextCheckingResult>
             if matches.count == 0 {
                 return false

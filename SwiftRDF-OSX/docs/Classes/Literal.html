@@ -207,6 +207,155 @@ This is only valid if the datatype is <code><a href="../Classes/XSD.html#/s:ZvC1
             </div>
             <div class="task-group">
               <div class="task-name-container">
+                <a name="/String%20subtype%20values"></a>
+                <a name="//apple_ref/swift/Section/String subtype values" class="dashAnchor"></a>
+                <a href="#/String%20subtype%20values">
+                  <h3 class="section-name">String subtype values</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC11SwiftRDFOSX7Literal21normalizedStringValueGSqSS_"></a>
+                    <a name="//apple_ref/swift/Property/normalizedStringValue" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC11SwiftRDFOSX7Literal21normalizedStringValueGSqSS_">normalizedStringValue</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The normalised string value, or <code>nil</code> if the string value is not normalised.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">normalizedStringValue</span> <span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC11SwiftRDFOSX7Literal10tokenValueGSqSS_"></a>
+                    <a name="//apple_ref/swift/Property/tokenValue" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC11SwiftRDFOSX7Literal10tokenValueGSqSS_">tokenValue</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The token value, or <code>nil</code> if the string value is not tokenised.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">tokenValue</span> <span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC11SwiftRDFOSX7Literal13languageValueGSqSS_"></a>
+                    <a name="//apple_ref/swift/Property/languageValue" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC11SwiftRDFOSX7Literal13languageValueGSqSS_">languageValue</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The language value, or <code>nil</code> if the string value is not a valid language identifier.
+This is not the language of the string value of the literal but is the content of the literal
+itself. To get the language of the string value use <code><a href="../Classes/Literal.html#/s:vC11SwiftRDFOSX7Literal8languageGSqSS_">Literal.language</a></code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">languageValue</span> <span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC11SwiftRDFOSX7Literal9NameValueGSqSS_"></a>
+                    <a name="//apple_ref/swift/Property/NameValue" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC11SwiftRDFOSX7Literal9NameValueGSqSS_">NameValue</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The name value, or <code>nil</code> if the string value is not a valid name, i.e. of datatype <code>xsd:Name</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">NameValue</span> <span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC11SwiftRDFOSX7Literal11NCNameValueGSqSS_"></a>
+                    <a name="//apple_ref/swift/Property/NCNameValue" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC11SwiftRDFOSX7Literal11NCNameValueGSqSS_">NCNameValue</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The &lsquo;non-colonized&rsquo; name value, or <code>nil</code> if the string value is not a valid &lsquo;non-colonized&rsquo; name, 
+i.e. of datatype <code>xsd:NCName</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">NCNameValue</span> <span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
                 <a name="/Date%20and%20Time%20values"></a>
                 <a name="//apple_ref/swift/Section/Date and Time values" class="dashAnchor"></a>
                 <a href="#/Date%20and%20Time%20values">
@@ -1042,9 +1191,9 @@ If neither language or datatype is provided, the datatype is assumed to be <code
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC11SwiftRDFOSX7LiteralcFMS0_FT11stringValueSS8languageSS_S0_"></a>
+                    <a name="/s:FC11SwiftRDFOSX7LiteralcFMS0_FT11stringValueSS8languageSS_GSqS0__"></a>
                     <a name="//apple_ref/swift/Method/init(stringValue:language:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC11SwiftRDFOSX7LiteralcFMS0_FT11stringValueSS8languageSS_S0_">init(stringValue:language:)</a>
+                    <a class="token" href="#/s:FC11SwiftRDFOSX7LiteralcFMS0_FT11stringValueSS8languageSS_GSqS0__">init(stringValue:language:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1053,14 +1202,15 @@ If neither language or datatype is provided, the datatype is assumed to be <code
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Initialises a new String literal with the specified string value and the specified language in which
-the text of the string is expressed.</p>
+the text of the string is expressed. If the language is not a valid language identifier, a <code>nil</code> value will
+be returned. A valid language identifier does not necessarily identify an existing language.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="n">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="nv">stringValue</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">language</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="n">convenience</span> <span class="nf">init</span><span class="p">?(</span><span class="nv">stringValue</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">language</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -1096,6 +1246,11 @@ the text of the string is expressed.</p>
                             </tr>
                           </tbody>
                         </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The string literal or <code>nil</code> if the language was not a valid language identifier.</p>
+
                       </div>
                     </section>
                   </div>
@@ -1161,6 +1316,285 @@ in the string value. The string value is parsed according to the specified data 
                       <div>
                         <h4>Return Value</h4>
                         <p>The initialised literal or nil if the string value was not in the correct format or if it was outside the range of the datatype.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Initialisers%20for%20String%20subtypes"></a>
+                <a name="//apple_ref/swift/Section/Initialisers for String subtypes" class="dashAnchor"></a>
+                <a href="#/Initialisers%20for%20String%20subtypes">
+                  <h3 class="section-name">Initialisers for String subtypes</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC11SwiftRDFOSX7LiteralcFMS0_FT21normalisedStringValueSS_GSqS0__"></a>
+                    <a name="//apple_ref/swift/Method/init(normalisedStringValue:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC11SwiftRDFOSX7LiteralcFMS0_FT21normalisedStringValueSS_GSqS0__">init(normalisedStringValue:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates a new Literal with the specified normalised string as value. If the string is not a 
+normalised string (i.e. with a newline, carriage return, or tab characters) <code>nil</code> will
+be returned. The data type of the literal will be <code>xsd:normalizedString</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="n">convenience</span> <span class="nf">init</span><span class="p">?(</span><span class="nv">normalisedStringValue</span> <span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>normalisedStringValue</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The normalised string value.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The literal containing the normalised string, or <code>nil</code> if the string parameter is not a normalised string.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC11SwiftRDFOSX7LiteralcFMS0_FT10tokenValueSS_GSqS0__"></a>
+                    <a name="//apple_ref/swift/Method/init(tokenValue:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC11SwiftRDFOSX7LiteralcFMS0_FT10tokenValueSS_GSqS0__">init(tokenValue:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates a new Literal with the specified token as value. If the string is not a
+token (i.e. with a newline, carriage return, or tab characters, leading or trailing spaces
+or sequences of two or more spaces) <code>nil</code> will
+be returned. The data type of the literal will be <code>xsd:token</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="n">convenience</span> <span class="nf">init</span><span class="p">?(</span><span class="nv">tokenValue</span> <span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>tokenValue</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The token value.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The literal containing the token, or <code>nil</code> if the string parameter is not a token.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC11SwiftRDFOSX7LiteralcFMS0_FT13languageValueSS_GSqS0__"></a>
+                    <a name="//apple_ref/swift/Method/init(languageValue:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC11SwiftRDFOSX7LiteralcFMS0_FT13languageValueSS_GSqS0__">init(languageValue:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates a new Literal with the specified language identifier as value. If the string is not a
+valid language identifier <code>nil</code> will be returned. The data type of the literal will be <code>xsd:language</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="n">convenience</span> <span class="nf">init</span><span class="p">?(</span><span class="nv">languageValue</span> <span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>languageValue</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The language identifier value.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The literal containing the language, or <code>nil</code> if the string parameter is not a valid language identifier.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC11SwiftRDFOSX7LiteralcFMS0_FT9NameValueSS_GSqS0__"></a>
+                    <a name="//apple_ref/swift/Method/init(NameValue:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC11SwiftRDFOSX7LiteralcFMS0_FT9NameValueSS_GSqS0__">init(NameValue:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates a new Literal with the specified Name as value. If the string is not a
+valid Name <code>nil</code> will be returned. The data type of the literal will be <code>xsd:Name</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="n">convenience</span> <span class="nf">init</span><span class="p">?(</span><span class="kt">NameValue</span> <span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>NameValue</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The Name value.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The literal containing the Name, or <code>nil</code> if the string parameter is not a valid Name.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC11SwiftRDFOSX7LiteralcFMS0_FT11NCNameValueSS_GSqS0__"></a>
+                    <a name="//apple_ref/swift/Method/init(NCNameValue:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC11SwiftRDFOSX7LiteralcFMS0_FT11NCNameValueSS_GSqS0__">init(NCNameValue:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates a new Literal with the specified &lsquo;non-colonized&rsquo; Name as value. If the string is not a
+valid &lsquo;non-colonized&rsquo; Name <code>nil</code> will be returned. The data type of the literal will be <code>xsd:NCName</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="n">convenience</span> <span class="nf">init</span><span class="p">?(</span><span class="kt">NCNameValue</span> <span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>NCNameValue</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The NCName value.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The literal containing the NCName, or <code>nil</code> if the string parameter is not a valid NCName.</p>
 
                       </div>
                     </section>
@@ -3030,7 +3464,7 @@ The Base-64 string representation of the data is stored in the <code>stringValue
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2015 <a class="link" href="" target="_blank" rel="external"></a>. All rights reserved. (Last updated: 2015-12-17)</p>
+          <p>&copy; 2015 <a class="link" href="" target="_blank" rel="external"></a>. All rights reserved. (Last updated: 2015-12-21)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.4.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>

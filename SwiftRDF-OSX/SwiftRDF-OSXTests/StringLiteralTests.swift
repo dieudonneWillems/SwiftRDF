@@ -83,13 +83,13 @@ class StringLiteralTests: XCTestCase {
     
     func testNormalisedStringLiteral() {
         var normalisedString = "  A  normalised string. "
-        var lit = Literal(normalisedString: normalisedString)
+        var lit = Literal(normalisedStringValue: normalisedString)
         XCTAssertTrue(lit!.dataType! == XSD.normalizedString)
         XCTAssertEqual(normalisedString, lit!.stringValue)
         XCTAssertEqual(normalisedString, lit!.normalizedStringValue)
         
         normalisedString = "  A  normalised \nstring. "
-        lit = Literal(normalisedString: normalisedString)
+        lit = Literal(normalisedStringValue: normalisedString)
         XCTAssertNil(lit)
         
         normalisedString = "  A  normalised string. "
@@ -107,25 +107,25 @@ class StringLiteralTests: XCTestCase {
     
     func testTokenisedStringLiteral() {
         var tokenisedString = "A tokenised string."
-        var lit = Literal(token: tokenisedString)
+        var lit = Literal(tokenValue: tokenisedString)
         XCTAssertTrue(lit!.dataType! == XSD.token)
         XCTAssertEqual(tokenisedString, lit!.stringValue)
         XCTAssertEqual(tokenisedString, lit!.tokenValue)
         
         tokenisedString = "A  tokenised string."
-        lit = Literal(token: tokenisedString)
+        lit = Literal(tokenValue: tokenisedString)
         XCTAssertNil(lit)
         
         tokenisedString = " A tokenised string."
-        lit = Literal(token: tokenisedString)
+        lit = Literal(tokenValue: tokenisedString)
         XCTAssertNil(lit)
         
         tokenisedString = "A tokenised string. "
-        lit = Literal(token: tokenisedString)
+        lit = Literal(tokenValue: tokenisedString)
         XCTAssertNil(lit)
         
         tokenisedString = "A\ntokenised string."
-        lit = Literal(token: tokenisedString)
+        lit = Literal(tokenValue: tokenisedString)
         XCTAssertNil(lit)
         
         tokenisedString = "A tokenised string."
@@ -143,25 +143,25 @@ class StringLiteralTests: XCTestCase {
     
     func testLanguageStringLiteral() {
         var languageString = "en-US"
-        var lit = Literal(language: languageString)
+        var lit = Literal(languageValue: languageString)
         XCTAssertTrue(lit!.dataType! == XSD.language)
         XCTAssertEqual(languageString, lit!.stringValue)
         XCTAssertEqual(languageString, lit!.languageValue)
         
         languageString = "02-en"
-        lit = Literal(language: languageString)
+        lit = Literal(languageValue: languageString)
         XCTAssertNil(lit)
         
         languageString = " en"
-        lit = Literal(language: languageString)
+        lit = Literal(languageValue: languageString)
         XCTAssertNil(lit)
         
         languageString = "en "
-        lit = Literal(language: languageString)
+        lit = Literal(languageValue: languageString)
         XCTAssertNil(lit)
         
         languageString = "e\nn"
-        lit = Literal(language: languageString)
+        lit = Literal(languageValue: languageString)
         XCTAssertNil(lit)
         
         languageString = "nl"
@@ -173,6 +173,42 @@ class StringLiteralTests: XCTestCase {
         
         languageString = "00-US"
         sparqlString = "\""+languageString+"\"^^xsd:language"
+        lit = Literal(sparqlString: sparqlString)
+        XCTAssertNil(lit)
+    }
+    
+    func testNameLiteral() {
+        var nameString = "én:name"
+        var lit = Literal(NameValue: nameString)
+        XCTAssertTrue(lit!.dataType! == XSD.Name)
+        XCTAssertEqual(nameString, lit!.stringValue)
+        XCTAssertEqual(nameString, lit!.NameValue)
+        
+        nameString = "0en:name"
+        lit = Literal(NameValue: nameString)
+        XCTAssertNil(lit)
+        
+        nameString = " en"
+        lit = Literal(NameValue: nameString)
+        XCTAssertNil(lit)
+        
+        nameString = "en :pole"
+        lit = Literal(NameValue: nameString)
+        XCTAssertNil(lit)
+        
+        nameString = "en:\nnss"
+        lit = Literal(NameValue: nameString)
+        XCTAssertNil(lit)
+        
+        nameString = "én:name"
+        var sparqlString = "\""+nameString+"\"^^xsd:Name"
+        lit = Literal(sparqlString: sparqlString)
+        XCTAssertTrue(lit!.dataType! == XSD.Name)
+        XCTAssertEqual(nameString, lit!.stringValue)
+        XCTAssertEqual(nameString, lit!.NameValue)
+        
+        nameString = " test"
+        sparqlString = "\""+nameString+"\"^^xsd:Name"
         lit = Literal(sparqlString: sparqlString)
         XCTAssertNil(lit)
     }

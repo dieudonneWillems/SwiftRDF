@@ -91,4 +91,56 @@ class DatStringExtensionsTestseTests: XCTestCase {
         string = " en"
         XCTAssertFalse(string.validLanguageIdentifier)
     }
+    
+    func testIsValidName() {
+        var string = "prefix:something"
+        XCTAssertTrue(string.validName)
+        
+        string = "name"
+        XCTAssertTrue(string.validName)
+        
+        string = "één:PrefIX"
+        XCTAssertTrue(string.validName)
+        
+        string = "BOL:name"
+        XCTAssertTrue(string.validName)
+        
+        string = "9number"
+        XCTAssertFalse(string.validName)
+        
+        string = "name space"
+        XCTAssertFalse(string.validName)
+        
+        string = "_:name_with:other-symbols"
+        XCTAssertTrue(string.validName)
+        
+        string = " nottrimmed "
+        XCTAssertFalse(string.validName)
+    }
+    
+    func testIsValidNCName() {
+        var string = "something"
+        XCTAssertTrue(string.validNCName)
+        
+        string = "name"
+        XCTAssertTrue(string.validNCName)
+        
+        string = "éénPrefIX"
+        XCTAssertTrue(string.validNCName)
+        
+        string = "BOLname"
+        XCTAssertTrue(string.validNCName)
+        
+        string = "prefix:something"
+        XCTAssertFalse(string.validNCName)
+        
+        string = "name space"
+        XCTAssertFalse(string.validNCName)
+        
+        string = "_:name_with:other-symbols"
+        XCTAssertFalse(string.validNCName)
+        
+        string = " nottrimmed "
+        XCTAssertFalse(string.validNCName)
+    }
 }

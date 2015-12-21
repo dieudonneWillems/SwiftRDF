@@ -62,7 +62,28 @@ public class Literal: Value {
      itself. To get the language of the string value use `Literal.language`.
      */
     public var languageValue : String? {
-        if !stringValue.isTokenised {
+        if !stringValue.validLanguageIdentifier {
+            return nil
+        }
+        return stringValue
+    }
+    
+    /**
+     The name value, or `nil` if the string value is not a valid name, i.e. of datatype `xsd:Name`.
+     */
+    public var NameValue : String? {
+        if !stringValue.validName {
+            return nil
+        }
+        return stringValue
+    }
+    
+    /**
+     The 'non-colonized' name value, or `nil` if the string value is not a valid 'non-colonized' name, 
+     i.e. of datatype `xsd:NCName`.
+     */
+    public var NCNameValue : String? {
+        if !stringValue.validNCName {
             return nil
         }
         return stringValue
@@ -320,6 +341,10 @@ public class Literal: Value {
                     return "\"\(stringValue)\"^^xsd:token";
                 } else if dataType! == XSD.language {
                     return "\"\(stringValue)\"^^xsd:language";
+                } else if dataType! == XSD.Name {
+                    return "\"\(stringValue)\"^^xsd:Name";
+                } else if dataType! == XSD.NCName {
+                    return "\"\(stringValue)\"^^xsd:NCName";
                 }
             }
             return "\"\(self.stringValue)\""
@@ -460,6 +485,10 @@ public class Literal: Value {
                         datatypeFS = XSD.normalizedString
                     } else if dtypeStr! == "xsd:language" || dtypeStr! == "language" {
                         datatypeFS = XSD.language
+                    } else if dtypeStr! == "xsd:Name" || dtypeStr! == "Name" {
+                        datatypeFS = XSD.Name
+                    } else if dtypeStr! == "xsd:NCName" || dtypeStr! == "NCName" {
+                        datatypeFS = XSD.NCName
                     } else {
                         datatypeFS = try Datatype(namespace: XSD.namespace(), localName: dtypeStr!, derivedFromDatatype: nil, isListDataType: false)
                     }
@@ -687,6 +716,14 @@ public class Literal: Value {
                 if !stringValue.validLanguageIdentifier {
                     return nil
                 }
+            }else if dataType == XSD.Name {
+                if !stringValue.validName {
+                    return nil
+                }
+            }else if dataType == XSD.NCName {
+                if !stringValue.validNCName {
+                    return nil
+                }
             }else {
             }
         } catch {
@@ -701,15 +738,15 @@ public class Literal: Value {
      normalised string (i.e. with a newline, carriage return, or tab characters) `nil` will
      be returned. The data type of the literal will be `xsd:normalizedString`.
      
-     - parameter normalisedString: The normalised string value.
+     - parameter normalisedStringValue: The normalised string value.
      - returns: The literal containing the normalised string, or `nil` if the string parameter is not
      a normalised string.
      */
-    public convenience init?(normalisedString : String){
-        if !normalisedString.isNormalised {
+    public convenience init?(normalisedStringValue : String){
+        if !normalisedStringValue.isNormalised {
             return nil
         }
-        self.init(stringValue: normalisedString, dataType: XSD.normalizedString)
+        self.init(stringValue: normalisedStringValue, dataType: XSD.normalizedString)
     }
     
     /**
@@ -718,29 +755,59 @@ public class Literal: Value {
      or sequences of two or more spaces) `nil` will
      be returned. The data type of the literal will be `xsd:token`.
      
-     - parameter token: The token value.
+     - parameter tokenValue: The token value.
      - returns: The literal containing the token, or `nil` if the string parameter is not a token.
      */
-    public convenience init?(token : String){
-        if !token.isTokenised {
+    public convenience init?(tokenValue : String){
+        if !tokenValue.isTokenised {
             return nil
         }
-        self.init(stringValue: token, dataType: XSD.token)
+        self.init(stringValue: tokenValue, dataType: XSD.token)
     }
     
     /**
      Creates a new Literal with the specified language identifier as value. If the string is not a
      valid language identifier `nil` will be returned. The data type of the literal will be `xsd:language`.
      
-     - parameter token: The language identifier value.
+     - parameter languageValue: The language identifier value.
      - returns: The literal containing the language, or `nil` if the string parameter is not a 
      valid language identifier.
      */
-    public convenience init?(language : String){
-        if !language.validLanguageIdentifier {
+    public convenience init?(languageValue : String){
+        if !languageValue.validLanguageIdentifier {
             return nil
         }
-        self.init(stringValue: language, dataType: XSD.language)
+        self.init(stringValue: languageValue, dataType: XSD.language)
+    }
+    
+    /**
+     Creates a new Literal with the specified Name as value. If the string is not a
+     valid Name `nil` will be returned. The data type of the literal will be `xsd:Name`.
+     
+     - parameter NameValue: The Name value.
+     - returns: The literal containing the Name, or `nil` if the string parameter is not a
+     valid Name.
+     */
+    public convenience init?(NameValue : String){
+        if !NameValue.validName {
+            return nil
+        }
+        self.init(stringValue: NameValue, dataType: XSD.Name)
+    }
+    
+    /**
+     Creates a new Literal with the specified 'non-colonized' Name as value. If the string is not a
+     valid 'non-colonized' Name `nil` will be returned. The data type of the literal will be `xsd:NCName`.
+     
+     - parameter NCNameValue: The NCName value.
+     - returns: The literal containing the NCName, or `nil` if the string parameter is not a
+     valid NCName.
+     */
+    public convenience init?(NCNameValue : String){
+        if !NCNameValue.validNCName {
+            return nil
+        }
+        self.init(stringValue: NCNameValue, dataType: XSD.NCName)
     }
     
     // TODO: Initialisers for string subtypes
