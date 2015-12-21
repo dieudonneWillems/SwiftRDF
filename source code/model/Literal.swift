@@ -105,6 +105,12 @@ public class Literal: Value {
         return NCNameValue
     }
     
+    /**
+     The IDREFS value, or `nil` if the string value is not a valid list of IDREFs, i.e. not a list of 'non-colonized' names
+     of datatype `xsd:IDREF`, which is of type `xsd:IDREFS`.
+     */
+    public private(set) var IDREFSValue : [String]?
+    
     
     // MARK: Date and Time values
     
@@ -365,6 +371,8 @@ public class Literal: Value {
                     return "\"\(stringValue)\"^^xsd:ID";
                 } else if dataType! == XSD.IDREF {
                     return "\"\(stringValue)\"^^xsd:IDREF";
+                } else if dataType! == XSD.IDREFS {
+                    return "\"\(stringValue)\"^^xsd:IDREFS";
                 }
             }
             return "\"\(self.stringValue)\""
@@ -513,6 +521,8 @@ public class Literal: Value {
                         datatypeFS = XSD.ID
                     } else if dtypeStr! == "xsd:IDREF" || dtypeStr! == "IDREF" {
                         datatypeFS = XSD.IDREF
+                    } else if dtypeStr! == "xsd:IDREFS" || dtypeStr! == "IDREFS" {
+                        datatypeFS = XSD.IDREFS
                     } else {
                         datatypeFS = try Datatype(namespace: XSD.namespace(), localName: dtypeStr!, derivedFromDatatype: nil, isListDataType: false)
                     }
@@ -756,6 +766,16 @@ public class Literal: Value {
                 if !stringValue.validNCName {
                     return nil
                 }
+            }else if dataType == XSD.IDREFS {
+                IDREFSValue = stringValue.characters.split{$0 == " "}.map(String.init)
+                if IDREFSValue == nil || IDREFSValue!.count <= 0 {
+                    return nil
+                }
+                for idref in IDREFSValue! {
+                    if !idref.validNCName {
+                        return nil
+                    }
+                }
             }else {
             }
         } catch {
@@ -870,6 +890,33 @@ public class Literal: Value {
             return nil
         }
         self.init(stringValue: IDREFValue, dataType: XSD.IDREF)
+    }
+    
+    /**
+     Creates a new Literal with the specified list of IDREFs as value. If the list contains non-valid IDREFs,
+     `nil` will be returned. The data type of the literal will be `xsd:IDREFS`.
+     
+     - parameter IDREFSValue: The list of IDREFS value.
+     - returns: The literal containing the list of IDREFS, or `nil` if the list contains non-valid IDREFs, or
+     when the number of IDREFs is less than 1.
+     */
+    public convenience init?(IDREFSValue : [String]){
+        if IDREFSValue.count <= 0 {
+            return nil
+        }
+        var strval = ""
+        for idref in IDREFSValue {
+            if !idref.validNCName {
+                return nil
+            }
+            if strval.characters.count > 0 {
+                strval += " "
+            }
+            strval += idref
+        }
+        self.init(stringValue: strval)
+        self.dataType = XSD.IDREFS
+        self.IDREFSValue = IDREFSValue
     }
     
     // TODO: Initialisers for string subtypes

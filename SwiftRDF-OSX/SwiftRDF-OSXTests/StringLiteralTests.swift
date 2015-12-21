@@ -290,7 +290,7 @@ class StringLiteralTests: XCTestCase {
         var lit = Literal(IDREFValue: nameString)
         XCTAssertTrue(lit!.dataType! == XSD.IDREF)
         XCTAssertEqual(nameString, lit!.stringValue)
-        XCTAssertEqual(nameString, lit!.NCNameValue)
+        XCTAssertEqual(nameString, lit!.IDREFValue)
         
         nameString = "en:name"
         lit = Literal(IDREFValue: nameString)
@@ -313,10 +313,38 @@ class StringLiteralTests: XCTestCase {
         lit = Literal(sparqlString: sparqlString)
         XCTAssertTrue(lit!.dataType! == XSD.IDREF)
         XCTAssertEqual(nameString, lit!.stringValue)
-        XCTAssertEqual(nameString, lit!.NCNameValue)
+        XCTAssertEqual(nameString, lit!.IDREFValue)
         
         nameString = "_:test"
         sparqlString = "\""+nameString+"\"^^xsd:IDREF"
+        lit = Literal(sparqlString: sparqlString)
+        XCTAssertNil(lit)
+    }
+    
+    func testIDREFSLiteral() {
+        var idrefs = [String]()
+        var lit = Literal(IDREFSValue: idrefs)
+        XCTAssertNil(lit)
+        idrefs.append("tést")
+        idrefs.append("nsname")
+        lit = Literal(IDREFSValue: idrefs)
+        XCTAssertTrue(lit!.dataType! == XSD.IDREFS)
+        XCTAssertEqual("tést nsname", lit!.stringValue)
+        XCTAssertEqual(idrefs, lit!.IDREFSValue!)
+        idrefs.append("ns:name2")
+        lit = Literal(IDREFSValue: idrefs)
+        XCTAssertNil(lit)
+        
+        var sparqlString = "\"aname another_name\"^^xsd:IDREFS"
+        lit = Literal(sparqlString: sparqlString)
+        idrefs = [String]()
+        idrefs.append("aname")
+        idrefs.append("another_name")
+        XCTAssertTrue(lit!.dataType! == XSD.IDREFS)
+        XCTAssertEqual("aname another_name", lit!.stringValue)
+        XCTAssertEqual(idrefs, lit!.IDREFSValue!)
+        
+        sparqlString = "\"\"^^xsd:IDREFS"
         lit = Literal(sparqlString: sparqlString)
         XCTAssertNil(lit)
     }
