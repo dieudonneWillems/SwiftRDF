@@ -40,6 +40,8 @@ import Foundation
  */
 public class URI : Resource {
     
+    private let pattern = "^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\\?([^#]*))?(#(.*))?"
+    
     // MARK: Properties
     
     /**
@@ -174,6 +176,7 @@ public class URI : Resource {
             let nsstring = authorityPart as NSString
             for match in matches as [NSTextCheckingResult] {
                 
+                /*
                 for index in 1...match.numberOfRanges-1 {
                     let range = match.rangeAtIndex(index)
                     if range.location != NSNotFound {
@@ -181,6 +184,7 @@ public class URI : Resource {
                         print("authoritypart: \(index): \(substring)")
                     }
                 }
+                */
                 
                 if match.rangeAtIndex(5).location != NSNotFound {
                     host = nsstring.substringWithRange(match.rangeAtIndex(5)) as String
@@ -206,7 +210,6 @@ public class URI : Resource {
     }
     
     private func parseURI(uri : String) throws {
-        let pattern = "^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\\?([^#]*))?(#(.*))?"
         do {
             let regex = try NSRegularExpression(pattern: pattern, options: [.CaseInsensitive])
             let matches = regex.matchesInString(uri, options: [], range: NSMakeRange(0, uri.characters.count)) as Array<NSTextCheckingResult>
@@ -216,13 +219,14 @@ public class URI : Resource {
             let nsstring = uri as NSString
             for match in matches as [NSTextCheckingResult] {
                 
+                /*
                 for index in 1...match.numberOfRanges-1 {
                     let range = match.rangeAtIndex(index)
                     if range.location != NSNotFound {
                         let substring = nsstring.substringWithRange(match.rangeAtIndex(index))
-                        print("\(index): \(substring)")
                     }
                 }
+                */
                 
                 if match.rangeAtIndex(2).location != NSNotFound {
                     scheme = nsstring.substringWithRange(match.rangeAtIndex(2)) as String

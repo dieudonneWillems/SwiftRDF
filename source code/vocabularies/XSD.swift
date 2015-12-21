@@ -181,16 +181,16 @@ public class XSD : Vocabulary {
      */
     public static let negativeInteger = XSD.createDatatype( XSD.ns, localName: "negativeInteger", derivedFromDatatype: nonPositiveInteger, isListDataType: false)
     
-    /// Represents an integer of type long with a value between -9223372036854775808 and 9223372036854775807 inclusive.
+    /// Represents a signed 64-bit integer of type long with a value between -9223372036854775808 and 9223372036854775807 inclusive.
     public static let long = XSD.createDatatype( XSD.ns, localName: "long", derivedFromDatatype: integer, isListDataType: false)
     
-    /// Represents an integer of type int with a value between -2147483648 and 2147483647 inclusive.
+    /// Represents a signed 32-bit integer of type int with a value between -2147483648 and 2147483647 inclusive.
     public static let int = XSD.createDatatype( XSD.ns, localName: "int", derivedFromDatatype: long, isListDataType: false)
     
-    // Represents an integer of type short with a value between  -32768 and 32767 inclusive.
+    // Represents a signed 16-bit integer of type short with a value between  -32768 and 32767 inclusive.
     public static let short = XSD.createDatatype( XSD.ns, localName: "short", derivedFromDatatype: int, isListDataType: false)
     
-    // Represents an integer of type byte with a value between  -128 and 127 inclusive.
+    // Represents a signed 8-bit integer of type byte with a value between  -128 and 127 inclusive.
     public static let byte = XSD.createDatatype( XSD.ns, localName: "byte", derivedFromDatatype: short, isListDataType: false)
     
     /**
@@ -199,16 +199,16 @@ public class XSD : Vocabulary {
      */
     public static let nonNegativeInteger = XSD.createDatatype( XSD.ns, localName: "nonNegativeInteger", derivedFromDatatype: integer, isListDataType: false)
     
-    /// Represents a non negative integer of type long with a value between 0 and 18446744073709551615 inclusive.
+    /// Represents a non negative 64-bit integer of type long with a value between 0 and 18446744073709551615 inclusive.
     public static let unsignedLong = XSD.createDatatype( XSD.ns, localName: "unsignedLong", derivedFromDatatype: nonNegativeInteger, isListDataType: false)
     
-    /// Represents a non negative integer of type int with a value between 0 and 4294967295 inclusive.
+    /// Represents a non negative 32-bit integer of type int with a value between 0 and 4294967295 inclusive.
     public static let unsignedInt = XSD.createDatatype( XSD.ns, localName: "unsignedInt", derivedFromDatatype: unsignedLong, isListDataType: false)
     
-    /// Represents a non negative integer of type short with a value between 0 and 65535 inclusive.
+    /// Represents a non negative 16-bit integer of type short with a value between 0 and 65535 inclusive.
     public static let unsignedShort = XSD.createDatatype( XSD.ns, localName: "unsignedShort", derivedFromDatatype: unsignedInt, isListDataType: false)
     
-    /// Represents a non negative integer of type byte with a value between 0 and 255 inclusive.
+    /// Represents a non negative 8-bit integer of type byte with a value between 0 and 255 inclusive.
     public static let unsignedByte = XSD.createDatatype( XSD.ns, localName: "unsignedByte", derivedFromDatatype: unsignedShort, isListDataType: false)
     
     /**
