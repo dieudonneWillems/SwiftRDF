@@ -65,4 +65,30 @@ class DatStringExtensionsTestseTests: XCTestCase {
         string = "A Test case \nwith an \runnormalised string."
         XCTAssertFalse(string.isTokenised)
     }
+    
+    func testIsLanguageIdentifier() {
+        var string = "en"
+        XCTAssertTrue(string.validLanguageIdentifier)
+        
+        string = "nl"
+        XCTAssertTrue(string.validLanguageIdentifier)
+        
+        string = "en-US"
+        XCTAssertTrue(string.validLanguageIdentifier)
+        
+        string = "abcdefgh"
+        XCTAssertTrue(string.validLanguageIdentifier)
+        
+        string = "abcdefghi"
+        XCTAssertFalse(string.validLanguageIdentifier)
+        
+        string = "12dsd"
+        XCTAssertFalse(string.validLanguageIdentifier)
+        
+        string = "en-US-ok"
+        XCTAssertTrue(string.validLanguageIdentifier)
+        
+        string = " en"
+        XCTAssertFalse(string.validLanguageIdentifier)
+    }
 }

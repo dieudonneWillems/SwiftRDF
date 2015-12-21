@@ -14,6 +14,9 @@ import Foundation
  */
 extension String {
     
+    // Regex pattern for language: ^[a-zA-Z]{1,8}(-[a-zA-Z0-9]{1,8})*$
+    private static let languagePattern = "^[a-zA-Z]{1,8}(-[a-zA-Z0-9]{1,8})*$"
+    
     /**
      Is true when the string is a normalised string, i.e. without newline, carriage return or tab characters.
      */
@@ -37,6 +40,24 @@ extension String {
         }
         let range = self.rangeOfString("  ")
         return range == nil
+    }
+    
+    /**
+     Is true when the string is a valid language identifier as defined in [RFC3066](http://www.w3.org/TR/xmlschema-2/#RFC3066).
+     It is not checked whether the string identifies an actual
+     */
+    var validLanguageIdentifier : Bool {
+        do {
+            let regex = try NSRegularExpression(pattern: String.languagePattern, options: [])
+            let matches = regex.matchesInString(self, options: [], range: NSMakeRange(0, self.characters.count)) as Array<NSTextCheckingResult>
+            if matches.count == 0 {
+                return false
+            }else{
+                return true
+            }
+        } catch {
+            return false
+        }
     }
     
     /**

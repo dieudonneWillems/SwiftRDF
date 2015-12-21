@@ -34,6 +34,40 @@ public class Literal: Value {
     public private(set) var language : String?
     
     
+    // MARK: String subtype values
+    
+    /**
+     The normalised string value, or `nil` if the string value is not normalised.
+     */
+    public var normalizedStringValue : String? {
+        if !stringValue.isNormalised {
+            return nil
+        }
+        return stringValue
+    }
+    
+    /**
+     The token value, or `nil` if the string value is not tokenised.
+     */
+    public var tokenValue : String? {
+        if !stringValue.isTokenised {
+            return nil
+        }
+        return stringValue
+    }
+    
+    /**
+     The language value, or `nil` if the string value is not a valid language identifier.
+     This is not the language of the string value of the literal but is the content of the literal
+     itself. To get the language of the string value use `Literal.language`.
+     */
+    public var languageValue : String? {
+        if !stringValue.isTokenised {
+            return nil
+        }
+        return stringValue
+    }
+    
     
     // MARK: Date and Time values
     
@@ -284,6 +318,8 @@ public class Literal: Value {
                     return "\"\(stringValue)\"^^xsd:normalizedString";
                 } else if dataType! == XSD.token {
                     return "\"\(stringValue)\"^^xsd:token";
+                } else if dataType! == XSD.language {
+                    return "\"\(stringValue)\"^^xsd:language";
                 }
             }
             return "\"\(self.stringValue)\""
@@ -422,6 +458,8 @@ public class Literal: Value {
                         datatypeFS = XSD.token
                     } else if dtypeStr! == "xsd:normalizedString" || dtypeStr! == "normalizedString" {
                         datatypeFS = XSD.normalizedString
+                    } else if dtypeStr! == "xsd:language" || dtypeStr! == "language" {
+                        datatypeFS = XSD.language
                     } else {
                         datatypeFS = try Datatype(namespace: XSD.namespace(), localName: dtypeStr!, derivedFromDatatype: nil, isListDataType: false)
                     }
@@ -452,12 +490,17 @@ public class Literal: Value {
     
     /**
      Initialises a new String literal with the specified string value and the specified language in which
-     the text of the string is expressed.
+     the text of the string is expressed. If the language is not a valid language identifier, a `nil` value will
+     be returned. A valid language identifier does not necessarily identify an existing language.
      
      - parameter stringValue: The string containing the text.
      - parameter language: The language of the text.
+     - returns: The string literal or `nil` if the language was not a valid language identifier.
      */
-    public convenience init(stringValue: String, language: String){
+    public convenience init?(stringValue: String, language: String){
+        if !language.validLanguageIdentifier {
+            return nil
+        }
         self.init(stringValue: stringValue)
         self.language = language
         self.dataType = XSD.string
@@ -640,6 +683,10 @@ public class Literal: Value {
                 if !stringValue.isTokenised {
                     return nil
                 }
+            }else if dataType == XSD.language {
+                if !stringValue.validLanguageIdentifier {
+                    return nil
+                }
             }else {
             }
         } catch {
@@ -679,6 +726,21 @@ public class Literal: Value {
             return nil
         }
         self.init(stringValue: token, dataType: XSD.token)
+    }
+    
+    /**
+     Creates a new Literal with the specified language identifier as value. If the string is not a
+     valid language identifier `nil` will be returned. The data type of the literal will be `xsd:language`.
+     
+     - parameter token: The language identifier value.
+     - returns: The literal containing the language, or `nil` if the string parameter is not a 
+     valid language identifier.
+     */
+    public convenience init?(language : String){
+        if !language.validLanguageIdentifier {
+            return nil
+        }
+        self.init(stringValue: language, dataType: XSD.language)
     }
     
     // TODO: Initialisers for string subtypes
