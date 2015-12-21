@@ -436,6 +436,60 @@ of datatype <code>xsd:IDREF</code>, which is of type <code>xsd:IDREFS</code>.</p
                     </section>
                   </div>
                 </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC11SwiftRDFOSX7Literal12NMTOKENValueGSqSS_"></a>
+                    <a name="//apple_ref/swift/Property/NMTOKENValue" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC11SwiftRDFOSX7Literal12NMTOKENValueGSqSS_">NMTOKENValue</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The NMTOKEN value, or <code>nil</code> if the string value is not a valid NMTOKEN, i.e. of datatype <code>xsd:NMTOKEN</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">NMTOKENValue</span> <span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC11SwiftRDFOSX7Literal13NMTOKENSValueGSqGSaSS__"></a>
+                    <a name="//apple_ref/swift/Property/NMTOKENSValue" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC11SwiftRDFOSX7Literal13NMTOKENSValueGSqGSaSS__">NMTOKENSValue</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The NMTOKENS value, or <code>nil</code> if the string value is not a valid list of NMTOKENs, i.e. of type <code>xsd:NMTOKENS</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">private(set)</span> <span class="k">var</span> <span class="nv">NMTOKENSValue</span> <span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
               </ul>
             </div>
             <div class="task-group">
@@ -1827,7 +1881,7 @@ valid IDREF <code>nil</code> will be returned. The data type of the literal will
                               </td>
                               <td>
                                 <div>
-                                  <p>The list of IDREFS value.</p>
+                                  <p>The list of IDREFs.</p>
 
                                 </div>
                               </td>
@@ -1838,6 +1892,112 @@ valid IDREF <code>nil</code> will be returned. The data type of the literal will
                       <div>
                         <h4>Return Value</h4>
                         <p>The literal containing the list of IDREFS, or <code>nil</code> if the list contains non-valid IDREFs, or when the number of IDREFs is less than 1.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC11SwiftRDFOSX7LiteralcFMS0_FT12NMTOKENValueSS_GSqS0__"></a>
+                    <a name="//apple_ref/swift/Method/init(NMTOKENValue:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC11SwiftRDFOSX7LiteralcFMS0_FT12NMTOKENValueSS_GSqS0__">init(NMTOKENValue:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates a new Literal with the specified NMTOKEN as value. If the string is not a
+valid NMTOKEN <code>nil</code> will be returned. The data type of the literal will be <code>xsd:NMTOKEN</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="n">convenience</span> <span class="nf">init</span><span class="p">?(</span><span class="kt">NMTOKENValue</span> <span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>NMTOKENValue</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The NMTOKEN value.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The literal containing the NMTOKEN, or <code>nil</code> if the string parameter is not a valid NMTOKEN.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC11SwiftRDFOSX7LiteralcFMS0_FT13NMTOKENSValueGSaSS__GSqS0__"></a>
+                    <a name="//apple_ref/swift/Method/init(NMTOKENSValue:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC11SwiftRDFOSX7LiteralcFMS0_FT13NMTOKENSValueGSaSS__GSqS0__">init(NMTOKENSValue:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates a new Literal with the specified list of NMTOKENs as value. If the list contains non-valid NMTOKENs,
+<code>nil</code> will be returned. The data type of the literal will be <code>xsd:NMTOKENS</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="n">convenience</span> <span class="nf">init</span><span class="p">?(</span><span class="kt">NMTOKENSValue</span> <span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">])</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>NMTOKENSValue</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The list of NMTOKNEs.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The literal containing the list of NMTOKENs, or <code>nil</code> if the list contains non-valid NMTOKENs, or when the number of NMTOKENs is less than 1.</p>
 
                       </div>
                     </section>

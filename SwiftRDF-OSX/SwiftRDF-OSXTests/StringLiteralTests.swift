@@ -348,4 +348,65 @@ class StringLiteralTests: XCTestCase {
         lit = Literal(sparqlString: sparqlString)
         XCTAssertNil(lit)
     }
+    
+    
+    func testNMTOKENLiteral() {
+        var nameString = "12énna-m:e"
+        var lit = Literal(NMTOKENValue: nameString)
+        XCTAssertTrue(lit!.dataType! == XSD.NMTOKEN)
+        XCTAssertEqual(nameString, lit!.stringValue)
+        XCTAssertEqual(nameString, lit!.NMTOKENValue)
+        
+        nameString = "en name"
+        lit = Literal(NMTOKENValue: nameString)
+        XCTAssertNil(lit)
+        
+        nameString = " en"
+        lit = Literal(NMTOKENValue: nameString)
+        XCTAssertNil(lit)
+        
+        nameString = "en\nnss"
+        lit = Literal(NMTOKENValue: nameString)
+        XCTAssertNil(lit)
+        
+        nameString = "_21blaname"
+        var sparqlString = "\""+nameString+"\"^^xsd:NMTOKEN"
+        lit = Literal(sparqlString: sparqlString)
+        XCTAssertTrue(lit!.dataType! == XSD.NMTOKEN)
+        XCTAssertEqual(nameString, lit!.stringValue)
+        XCTAssertEqual(nameString, lit!.NMTOKENValue)
+        
+        nameString = "_:t est"
+        sparqlString = "\""+nameString+"\"^^xsd:NMTOKEN"
+        lit = Literal(sparqlString: sparqlString)
+        XCTAssertNil(lit)
+    }
+    
+    func testNMTOKENSLiteral() {
+        var nmtokens = [String]()
+        var lit = Literal(NMTOKENSValue: nmtokens)
+        XCTAssertNil(lit)
+        nmtokens.append("tést")
+        nmtokens.append("nsname")
+        lit = Literal(NMTOKENSValue: nmtokens)
+        XCTAssertTrue(lit!.dataType! == XSD.NMTOKENS)
+        XCTAssertEqual("tést nsname", lit!.stringValue)
+        XCTAssertEqual(nmtokens, lit!.NMTOKENSValue!)
+        nmtokens.append("ns name2")
+        lit = Literal(NMTOKENSValue: nmtokens)
+        XCTAssertNil(lit)
+        
+        var sparqlString = "\"aname another_name\"^^xsd:NMTOKENS"
+        lit = Literal(sparqlString: sparqlString)
+        nmtokens = [String]()
+        nmtokens.append("aname")
+        nmtokens.append("another_name")
+        XCTAssertTrue(lit!.dataType! == XSD.NMTOKENS)
+        XCTAssertEqual("aname another_name", lit!.stringValue)
+        XCTAssertEqual(nmtokens, lit!.NMTOKENSValue!)
+        
+        sparqlString = "\"\"^^xsd:NMTOKENS"
+        lit = Literal(sparqlString: sparqlString)
+        XCTAssertNil(lit)
+    }
 }

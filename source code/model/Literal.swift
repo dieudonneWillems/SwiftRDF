@@ -111,6 +111,21 @@ public class Literal: Value {
      */
     public private(set) var IDREFSValue : [String]?
     
+    /**
+     The NMTOKEN value, or `nil` if the string value is not a valid NMTOKEN, i.e. of datatype `xsd:NMTOKEN`.
+     */
+    public var NMTOKENValue : String? {
+        if !stringValue.validNMToken {
+            return nil
+        }
+        return stringValue
+    }
+    
+    /**
+     The NMTOKENS value, or `nil` if the string value is not a valid list of NMTOKENs, i.e. of type `xsd:NMTOKENS`.
+     */
+    public private(set) var NMTOKENSValue : [String]?
+    
     
     // MARK: Date and Time values
     
@@ -373,6 +388,10 @@ public class Literal: Value {
                     return "\"\(stringValue)\"^^xsd:IDREF";
                 } else if dataType! == XSD.IDREFS {
                     return "\"\(stringValue)\"^^xsd:IDREFS";
+                } else if dataType! == XSD.NMTOKEN {
+                    return "\"\(stringValue)\"^^xsd:NMTOKEN";
+                } else if dataType! == XSD.NMTOKENS {
+                    return "\"\(stringValue)\"^^xsd:NMTOKENS";
                 }
             }
             return "\"\(self.stringValue)\""
@@ -523,6 +542,10 @@ public class Literal: Value {
                         datatypeFS = XSD.IDREF
                     } else if dtypeStr! == "xsd:IDREFS" || dtypeStr! == "IDREFS" {
                         datatypeFS = XSD.IDREFS
+                    } else if dtypeStr! == "xsd:NMTOKEN" || dtypeStr! == "NMTOKEN" {
+                        datatypeFS = XSD.NMTOKEN
+                    } else if dtypeStr! == "xsd:NMTOKENS" || dtypeStr! == "NMTOKENS" {
+                        datatypeFS = XSD.NMTOKENS
                     } else {
                         datatypeFS = try Datatype(namespace: XSD.namespace(), localName: dtypeStr!, derivedFromDatatype: nil, isListDataType: false)
                     }
@@ -776,6 +799,20 @@ public class Literal: Value {
                         return nil
                     }
                 }
+            }else if dataType == XSD.NMTOKEN {
+                if !stringValue.validNMToken {
+                    return nil
+                }
+            }else if dataType == XSD.NMTOKENS {
+                NMTOKENSValue = stringValue.characters.split{$0 == " "}.map(String.init)
+                if NMTOKENSValue == nil || NMTOKENSValue!.count <= 0 {
+                    return nil
+                }
+                for idref in NMTOKENSValue! {
+                    if !idref.validNMToken {
+                        return nil
+                    }
+                }
             }else {
             }
         } catch {
@@ -896,7 +933,7 @@ public class Literal: Value {
      Creates a new Literal with the specified list of IDREFs as value. If the list contains non-valid IDREFs,
      `nil` will be returned. The data type of the literal will be `xsd:IDREFS`.
      
-     - parameter IDREFSValue: The list of IDREFS value.
+     - parameter IDREFSValue: The list of IDREFs.
      - returns: The literal containing the list of IDREFS, or `nil` if the list contains non-valid IDREFs, or
      when the number of IDREFs is less than 1.
      */
@@ -917,6 +954,48 @@ public class Literal: Value {
         self.init(stringValue: strval)
         self.dataType = XSD.IDREFS
         self.IDREFSValue = IDREFSValue
+    }
+    
+    /**
+     Creates a new Literal with the specified NMTOKEN as value. If the string is not a
+     valid NMTOKEN `nil` will be returned. The data type of the literal will be `xsd:NMTOKEN`.
+     
+     - parameter NMTOKENValue: The NMTOKEN value.
+     - returns: The literal containing the NMTOKEN, or `nil` if the string parameter is not a
+     valid NMTOKEN.
+     */
+    public convenience init?(NMTOKENValue : String){
+        if !NMTOKENValue.validNMToken {
+            return nil
+        }
+        self.init(stringValue: NMTOKENValue, dataType: XSD.NMTOKEN)
+    }
+    
+    /**
+     Creates a new Literal with the specified list of NMTOKENs as value. If the list contains non-valid NMTOKENs,
+     `nil` will be returned. The data type of the literal will be `xsd:NMTOKENS`.
+     
+     - parameter NMTOKENSValue: The list of NMTOKNEs.
+     - returns: The literal containing the list of NMTOKENs, or `nil` if the list contains non-valid NMTOKENs, or
+     when the number of NMTOKENs is less than 1.
+     */
+    public convenience init?(NMTOKENSValue : [String]){
+        if NMTOKENSValue.count <= 0 {
+            return nil
+        }
+        var strval = ""
+        for nmtoken in NMTOKENSValue {
+            if !nmtoken.validNMToken {
+                return nil
+            }
+            if strval.characters.count > 0 {
+                strval += " "
+            }
+            strval += nmtoken
+        }
+        self.init(stringValue: strval)
+        self.dataType = XSD.NMTOKENS
+        self.NMTOKENSValue = NMTOKENSValue
     }
     
     // TODO: Initialisers for string subtypes
