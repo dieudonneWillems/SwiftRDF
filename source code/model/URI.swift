@@ -262,6 +262,14 @@ public class URI : Resource {
     }
 }
 
+/**
+ This operator returns `true` when both URI identify the same object, i.e. when
+ their `stringValue`s are the same.
+ 
+ - parameter left: The left URI in the comparison.
+ - parameter right: The right URI in the comparison.
+ - returns: True when the URIs are equal, false otherwise.
+ */
 public func == (left: URI, right: URI) -> Bool {
     return left.stringValue == right.stringValue
 }

@@ -88,10 +88,16 @@
                 <a href="../Functions.html#/s:ZF11SwiftRDFOSXoi2neFTCS_5ValueS0__Sb">!=(_:_:)</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Functions.html#/s:ZF11SwiftRDFOSXoi2eeFTCS_3URIS0__Sb">==(_:_:)</a>
+                <a href="../Functions.html#/s:ZF11SwiftRDFOSXoi2neFTCS_9StatementS0__Sb">!=(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:ZF11SwiftRDFOSXoi2eeFTCS_9StatementS0__Sb">==(_:_:)</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Functions.html#/s:ZF11SwiftRDFOSXoi2eeFTCS_5ValueS0__Sb">==(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:ZF11SwiftRDFOSXoi2eeFTCS_3URIS0__Sb">==(_:_:)</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Functions.html#/s:ZF11SwiftRDFOSXoi2eeFTCS_9BlankNodeS0__Sb">==(_:_:)</a>
@@ -123,7 +129,14 @@
         <section>
           <section class="section">
             <h1>Value</h1>
-            <p>Undocumented</p>
+              <div class="declaration">
+                <div class="language">
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">Value</span> <span class="p">:</span> <span class="kt">SPARQLValue</span></code></pre>
+
+                </div>
+              </div>
+            <p>Represents a value, which can be a resource or a literal value, in an RDF graph.
+It is the superclass of all RDF model objects.</p>
 
           </section>
           <section class="section task-group-section">
@@ -142,8 +155,16 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>The string representation of the value.</p>
 
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">private(set)</span> <span class="k">var</span> <span class="nv">stringValue</span> <span class="p">:</span> <span class="kt">String</span></code></pre>
+
+                        </div>
                       </div>
                     </section>
                   </div>
@@ -161,8 +182,17 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>The SPARQL string representation of the value.
+For <code><a href="../Classes/Value.html">Value</a></code>, this is the empty string, subclasses need to provide an alternative representation.</p>
 
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">sparql</span> <span class="p">:</span> <span class="kt">String</span></code></pre>
+
+                        </div>
                       </div>
                     </section>
                   </div>
@@ -180,8 +210,37 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Initialises a new <code><a href="../Classes/Value.html">Value</a></code> object with the specified string representation. This intialiser should
+only be used by subclasses.</p>
 
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">stringValue</span> <span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>stringValue</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The string representation of the <code>Value</code>.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                     </section>
                   </div>

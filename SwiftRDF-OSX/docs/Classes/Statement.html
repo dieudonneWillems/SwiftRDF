@@ -88,10 +88,16 @@
                 <a href="../Functions.html#/s:ZF11SwiftRDFOSXoi2neFTCS_5ValueS0__Sb">!=(_:_:)</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Functions.html#/s:ZF11SwiftRDFOSXoi2eeFTCS_3URIS0__Sb">==(_:_:)</a>
+                <a href="../Functions.html#/s:ZF11SwiftRDFOSXoi2neFTCS_9StatementS0__Sb">!=(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:ZF11SwiftRDFOSXoi2eeFTCS_9StatementS0__Sb">==(_:_:)</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Functions.html#/s:ZF11SwiftRDFOSXoi2eeFTCS_5ValueS0__Sb">==(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:ZF11SwiftRDFOSXoi2eeFTCS_3URIS0__Sb">==(_:_:)</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Functions.html#/s:ZF11SwiftRDFOSXoi2eeFTCS_9BlankNodeS0__Sb">==(_:_:)</a>
@@ -123,7 +129,17 @@
         <section>
           <section class="section">
             <h1>Statement</h1>
-            <p>Undocumented</p>
+              <div class="declaration">
+                <div class="language">
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">Statement</span> <span class="p">:</span> <span class="kt">NSObject</span><span class="p">,</span> <span class="kt">SPARQLValue</span></code></pre>
+
+                </div>
+              </div>
+            <p>A <code>Statement</code> represents an RDF triple with an optional set of named graphs to which the
+statement belongs. An RDF triple consists of three RDF model objects, a subject, representing
+the subject of the triple, a predicate, representing the relation between the subject and
+the third model object in a statement, the object. A triple represents the smallest statement of
+knowledge.</p>
 
           </section>
           <section class="section task-group-section">
@@ -149,8 +165,16 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>The subject of the RDF statement.</p>
 
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">subject</span><span class="p">:</span> <span class="kt">Resource</span></code></pre>
+
+                        </div>
                       </div>
                     </section>
                   </div>
@@ -168,8 +192,16 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>The predicate of the RDF statement.</p>
 
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">predicate</span><span class="p">:</span> <span class="kt">URI</span></code></pre>
+
+                        </div>
                       </div>
                     </section>
                   </div>
@@ -187,8 +219,16 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>The object of the RDF statement.</p>
 
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">object</span><span class="p">:</span> <span class="kt">Value</span></code></pre>
+
+                        </div>
                       </div>
                     </section>
                   </div>
@@ -196,9 +236,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vC11SwiftRDFOSX9Statement7contextGSaCS_8Resource_"></a>
-                    <a name="//apple_ref/swift/Property/context" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC11SwiftRDFOSX9Statement7contextGSaCS_8Resource_">context</a>
+                    <a name="/s:vC11SwiftRDFOSX9Statement11namedGraphsGSaCS_8Resource_"></a>
+                    <a name="//apple_ref/swift/Property/namedGraphs" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC11SwiftRDFOSX9Statement11namedGraphsGSaCS_8Resource_">namedGraphs</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -206,8 +246,16 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>The set of named graphs to which the statement belongs.</p>
 
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">namedGraphs</span><span class="p">:</span> <span class="p">[</span><span class="kt">Resource</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span></code></pre>
+
+                        </div>
                       </div>
                     </section>
                   </div>
@@ -225,8 +273,17 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>A textual representation of the statement in the form of
+&lsquo;subject - predicate - object&rsquo; followed by the list of named graphs when present.</p>
 
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">override</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">description</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+
+                        </div>
                       </div>
                     </section>
                   </div>
@@ -293,8 +350,63 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Initialises a new <code><a href="../Classes/Statement.html">Statement</a></code> with the specified subject, predicate, and object.
+No named graphs are added for this statement.</p>
 
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">subject</span><span class="p">:</span> <span class="kt">Resource</span><span class="p">,</span> <span class="nv">predicate</span><span class="p">:</span> <span class="kt">URI</span><span class="p">,</span> <span class="nv">object</span><span class="p">:</span> <span class="kt">Value</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>subject</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The subject of the statement.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>predicate</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The predicate of the statement.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>object</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The object of the statement.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                     </section>
                   </div>
@@ -302,9 +414,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC11SwiftRDFOSX9StatementcFMS0_Ft7subjectCS_8Resource9predicateCS_3URI6objectCS_5Value7contextGSaS1___S0_"></a>
-                    <a name="//apple_ref/swift/Method/init(subject:predicate:object:context:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC11SwiftRDFOSX9StatementcFMS0_Ft7subjectCS_8Resource9predicateCS_3URI6objectCS_5Value7contextGSaS1___S0_">init(subject:predicate:object:context:)</a>
+                    <a name="/s:FC11SwiftRDFOSX9StatementcFMS0_Ft7subjectCS_8Resource9predicateCS_3URI6objectCS_5Value10namedGraphGSaS1___S0_"></a>
+                    <a name="//apple_ref/swift/Method/init(subject:predicate:object:namedGraph:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC11SwiftRDFOSX9StatementcFMS0_Ft7subjectCS_8Resource9predicateCS_3URI6objectCS_5Value10namedGraphGSaS1___S0_">init(subject:predicate:object:namedGraph:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -312,8 +424,76 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Initialises a new <code><a href="../Classes/Statement.html">Statement</a></code> with the specified subject, predicate, object, and in the
+specified named graphs.</p>
 
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">subject</span><span class="p">:</span> <span class="kt">Resource</span><span class="p">,</span> <span class="nv">predicate</span><span class="p">:</span> <span class="kt">URI</span><span class="p">,</span> <span class="nv">object</span><span class="p">:</span> <span class="kt">Value</span><span class="p">,</span> <span class="nv">namedGraph</span><span class="p">:</span> <span class="kt">Resource</span><span class="o">...</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>subject</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The subject of the statement.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>predicate</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The predicate of the statement.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>object</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The object of the statement.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>namedGraph</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A list of named graph to which this statement belongs.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                     </section>
                   </div>

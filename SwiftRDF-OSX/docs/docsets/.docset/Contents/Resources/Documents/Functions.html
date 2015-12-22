@@ -87,10 +87,16 @@
                 <a href="Functions.html#/s:ZF11SwiftRDFOSXoi2neFTCS_5ValueS0__Sb">!=(_:_:)</a>
               </li>
               <li class="nav-group-task">
-                <a href="Functions.html#/s:ZF11SwiftRDFOSXoi2eeFTCS_3URIS0__Sb">==(_:_:)</a>
+                <a href="Functions.html#/s:ZF11SwiftRDFOSXoi2neFTCS_9StatementS0__Sb">!=(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/s:ZF11SwiftRDFOSXoi2eeFTCS_9StatementS0__Sb">==(_:_:)</a>
               </li>
               <li class="nav-group-task">
                 <a href="Functions.html#/s:ZF11SwiftRDFOSXoi2eeFTCS_5ValueS0__Sb">==(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/s:ZF11SwiftRDFOSXoi2eeFTCS_3URIS0__Sb">==(_:_:)</a>
               </li>
               <li class="nav-group-task">
                 <a href="Functions.html#/s:ZF11SwiftRDFOSXoi2eeFTCS_9BlankNodeS0__Sb">==(_:_:)</a>
@@ -131,6 +137,146 @@
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/s:ZF11SwiftRDFOSXoi2eeFTCS_9StatementS0__Sb"></a>
+                    <a name="//apple_ref/swift/Function/==(_:_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZF11SwiftRDFOSXoi2eeFTCS_9StatementS0__Sb">==(_:_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>This operator returns <code>true</code> when the Statements are equal, i.e. when
+their subjects, predicates, and objects are equal. If the statements are equal
+then the statements represent the same knowledge. The named graphs to which the 
+statements belong are ignored.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="o">==</span> <span class="p">(</span><span class="nv">left</span><span class="p">:</span> <span class="kt">Statement</span><span class="p">,</span> <span class="nv">right</span><span class="p">:</span> <span class="kt">Statement</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>left</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The left Statement in the comparison.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>right</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The right Statement in the comparison.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>True when the Statements are equal, false otherwise.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZF11SwiftRDFOSXoi2neFTCS_9StatementS0__Sb"></a>
+                    <a name="//apple_ref/swift/Function/!=(_:_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZF11SwiftRDFOSXoi2neFTCS_9StatementS0__Sb">!=(_:_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>This operator returns <code>true</code> when the Statements are not equal, i.e. when either
+their subjects, predicates, and objects are not equal. If the statements are not equal,
+they represent different knowledge.
+The named graphs to which the statements belong are ignored.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="o">!=</span> <span class="p">(</span><span class="nv">left</span><span class="p">:</span> <span class="kt">Statement</span><span class="p">,</span> <span class="nv">right</span><span class="p">:</span> <span class="kt">Statement</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>left</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The left Statement in the comparison.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>right</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The right Statement in the comparison.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>True when the Statements are not equal, false otherwise.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/s:ZF11SwiftRDFOSXoi2eeFTCS_5ValueS0__Sb"></a>
                     <a name="//apple_ref/swift/Function/==(_:_:)" class="dashAnchor"></a>
                     <a class="token" href="#/s:ZF11SwiftRDFOSXoi2eeFTCS_5ValueS0__Sb">==(_:_:)</a>
@@ -141,7 +287,53 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>This operator returns <code>true</code> when both values are the same instance.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="o">==</span> <span class="p">(</span><span class="nv">left</span><span class="p">:</span> <span class="kt">Value</span><span class="p">,</span> <span class="nv">right</span><span class="p">:</span> <span class="kt">Value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>left</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The left value in the comparison.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>right</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The right value in the comparison.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>True when the values are equal, false otherwise.</p>
 
                       </div>
                     </section>
@@ -160,7 +352,53 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>This operator returns <code>true</code> when both values are not the same instance.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="o">!=</span> <span class="p">(</span><span class="nv">left</span><span class="p">:</span> <span class="kt">Value</span><span class="p">,</span> <span class="nv">right</span><span class="p">:</span> <span class="kt">Value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>left</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The left value in the comparison.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>right</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The right value in the comparison.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>True when the values are not equal, false otherwise.</p>
 
                       </div>
                     </section>
@@ -183,7 +421,54 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>This operator returns <code>true</code> when both URI identify the same object, i.e. when
+their <code>stringValue</code>s are the same.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="o">==</span> <span class="p">(</span><span class="nv">left</span><span class="p">:</span> <span class="kt">URI</span><span class="p">,</span> <span class="nv">right</span><span class="p">:</span> <span class="kt">URI</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>left</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The left URI in the comparison.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>right</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The right URI in the comparison.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>True when the URIs are equal, false otherwise.</p>
 
                       </div>
                     </section>

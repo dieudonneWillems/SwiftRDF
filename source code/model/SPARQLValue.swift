@@ -8,6 +8,10 @@
 
 import Foundation
 
+/**
+ This proptocal defines a computed property that creates the SPARQL representation of a `Value`,
+ `Statement` or other entities that can be used in a SPARQL query.
+ */
 public protocol SPARQLValue {
     
     /**
