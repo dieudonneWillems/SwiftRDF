@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0211FF861C2AB6DB00A1B944 /* MathFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0211FF851C2AB6DB00A1B944 /* MathFunctions.swift */; };
 		022232161BFF719C00362D9B /* SwiftRDF-OSX.h in Headers */ = {isa = PBXBuildFile; fileRef = 022232151BFF719C00362D9B /* SwiftRDF-OSX.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0222321D1BFF719D00362D9B /* SwiftRDFOSX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 022232121BFF719C00362D9B /* SwiftRDFOSX.framework */; };
 		022232221BFF719D00362D9B /* URITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022232211BFF719D00362D9B /* URITests.swift */; };
@@ -54,6 +55,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0211FF851C2AB6DB00A1B944 /* MathFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MathFunctions.swift; path = "../source code/utilities/MathFunctions.swift"; sourceTree = "<group>"; };
 		022232121BFF719C00362D9B /* SwiftRDFOSX.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftRDFOSX.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		022232151BFF719C00362D9B /* SwiftRDF-OSX.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SwiftRDF-OSX.h"; sourceTree = "<group>"; };
 		022232171BFF719C00362D9B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -163,6 +165,7 @@
 		0222323E1C02108A00362D9B /* source */ = {
 			isa = PBXGroup;
 			children = (
+				0211FF851C2AB6DB00A1B944 /* MathFunctions.swift */,
 				024E09701C15EFDF002EE84C /* Duration.swift */,
 				024E09641C11DEF2002EE84C /* LiteralFormattingError.swift */,
 				029699EF1C0EDA700067BB99 /* OWL.swift */,
@@ -306,6 +309,7 @@
 				029699F01C0EDA700067BB99 /* OWL.swift in Sources */,
 				022D68371C21D64B00C4000D /* NSData-extensions.swift in Sources */,
 				022232371BFF7A4200362D9B /* URI.swift in Sources */,
+				0211FF861C2AB6DB00A1B944 /* MathFunctions.swift in Sources */,
 				022232421C0702AC00362D9B /* RDF.swift in Sources */,
 				022D68351C21D64B00C4000D /* Decimal.swift in Sources */,
 				0262BB0F1C076606002E24A4 /* Datatype.swift in Sources */,

@@ -1263,5 +1263,17 @@ public class GregorianDate : CustomStringConvertible {
             
         }
         return false
+   
     }
+}
+
+/**
+ This operator returns `true` when the GregorianDate values are equal to each other.
+ 
+ - parameter left: The left GregorianDate in the comparison.
+ - parameter right: The right GregorianDate in the comparison.
+ - returns: True when the GregorianDates are equal, false otherwise.
+ */
+public func == (left: GregorianDate, right: GregorianDate) -> Bool {
+    return left.startDate == right.startDate && left.endDate == right.endDate
 }

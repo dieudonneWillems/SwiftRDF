@@ -303,4 +303,104 @@ class DecimalTests: XCTestCase {
         XCTAssertEqual(Int64(-123457), decimal2!.decimalInteger)
         XCTAssertEqual(UInt8(4), decimal2!.decimalExponent)
     }
+    
+    func testEqualDecimal(){
+        var decimal1 = Decimal(decimalInteger: 1, decimalExponent: 0)!
+        var decimal2 = Decimal(decimalInteger: 10, decimalExponent: 1)!
+        XCTAssertTrue(decimal1 == decimal2)
+        XCTAssertTrue(decimal1 >= decimal2)
+        XCTAssertTrue(decimal1 <= decimal2)
+        
+        decimal1 = Decimal(decimalInteger: 123456789012345600, decimalExponent: 0)!
+        decimal2 = Decimal(decimalInteger: 1234567890123456000, decimalExponent: 1)!
+        XCTAssertTrue(decimal1 == decimal2)
+        XCTAssertTrue(decimal1 >= decimal2)
+        XCTAssertTrue(decimal1 <= decimal2)
+        
+        decimal1 = Decimal(decimalInteger: 123456789012300, decimalExponent: 0)!
+        decimal2 = Decimal(decimalInteger: 1234567890123000, decimalExponent: 1)!
+        XCTAssertTrue(decimal1 == decimal2)
+        XCTAssertTrue(decimal1 >= decimal2)
+        XCTAssertTrue(decimal1 <= decimal2)
+        
+        decimal1 = Decimal(decimalInteger: 1234567890123, decimalExponent: 0)!
+        decimal2 = Decimal(decimalInteger: 1234567890123000000, decimalExponent: 6)!
+        XCTAssertTrue(decimal1 == decimal2)
+        XCTAssertTrue(decimal1 >= decimal2)
+        XCTAssertTrue(decimal1 <= decimal2)
+        
+        decimal1 = Decimal(decimalInteger: 123456789012, decimalExponent: 0)!
+        decimal2 = Decimal(decimalInteger: 1234567890123000000, decimalExponent: 7)!
+        XCTAssertTrue(decimal1 != decimal2)
+        
+        decimal1 = Decimal(decimalInteger: 1234567890123, decimalExponent: 10)!
+        decimal2 = Decimal(decimalInteger: 1234567890123000000, decimalExponent: 16)!
+        XCTAssertTrue(decimal1 == decimal2)
+        XCTAssertTrue(decimal1 >= decimal2)
+        XCTAssertTrue(decimal1 <= decimal2)
+    }
+    
+    func testGreaterThanDecimal(){
+        var decimal1 = Decimal(decimalInteger: 2, decimalExponent: 0)!
+        var decimal2 = Decimal(decimalInteger: 10, decimalExponent: 1)!
+        XCTAssertTrue(decimal1 > decimal2)
+        XCTAssertTrue(decimal1 >= decimal2)
+        XCTAssertFalse(decimal1 <= decimal2)
+        
+        decimal1 = Decimal(decimalInteger: 123456789012345700, decimalExponent: 0)!
+        decimal2 = Decimal(decimalInteger: 1234567890123456000, decimalExponent: 1)!
+        XCTAssertTrue(decimal1 > decimal2)
+        XCTAssertTrue(decimal1 >= decimal2)
+        XCTAssertFalse(decimal1 <= decimal2)
+        
+        decimal1 = Decimal(decimalInteger: 123456789012310, decimalExponent: 0)!
+        decimal2 = Decimal(decimalInteger: 1234567890123000, decimalExponent: 1)!
+        XCTAssertTrue(decimal1 > decimal2)
+        XCTAssertTrue(decimal1 >= decimal2)
+        XCTAssertFalse(decimal1 <= decimal2)
+        
+        decimal1 = Decimal(decimalInteger: 1234567890124, decimalExponent: 10)!
+        decimal2 = Decimal(decimalInteger: 1234567890123000000, decimalExponent: 16)!
+        XCTAssertTrue(decimal1 > decimal2)
+        XCTAssertTrue(decimal1 >= decimal2)
+        XCTAssertFalse(decimal1 <= decimal2)
+        
+        decimal1 = Decimal(decimalInteger: 1234567890124, decimalExponent: 8)!
+        decimal2 = Decimal(decimalInteger: 1234567890123000000, decimalExponent: 16)!
+        XCTAssertTrue(decimal1 > decimal2)
+        XCTAssertTrue(decimal1 >= decimal2)
+        XCTAssertFalse(decimal1 <= decimal2)
+    }
+    
+    func testSmallerThanDecimal(){
+        var decimal1 = Decimal(decimalInteger: 10, decimalExponent: 1)!
+        var decimal2 = Decimal(decimalInteger: 2, decimalExponent: 0)!
+        XCTAssertTrue(decimal1 < decimal2)
+        XCTAssertFalse(decimal1 >= decimal2)
+        XCTAssertTrue(decimal1 <= decimal2)
+        
+        decimal1 = Decimal(decimalInteger: 1234567890123456000, decimalExponent: 1)!
+        decimal2 = Decimal(decimalInteger: 123456789012345700, decimalExponent: 0)!
+        XCTAssertTrue(decimal1 < decimal2)
+        XCTAssertFalse(decimal1 >= decimal2)
+        XCTAssertTrue(decimal1 <= decimal2)
+        
+        decimal1 = Decimal(decimalInteger: 1234567890123000, decimalExponent: 1)!
+        decimal2 = Decimal(decimalInteger: 123456789012310, decimalExponent: 0)!
+        XCTAssertTrue(decimal1 < decimal2)
+        XCTAssertFalse(decimal1 >= decimal2)
+        XCTAssertTrue(decimal1 <= decimal2)
+        
+        decimal1 = Decimal(decimalInteger: 1234567890123000000, decimalExponent: 16)!
+        decimal2 = Decimal(decimalInteger: 1234567890124, decimalExponent: 10)!
+        XCTAssertTrue(decimal1 < decimal2)
+        XCTAssertFalse(decimal1 >= decimal2)
+        XCTAssertTrue(decimal1 <= decimal2)
+        
+        decimal1 = Decimal(decimalInteger: 1234567890123000000, decimalExponent: 16)!
+        decimal2 = Decimal(decimalInteger: 1234567890124, decimalExponent: 8)!
+        XCTAssertTrue(decimal1 < decimal2)
+        XCTAssertFalse(decimal1 >= decimal2)
+        XCTAssertTrue(decimal1 <= decimal2)
+    }
 }

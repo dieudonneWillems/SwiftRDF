@@ -173,4 +173,6 @@ public struct Decimal : CustomStringConvertible{
     
 }
 
-// TODO: operators for Binary
+
+// Operators for Decimal are in MathFunctions.swift
+

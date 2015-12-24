@@ -237,3 +237,16 @@ public struct Duration {
         }
     }
 }
+
+/**
+ This operator returns `true` when the Duration values are equal to each other.
+ 
+ - parameter left: The left Duration in the comparison.
+ - parameter right: The right Duration in the comparison.
+ - returns: True when the Durations are equal, false otherwise.
+ */
+public func == (left: Duration, right: Duration) -> Bool {
+    return left.years == right.years && left.months == right.months && left.days == right.days &&
+    left.hours == right.hours && left.minutes == right.minutes && left.seconds == right.seconds &&
+    left.isPositive == right.isPositive
+}

@@ -90,6 +90,9 @@
          <FileRef
             location = "group:/Users/wonco/Development/SwiftRDF/source code/utilities/String-extensions.swift">
          </FileRef>
+         <FileRef
+            location = "group:source code/utilities/MathFunctions.swift">
+         </FileRef>
       </Group>
    </Group>
 </Workspace>

@@ -128,6 +128,19 @@ public class Literal: Value {
      */
     public private(set) var NMTOKENSValue : [String]?
     
+    /**
+     True when the literal contains a string or one of its derived types. The datatype has to have been set, if
+     the Literal was created with `init(stringValue:)`, no datatype is provided and this property will be false, 
+     even if the string value is a string.
+     */
+    public var isStringLiteral : Bool {
+        if dataType != nil {
+            if dataType!.isDerivedFromDatatype(XSD.string) {
+                return true
+            }
+        }
+        return false
+    }
     
     
     
@@ -139,6 +152,16 @@ public class Literal: Value {
     /// The duration value of the literal.
     public private(set) var durationValue : Duration?
     
+    
+    /**
+     True when the literal contains a date, recurrent data, or duration value.
+     */
+    public var isDateLiteral : Bool {
+        if dateValue != nil || durationValue != nil {
+            return true
+        }
+        return false
+    }
     
     
     // MARK: Numerical values
@@ -268,7 +291,7 @@ public class Literal: Value {
     /**
      This parameter is true when the value represented by the literal is a numeric value.
      */
-    public var isNumeric : Bool {
+    public var isNumericLiteral : Bool {
         get {
             return longValue != nil || unsignedLongValue != nil || nonPositiveIntegerValue != nil || floatValue != nil || doubleValue != nil
         }
@@ -1787,3 +1810,38 @@ public class Literal: Value {
         return result!
     }
 }
+
+/**
+ This operator returns `true` when the Literal values are equal to each other.
+ 
+ - parameter left: The left Literal in the comparison.
+ - parameter right: The right Literal in the comparison.
+ - returns: True when the Literals are equal, false otherwise.
+ */
+public func == (left: Literal, right: Literal) -> Bool {
+    if left.dataType == nil && right.dataType == nil {
+        if left.stringValue == right.stringValue {
+            return true
+        }
+        return false
+    }
+    if left.dataType == nil || right.dataType == nil {
+        return false        // one of the data types is nil the other is not.
+    }
+    if left.isStringLiteral && right.isStringLiteral {
+        return left.stringValue == right.stringValue
+    }
+    if left.isNumericLiteral && right.isNumericLiteral {
+        
+    }
+    if left.isDateLiteral && right.isDateLiteral {
+        if left.dateValue != nil && right.dateValue != nil {
+            return left.dateValue! == right.dateValue!
+        }
+        if left.durationValue != nil && right.durationValue != nil {
+            return left.durationValue! == right.durationValue!
+        }
+    }
+    return false
+}
+   
