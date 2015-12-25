@@ -172,7 +172,7 @@ public class GregorianDate : CustomStringConvertible {
     public var duration : Duration? {
         get {
             if second != nil {
-                return Duration(positive: true, years: 0, months: 0, days: 0, hours: 0, minutes: 0, seconds: 0)
+                return Duration(positive: true, years: 0, months: 0, days: 0, hours: 0, minutes: 0, seconds: 1)
             } else if minute != nil {
                 return Duration(positive: true, years: 0, months: 0, days: 0, hours: 0, minutes: 1, seconds: 0)
             } else if hour != nil {
@@ -1558,15 +1558,19 @@ public class GregorianDate : CustomStringConvertible {
                 if match.rangeAtIndex(match.numberOfRanges-3).location != NSNotFound {
                     var tzhrs = 0;
                     var tzmins = 0;
+                    var sign = 1
                     if match.rangeAtIndex(match.numberOfRanges-2).location != NSNotFound {
                         let tzhrsStr = nsstring.substringWithRange(match.rangeAtIndex(match.numberOfRanges-2)) as String
+                        if nsstring.characterAtIndex(match.rangeAtIndex(match.numberOfRanges-2).location) == 45 {
+                            sign = -1
+                        }
                         tzhrs = Int(tzhrsStr)!
                     }
                     if match.rangeAtIndex(match.numberOfRanges-1).location != NSNotFound {
                         let tzminsStr = nsstring.substringWithRange(match.rangeAtIndex(match.numberOfRanges-1)) as String
                         tzmins = Int(tzminsStr)!
                     }
-                    if tzhrs < 0 {
+                    if tzhrs < 0 || sign < 0 {
                         tzmins = -tzmins
                     }
                     timezone = NSTimeZone.init(forSecondsFromGMT: tzhrs*3600+tzmins*60)
@@ -1615,15 +1619,19 @@ public class GregorianDate : CustomStringConvertible {
                 if match.rangeAtIndex(match.numberOfRanges-3).location != NSNotFound {
                     var tzhrs = 0;
                     var tzmins = 0;
+                    var sign = 1
                     if match.rangeAtIndex(match.numberOfRanges-2).location != NSNotFound {
                         let tzhrsStr = nsstring.substringWithRange(match.rangeAtIndex(match.numberOfRanges-2)) as String
+                        if nsstring.characterAtIndex(match.rangeAtIndex(match.numberOfRanges-2).location) == 45 {
+                            sign = -1
+                        }
                         tzhrs = Int(tzhrsStr)!
                     }
                     if match.rangeAtIndex(match.numberOfRanges-1).location != NSNotFound {
                         let tzminsStr = nsstring.substringWithRange(match.rangeAtIndex(match.numberOfRanges-1)) as String
                         tzmins = Int(tzminsStr)!
                     }
-                    if tzhrs < 0 {
+                    if tzhrs < 0 || sign < 0 {
                         tzmins = -tzmins
                     }
                     timezone = NSTimeZone.init(forSecondsFromGMT: tzhrs*3600+tzmins*60)
@@ -1660,15 +1668,19 @@ public class GregorianDate : CustomStringConvertible {
                 if match.rangeAtIndex(match.numberOfRanges-3).location != NSNotFound {
                     var tzhrs = 0;
                     var tzmins = 0;
+                    var sign = 1
                     if match.rangeAtIndex(match.numberOfRanges-2).location != NSNotFound {
                         let tzhrsStr = nsstring.substringWithRange(match.rangeAtIndex(match.numberOfRanges-2)) as String
+                        if nsstring.characterAtIndex(match.rangeAtIndex(match.numberOfRanges-2).location) == 45 {
+                            sign = -1
+                        }
                         tzhrs = Int(tzhrsStr)!
                     }
                     if match.rangeAtIndex(match.numberOfRanges-1).location != NSNotFound {
                         let tzminsStr = nsstring.substringWithRange(match.rangeAtIndex(match.numberOfRanges-1)) as String
                         tzmins = Int(tzminsStr)!
                     }
-                    if tzhrs < 0 {
+                    if tzhrs < 0 || sign < 0 {
                         tzmins = -tzmins
                     }
                     timezone = NSTimeZone.init(forSecondsFromGMT: tzhrs*3600+tzmins*60)
@@ -1701,15 +1713,19 @@ public class GregorianDate : CustomStringConvertible {
                 if match.rangeAtIndex(match.numberOfRanges-3).location != NSNotFound {
                     var tzhrs = 0;
                     var tzmins = 0;
+                    var sign = 1
                     if match.rangeAtIndex(match.numberOfRanges-2).location != NSNotFound {
                         let tzhrsStr = nsstring.substringWithRange(match.rangeAtIndex(match.numberOfRanges-2)) as String
+                        if nsstring.characterAtIndex(match.rangeAtIndex(match.numberOfRanges-2).location) == 45 {
+                            sign = -1
+                        }
                         tzhrs = Int(tzhrsStr)!
                     }
                     if match.rangeAtIndex(match.numberOfRanges-1).location != NSNotFound {
                         let tzminsStr = nsstring.substringWithRange(match.rangeAtIndex(match.numberOfRanges-1)) as String
                         tzmins = Int(tzminsStr)!
                     }
-                    if tzhrs < 0 {
+                    if tzhrs < 0 || sign < 0 {
                         tzmins = -tzmins
                     }
                     timezone = NSTimeZone.init(forSecondsFromGMT: tzhrs*3600+tzmins*60)
@@ -1738,15 +1754,19 @@ public class GregorianDate : CustomStringConvertible {
                 if match.rangeAtIndex(match.numberOfRanges-3).location != NSNotFound {
                     var tzhrs = 0;
                     var tzmins = 0;
+                    var sign = 1
                     if match.rangeAtIndex(match.numberOfRanges-2).location != NSNotFound {
                         let tzhrsStr = nsstring.substringWithRange(match.rangeAtIndex(match.numberOfRanges-2)) as String
+                        if nsstring.characterAtIndex(match.rangeAtIndex(match.numberOfRanges-2).location) == 45 {
+                            sign = -1
+                        }
                         tzhrs = Int(tzhrsStr)!
                     }
                     if match.rangeAtIndex(match.numberOfRanges-1).location != NSNotFound {
                         let tzminsStr = nsstring.substringWithRange(match.rangeAtIndex(match.numberOfRanges-1)) as String
                         tzmins = Int(tzminsStr)!
                     }
-                    if tzhrs < 0 {
+                    if tzhrs < 0 || sign < 0 {
                         tzmins = -tzmins
                     }
                     timezone = NSTimeZone.init(forSecondsFromGMT: tzhrs*3600+tzmins*60)

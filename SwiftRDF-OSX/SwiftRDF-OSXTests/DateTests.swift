@@ -156,7 +156,7 @@ class DateTests: XCTestCase {
         var sdate = gdate!.startDate
         XCTAssertTrue(1450028372.233 == sdate!.timeIntervalSince1970)
         var edate = gdate!.endDate
-        XCTAssertTrue(1450028372.233 == edate!.timeIntervalSince1970)
+        XCTAssertTrue(1450028373.233 == edate!.timeIntervalSince1970)
         string = "2015-12-13+02:00"
         gdate = GregorianDate(date: string)
         sdate = gdate!.startDate
@@ -339,7 +339,7 @@ class DateTests: XCTestCase {
         print("start date: \(gdate?.startDate)")
         print("end date: \(gdate?.endDate)")
         XCTAssertEqual("2012-03-02 15:15:23 +0000", "\(gdate!.startDate!)")
-        XCTAssertEqual("2012-03-02 15:15:23 +0000", "\(gdate!.endDate!)")
+        XCTAssertEqual("2012-03-02 15:15:24 +0000", "\(gdate!.endDate!)")
         
         string = "2012-03-02-01:30"
         gdate = GregorianDate(date: string)
@@ -370,16 +370,53 @@ class DateTests: XCTestCase {
         XCTAssertEqual("2015-12-24 15:15:23 +0000", "\(sdate!)")
         XCTAssertEqual("2015-12-24 15:15:24 +0000", "\(edate!)")
         
-        string = "00:30:56+2:30"
+        string = "00:30:56+02:30"
         gdate = GregorianDate(time: string)
         sdate = gdate!.nextStartTimeAfter(date)
         edate = gdate!.nextEndTimeAfter(date)
         XCTAssertEqual("2015-12-25 22:00:56 +0000", "\(sdate!)")
-        XCTAssertEqual("2015-12-25 22:00:56 +0000", "\(edate!)")
+        XCTAssertEqual("2015-12-25 22:00:57 +0000", "\(edate!)")
         sdate = gdate!.previousStartTimeBefore(date)
         edate = gdate!.previousEndTimeBefore(date)
         XCTAssertEqual("2015-12-24 22:00:56 +0000", "\(sdate!)")
-        XCTAssertEqual("2015-12-24 22:00:56 +0000", "\(edate!)")
+        XCTAssertEqual("2015-12-24 22:00:57 +0000", "\(edate!)")
+    }
+    
+    func testStartAndEndgDayRecurring() {
+        var string = "---05-00:30"
+        var gdate = GregorianDate(gDay: string)
+        var date = NSDate(timeIntervalSince1970: 1451038514.37942)
+        var sdate = gdate!.nextStartTimeAfter(date)
+        var edate = gdate!.nextEndTimeAfter(date)
+        XCTAssertEqual("2016-01-05 00:30:00 +0000", "\(sdate!)")
+        XCTAssertEqual("2016-01-06 00:30:00 +0000", "\(edate!)")
+        sdate = gdate!.previousStartTimeBefore(date)
+        edate = gdate!.previousEndTimeBefore(date)
+        XCTAssertEqual("2015-12-05 00:30:00 +0000", "\(sdate!)")
+        XCTAssertEqual("2015-12-06 00:30:00 +0000", "\(edate!)")
+        
+        string = "---30Z"
+        gdate = GregorianDate(gDay: string)
+        sdate = gdate!.nextStartTimeAfter(date)
+        edate = gdate!.nextEndTimeAfter(date)
+        XCTAssertEqual("2015-12-30 00:00:00 +0000", "\(sdate!)")
+        XCTAssertEqual("2015-12-31 00:00:00 +0000", "\(edate!)")
+        sdate = gdate!.previousStartTimeBefore(date)
+        edate = gdate!.previousEndTimeBefore(date)
+        XCTAssertEqual("2015-11-30 00:00:00 +0000", "\(sdate!)")
+        XCTAssertEqual("2015-12-01 00:00:00 +0000", "\(edate!)")
+        
+        string = "---30Z"
+        gdate = GregorianDate(gDay: string)
+        date = NSDate(timeIntervalSince1970: 1451038514.37942+4320000)
+        sdate = gdate!.nextStartTimeAfter(date)
+        edate = gdate!.nextEndTimeAfter(date)
+        XCTAssertEqual("2016-03-30 00:00:00 +0000", "\(sdate!)")
+        XCTAssertEqual("2016-03-31 00:00:00 +0000", "\(edate!)")
+        sdate = gdate!.previousStartTimeBefore(date)
+        edate = gdate!.previousEndTimeBefore(date)
+        XCTAssertEqual("2016-01-30 00:00:00 +0000", "\(sdate!)")
+        XCTAssertEqual("2016-01-31 00:00:00 +0000", "\(edate!)")
     }
 }
 
