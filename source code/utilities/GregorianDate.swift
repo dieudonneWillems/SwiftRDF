@@ -138,10 +138,12 @@ public class GregorianDate : CustomStringConvertible {
                 let date = GregorianDate.calendar.dateFromComponents(components)
                 return date
             } else {
-                // TODO: Start date for recuring dates/times
-                
+                if isRecurringNow {
+                    return previousStartTime
+                } else {
+                    return nextStartTime
+                }
             }
-            return nil
         }
     }
     
@@ -203,11 +205,56 @@ public class GregorianDate : CustomStringConvertible {
         }
     }
     
+    /**
+     This property is true when the Gregorian Date is at this moment in time occurring or recurring. For instance
+     when the Gregorian date is a date that recurs every 5th day of the month and todat is the 5th of December, 
+     this property will be `true`.
+     */
+    public var isRecurringNow : Bool {
+        return isRecurringAt(NSDate())
+    }
+    
+    /**
+     The first start time of the Gregorian Date in the future.
+     */
+    public var nextStartTime : NSDate? {
+        return nextStartTimeAfter(NSDate())
+    }
+    
+    /**
+     The first end time of the Gregorian Date in the future.
+     */
+    public var nextEndTime : NSDate? {
+        let stime = nextStartTimeAfter(NSDate())
+        if stime != nil {
+            return nextEndTimeAfter(stime!)
+        }
+        return nil
+    }
+    
+    /**
+     The last start time of the Gregorian Date in the past.
+     */
+    public var previousStartTime : NSDate? {
+        let etime = previousEndTimeBefore(NSDate())
+        if etime != nil {
+            return previousStartTimeBefore(etime!)
+        }
+        return nil
+    }
+    
+    /**
+     The last end time of the Gregorian Date in the past.
+     */
+    public var previousEndTime : NSDate? {
+        return previousEndTimeBefore(NSDate())
+    }
+    
     
     // MARK: XSD string representations
     
     /**
-     The XSD data type for this Gregorian date. The `GregorianDate` class can represent all (recurring) date and 
+     The XSD data type for this Gregorian date. The `GregorianDate` class can represent all (recurring) date and
      time data types specified in the [XML Schema specification for datatypes](http://www.w3.org/TR/xmlschema-2/),
      such as `XSD.dateTime`, `XSD.date`, `XSD.gYearMonth`, `XSD.gYear`, and the recurring dates/times `XSD.time`,
      `XSD.gMonthDay`, `XSD.gMonth`, and `XSD.gDay`.
@@ -1048,6 +1095,457 @@ public class GregorianDate : CustomStringConvertible {
         return ngd
     }
     
+    /**
+     Returns true when the gregorian date is at recurring or occuring at the specified date,
+     i.e. when the start time is earlier, and the end time is later than the specified date.
+     
+     - parameter date: The date that is tested whether the gregorian date is reocurring or occuring at that moment.
+     - returns: True when the gregorian date is recurring or occuring at the moment specified by the date.
+     */
+    public func isRecurringAt(date : NSDate) -> Bool {
+        let sdate = previousStartTimeBefore(date)
+        let dur = duration
+        if sdate != nil && dur != nil {
+            let calendar = NSCalendar.currentCalendar()
+            if timezone != nil {
+                calendar.timeZone = timezone!
+            } else {
+                calendar.timeZone = NSTimeZone(forSecondsFromGMT: 0)
+            }
+            let components = NSDateComponents()
+            components.year = Int(dur!.years)
+            components.month = Int(dur!.months)
+            components.day = Int(dur!.days)
+            components.hour = Int(dur!.hours)
+            components.minute = Int(dur!.minutes)
+            components.second = Int(dur!.seconds)
+            components.nanosecond = Int((dur!.seconds-Double(Int(dur!.seconds)))*1e9)
+            let edate = calendar.dateFromComponents(components)
+            if edate != nil && sdate == date.earlierDate(sdate!) && edate == date.laterDate(edate!) {
+                return true
+            }
+        }
+        return false
+    }
+    
+    /**
+     Returns the start time of the next occurrence of the gregorian date after the specified date. 
+     If the gregorian date is not recurring, this will be the start time of the gregorian date if the start time 
+     is in the future of the specified date, or nil if it is in the past.
+     If the gregorian date is a recurring date, the first start time that is later than the specified date will
+     be returned.
+     
+     - parameter date: The date after which the first start time is to be returned.
+     - returns: The first start time of the gregorian date after the specified date.
+     */
+    public func nextStartTimeAfter(date : NSDate) -> NSDate? {
+        if !isRecurring {
+            let sd = startDate
+            if sd != nil && date == date.earlierDate(sd!) {
+                return sd
+            }
+            return nil
+        }
+        let calendar = NSCalendar.currentCalendar()
+        if timezone != nil {
+            calendar.timeZone = timezone!
+        } else {
+            calendar.timeZone = NSTimeZone(forSecondsFromGMT: 0)
+        }
+        let dc = NSDateComponents()
+        if year == nil && month == nil && day == nil { // xsd:time
+            let unitFlags: NSCalendarUnit = [.Day, .Month, .Year]
+            let components = calendar.components(unitFlags, fromDate:date)
+            dc.year = components.year
+            dc.month = components.month
+            dc.day = components.day
+            dc.hour = hour!
+            dc.minute = minute!
+            dc.second = Int(second!)
+            let ns = Int((second!-Double(Int(second!)))*1e9)
+            dc.nanosecond = ns
+            var sdate = calendar.dateFromComponents(dc)
+            if sdate != nil && date == sdate!.laterDate(date) { // add a day
+                let dayc = NSDateComponents()
+                dayc.day = 1
+                sdate = calendar.dateByAddingComponents(dayc, toDate: sdate!, options: NSCalendarOptions(rawValue: 0))
+            }
+            return sdate
+        } else if year == nil && month == nil { // xsd:gDay
+            let unitFlags: NSCalendarUnit = [.Day, .Month, .Year]
+            let components = calendar.components(unitFlags, fromDate:date)
+            dc.year = components.year
+            dc.month = components.month
+            dc.day = day!
+            dc.hour = 0
+            dc.minute = 0
+            dc.second = 0
+            dc.nanosecond = 0
+            var sdate = calendar.dateFromComponents(dc)
+            if sdate != nil && date == sdate?.laterDate(date) { // add a month
+                let monthc = NSDateComponents()
+                monthc.month = 1
+                sdate = calendar.dateByAddingComponents(monthc, toDate: sdate!, options: NSCalendarOptions(rawValue: 0))
+            }
+            return sdate
+        } else if year == nil && day == nil { // xsd:gMonth
+            let unitFlags: NSCalendarUnit = [.Day, .Month, .Year]
+            let components = calendar.components(unitFlags, fromDate:date)
+            dc.year = components.year
+            dc.month = month!
+            dc.day = 1
+            dc.hour = 0
+            dc.minute = 0
+            dc.second = 0
+            dc.nanosecond = 0
+            var sdate = calendar.dateFromComponents(dc)
+            if sdate != nil && date == sdate?.laterDate(date) { // add a year
+                let yearc = NSDateComponents()
+                yearc.year = 1
+                sdate = calendar.dateByAddingComponents(yearc, toDate: sdate!, options: NSCalendarOptions(rawValue: 0))
+            }
+            return sdate
+        } else if year == nil { // xsd:gMonthDay
+            let unitFlags: NSCalendarUnit = [.Day, .Month, .Year]
+            let components = calendar.components(unitFlags, fromDate:date)
+            dc.year = components.year
+            dc.month = month!
+            dc.day = day!
+            dc.hour = 0
+            dc.minute = 0
+            dc.second = 0
+            dc.nanosecond = 0
+            var sdate = calendar.dateFromComponents(dc)
+            if sdate != nil && date == sdate?.laterDate(date) { // add a year
+                let yearc = NSDateComponents()
+                yearc.year = 1
+                sdate = calendar.dateByAddingComponents(yearc, toDate: sdate!, options: NSCalendarOptions(rawValue: 0))
+            }
+            return sdate
+        }
+        return nil
+    }
+    
+    /**
+     Returns the start time of the previous occurrence of the gregorian date before the specified date.
+     If the gregorian date is not recurring, this will be the start time of the gregorian date if the start time
+     is in the past of the specified date, or nil if it is in the future.
+     If the gregorian date is a recurring date, the last start time that is earlier than the specified date will
+     be returned.
+     
+     - parameter date: The date before which the last start time is to be returned.
+     - returns: The last start time of the gregorian date before the specified date.
+     */
+    public func previousStartTimeBefore(date : NSDate) -> NSDate? {
+        if !isRecurring {
+            let sd = startDate
+            if sd != nil && sd == date.earlierDate(sd!) {
+                return sd
+            }
+            return nil
+        }
+        let calendar = NSCalendar.currentCalendar()
+        if timezone != nil {
+            calendar.timeZone = timezone!
+        } else {
+            calendar.timeZone = NSTimeZone(forSecondsFromGMT: 0)
+        }
+        let dc = NSDateComponents()
+        if year == nil && month == nil && day == nil { // xsd:time
+            let unitFlags: NSCalendarUnit = [.Day, .Month, .Year]
+            let components = calendar.components(unitFlags, fromDate:date)
+            dc.year = components.year
+            dc.month = components.month
+            dc.day = components.day
+            dc.hour = hour!
+            dc.minute = minute!
+            dc.second = Int(second!)
+            let ns = Int((second!-Double(Int(second!)))*1e9)
+            dc.nanosecond = ns
+            var sdate = calendar.dateFromComponents(dc)
+            if sdate != nil && date == sdate!.earlierDate(date) { // subtract a day
+                let dayc = NSDateComponents()
+                dayc.day = -1
+                sdate = calendar.dateByAddingComponents(dayc, toDate: sdate!, options: NSCalendarOptions(rawValue: 0))
+            }
+            return sdate
+        } else if year == nil && month == nil { // xsd:gDay
+            let unitFlags: NSCalendarUnit = [.Day, .Month, .Year]
+            let components = calendar.components(unitFlags, fromDate:date)
+            dc.year = components.year
+            dc.month = components.month
+            dc.day = day!
+            dc.hour = 0
+            dc.minute = 0
+            dc.second = 0
+            dc.nanosecond = 0
+            var sdate = calendar.dateFromComponents(dc)
+            if sdate != nil && date == sdate?.earlierDate(date) { // subtract a month
+                let monthc = NSDateComponents()
+                monthc.month = -1
+                sdate = calendar.dateByAddingComponents(monthc, toDate: sdate!, options: NSCalendarOptions(rawValue: 0))
+            }
+            return sdate
+        } else if year == nil && day == nil { // xsd:gMonth
+            let unitFlags: NSCalendarUnit = [.Day, .Month, .Year]
+            let components = calendar.components(unitFlags, fromDate:date)
+            dc.year = components.year
+            dc.month = month!
+            dc.day = 1
+            dc.hour = 0
+            dc.minute = 0
+            dc.second = 0
+            dc.nanosecond = 0
+            var sdate = calendar.dateFromComponents(dc)
+            if sdate != nil && date == sdate?.earlierDate(date) { // subtract a year
+                let yearc = NSDateComponents()
+                yearc.year = -1
+                sdate = calendar.dateByAddingComponents(yearc, toDate: sdate!, options: NSCalendarOptions(rawValue: 0))
+            }
+            return sdate
+        } else if year == nil { // xsd:gMonthDay
+            let unitFlags: NSCalendarUnit = [.Day, .Month, .Year]
+            let components = calendar.components(unitFlags, fromDate:date)
+            dc.year = components.year
+            dc.month = month!
+            dc.day = day!
+            dc.hour = 0
+            dc.minute = 0
+            dc.second = 0
+            dc.nanosecond = 0
+            var sdate = calendar.dateFromComponents(dc)
+            if sdate != nil && date == sdate?.earlierDate(date) { // subtract a year
+                let yearc = NSDateComponents()
+                yearc.year = -1
+                sdate = calendar.dateByAddingComponents(yearc, toDate: sdate!, options: NSCalendarOptions(rawValue: 0))
+            }
+            return sdate
+        }
+        return nil
+    }
+    
+    /**
+     Returns the end time of the next occurrence of the gregorian date after the specified date.
+     If the gregorian date is not recurring, this will be the end time of the gregorian date if the end time
+     is in the future of the specified date, or nil if it is in the past.
+     If the gregorian date is a recurring date, the first end time that is later than the specified date will
+     be returned.
+     
+     - parameter date: The date after which the first end time is to be returned.
+     - returns: The first end time of the gregorian date after the specified date.
+     */
+    public func nextEndTimeAfter(date : NSDate) -> NSDate? {
+        if !isRecurring {
+            let sd = endDate
+            if sd != nil && date == date.earlierDate(sd!) {
+                return sd
+            }
+            return nil
+        }
+        let calendar = NSCalendar.currentCalendar()
+        if timezone != nil {
+            calendar.timeZone = timezone!
+        } else {
+            calendar.timeZone = NSTimeZone(forSecondsFromGMT: 0)
+        }
+        let dc = NSDateComponents()
+        if year == nil && month == nil && day == nil { // xsd:time
+            let unitFlags: NSCalendarUnit = [.Day, .Month, .Year]
+            let components = calendar.components(unitFlags, fromDate:date)
+            dc.year = components.year
+            dc.month = components.month
+            dc.day = components.day
+            dc.hour = hour!
+            dc.minute = minute!
+            dc.second = Int(second!)
+            let ns = Int((second!-Double(Int(second!)))*1e9)
+            dc.nanosecond = ns
+            var sdate = calendar.dateFromComponents(dc)
+            let enddc = NSDateComponents()
+            enddc.second = 1
+            sdate = calendar.dateByAddingComponents(enddc, toDate: sdate!, options: NSCalendarOptions(rawValue: 0))
+            if sdate != nil && date == sdate!.laterDate(date) { // add a day
+                let dayc = NSDateComponents()
+                dayc.day = 1
+                sdate = calendar.dateByAddingComponents(dayc, toDate: sdate!, options: NSCalendarOptions(rawValue: 0))
+            }
+            return sdate
+        } else if year == nil && month == nil { // xsd:gDay
+            let unitFlags: NSCalendarUnit = [.Day, .Month, .Year]
+            let components = calendar.components(unitFlags, fromDate:date)
+            dc.year = components.year
+            dc.month = components.month
+            dc.day = day!
+            dc.hour = 0
+            dc.minute = 0
+            dc.second = 0
+            dc.nanosecond = 0
+            var sdate = calendar.dateFromComponents(dc)
+            let enddc = NSDateComponents()
+            enddc.day = 1
+            sdate = calendar.dateByAddingComponents(enddc, toDate: sdate!, options: NSCalendarOptions(rawValue: 0))
+            if sdate != nil && date == sdate?.laterDate(date) { // add a month
+                let monthc = NSDateComponents()
+                monthc.month = 1
+                sdate = calendar.dateByAddingComponents(monthc, toDate: sdate!, options: NSCalendarOptions(rawValue: 0))
+            }
+            return sdate
+        } else if year == nil && day == nil { // xsd:gMonth
+            let unitFlags: NSCalendarUnit = [.Day, .Month, .Year]
+            let components = calendar.components(unitFlags, fromDate:date)
+            dc.year = components.year
+            dc.month = month!
+            dc.day = 1
+            dc.hour = 0
+            dc.minute = 0
+            dc.second = 0
+            dc.nanosecond = 0
+            var sdate = calendar.dateFromComponents(dc)
+            let enddc = NSDateComponents()
+            enddc.month = 1
+            sdate = calendar.dateByAddingComponents(enddc, toDate: sdate!, options: NSCalendarOptions(rawValue: 0))
+            if sdate != nil && date == sdate?.laterDate(date) { // add a year
+                let yearc = NSDateComponents()
+                yearc.year = 1
+                sdate = calendar.dateByAddingComponents(yearc, toDate: sdate!, options: NSCalendarOptions(rawValue: 0))
+            }
+            return sdate
+        } else if year == nil { // xsd:gMonthDay
+            let unitFlags: NSCalendarUnit = [.Day, .Month, .Year]
+            let components = calendar.components(unitFlags, fromDate:date)
+            dc.year = components.year
+            dc.month = month!
+            dc.day = day!
+            dc.hour = 0
+            dc.minute = 0
+            dc.second = 0
+            dc.nanosecond = 0
+            var sdate = calendar.dateFromComponents(dc)
+            let enddc = NSDateComponents()
+            enddc.day = 1
+            sdate = calendar.dateByAddingComponents(enddc, toDate: sdate!, options: NSCalendarOptions(rawValue: 0))
+            if sdate != nil && date == sdate?.laterDate(date) { // add a year
+                let yearc = NSDateComponents()
+                yearc.year = 1
+                sdate = calendar.dateByAddingComponents(yearc, toDate: sdate!, options: NSCalendarOptions(rawValue: 0))
+            }
+            return sdate
+        }
+        return nil
+    }
+    
+    /**
+     Returns the end time of the previous occurrence of the gregorian date before the specified date.
+     If the gregorian date is not recurring, this will be the end time of the gregorian date if the end time
+     is in the past of the specified date, or nil if it is in the future.
+     If the gregorian date is a recurring date, the last end time that is earlier than the specified date will
+     be returned.
+     
+     - parameter date: The date before which the last end time is to be returned.
+     - returns: The last end time of the gregorian date before the specified date.
+     */
+    public func previousEndTimeBefore(date : NSDate) -> NSDate? {
+        if !isRecurring {
+            let sd = endDate
+            if sd != nil && sd == date.earlierDate(sd!) {
+                return sd
+            }
+            return nil
+        }
+        let calendar = NSCalendar.currentCalendar()
+        if timezone != nil {
+            calendar.timeZone = timezone!
+        } else {
+            calendar.timeZone = NSTimeZone(forSecondsFromGMT: 0)
+        }
+        let dc = NSDateComponents()
+        if year == nil && month == nil && day == nil { // xsd:time
+            let unitFlags: NSCalendarUnit = [.Day, .Month, .Year]
+            let components = calendar.components(unitFlags, fromDate:date)
+            dc.year = components.year
+            dc.month = components.month
+            dc.day = components.day
+            dc.hour = hour!
+            dc.minute = minute!
+            dc.second = Int(second!)
+            let ns = Int((second!-Double(Int(second!)))*1e9)
+            dc.nanosecond = ns
+            var sdate = calendar.dateFromComponents(dc)
+            let enddc = NSDateComponents()
+            enddc.second = 1
+            sdate = calendar.dateByAddingComponents(enddc, toDate: sdate!, options: NSCalendarOptions(rawValue: 0))
+            if sdate != nil && date == sdate!.earlierDate(date) { // subtract a day
+                let dayc = NSDateComponents()
+                dayc.day = -1
+                sdate = calendar.dateByAddingComponents(dayc, toDate: sdate!, options: NSCalendarOptions(rawValue: 0))
+            }
+            return sdate
+        } else if year == nil && month == nil { // xsd:gDay
+            let unitFlags: NSCalendarUnit = [.Day, .Month, .Year]
+            let components = calendar.components(unitFlags, fromDate:date)
+            dc.year = components.year
+            dc.month = components.month
+            dc.day = day!
+            dc.hour = 0
+            dc.minute = 0
+            dc.second = 0
+            dc.nanosecond = 0
+            var sdate = calendar.dateFromComponents(dc)
+            let enddc = NSDateComponents()
+            enddc.day = 1
+            sdate = calendar.dateByAddingComponents(enddc, toDate: sdate!, options: NSCalendarOptions(rawValue: 0))
+            if sdate != nil && date == sdate?.earlierDate(date) { // subtract a month
+                let monthc = NSDateComponents()
+                monthc.month = -1
+                sdate = calendar.dateByAddingComponents(monthc, toDate: sdate!, options: NSCalendarOptions(rawValue: 0))
+            }
+            return sdate
+        } else if year == nil && day == nil { // xsd:gMonth
+            let unitFlags: NSCalendarUnit = [.Day, .Month, .Year]
+            let components = calendar.components(unitFlags, fromDate:date)
+            dc.year = components.year
+            dc.month = month!
+            dc.day = 1
+            dc.hour = 0
+            dc.minute = 0
+            dc.second = 0
+            dc.nanosecond = 0
+            var sdate = calendar.dateFromComponents(dc)
+            let enddc = NSDateComponents()
+            enddc.month = 1
+            sdate = calendar.dateByAddingComponents(enddc, toDate: sdate!, options: NSCalendarOptions(rawValue: 0))
+            if sdate != nil && date == sdate?.earlierDate(date) { // subtract a year
+                let yearc = NSDateComponents()
+                yearc.year = -1
+                sdate = calendar.dateByAddingComponents(yearc, toDate: sdate!, options: NSCalendarOptions(rawValue: 0))
+            }
+            return sdate
+        } else if year == nil { // xsd:gMonthDay
+            let unitFlags: NSCalendarUnit = [.Day, .Month, .Year]
+            let components = calendar.components(unitFlags, fromDate:date)
+            dc.year = components.year
+            dc.month = month!
+            dc.day = day!
+            dc.hour = 0
+            dc.minute = 0
+            dc.second = 0
+            dc.nanosecond = 0
+            var sdate = calendar.dateFromComponents(dc)
+            let enddc = NSDateComponents()
+            enddc.day = 1
+            sdate = calendar.dateByAddingComponents(enddc, toDate: sdate!, options: NSCalendarOptions(rawValue: 0))
+            if sdate != nil && date == sdate?.earlierDate(date) { // subtract a year
+                let yearc = NSDateComponents()
+                yearc.year = -1
+                sdate = calendar.dateByAddingComponents(yearc, toDate: sdate!, options: NSCalendarOptions(rawValue: 0))
+            }
+            return sdate
+        }
+        return nil
+    }
+    
+    // MARK: Private methods
+    
     private func parseDateString(stringValue: String, pattern : String) -> Bool {
         do {
             let regex = try NSRegularExpression(pattern: pattern, options: [])
@@ -1266,6 +1764,8 @@ public class GregorianDate : CustomStringConvertible {
    
     }
 }
+
+// MARK: Operators for GregorianDates
 
 /**
  This operator returns `true` when the GregorianDate values are equal to each other.

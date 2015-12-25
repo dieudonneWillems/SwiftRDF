@@ -332,6 +332,30 @@ class DateTests: XCTestCase {
         gdate = GregorianDate(gDay: string)
         XCTAssertNil(gdate)
     }
+    
+    func testStartAndEndDate() {
+        var string = "2012-03-02T13:45:23-01:30"
+        var gdate = GregorianDate(dateTime: string)
+        print("start date: \(gdate?.startDate)")
+        print("end date: \(gdate?.endDate)")
+        XCTAssertEqual("2012-03-02 15:15:23 +0000", "\(gdate!.startDate!)")
+        XCTAssertEqual("2012-03-02 15:15:23 +0000", "\(gdate!.endDate!)")
+        
+        string = "2012-03-02-01:30"
+        gdate = GregorianDate(date: string)
+        XCTAssertEqual("2012-03-02 01:30:00 +0000", "\(gdate!.startDate!)")
+        XCTAssertEqual("2012-03-03 01:30:00 +0000", "\(gdate!.endDate!)")
+        
+        string = "2012-03-01:30"
+        gdate = GregorianDate(gYearMonth: string)
+        XCTAssertEqual("2012-03-01 01:30:00 +0000", "\(gdate!.startDate!)")
+        XCTAssertEqual("2012-04-01 01:30:00 +0000", "\(gdate!.endDate!)")
+        
+        string = "2012-01:30"
+        gdate = GregorianDate(gYear: string)
+        XCTAssertEqual("2012-01-01 01:30:00 +0000", "\(gdate!.startDate!)")
+        XCTAssertEqual("2013-01-01 01:30:00 +0000", "\(gdate!.endDate!)")
+    }
 }
 
 

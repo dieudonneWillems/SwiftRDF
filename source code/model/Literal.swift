@@ -1811,6 +1811,8 @@ public class Literal: Value {
     }
 }
 
+// MARK: Operators for Literals
+
 /**
  This operator returns `true` when the Literal values are equal to each other.
  
@@ -1832,7 +1834,15 @@ public func == (left: Literal, right: Literal) -> Bool {
         return left.stringValue == right.stringValue
     }
     if left.isNumericLiteral && right.isNumericLiteral {
-        
+        if left.decimalValue != nil && right.decimalValue != nil {
+            return left.decimalValue! == right.decimalValue!
+        }
+        if left.unsignedLongValue != nil && right.unsignedLongValue != nil {
+            return left.unsignedLongValue == right.unsignedLongValue
+        }
+        if left.doubleValue != nil && right.doubleValue != nil {
+            return left.doubleValue == right.doubleValue
+        }
     }
     if left.isDateLiteral && right.isDateLiteral {
         if left.dateValue != nil && right.dateValue != nil {
