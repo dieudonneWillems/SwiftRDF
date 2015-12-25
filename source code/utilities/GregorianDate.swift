@@ -207,7 +207,7 @@ public class GregorianDate : CustomStringConvertible {
     
     /**
      This property is true when the Gregorian Date is at this moment in time occurring or recurring. For instance
-     when the Gregorian date is a date that recurs every 5th day of the month and todat is the 5th of December, 
+     when the Gregorian date is a date that recurs every 5th day of the month and today is the 5th of December,
      this property will be `true`.
      */
     public var isRecurringNow : Bool {

@@ -356,6 +356,31 @@ class DateTests: XCTestCase {
         XCTAssertEqual("2012-01-01 01:30:00 +0000", "\(gdate!.startDate!)")
         XCTAssertEqual("2013-01-01 01:30:00 +0000", "\(gdate!.endDate!)")
     }
+    
+    func testStartAndEndTimeRecurring() {
+        var string = "13:45:23-01:30"
+        var gdate = GregorianDate(time: string)
+        let date = NSDate(timeIntervalSince1970: 1451038514.37942)
+        var sdate = gdate!.nextStartTimeAfter(date)
+        var edate = gdate!.nextEndTimeAfter(date)
+        XCTAssertEqual("2015-12-25 15:15:23 +0000", "\(sdate!)")
+        XCTAssertEqual("2015-12-25 15:15:24 +0000", "\(edate!)")
+        sdate = gdate!.previousStartTimeBefore(date)
+        edate = gdate!.previousEndTimeBefore(date)
+        XCTAssertEqual("2015-12-24 15:15:23 +0000", "\(sdate!)")
+        XCTAssertEqual("2015-12-24 15:15:24 +0000", "\(edate!)")
+        
+        string = "00:30:56+2:30"
+        gdate = GregorianDate(time: string)
+        sdate = gdate!.nextStartTimeAfter(date)
+        edate = gdate!.nextEndTimeAfter(date)
+        XCTAssertEqual("2015-12-25 22:00:56 +0000", "\(sdate!)")
+        XCTAssertEqual("2015-12-25 22:00:56 +0000", "\(edate!)")
+        sdate = gdate!.previousStartTimeBefore(date)
+        edate = gdate!.previousEndTimeBefore(date)
+        XCTAssertEqual("2015-12-24 22:00:56 +0000", "\(sdate!)")
+        XCTAssertEqual("2015-12-24 22:00:56 +0000", "\(edate!)")
+    }
 }
 
 
