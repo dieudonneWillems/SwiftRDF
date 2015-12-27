@@ -1173,7 +1173,7 @@ public class GregorianDate : CustomStringConvertible {
             return sdate
         } else if year == nil && month == nil { // xsd:gDay
             let unitFlags: NSCalendarUnit = [.Day, .Month, .Year]
-            let components = calendar.components(unitFlags, fromDate:date)
+            var components = calendar.components(unitFlags, fromDate:date)
             dc.year = components.year
             dc.month = components.month
             dc.day = day!
@@ -1185,11 +1185,19 @@ public class GregorianDate : CustomStringConvertible {
             if sdate != nil && date == sdate?.laterDate(date) { // add a month
                 let monthc = NSDateComponents()
                 monthc.month = 1
+                monthc.day = -1
                 sdate = calendar.dateByAddingComponents(monthc, toDate: sdate!, options: NSCalendarOptions(rawValue: 0))
+                return self.nextStartTimeAfter(sdate!)
+            }
+            if sdate != nil {
+                components = calendar.components(unitFlags, fromDate:sdate!)
+                if components.day != day! {
+                    return self.nextStartTimeAfter(sdate!)
+                }
             }
             return sdate
         } else if year == nil && day == nil { // xsd:gMonth
-            let unitFlags: NSCalendarUnit = [.Day, .Month, .Year]
+            let unitFlags: NSCalendarUnit = [.Month, .Year]
             let components = calendar.components(unitFlags, fromDate:date)
             dc.year = components.year
             dc.month = month!
@@ -1206,7 +1214,7 @@ public class GregorianDate : CustomStringConvertible {
             }
             return sdate
         } else if year == nil { // xsd:gMonthDay
-            let unitFlags: NSCalendarUnit = [.Day, .Month, .Year]
+            let unitFlags: NSCalendarUnit = [.Year]
             let components = calendar.components(unitFlags, fromDate:date)
             dc.year = components.year
             dc.month = month!
@@ -1251,6 +1259,56 @@ public class GregorianDate : CustomStringConvertible {
             calendar.timeZone = NSTimeZone(forSecondsFromGMT: 0)
         }
         let dc = NSDateComponents()
+        let changedc = NSDateComponents()
+        let unitFlags: NSCalendarUnit = [.Day, .Month, .Year]
+        let curcomps = calendar.components(unitFlags, fromDate:date)
+        dc.hour = 0
+        dc.minute = 0
+        dc.second = 0
+        dc.nanosecond = 0
+        dc.year = curcomps.year
+        dc.month = curcomps.month
+        dc.day = curcomps.day
+        if year == nil && month == nil && day == nil { // xsd:time
+            dc.hour = hour!
+            dc.minute = minute!
+            dc.second = Int(second!)
+            let ns = Int((second!-Double(Int(second!)))*1e9)
+            dc.nanosecond = ns
+        } else {
+            if month != nil {
+                dc.month = month!
+            }
+            dc.day = 1 // for gDay and gMonthDay this has to be changed after checking range of days in the month
+        }
+        var testDate = calendar.dateFromComponents(dc)
+        var retDate = testDate
+        if year == nil && month == nil && day != nil && testDate != nil { // xsd:gDay
+            changedc.month = -1
+            var range = calendar.rangeOfUnit(.Day, inUnit: .Month, forDate: testDate!)
+            while testDate != nil && range.length < day! { // day not in range of month (e.g. 31 february)
+                testDate = calendar.dateByAddingComponents(changedc, toDate: testDate!, options: NSCalendarOptions(rawValue: 0))
+                range = calendar.rangeOfUnit(.Day, inUnit: .Month, forDate: testDate!)
+            }
+            changedc.month = 0
+            changedc.day = day! - 1
+            retDate = calendar.dateByAddingComponents(changedc, toDate: testDate!, options: NSCalendarOptions(rawValue: 0))
+        }
+        if testDate != nil && retDate != retDate!.earlierDate(date) {
+            changedc.month = 0
+            changedc.day = 0
+            if year == nil && month == nil && day == nil { // xsd:time
+                changedc.day = -1
+            } else if year == nil && month == nil { // xsd:gDay
+                changedc.month = -1
+            } else if year == nil { // xsd:gMonth or xsd:gMonthDay
+                changedc.year = -1
+            }
+            retDate = calendar.dateByAddingComponents(changedc, toDate: testDate!, options: NSCalendarOptions(rawValue: 0))
+        }
+        return retDate
+       
+        /*
         if year == nil && month == nil && day == nil { // xsd:time
             let unitFlags: NSCalendarUnit = [.Day, .Month, .Year]
             let components = calendar.components(unitFlags, fromDate:date)
@@ -1271,7 +1329,7 @@ public class GregorianDate : CustomStringConvertible {
             return sdate
         } else if year == nil && month == nil { // xsd:gDay
             let unitFlags: NSCalendarUnit = [.Day, .Month, .Year]
-            let components = calendar.components(unitFlags, fromDate:date)
+            var components = calendar.components(unitFlags, fromDate:date)
             dc.year = components.year
             dc.month = components.month
             dc.day = day!
@@ -1280,10 +1338,20 @@ public class GregorianDate : CustomStringConvertible {
             dc.second = 0
             dc.nanosecond = 0
             var sdate = calendar.dateFromComponents(dc)
-            if sdate != nil && date == sdate?.earlierDate(date) { // subtract a month
-                let monthc = NSDateComponents()
-                monthc.month = -1
-                sdate = calendar.dateByAddingComponents(monthc, toDate: sdate!, options: NSCalendarOptions(rawValue: 0))
+            if sdate != nil {
+                if date == sdate?.earlierDate(date) { // subtract a month
+                    print("subtracting date == \(sdate)")
+                    let monthc = NSDateComponents()
+                    monthc.month = -1
+                    // monthc.day = 1
+                    sdate = calendar.dateByAddingComponents(monthc, toDate: sdate!, options: NSCalendarOptions(rawValue: 0))
+                    //return self.previousStartTimeBefore(sdate!)
+                }
+                print("date == \(sdate)")
+                components = calendar.components(unitFlags, fromDate:sdate!)
+                if components.day != day! {
+                    return self.previousStartTimeBefore(sdate!)
+                }
             }
             return sdate
         } else if year == nil && day == nil { // xsd:gMonth
@@ -1321,6 +1389,7 @@ public class GregorianDate : CustomStringConvertible {
             }
             return sdate
         }
+*/
         return nil
     }
     
