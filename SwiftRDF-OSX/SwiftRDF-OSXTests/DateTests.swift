@@ -417,6 +417,30 @@ class DateTests: XCTestCase {
         edate = gdate!.previousEndTimeBefore(date)
         XCTAssertEqual("2016-01-30 00:00:00 +0000", "\(sdate!)")
         XCTAssertEqual("2016-01-31 00:00:00 +0000", "\(edate!)")
+        
+        string = "---01Z"
+        gdate = GregorianDate(gDay: string)
+        date = NSDate(timeIntervalSince1970: 1451038514.37942)
+        sdate = gdate!.nextStartTimeAfter(date)
+        edate = gdate!.nextEndTimeAfter(date)
+        XCTAssertEqual("2016-01-01 00:00:00 +0000", "\(sdate!)")
+        XCTAssertEqual("2016-01-02 00:00:00 +0000", "\(edate!)")
+        sdate = gdate!.previousStartTimeBefore(date)
+        edate = gdate!.previousEndTimeBefore(date)
+        XCTAssertEqual("2015-12-01 00:00:00 +0000", "\(sdate!)")
+        XCTAssertEqual("2015-12-02 00:00:00 +0000", "\(edate!)")
+        
+        string = "---01Z"
+        gdate = GregorianDate(gDay: string)
+        date = NSDate(timeIntervalSince1970: 1451038514.37942+4320000)
+        sdate = gdate!.nextStartTimeAfter(date)
+        edate = gdate!.nextEndTimeAfter(date)
+        XCTAssertEqual("2016-03-01 00:00:00 +0000", "\(sdate!)")
+        XCTAssertEqual("2016-03-02 00:00:00 +0000", "\(edate!)")
+        sdate = gdate!.previousStartTimeBefore(date)
+        edate = gdate!.previousEndTimeBefore(date)
+        XCTAssertEqual("2016-02-01 00:00:00 +0000", "\(sdate!)")
+        XCTAssertEqual("2016-02-02 00:00:00 +0000", "\(edate!)")
     }
 }
 
