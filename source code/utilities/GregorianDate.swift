@@ -264,7 +264,6 @@ public class GregorianDate : CustomStringConvertible {
         return previousEndTimeBefore(NSDate())
     }
     
-    
     // MARK: XSD string representations
     
     /**
@@ -1455,6 +1454,129 @@ public class GregorianDate : CustomStringConvertible {
         return retDate
     }
     
+    
+    // MARK: Date comparissons
+    
+    /**
+     Returnst the earlier date of the reciever or the compared gregorian date. A date is earlier if one of the following
+     is true. The first condition has precedence over the following conditions.
+    
+     - The start date is earlier
+     - The start dates are equal but the end date is earlier.
+    
+     This function will return `nil` if:
+     
+     - The start dates of one the two Gregorian dates could not be determined, i.e. `startDate` returns `nil`.
+     - The start dates are equal and the end date of one of the two Gregorian dates could not be determined, i.e. `endDate` returns `nil`.
+     - Both start dates and end dates are equal, i.e. the Gregorian dates are equal.
+    
+     - parameter comparedDate: The date to be compared with the reciever.
+     - returns: The earlier date or `nil` when the start and end dates are equal or the dates could not be compared.
+     */
+    public func earlierGregorianDate(comparedDate : GregorianDate) -> GregorianDate? {
+        let startDate1 = self.startDate
+        let startDate2 = comparedDate.startDate
+        if startDate1 == nil || startDate2 == nil {
+            return nil    // one of the two start dates is nil ==> cannot be compared
+        }
+        if startDate1 == startDate1!.earlierDate(startDate2!) {
+            if startDate1!.isEqualToDate(startDate2!) {
+                let endDate1 = self.endDate
+                let endDate2 = comparedDate.endDate
+                if endDate1 == nil || endDate2 == nil {
+                    return nil // One of the two end dates is nil while the start dates are equal ==> cannot be compared
+                }
+                if endDate1 == endDate1!.earlierDate(endDate2!) {
+                    if endDate1!.isEqualToDate(endDate2!) {
+                        return nil // Both start dates and end dates are equal, the gregorian dates are equal ==> return nil
+                    } else {
+                        return self // Start dates are equal but the reciever has an earlier end date
+                    }
+                } else {
+                    return comparedDate // The start dates are equal but the comparedDate has en earlier end date
+                }
+            } else {
+                return self // The start date of the reciever is earlier.
+            }
+        } else {
+            return comparedDate // The start date of the comparedDate is earlier.
+        }
+    }
+    
+    /**
+     Returnst the later date of the reciever or the compared gregorian date. A date is later if one of the following
+     is true. The first condition has precedence over the following conditions.
+     
+     - The start date is later
+     - The start dates are equal but the end date is later.
+     
+     This function will return `nil` if:
+     
+     - The start dates of one the two Gregorian dates could not be determined, i.e. `startDate` returns `nil`.
+     - The start dates are equal and the end date of one of the two Gregorian dates could not be determined, i.e. `endDate` returns `nil`.
+     - Both start dates and end dates are equal, i.e. the Gregorian dates are equal.
+     
+     - parameter comparedDate: The date to be compared with the reciever.
+     - returns: The later date or `nil` when the start and end dates are equal or the dates could not be compared.
+     */
+    public func laterGregorianDate(comparedDate : GregorianDate) -> GregorianDate? {
+        let startDate1 = self.startDate
+        let startDate2 = comparedDate.startDate
+        if startDate1 == nil || startDate2 == nil {
+            return nil    // one of the two start dates is nil ==> cannot be compared
+        }
+        if startDate1 == startDate1!.laterDate(startDate2!) {
+            if startDate1!.isEqualToDate(startDate2!) {
+                let endDate1 = self.endDate
+                let endDate2 = comparedDate.endDate
+                if endDate1 == nil || endDate2 == nil {
+                    return nil // One of the two end dates is nil while the start dates are equal ==> cannot be compared
+                }
+                if endDate1 == endDate1!.laterDate(endDate2!) {
+                    if endDate1!.isEqualToDate(endDate2!) {
+                        return nil // Both start dates and end dates are equal, the gregorian dates are equal ==> return nil
+                    } else {
+                        return self // Start dates are equal but the reciever has a later end date
+                    }
+                } else {
+                    return comparedDate // The start dates are equal but the comparedDate has a later end date
+                }
+            } else {
+                return self // The start date of the reciever is later.
+            }
+        } else {
+            return comparedDate // The start date of the comparedDate is later.
+        }
+    }
+    
+    /**
+     Returns true when the reciever and compared dates are equals, i.e. have the same start and end dates.
+     If one of the start dates cannot be determined or if the start dates are equal and one of the end dates cannot 
+     be determined `nil` is returned.
+     
+     - parameter comparedDate: The date to be compared with the reciever.
+     - returns: True when the Gregorian dates are equal, or `nil` if one of the start or end dates could not be determined.
+     */
+    public func isEqualToGregorianDate(comparedDate : GregorianDate) -> Bool? {
+        let startDate1 = self.startDate
+        let startDate2 = comparedDate.startDate
+        if startDate1 == nil || startDate2 == nil {
+            return nil    // one of the two start dates is nil ==> cannot be compared
+        }
+        if !startDate1!.isEqualToDate(startDate2!) {
+            return false
+        }
+        let endDate1 = self.endDate
+        let endDate2 = comparedDate.endDate
+        if endDate1 == nil || endDate2 == nil {
+            return nil // One of the two end dates is nil while the start dates are equal ==> cannot be compared
+        }
+        return endDate1!.isEqualToDate(endDate2!)
+    }
+    
+    
+    
+    
     // MARK: Private methods
     
     
@@ -1751,10 +1873,125 @@ public class GregorianDate : CustomStringConvertible {
 /**
  This operator returns `true` when the GregorianDate values are equal to each other.
  
- - parameter left: The left GregorianDate in the comparison.
- - parameter right: The right GregorianDate in the comparison.
+ - parameter left: The left side GregorianDate in the comparison.
+ - parameter right: The right side GregorianDate in the comparison.
  - returns: True when the GregorianDates are equal, false otherwise.
  */
 public func == (left: GregorianDate, right: GregorianDate) -> Bool {
     return left.startDate == right.startDate && left.endDate == right.endDate
+}
+
+/**
+ This operator returns `true` when the GregorianDate values are not equal to each other.
+ 
+ - parameter left: The left side GregorianDate in the comparison.
+ - parameter right: The right side GregorianDate in the comparison.
+ - returns: True when the GregorianDates are not equal, false otherwise.
+ */
+public func != (left: GregorianDate, right: GregorianDate) -> Bool {
+    return left.startDate != right.startDate || left.endDate != right.endDate
+}
+
+/**
+ Returns true when the left side Gregorian date is earlier than the right side date.
+ The Gregorian Date is earlier when either:
+ 
+ - The start date is earlier
+ - The start dates are equal but the end date is earlier.
+ 
+ If the dates cannot be compared, this operator will return `false`.
+ 
+ - parameter left: The left side GregorianDate in the comparison.
+ - parameter right: The right side GregorianDate in the comparison.
+ - returns: True when the left side date is earlier than the right side date.
+ */
+public func < (left: GregorianDate, right: GregorianDate) -> Bool {
+    let earlier = left.earlierGregorianDate(right)
+    if earlier == nil {
+        return false
+    }
+    if earlier! == left {
+        return true
+    }
+    return false
+}
+
+/**
+ Returns true when the left side Gregorian date is earlier or equal to the right side date.
+ The Gregorian Date is earlier or equal when either:
+ 
+ - The start date is earlier
+ - The start dates are equal but the end date is earlier.
+ - The start and end dates are equal.
+ 
+ If the dates cannot be compared, this operator will return `false`.
+ 
+ - parameter left: The left side GregorianDate in the comparison.
+ - parameter right: The right side GregorianDate in the comparison.
+ - returns: True when the left side date is earlier or equal to the right side date.
+ */
+public func <= (left: GregorianDate, right: GregorianDate) -> Bool {
+    let earlier = left.earlierGregorianDate(right)
+    if earlier == nil {
+        return false
+    }
+    if earlier! == left {
+        return true
+    }
+    if left == right {
+        return true
+    }
+    return false
+}
+
+/**
+ Returns true when the left side Gregorian date is later than the right side date.
+ The Gregorian Date is later when either:
+ 
+ - The start date is later
+ - The start dates are equal but the end date is later.
+ 
+ If the dates cannot be compared, this operator will return `false`.
+ 
+ - parameter left: The left side GregorianDate in the comparison.
+ - parameter right: The right side GregorianDate in the comparison.
+ - returns: True when the left side date is later than the right side date.
+ */
+public func > (left: GregorianDate, right: GregorianDate) -> Bool {
+    let later = left.laterGregorianDate(right)
+    if later == nil {
+        return false
+    }
+    if later! == left {
+        return true
+    }
+    return false
+}
+
+/**
+ Returns true when the left side Gregorian date is later or equal to the right side date.
+ The Gregorian Date is later or equal when either:
+ 
+ - The start date is later
+ - The start dates are equal but the end date is later.
+ - The start and end dates are equal.
+ 
+ If the dates cannot be compared, this operator will return `false`.
+ 
+ - parameter left: The left side GregorianDate in the comparison.
+ - parameter right: The right side GregorianDate in the comparison.
+ - returns: True when the left side date is later or equal to the right side date.
+ */
+public func >= (left: GregorianDate, right: GregorianDate) -> Bool {
+    let later = left.laterGregorianDate(right)
+    if later == nil {
+        return false
+    }
+    if later! == left {
+        return true
+    }
+    if left == right {
+        return true
+    }
+    return false
 }
