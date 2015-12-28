@@ -1196,6 +1196,7 @@ public class GregorianDate : CustomStringConvertible {
      specified date. If this Gregorian date is not recurring, this instance of Gregorian date (`self`) will
      be returned. If this Gregorian date is recurring the datatype (`XSDDataType`) of the returned Gregorian date
      will depend on the datatype of the recieving instance:
+     
      - For a recurring date `xsd:time`, a Gregorian date of type `xsd:dateTime` will be returned.
      - For a recurring date `xsd:gMonthDay`, a Gregorian date of type `xsd:date` will be returned.
      - For a recurring date `xsd:gMonth`, a Gregorian date of type `xsd:gYearMonth` will be returned.
@@ -1217,6 +1218,7 @@ public class GregorianDate : CustomStringConvertible {
      specified date. If this Gregorian date is not recurring, this instance of Gregorian date (`self`) will
      be returned. If this Gregorian date is recurring the datatype (`XSDDataType`) of the returned Gregorian date
      will depend on the datatype of the recieving instance:
+     
      - For a recurring date `xsd:time`, a Gregorian date of type `xsd:dateTime` will be returned.
      - For a recurring date `xsd:gMonthDay`, a Gregorian date of type `xsd:date` will be returned.
      - For a recurring date `xsd:gMonth`, a Gregorian date of type `xsd:gYearMonth` will be returned.
@@ -1462,6 +1464,7 @@ public class GregorianDate : CustomStringConvertible {
     specified date. If this Gregorian date is not recurring, this instance of Gregorian date (`self`) will
     be returned. If this Gregorian date is recurring the datatype (`XSDDataType`) of the returned Gregorian date
     will depend on the datatype of the recieving instance:
+    
     - For a recurring date `xsd:time`, a Gregorian date of type `xsd:dateTime` will be returned.
     - For a recurring date `xsd:gMonthDay`, a Gregorian date of type `xsd:date` will be returned.
     - For a recurring date `xsd:gMonth`, a Gregorian date of type `xsd:gYearMonth` will be returned.
