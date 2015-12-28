@@ -215,6 +215,20 @@ public class GregorianDate : CustomStringConvertible {
     }
     
     /**
+     The first (non-recurring) Gregorian Date occurrence of this (possibly recurring) Gregorigan Date in the future.
+     */
+    public var nextGregorianDate : GregorianDate? {
+        return nextGregorianDateAfter(NSDate())
+    }
+    
+    /**
+     The last (non-recurring) Gregorian Date occurrence of this (possibly recurring) Gregorigan Date in the past.
+     */
+    public var previousGregorianDate : GregorianDate? {
+        return previousGregorianDateBefore(NSDate())
+    }
+    
+    /**
      The first start time of the Gregorian Date in the future.
      */
     public var nextStartTime : NSDate? {
@@ -776,6 +790,55 @@ public class GregorianDate : CustomStringConvertible {
     }
     
     /**
+     Creates a new `GregorianDate` with the date and/or time of the specified `NSDate` object.
+     The time zone of the Gregorian Date will be Greenwich Mean Time (GMT). Only those date components
+     relevant for the specified datatype will be used. For instance, when the datatype is
+     `xsd:date`, only the year, month, and day will be copied into the gregorian date, the hour, minute,
+     and second will be set to 0. If the datatype is `xsd:gDay` only the day component will be copied and
+     a recurring Gregorian date will be returned that will recur each month on the same day as the day
+     component in the date.
+     
+     - parameter date: The `NSDate` object that represents the date and time.
+     - parameter datatype: The type of date to be represented.
+     */
+    public convenience init(date: NSDate, datatype : Datatype) {
+        let tz = NSTimeZone(forSecondsFromGMT: 0)
+        self.init(date:date, timeZone : tz, datatype : datatype)
+    }
+    
+    /**
+     Creates a new `GregorianDate` with the date and/or time of the specified `NSDate` object.
+     Only those date components
+     relevant for the specified datatype will be used. For instance, when the datatype is
+     `xsd:date`, only the year, month, and day will be copied into the gregorian date, the hour, minute,
+     and second will be set to 0. If the datatype is `xsd:gDay` only the day component will be copied and
+     a recurring Gregorian date will be returned that will recur each month on the same day as the day
+     component in the date.
+     
+     - parameter date: The `NSDate` object that represents the date and time.
+     - parameter timeZone: The time zone of the date.
+     - parameter datatype: The type of date to be represented.
+     */
+    public convenience init(date: NSDate, timeZone : NSTimeZone, datatype : Datatype) {
+        self.init(date:date, timeZone : timeZone)
+        if datatype == XSD.date || datatype == XSD.gYear || datatype == XSD.gYearMonth ||
+            datatype == XSD.gMonthDay || datatype == XSD.gMonth || datatype == XSD.gDay {
+            self.hour = 0
+            self.minute = 0
+            self.second = 0
+        }
+        if datatype == XSD.gYear || datatype == XSD.gYearMonth || datatype == XSD.gMonth  {
+                self.day = 0
+        }
+        if datatype == XSD.gYear || datatype == XSD.gDay {
+                self.month = 0
+        }
+        if datatype == XSD.gMonthDay || datatype == XSD.gMonth || datatype == XSD.gDay {
+                self.year = 0
+        }
+    }
+    
+    /**
      Creates a new `GregorianDate` with the date and time of the specified `NSDate` object.
      
      - parameter date: The `NSDate` object that represents the date and time.
@@ -1129,6 +1192,48 @@ public class GregorianDate : CustomStringConvertible {
     }
     
     /**
+     Returns the non-recurring Gregorian date that is the next occurrence of this Gregorian date after the
+     specified date. If this Gregorian date is not recurring, this instance of Gregorian date (`self`) will
+     be returned. If this Gregorian date is recurring the datatype (`XSDDataType`) of the returned Gregorian date
+     will depend on the datatype of the recieving instance:
+     - For a recurring date `xsd:time`, a Gregorian date of type `xsd:dateTime` will be returned.
+     - For a recurring date `xsd:gMonthDay`, a Gregorian date of type `xsd:date` will be returned.
+     - For a recurring date `xsd:gMonth`, a Gregorian date of type `xsd:gYearMonth` will be returned.
+     - For a recurring date `xsd:gDay`, a Gregorian date of type `xsd:date` will be returned.
+     
+     - parameter date: The date after which the next Gregorian Date should be found and returned.
+     - returns: The non-recurring date of the next time the reciever occurs.
+     */
+    public func nextGregorianDateAfter(date: NSDate) -> GregorianDate? {
+        let starttime = nextStartTimeAfter(date)
+        if starttime != nil {
+            return gregorianDateFrom(starttime!)
+        }
+        return nil
+    }
+    
+    /**
+     Returns the non-recurring Gregorian date that is the next occurrence of this Gregorian date after the
+     specified date. If this Gregorian date is not recurring, this instance of Gregorian date (`self`) will
+     be returned. If this Gregorian date is recurring the datatype (`XSDDataType`) of the returned Gregorian date
+     will depend on the datatype of the recieving instance:
+     - For a recurring date `xsd:time`, a Gregorian date of type `xsd:dateTime` will be returned.
+     - For a recurring date `xsd:gMonthDay`, a Gregorian date of type `xsd:date` will be returned.
+     - For a recurring date `xsd:gMonth`, a Gregorian date of type `xsd:gYearMonth` will be returned.
+     - For a recurring date `xsd:gDay`, a Gregorian date of type `xsd:date` will be returned.
+     
+     - parameter date: The date after which the next Gregorian Date should be found and returned.
+     - returns: The non-recurring date of the next time the reciever occurs.
+     */
+    public func previousGregorianDateBefore(date: NSDate) -> GregorianDate? {
+        let starttime = previousStartTimeBefore(date)
+        if starttime != nil {
+            return gregorianDateFrom(starttime!)
+        }
+        return nil
+    }
+    
+    /**
      Returns the start time of the next occurrence of the gregorian date after the specified date. 
      If the gregorian date is not recurring, this will be the start time of the gregorian date if the start time 
      is in the future of the specified date, or nil if it is in the past.
@@ -1291,59 +1396,15 @@ public class GregorianDate : CustomStringConvertible {
      - returns: The first end time of the gregorian date after the specified date.
      */
     public func nextEndTimeAfter(date : NSDate) -> NSDate? {
-        if !isRecurring {
-            let sd = startDate
-            if sd != nil && sd == date.earlierDate(sd!) {
-                return sd
-            }
-            return nil
-        }
+        var retDate = nextStartTimeAfter(date)
+        let changedc = NSDateComponents()
         let calendar = NSCalendar.currentCalendar()
         if timezone != nil {
             calendar.timeZone = timezone!
         } else {
             calendar.timeZone = NSTimeZone(forSecondsFromGMT: 0)
         }
-        let dc = NSDateComponents()
-        let changedc = NSDateComponents()
-        let unitFlags: NSCalendarUnit = [.Day, .Month, .Year]
-        let curcomps = calendar.components(unitFlags, fromDate:date)
-        dc.hour = 0
-        dc.minute = 0
-        dc.second = 0
-        dc.nanosecond = 0
-        dc.year = curcomps.year
-        dc.month = curcomps.month
-        dc.day = curcomps.day
-        if year == nil && month == nil && day == nil { // xsd:time
-            dc.hour = hour!
-            dc.minute = minute!
-            dc.second = Int(second!)
-            let ns = Int((second!-Double(Int(second!)))*1e9)
-            dc.nanosecond = ns
-        } else {
-            if month != nil {
-                dc.month = month!
-            }
-            dc.day = 1 // for gDay and gMonthDay this has to be changed after checking range of days in the month
-        }
-        var testDate = calendar.dateFromComponents(dc)
-        var retDate = testDate
-        if year == nil && month == nil && day != nil && testDate != nil { // xsd:gDay
-            changedc.month = 1
-            var range = calendar.rangeOfUnit(.Day, inUnit: .Month, forDate: testDate!)
-            while testDate != nil && range.length < day! { // day not in range of month (e.g. 31 february)
-                testDate = calendar.dateByAddingComponents(changedc, toDate: testDate!, options: NSCalendarOptions(rawValue: 0))
-                range = calendar.rangeOfUnit(.Day, inUnit: .Month, forDate: testDate!)
-            }
-            changedc.month = 0
-            changedc.day = day! - 1
-            retDate = calendar.dateByAddingComponents(changedc, toDate: testDate!, options: NSCalendarOptions(rawValue: 0))
-        }
         if retDate != nil {
-            changedc.year = 0
-            changedc.month = 0
-            changedc.day = 0
             if year == nil && month == nil && day == nil { // xsd:time
                 changedc.second = 1
             } else if year == nil && month == nil { // xsd:gDay
@@ -1354,20 +1415,6 @@ public class GregorianDate : CustomStringConvertible {
                 changedc.day = 1
             }
             retDate = calendar.dateByAddingComponents(changedc, toDate: retDate!, options: NSCalendarOptions(rawValue: 0))
-        }
-        if testDate != nil && retDate != retDate!.laterDate(date) {
-            changedc.year = 0
-            changedc.month = 0
-            changedc.day = 0
-            if year == nil && month == nil && day == nil { // xsd:time
-                changedc.day = 1
-            } else if year == nil && month == nil { // xsd:gDay
-                changedc.month = 1
-            } else if year == nil { // xsd:gMonth or xsd:gMonthDay
-                changedc.year = 1
-            }
-            retDate = calendar.dateByAddingComponents(changedc, toDate: testDate!, options: NSCalendarOptions(rawValue: 0))
-            return nextEndTimeAfter(retDate!)
         }
         return retDate
     }
@@ -1383,60 +1430,15 @@ public class GregorianDate : CustomStringConvertible {
      - returns: The last end time of the gregorian date before the specified date.
      */
     public func previousEndTimeBefore(date : NSDate) -> NSDate? {
-        if !isRecurring {
-            let sd = startDate
-            if sd != nil && sd == date.earlierDate(sd!) {
-                return sd
-            }
-            return nil
-        }
+        var retDate = previousStartTimeBefore(date)
+        let changedc = NSDateComponents()
         let calendar = NSCalendar.currentCalendar()
         if timezone != nil {
             calendar.timeZone = timezone!
         } else {
             calendar.timeZone = NSTimeZone(forSecondsFromGMT: 0)
         }
-        let dc = NSDateComponents()
-        let changedc = NSDateComponents()
-        let unitFlags: NSCalendarUnit = [.Day, .Month, .Year]
-        let curcomps = calendar.components(unitFlags, fromDate:date)
-        dc.hour = 0
-        dc.minute = 0
-        dc.second = 0
-        dc.nanosecond = 0
-        dc.year = curcomps.year
-        dc.month = curcomps.month
-        dc.day = curcomps.day
-        if year == nil && month == nil && day == nil { // xsd:time
-            dc.hour = hour!
-            dc.minute = minute!
-            dc.second = Int(second!)
-            let ns = Int((second!-Double(Int(second!)))*1e9)
-            dc.nanosecond = ns
-        } else {
-            if month != nil {
-                dc.month = month!
-            }
-            dc.day = 1 // for gDay and gMonthDay this has to be changed after checking range of days in the month
-        }
-        var testDate = calendar.dateFromComponents(dc)
-        var retDate = testDate
-        if year == nil && month == nil && day != nil && testDate != nil { // xsd:gDay
-            changedc.month = -1
-            var range = calendar.rangeOfUnit(.Day, inUnit: .Month, forDate: testDate!)
-            while testDate != nil && range.length < day! { // day not in range of month (e.g. 31 february)
-                testDate = calendar.dateByAddingComponents(changedc, toDate: testDate!, options: NSCalendarOptions(rawValue: 0))
-                range = calendar.rangeOfUnit(.Day, inUnit: .Month, forDate: testDate!)
-            }
-            changedc.month = 0
-            changedc.day = day! - 1
-            retDate = calendar.dateByAddingComponents(changedc, toDate: testDate!, options: NSCalendarOptions(rawValue: 0))
-        }
-        let retDate2 = retDate
         if retDate != nil {
-            changedc.year = 0
-            changedc.month = 0
-            changedc.day = 0
             if year == nil && month == nil && day == nil { // xsd:time
                 changedc.second = 1
             } else if year == nil && month == nil { // xsd:gDay
@@ -1448,23 +1450,59 @@ public class GregorianDate : CustomStringConvertible {
             }
             retDate = calendar.dateByAddingComponents(changedc, toDate: retDate!, options: NSCalendarOptions(rawValue: 0))
         }
-        if testDate != nil && retDate2 != retDate2!.earlierDate(date) {
-            changedc.month = 0
-            changedc.day = 0
-            if year == nil && month == nil && day == nil { // xsd:time
-                changedc.day = -1
-            } else if year == nil && month == nil { // xsd:gDay
-                changedc.day = -1
-            } else if year == nil { // xsd:gMonth or xsd:gMonthDay
-                changedc.year = -1
-            }
-            retDate = calendar.dateByAddingComponents(changedc, toDate: testDate!, options: NSCalendarOptions(rawValue: 0))
-            return previousEndTimeBefore(retDate!)
-        }
         return retDate
     }
     
     // MARK: Private methods
+    
+    
+    
+    /**
+    Returns the non-recurring Gregorian date that starts at the
+    specified date. If this Gregorian date is not recurring, this instance of Gregorian date (`self`) will
+    be returned. If this Gregorian date is recurring the datatype (`XSDDataType`) of the returned Gregorian date
+    will depend on the datatype of the recieving instance:
+    - For a recurring date `xsd:time`, a Gregorian date of type `xsd:dateTime` will be returned.
+    - For a recurring date `xsd:gMonthDay`, a Gregorian date of type `xsd:date` will be returned.
+    - For a recurring date `xsd:gMonth`, a Gregorian date of type `xsd:gYearMonth` will be returned.
+    - For a recurring date `xsd:gDay`, a Gregorian date of type `xsd:date` will be returned.
+    
+    - parameter starttime: The date at which the Gregorian date should start.
+    - returns: The non-recurring date of the next time the reciever occurs.
+    */
+    public func gregorianDateFrom(starttime: NSDate) -> GregorianDate? {
+        let datatype = self.XSDDataType
+        if datatype != nil {
+            if datatype! == XSD.dateTime || datatype! == XSD.date || datatype! == XSD.gYearMonth || datatype! == XSD.gYear {
+                return self
+            } else if datatype! == XSD.time {
+                if timezone == nil {
+                    return GregorianDate(date: starttime, datatype: XSD.dateTime)
+                } else {
+                    return GregorianDate(date: starttime, timeZone: self.timezone!, datatype: XSD.dateTime)
+                }
+            } else if datatype! == XSD.gMonthDay {
+                if timezone == nil {
+                    return GregorianDate(date: starttime, datatype: XSD.date)
+                } else {
+                    return GregorianDate(date: starttime, timeZone: self.timezone!, datatype: XSD.date)
+                }
+            } else if datatype! == XSD.gMonth {
+                if timezone == nil {
+                    return GregorianDate(date: starttime, datatype: XSD.gYearMonth)
+                } else {
+                    return GregorianDate(date: starttime, timeZone: self.timezone!, datatype: XSD.gYearMonth)
+                }
+            } else if datatype! == XSD.gDay {
+                if timezone == nil {
+                    return GregorianDate(date: starttime, datatype: XSD.date)
+                } else {
+                    return GregorianDate(date: starttime, timeZone: self.timezone!, datatype: XSD.date)
+                }
+            }
+        }
+        return nil
+    }
     
     private func parseDateString(stringValue: String, pattern : String) -> Bool {
         do {
