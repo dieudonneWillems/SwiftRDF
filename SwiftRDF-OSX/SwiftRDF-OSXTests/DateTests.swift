@@ -684,7 +684,7 @@ class DateTests: XCTestCase {
         XCTAssertEqual("2017-01-01 00:00:00 +0000", "\(edate!)")
     }
     
-    func testComparissons() {
+    func testComparisons() {
         let date1 = GregorianDate(dateTime: "2015-12-29T13:40:20+01:00")!
         var date2 = GregorianDate(dateTime: "2015-12-29T13:40:22+01:00")!
         XCTAssertTrue(date1 < date2)
