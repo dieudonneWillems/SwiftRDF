@@ -683,6 +683,73 @@ class DateTests: XCTestCase {
         XCTAssertEqual("2016-12-31 00:00:00 +0000", "\(sdate!)")
         XCTAssertEqual("2017-01-01 00:00:00 +0000", "\(edate!)")
     }
+    
+    func testComparissons() {
+        let date1 = GregorianDate(dateTime: "2015-12-29T13:40:20+01:00")!
+        var date2 = GregorianDate(dateTime: "2015-12-29T13:40:22+01:00")!
+        XCTAssertTrue(date1 < date2)
+        XCTAssertTrue(date1 <= date2)
+        XCTAssertTrue(date1 != date2)
+        XCTAssertFalse(date1 > date2)
+        XCTAssertFalse(date1 >= date2)
+        XCTAssertFalse(date1 == date2)
+        
+        date2 = GregorianDate(dateTime: "2015-12-29T13:40:20+01:00")!
+        XCTAssertFalse(date1 < date2)
+        XCTAssertTrue(date1 <= date2)
+        XCTAssertFalse(date1 != date2)
+        XCTAssertFalse(date1 > date2)
+        XCTAssertTrue(date1 >= date2)
+        XCTAssertTrue(date1 == date2)
+        
+        date2 = GregorianDate(date: "2015-12-29+01:00")!
+        XCTAssertFalse(date1 < date2)
+        XCTAssertFalse(date1 <= date2)
+        XCTAssertTrue(date1 > date2)
+        XCTAssertTrue(date1 >= date2)
+        XCTAssertTrue(date1 != date2)
+        XCTAssertFalse(date1 == date2)
+        
+        date2 = GregorianDate(gYearMonth: "2015-12+01:00")!
+        XCTAssertFalse(date1 < date2)
+        XCTAssertFalse(date1 <= date2)
+        XCTAssertTrue(date1 > date2)
+        XCTAssertTrue(date1 >= date2)
+        XCTAssertTrue(date1 != date2)
+        XCTAssertFalse(date1 == date2)
+        
+        date2 = GregorianDate(gYear: "2015+01:00")!
+        XCTAssertFalse(date1 < date2)
+        XCTAssertFalse(date1 <= date2)
+        XCTAssertTrue(date1 > date2)
+        XCTAssertTrue(date1 >= date2)
+        XCTAssertTrue(date1 != date2)
+        XCTAssertFalse(date1 == date2)
+        
+        date2 = GregorianDate(date: "2015-12-30+01:00")!
+        XCTAssertTrue(date1 < date2)
+        XCTAssertTrue(date1 <= date2)
+        XCTAssertFalse(date1 > date2)
+        XCTAssertFalse(date1 >= date2)
+        XCTAssertTrue(date1 != date2)
+        XCTAssertFalse(date1 == date2)
+        
+        date2 = GregorianDate(gYearMonth: "2016-05+01:00")!
+        XCTAssertTrue(date1 < date2)
+        XCTAssertTrue(date1 <= date2)
+        XCTAssertFalse(date1 > date2)
+        XCTAssertFalse(date1 >= date2)
+        XCTAssertTrue(date1 != date2)
+        XCTAssertFalse(date1 == date2)
+        
+        date2 = GregorianDate(gYear: "2016+01:00")!
+        XCTAssertTrue(date1 < date2)
+        XCTAssertTrue(date1 <= date2)
+        XCTAssertFalse(date1 > date2)
+        XCTAssertFalse(date1 >= date2)
+        XCTAssertTrue(date1 != date2)
+        XCTAssertFalse(date1 == date2)
+    }
 }
 
 

@@ -2012,14 +2012,14 @@ public func < (left: GregorianDate, right: GregorianDate) -> Bool {
  - returns: True when the left side date is earlier or equal to the right side date.
  */
 public func <= (left: GregorianDate, right: GregorianDate) -> Bool {
+    if left == right {
+        return true
+    }
     let earlier = left.earlierGregorianDate(right)
     if earlier == nil {
         return false
     }
     if earlier! == left {
-        return true
-    }
-    if left == right {
         return true
     }
     return false
@@ -2064,14 +2064,14 @@ public func > (left: GregorianDate, right: GregorianDate) -> Bool {
  - returns: True when the left side date is later or equal to the right side date.
  */
 public func >= (left: GregorianDate, right: GregorianDate) -> Bool {
+    if left == right {
+        return true
+    }
     let later = left.laterGregorianDate(right)
     if later == nil {
         return false
     }
     if later! == left {
-        return true
-    }
-    if left == right {
         return true
     }
     return false
