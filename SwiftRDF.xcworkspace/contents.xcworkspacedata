@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:SwiftRDF-Tutorial.playground">
+   </FileRef>
+   <FileRef
       location = "group:SwiftRDF-OSX/SwiftRDF-OSX.xcodeproj">
    </FileRef>
    <Group

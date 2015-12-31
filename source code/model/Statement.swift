@@ -46,9 +46,9 @@ public class Statement : NSObject, SPARQLValue {
     override public var description: String {
         var contextstr = ""
         if namedGraphs.count > 0 {
-            contextstr  = "namedGraphs: \(namedGraphs)"
+            contextstr  = "\(namedGraphs)"
         }
-        return "\(subject) - \(predicate) - \(object) \(contextstr)"
+        return "\(subject) \(predicate) \(object) \(contextstr)"
     }
     
     // MARK: SPARQL properties

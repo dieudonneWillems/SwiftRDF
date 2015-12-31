@@ -19,7 +19,7 @@ import Foundation
  
  All [XML Schema datatypes](http://www.w3.org/TR/xmlschema-2/) except `xsd:NOTATION`, `xsd:ENTITY` and `xsd:ENTITIES` are supported.
  */
-public class Literal: Value {
+public class Literal: Value{
     
     // regular expression: ^((("(.*)")|('([\w\s]*)'))((@(\w*(-\w*)?))(\^\^xsd:(string))?|\^\^(xsd:(\w*)|<(.*)>))?|([+-]?[\d]*)|([+-]?[\d\.]*)|([+-]?[\d\.]*[eE][+-]?\d*)|(true|false))$
     private static let literalPattern = "^(((\"(.*)\")|('([\\w\\s]*)'))((@(\\w*(-\\w*)?))(\\^\\^xsd:(string))?|\\^\\^(xsd:(\\w*)|<(.*)>))?|([+-]?[\\d]*)|([+-]?[\\d\\.]*)|([+-]?[\\d\\.]*[eE][+-]?\\d*)|(true|false))$"

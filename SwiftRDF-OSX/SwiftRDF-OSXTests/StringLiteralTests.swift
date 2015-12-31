@@ -39,6 +39,8 @@ class StringLiteralTests: XCTestCase {
         XCTAssertTrue(XSD.string == lit.dataType!)
         XCTAssertNil(lit.longValue)
         
+        print("\(lit)")
+        
         var litn = Literal(stringValue: "Hello World", language: "00-US") // non valid language
         XCTAssertNil(litn)
         

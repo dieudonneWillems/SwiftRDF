@@ -12,7 +12,15 @@ import Foundation
  Represents a value, which can be a resource or a literal value, in an RDF graph.
  It is the superclass of all RDF model objects.
  */
-public class Value : SPARQLValue {
+public class Value : SPARQLValue, CustomStringConvertible  {
+    
+    
+    /**
+     A textual representation of the Value. This is equal to the SPARQL string (i.e. `sparql`).
+     */
+    public var description: String {
+        return self.sparql
+    }
     
     /**
      The string representation of the value.
