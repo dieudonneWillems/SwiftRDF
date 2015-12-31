@@ -236,6 +236,78 @@ public struct Duration {
             return nil
         }
     }
+    
+    /**
+     Calculates the duration in seconds and returns a tuple containing three doubles,
+     the expected duration in seconds, the minimum duration in seconds, and the maximum duration in
+     seconds. The uncertainty is caused by leap seconds, months of different number of days,
+     and leap years.
+     
+     - returns: The duration (expected, minimum, maximum) in seconds as a tuple.
+    */
+    private func durationInSeconds() -> (Double, Double, Double) {
+        var nseconds : Double = seconds
+        var nmax : Double = seconds
+        var nmin : Double = seconds
+    
+        let (dMinutes, minMinutes, maxMinutes) = durationInMinutes()
+        nseconds += Double(dMinutes * 60)
+        let minNHalfYears = minMinutes / 263520
+        nmin += Double(minMinutes * 60 - minNHalfYears) // negative leap seconds one per half year max
+        let maxNHalfYears = maxMinutes / 262800
+        nmax += Double(maxMinutes * 60 + maxNHalfYears) // positive leap seconds one per half year max
+        
+        let durationInSeconds = (nseconds, nmin, nmax)
+        return durationInSeconds
+    }
+    
+    /**
+     Calculates the duration in minutes and returns a tuple containing three integers,
+     the expected duration in minutes, the minimum duration in minutes, and the maximum duration in
+     minutes. The uncertainty is caused by months of different number of days
+     and leap years. Seconds are disregarded by this function.
+     
+     - returns: The duration (expected, minimum, maximum) in minutes as a tuple.
+     */
+    private func durationInMinutes() -> (UInt, UInt, UInt) {
+        var nminutes : UInt = minutes
+        var nmax : UInt = minutes
+        var nmin : UInt = minutes
+        
+        nminutes += hours * 60
+        nmax += hours * 60
+        nmin += hours * 60
+        
+        nminutes += days * 1440
+        nmax += days * 1440
+        nmin += days * 1440
+        
+        let nmonths = durationInMonths()
+        let nmonths2minutes = nmonths * 43829
+        nminutes += nmonths2minutes
+        
+        let nHalfYears = nmonths/2
+        
+        // TODO: Calculate numarically how many minimum and maximum days for n months (using random start dates)
+        
+        let durationInMinutes = (nminutes, nmin, nmax)
+        return durationInMinutes
+    }
+    
+    /**
+     Calculates the duration in months and returns the expected duration in months. 
+     The duration in months is equal to the number of months adding the number of years times 12.
+     Seconds, minutes, hours, and days are disregarded by this function.
+     
+     - returns: The duration in months.
+     */
+    private func durationInMonths() -> UInt {
+        var nmonths : UInt = months
+        
+        nmonths += years * 12
+        
+        return nmonths
+    }
 }
 
 /**
