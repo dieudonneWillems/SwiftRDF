@@ -258,12 +258,17 @@ public struct Duration {
         var nmin : Double = seconds
     
         let (dMinutes, minMinutes, maxMinutes) = durationInMinutes()
-        nseconds += Double(dMinutes * 60)
-        let minNHalfYears = minMinutes / 263520
-        nmin += Double(minMinutes * 60 - minNHalfYears) // negative leap seconds one per half year max
-        let maxNHalfYears = maxMinutes / 262800
-        nmax += Double(maxMinutes * 60 + maxNHalfYears) // positive leap seconds one per half year max
-        
+        if dMinutes > 0 {
+            nseconds += Double(dMinutes * 60)
+            var minNHalfYears = 1 + minMinutes / 263520
+            if minMinutes < 1 {
+                minNHalfYears = 0
+            }
+            nmin += Double(minMinutes * 60 - minNHalfYears) // negative leap seconds one per half year max
+            let maxNHalfYears = 1 + maxMinutes / 262800
+            nmax += Double(maxMinutes * 60 + maxNHalfYears) // positive leap seconds one per half year max
+        }
+            
         let durationInSeconds = (UInt(nseconds*1e9), UInt(nmin*1e9), UInt(nmax*1e9))
         return durationInSeconds
     }
@@ -556,8 +561,13 @@ public func < (left: Duration, right: Duration) -> Bool? {
     if nleft.2 < nright.1 {
         return true
     }
-    if nleft.1 >= nright.2 {
+    if nleft.1 > nright.2 {
         return false
+    }
+    if nleft.1 == nright.2 {
+        if nleft.1 == nleft.2 && nright.1 == nright.2 {
+            return false
+        }
     }
     return nil
 }
@@ -590,8 +600,13 @@ public func <= (left: Duration, right: Duration) -> Bool? {
     if nleft.2 < nright.1 {
         return true
     }
-    if nleft.1 >= nright.2 {
+    if nleft.1 > nright.2 {
         return false
+    }
+    if nleft.1 == nright.2 {
+        if nleft.1 == nleft.2 && nright.1 == nright.2 {
+            return false
+        }
     }
     return nil
 }
@@ -616,8 +631,13 @@ public func > (left: Duration, right: Duration) -> Bool? {
     if nleft.1 > nright.2 {
         return true
     }
-    if nleft.1 <= nright.2 {
+    if nleft.2 < nright.1 {
         return false
+    }
+    if nleft.1 == nright.2 {
+        if nleft.1 == nleft.2 && nright.1 == nright.2 {
+            return false
+        }
     }
     return nil
 }
@@ -650,8 +670,13 @@ public func >= (left: Duration, right: Duration) -> Bool? {
     if nleft.1 > nright.2 {
         return true
     }
-    if nleft.1 <= nright.2 {
+    if nleft.2 < nright.1 {
         return false
+    }
+    if nleft.1 == nright.2 {
+        if nleft.1 == nleft.2 && nright.1 == nright.2 {
+            return false
+        }
     }
     return nil
 }

@@ -106,6 +106,389 @@ class DurationTests: XCTestCase {
         XCTAssertEqual(duration3.description, "P21Y2M13DT23H12342M1993.21S")
     }
     
+    func testDurationComparissonsInYearsAndMonths(){
+        let duration1 = Duration(stringValue: "P12Y")!
+        var duration2 = Duration(stringValue: "P13Y")!
+        var comparisson = duration1 == duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        comparisson = duration1 != duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        comparisson = duration1 < duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        comparisson = duration1 <= duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        comparisson = duration1 > duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        comparisson = duration1 >= duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        
+        duration2 = Duration(stringValue: "P12Y")!
+        comparisson = duration1 == duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        comparisson = duration1 != duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        comparisson = duration1 < duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        comparisson = duration1 <= duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        comparisson = duration1 > duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        comparisson = duration1 >= duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        
+        duration2 = Duration(stringValue: "P11Y")!
+        comparisson = duration1 == duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        comparisson = duration1 != duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        comparisson = duration1 < duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        comparisson = duration1 <= duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        comparisson = duration1 > duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        comparisson = duration1 >= duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        
+        duration2 = Duration(stringValue: "P144M")!
+        comparisson = duration1 == duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        comparisson = duration1 != duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        comparisson = duration1 < duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        comparisson = duration1 <= duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        comparisson = duration1 > duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        comparisson = duration1 >= duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        
+        duration2 = Duration(stringValue: "P145M")!
+        comparisson = duration1 == duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        comparisson = duration1 != duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        comparisson = duration1 < duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        comparisson = duration1 <= duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        comparisson = duration1 > duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        comparisson = duration1 >= duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        
+        duration2 = Duration(stringValue: "P143M")!
+        comparisson = duration1 == duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        comparisson = duration1 != duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        comparisson = duration1 < duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        comparisson = duration1 <= duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        comparisson = duration1 > duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        comparisson = duration1 >= duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        
+        duration2 = Duration(stringValue: "P11Y12M")!
+        comparisson = duration1 == duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        comparisson = duration1 != duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        comparisson = duration1 < duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        comparisson = duration1 <= duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        comparisson = duration1 > duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        comparisson = duration1 >= duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        
+        duration2 = Duration(stringValue: "P11Y13M")!
+        comparisson = duration1 == duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        comparisson = duration1 != duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        comparisson = duration1 < duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        comparisson = duration1 <= duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        comparisson = duration1 > duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        comparisson = duration1 >= duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        
+        duration2 = Duration(stringValue: "P11Y11M")!
+        comparisson = duration1 == duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        comparisson = duration1 != duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        comparisson = duration1 < duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        comparisson = duration1 <= duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        comparisson = duration1 > duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        comparisson = duration1 >= duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        
+        duration2 = Duration(stringValue: "P11Y12M15D")!
+        comparisson = duration1 == duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        comparisson = duration1 != duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        comparisson = duration1 < duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        comparisson = duration1 <= duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        comparisson = duration1 > duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        comparisson = duration1 >= duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        
+        duration2 = Duration(stringValue: "P11Y11M15D")!
+        comparisson = duration1 == duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        comparisson = duration1 != duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        comparisson = duration1 < duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        comparisson = duration1 <= duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        comparisson = duration1 > duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        comparisson = duration1 >= duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        
+        duration2 = Duration(stringValue: "P11Y12M01D")!
+        comparisson = duration1 == duration2
+        XCTAssertNil(comparisson)
+        comparisson = duration1 != duration2
+        XCTAssertNil(comparisson)
+        comparisson = duration1 < duration2
+        XCTAssertNil(comparisson)
+        comparisson = duration1 <= duration2
+        XCTAssertNil(comparisson)
+        comparisson = duration1 > duration2
+        XCTAssertNil(comparisson)
+        comparisson = duration1 >= duration2
+        XCTAssertNil(comparisson)
+        
+        duration2 = Duration(stringValue: "P11Y11M31D")!
+        comparisson = duration1 == duration2
+        XCTAssertNil(comparisson)
+        comparisson = duration1 != duration2
+        XCTAssertNil(comparisson)
+        comparisson = duration1 < duration2
+        XCTAssertNil(comparisson)
+        comparisson = duration1 <= duration2
+        XCTAssertNil(comparisson)
+        comparisson = duration1 > duration2
+        XCTAssertNil(comparisson)
+        comparisson = duration1 >= duration2
+        XCTAssertNil(comparisson)
+
+    }
+    
+    func testDurationComparissonsInMinutesAndSeconds(){
+        let duration1 = Duration(stringValue: "PT02M")!
+        var duration2 = Duration(stringValue: "PT03M")!
+        var comparisson = duration1 == duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        comparisson = duration1 != duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        comparisson = duration1 < duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        comparisson = duration1 <= duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        comparisson = duration1 > duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        comparisson = duration1 >= duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        
+        duration2 = Duration(stringValue: "PT02M")!
+        comparisson = duration1 == duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        comparisson = duration1 != duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        comparisson = duration1 < duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        comparisson = duration1 <= duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        comparisson = duration1 > duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        comparisson = duration1 >= duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        
+        duration2 = Duration(stringValue: "PT01M")!
+        comparisson = duration1 == duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        comparisson = duration1 != duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        comparisson = duration1 < duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        comparisson = duration1 <= duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        comparisson = duration1 > duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        comparisson = duration1 >= duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        
+        duration2 = Duration(stringValue: "PT118S")!
+        comparisson = duration1 == duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        comparisson = duration1 != duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        comparisson = duration1 < duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        comparisson = duration1 <= duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        comparisson = duration1 > duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        comparisson = duration1 >= duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        
+        duration2 = Duration(stringValue: "PT122S")!
+        comparisson = duration1 == duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        comparisson = duration1 != duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        comparisson = duration1 < duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        comparisson = duration1 <= duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        comparisson = duration1 > duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        comparisson = duration1 >= duration2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        
+        duration2 = Duration(stringValue: "PT119S")!
+        comparisson = duration1 == duration2
+        XCTAssertNil(comparisson)
+        comparisson = duration1 != duration2
+        XCTAssertNil(comparisson)
+        comparisson = duration1 < duration2
+        XCTAssertNil(comparisson)
+        comparisson = duration1 <= duration2
+        XCTAssertNil(comparisson)
+        comparisson = duration1 > duration2
+        XCTAssertNil(comparisson)
+        comparisson = duration1 >= duration2
+        XCTAssertNil(comparisson)
+        
+        duration2 = Duration(stringValue: "PT121S")!
+        comparisson = duration1 == duration2
+        XCTAssertNil(comparisson)
+        comparisson = duration1 != duration2
+        XCTAssertNil(comparisson)
+        comparisson = duration1 < duration2
+        XCTAssertNil(comparisson)
+        comparisson = duration1 <= duration2
+        XCTAssertNil(comparisson)
+        comparisson = duration1 > duration2
+        XCTAssertNil(comparisson)
+        comparisson = duration1 >= duration2
+        XCTAssertNil(comparisson)
+    }
+    
     
     /*
     // To calculate the number of days for durations in months (see `Duration`).
