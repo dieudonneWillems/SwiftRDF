@@ -12,3 +12,7 @@ do{
 }catch {
     
 }
+
+
+literal = Literal(sparqlString: "\"2015-10\"^^xsd:gYearMonth")!
+let dtype = literal?.dataType

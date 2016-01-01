@@ -1818,9 +1818,10 @@ public class Literal: Value{
  
  - parameter left: The left Literal in the comparison.
  - parameter right: The right Literal in the comparison.
- - returns: True when the Literals are equal, false otherwise.
+ - returns: True when the Literals are equal, false otherwise, or `nil` if the literal values could not be compared (because of 
+    incompatible data types.
  */
-public func == (left: Literal, right: Literal) -> Bool {
+public func == (left: Literal, right: Literal) -> Bool? {
     if left.dataType == nil && right.dataType == nil {
         if left.stringValue == right.stringValue {
             return true
@@ -1852,6 +1853,6 @@ public func == (left: Literal, right: Literal) -> Bool {
             return left.durationValue! == right.durationValue!
         }
     }
-    return false
+    return nil
 }
    
