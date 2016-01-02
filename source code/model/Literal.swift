@@ -1985,7 +1985,7 @@ public func < (left: Literal, right: Literal) -> Bool? {
             }
         }
         if left.doubleValue != nil && right.decimalValue != nil {
-            let equals = right.decimalValue! < Decimal(doubleValue: left.doubleValue!)!
+            let equals = right.decimalValue! > Decimal(doubleValue: left.doubleValue!)!
             if !equals {
                 return false
             } else {
@@ -2051,7 +2051,7 @@ public func < (left: Literal, right: Literal) -> Bool? {
  */
 public func <= (left: Literal, right: Literal) -> Bool? {
     let equals = left == right
-    if equals == nil || !equals! {
+    if equals == nil || equals! {
         return equals
     }
     return left < right
@@ -2108,7 +2108,7 @@ public func > (left: Literal, right: Literal) -> Bool? {
             }
         }
         if left.doubleValue != nil && right.decimalValue != nil {
-            let equals = right.decimalValue! > Decimal(doubleValue: left.doubleValue!)!
+            let equals = right.decimalValue! < Decimal(doubleValue: left.doubleValue!)!
             if !equals {
                 return false
             } else {
@@ -2174,7 +2174,7 @@ public func > (left: Literal, right: Literal) -> Bool? {
  */
 public func >= (left: Literal, right: Literal) -> Bool? {
     let equals = left == right
-    if equals == nil || !equals! {
+    if equals == nil || equals! {
         return equals
     }
     return left > right

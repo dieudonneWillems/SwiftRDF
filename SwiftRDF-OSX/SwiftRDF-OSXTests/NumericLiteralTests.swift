@@ -1339,4 +1339,132 @@ class NumericLiteralTests: XCTestCase {
         XCTAssertNotNil(comparisson)
         XCTAssertTrue(comparisson!)
     }
+    
+    func testNumericalLiteralGreaterThan(){
+        var lit1 = Literal(longValue: 12345678902)
+        var lit2 = Literal(longValue: 12345678901)
+        var comparisson = lit1 > lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        lit2 = Literal(longValue: 12345678902)
+        comparisson = lit1 > lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        lit2 = Literal(longValue: 12345678903)
+        comparisson = lit1 > lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        
+        lit1 = Literal(doubleValue: 334.2144)
+        lit2 = Literal(longValue: 335)
+        comparisson = lit1 > lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        
+        lit2 = Literal(longValue: 334)
+        comparisson = lit1 > lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        
+        lit1 = Literal(doubleValue: 334)
+        comparisson = lit1 > lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+    }
+    
+    func testNumericalLiteralGreaterOrEqualThan(){
+        var lit1 = Literal(longValue: 12345678902)
+        var lit2 = Literal(longValue: 12345678901)
+        var comparisson = lit1 >= lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        lit2 = Literal(longValue: 12345678902)
+        comparisson = lit1 >= lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        lit2 = Literal(longValue: 12345678903)
+        comparisson = lit1 >= lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        
+        lit1 = Literal(doubleValue: 334.2144)
+        lit2 = Literal(longValue: 335)
+        comparisson = lit1 >= lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        
+        lit2 = Literal(longValue: 334)
+        comparisson = lit1 >= lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        
+        lit1 = Literal(doubleValue: 334)
+        comparisson = lit1 >= lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+    }
+    
+    func testNumericalLiteralSmallerThan(){
+        var lit1 = Literal(longValue: 12345678902)
+        var lit2 = Literal(longValue: 12345678901)
+        var comparisson = lit1 < lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        lit2 = Literal(longValue: 12345678902)
+        comparisson = lit1 < lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        lit2 = Literal(longValue: 12345678903)
+        comparisson = lit1 < lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        
+        lit1 = Literal(doubleValue: 334.2144)
+        lit2 = Literal(longValue: 335)
+        comparisson = lit1 < lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        
+        lit2 = Literal(longValue: 334)
+        comparisson = lit1 < lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        
+        lit1 = Literal(doubleValue: 334)
+        comparisson = lit1 < lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+    }
+    
+    func testNumericalLiteralSmallerOrEqualThan(){
+        var lit1 = Literal(longValue: 12345678902)
+        var lit2 = Literal(longValue: 12345678901)
+        var comparisson = lit1 <= lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        lit2 = Literal(longValue: 12345678902)
+        comparisson = lit1 <= lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        lit2 = Literal(longValue: 12345678903)
+        comparisson = lit1 <= lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        
+        lit1 = Literal(doubleValue: 334.2144)
+        lit2 = Literal(longValue: 334)
+        comparisson = lit1 <= lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        
+        lit2 = Literal(longValue: 335)
+        comparisson = lit1 <= lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        
+        lit1 = Literal(doubleValue: 335)
+        comparisson = lit1 <= lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+    }
 }

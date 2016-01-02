@@ -23,7 +23,7 @@ public func == (left: Decimal, right: Decimal) -> Bool {
         return true
     }
     let dleft = Double(left.decimalInteger)*pow(10,-Double(left.decimalExponent))
-    let dright = Double(left.decimalInteger)*pow(10,-Double(left.decimalExponent))
+    let dright = Double(right.decimalInteger)*pow(10,-Double(right.decimalExponent))
     if dleft != dright {
         return false
     }
@@ -83,7 +83,7 @@ public func > (left: Decimal, right: Decimal) -> Bool {
         return false
     }
     let dleft = Double(left.decimalInteger)*pow(10,-Double(left.decimalExponent))
-    let dright = Double(left.decimalInteger)*pow(10,-Double(left.decimalExponent))
+    let dright = Double(right.decimalInteger)*pow(10,-Double(right.decimalExponent))
     if dleft > dright {
         return true
     }
@@ -148,7 +148,7 @@ public func < (left: Decimal, right: Decimal) -> Bool {
         return false
     }
     let dleft = Double(left.decimalInteger)*pow(10,-Double(left.decimalExponent))
-    let dright = Double(left.decimalInteger)*pow(10,-Double(left.decimalExponent))
+    let dright = Double(right.decimalInteger)*pow(10,-Double(right.decimalExponent))
     if dleft < dright {
         return true
     }
