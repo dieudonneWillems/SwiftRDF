@@ -1,8 +1,101 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Workspace
    version = "1.0">
+   <FileRef
+      location = "group:SwiftRDF-Tutorial.playground">
+   </FileRef>
+   <FileRef
+      location = "group:SwiftRDF-OSX/SwiftRDF-OSX.xcodeproj">
+   </FileRef>
    <Group
       location = "group:docs"
       name = "docs">
+   </Group>
+   <Group
+      location = "group:source code"
+      name = "source code">
+      <Group
+         location = "container:"
+         name = "data">
+      </Group>
+      <Group
+         location = "container:"
+         name = "errors">
+         <FileRef
+            location = "group:source code/errors/MalformedURIError.swift">
+         </FileRef>
+         <FileRef
+            location = "group:/Users/wonco/Development/SwiftRDF/source code/errors/LiteralFormattingError.swift">
+         </FileRef>
+      </Group>
+      <Group
+         location = "container:"
+         name = "model">
+         <FileRef
+            location = "group:source code/model/Resource.swift">
+         </FileRef>
+         <FileRef
+            location = "group:source code/model/Value.swift">
+         </FileRef>
+         <FileRef
+            location = "group:source code/model/Literal.swift">
+         </FileRef>
+         <FileRef
+            location = "group:source code/model/URI.swift">
+         </FileRef>
+         <FileRef
+            location = "group:source code/model/BlankNode.swift">
+         </FileRef>
+         <FileRef
+            location = "group:source code/model/Statement.swift">
+         </FileRef>
+         <FileRef
+            location = "group:source code/model/SPARQLValue.swift">
+         </FileRef>
+      </Group>
+      <Group
+         location = "container:"
+         name = "vocabularies">
+         <FileRef
+            location = "group:source code/vocabularies/OWL.swift">
+         </FileRef>
+         <FileRef
+            location = "group:source code/vocabularies/RDF.swift">
+         </FileRef>
+         <FileRef
+            location = "group:source code/vocabularies/RDFS.swift">
+         </FileRef>
+         <FileRef
+            location = "group:source code/vocabularies/XSD.swift">
+         </FileRef>
+         <FileRef
+            location = "group:source code/vocabularies/Vocabulary.swift">
+         </FileRef>
+      </Group>
+      <Group
+         location = "container:"
+         name = "utilities">
+         <FileRef
+            location = "group:source code/utilities/Datatype.swift">
+         </FileRef>
+         <FileRef
+            location = "group:source code/utilities/Decimal.swift">
+         </FileRef>
+         <FileRef
+            location = "group:source code/utilities/Duration.swift">
+         </FileRef>
+         <FileRef
+            location = "group:source code/utilities/GregorianDate.swift">
+         </FileRef>
+         <FileRef
+            location = "group:source code/utilities/NSData-extensions.swift">
+         </FileRef>
+         <FileRef
+            location = "group:/Users/wonco/Development/SwiftRDF/source code/utilities/String-extensions.swift">
+         </FileRef>
+         <FileRef
+            location = "group:source code/utilities/MathFunctions.swift">
+         </FileRef>
+      </Group>
    </Group>
 </Workspace>
