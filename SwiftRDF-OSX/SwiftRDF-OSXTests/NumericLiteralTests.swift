@@ -1223,4 +1223,120 @@ class NumericLiteralTests: XCTestCase {
         shouldfail = Literal(stringValue: "bla", dataType: XSD.unsignedByte)
         XCTAssertNil(shouldfail)
     }
+    
+    func testByteLiteralEquals(){
+        var lit1 = Literal(byteValue: 123)
+        var lit2 = Literal(byteValue: 123)
+        var comparisson = lit1 == lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        lit2 = Literal(byteValue: 122)
+        comparisson = lit1 == lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        lit2 = Literal(intValue: 123)
+        comparisson = lit1 == lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        lit2 = Literal(integerValue: 123)
+        comparisson = lit1 == lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        lit2 = Literal(longValue: 123)
+        comparisson = lit1 == lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        lit2 = Literal(unsignedByteValue: 123)
+        comparisson = lit1 == lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        lit2 = Literal(unsignedIntValue: 123)
+        comparisson = lit1 == lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        lit2 = Literal(unsignedLongValue: 123)
+        comparisson = lit1 == lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        lit2 = Literal(floatValue: 123)
+        comparisson = lit1 == lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        lit2 = Literal(doubleValue: 123)
+        comparisson = lit1 == lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        lit2 = Literal(decimalValue: Decimal(integerValue: 123))
+        comparisson = lit1 == lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        
+        lit1 = Literal(byteValue: -123)
+        lit2 = Literal(byteValue: -123)
+        comparisson = lit1 == lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        lit2 = Literal(byteValue: 123)
+        comparisson = lit1 == lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        lit2 = Literal(intValue: -123)
+        comparisson = lit1 == lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        lit2 = Literal(integerValue: -123)
+        comparisson = lit1 == lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        lit2 = Literal(longValue: -123)
+        comparisson = lit1 == lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        lit2 = Literal(floatValue: -123)
+        comparisson = lit1 == lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        lit2 = Literal(doubleValue: -123)
+        comparisson = lit1 == lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        lit2 = Literal(decimalValue: Decimal(integerValue: -123))
+        comparisson = lit1 == lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+    }
+    
+    func testLongLiteralEquals(){
+        var lit1 = Literal(longValue: 12345678901)
+        var lit2 = Literal(longValue: 12345678901)
+        var comparisson = lit1 == lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        lit2 = Literal(unsignedLongValue: 12345678901)
+        comparisson = lit1 == lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        lit2 = Literal(doubleValue: 12345678901)
+        comparisson = lit1 == lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        lit2 = Literal(decimalValue: Decimal(integerValue: 12345678901))
+        comparisson = lit1 == lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        
+        lit1 = Literal(longValue: -12345678901)
+        lit2 = Literal(longValue: -12345678901)
+        comparisson = lit1 == lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        lit2 = Literal(doubleValue: -12345678901)
+        comparisson = lit1 == lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        lit2 = Literal(decimalValue: Decimal(integerValue: -12345678901))
+        comparisson = lit1 == lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+    }
 }

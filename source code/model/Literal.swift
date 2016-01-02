@@ -24,6 +24,8 @@ public class Literal: Value{
     // regular expression: ^((("(.*)")|('([\w\s]*)'))((@(\w*(-\w*)?))(\^\^xsd:(string))?|\^\^(xsd:(\w*)|<(.*)>))?|([+-]?[\d]*)|([+-]?[\d\.]*)|([+-]?[\d\.]*[eE][+-]?\d*)|(true|false))$
     private static let literalPattern = "^(((\"(.*)\")|('([\\w\\s]*)'))((@(\\w*(-\\w*)?))(\\^\\^xsd:(string))?|\\^\\^(xsd:(\\w*)|<(.*)>))?|([+-]?[\\d]*)|([+-]?[\\d\\.]*)|([+-]?[\\d\\.]*[eE][+-]?\\d*)|(true|false))$"
     
+    private static let maxIntValueFromDouble = Int64(pow(2,53.0))
+    
     // MARK: Properties
     
     /// The Datatype of the value represented by this literal (see `XSD` for the list of datatypes defined in XML Schema).
@@ -1826,7 +1828,7 @@ public func == (left: Literal, right: Literal) -> Bool? {
         if left.stringValue == right.stringValue {
             return true
         }
-        return false
+        return nil
     }
     if left.dataType == nil || right.dataType == nil {
         return false        // one of the data types is nil the other is not.
@@ -1838,8 +1840,55 @@ public func == (left: Literal, right: Literal) -> Bool? {
         if left.decimalValue != nil && right.decimalValue != nil {
             return left.decimalValue! == right.decimalValue!
         }
+        if left.decimalValue != nil && right.doubleValue != nil {
+            let equals = left.decimalValue! == Decimal(doubleValue: right.doubleValue!)!
+            if !equals {
+                return false
+            } else {
+                if left.decimalValue! > Decimal(longValue: Literal.maxIntValueFromDouble) {
+                    return nil // double not precise enough
+                }
+                return true
+            }
+        }
+        if left.doubleValue != nil && right.decimalValue != nil {
+            let equals = right.decimalValue! == Decimal(doubleValue: left.doubleValue!)!
+            if !equals {
+                return false
+            } else {
+                if right.decimalValue! > Decimal(longValue: Literal.maxIntValueFromDouble) {
+                    return nil // double not precise enough
+                }
+                return true
+            }
+        }
         if left.unsignedLongValue != nil && right.unsignedLongValue != nil {
             return left.unsignedLongValue == right.unsignedLongValue
+        }
+        if left.longValue != nil && right.longValue != nil {
+            return left.unsignedLongValue == right.unsignedLongValue
+        }
+        if left.longValue != nil && right.doubleValue != nil {
+            let equals = Double(left.longValue!) == right.doubleValue!
+            if !equals {
+                return false
+            } else {
+                if left.longValue! > Literal.maxIntValueFromDouble || left.longValue! < -Literal.maxIntValueFromDouble {
+                    return nil // double not precise enough
+                }
+                return true
+            }
+        }
+        if right.longValue != nil && left.doubleValue != nil {
+            let equals = Double(right.longValue!) == left.doubleValue!
+            if !equals {
+                return false
+            } else {
+                if right.longValue! > Literal.maxIntValueFromDouble || right.longValue! < -Literal.maxIntValueFromDouble {
+                    return nil // double not precise enough
+                }
+                return true
+            }
         }
         if left.doubleValue != nil && right.doubleValue != nil {
             return left.doubleValue == right.doubleValue
