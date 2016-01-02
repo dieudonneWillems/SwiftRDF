@@ -95,6 +95,7 @@ public class Statement : NSObject, SPARQLValue {
     }
 }
 
+// MARK: Operators for Statements
 
 /**
  This operator returns `true` when the Statements are equal, i.e. when

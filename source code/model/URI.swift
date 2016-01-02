@@ -262,6 +262,8 @@ public class URI : Resource {
     }
 }
 
+// MARK: Operators for URIs
+
 /**
  This operator returns `true` when both URI identify the same object, i.e. when
  their `stringValue`s are the same.
