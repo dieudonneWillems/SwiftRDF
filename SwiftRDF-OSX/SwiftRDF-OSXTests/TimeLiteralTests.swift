@@ -443,12 +443,48 @@ class TimeLiteralTests: XCTestCase {
         var comparisson = lit1 == lit2
         XCTAssertNotNil(comparisson)
         XCTAssertTrue(comparisson!)
+        comparisson = lit1 > lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        comparisson = lit1 < lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        comparisson = lit1 >= lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        comparisson = lit1 <= lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
         lit2 = Literal(stringValue: "1986-10-05-02:00", dataType: XSD.date)!
         comparisson = lit1 == lit2
         XCTAssertNotNil(comparisson)
         XCTAssertFalse(comparisson!)
+        comparisson = lit1 > lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        comparisson = lit1 < lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        comparisson = lit1 >= lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        comparisson = lit1 <= lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
         lit2 = Literal(stringValue: "1986-10-03-02:00", dataType: XSD.date)!
         comparisson = lit1 == lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        comparisson = lit1 > lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        comparisson = lit1 < lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        comparisson = lit1 >= lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        comparisson = lit1 <= lit2
         XCTAssertNotNil(comparisson)
         XCTAssertFalse(comparisson!)
         
@@ -457,21 +493,81 @@ class TimeLiteralTests: XCTestCase {
         comparisson = lit1 == lit2
         XCTAssertNotNil(comparisson)
         XCTAssertTrue(comparisson!)
+        comparisson = lit1 > lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        comparisson = lit1 < lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        comparisson = lit1 >= lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        comparisson = lit1 <= lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
         lit2 = Literal(stringValue: "1986-10-04T16:15:02+02:00", dataType: XSD.dateTime)!
         comparisson = lit1 == lit2
         XCTAssertNotNil(comparisson)
         XCTAssertTrue(comparisson!)
         XCTAssertTrue(comparisson!)
+        comparisson = lit1 > lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        comparisson = lit1 < lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        comparisson = lit1 >= lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        comparisson = lit1 <= lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
         lit2 = Literal(stringValue: "1986-10-05T02:15:02+12:00", dataType: XSD.dateTime)!
         comparisson = lit1 == lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        comparisson = lit1 > lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        comparisson = lit1 < lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        comparisson = lit1 >= lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        comparisson = lit1 <= lit2
         XCTAssertNotNil(comparisson)
         XCTAssertTrue(comparisson!)
         lit2 = Literal(stringValue: "1986-10-04T12:15:03-02:00", dataType: XSD.dateTime)!
         comparisson = lit1 == lit2
         XCTAssertNotNil(comparisson)
         XCTAssertFalse(comparisson!)
+        comparisson = lit1 > lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        comparisson = lit1 < lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        comparisson = lit1 >= lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        comparisson = lit1 <= lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
         lit2 = Literal(stringValue: "1986-10-04T12:15:01-02:00", dataType: XSD.dateTime)!
         comparisson = lit1 == lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        comparisson = lit1 > lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        comparisson = lit1 < lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        comparisson = lit1 >= lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        comparisson = lit1 <= lit2
         XCTAssertNotNil(comparisson)
         XCTAssertFalse(comparisson!)
     }
@@ -482,25 +578,96 @@ class TimeLiteralTests: XCTestCase {
         var comparisson = lit1 == lit2
         XCTAssertNotNil(comparisson)
         XCTAssertTrue(comparisson!)
+        comparisson = lit1 > lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        comparisson = lit1 < lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        comparisson = lit1 >= lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        comparisson = lit1 <= lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
         lit2 = Literal(stringValue: "P1Y12M", dataType: XSD.duration)!
         comparisson = lit1 == lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        comparisson = lit1 > lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        comparisson = lit1 < lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        comparisson = lit1 >= lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        comparisson = lit1 <= lit2
         XCTAssertNotNil(comparisson)
         XCTAssertTrue(comparisson!)
         lit2 = Literal(stringValue: "P1Y11M31D", dataType: XSD.duration)!
         comparisson = lit1 == lit2
         XCTAssertNil(comparisson)
+        comparisson = lit1 > lit2
+        XCTAssertNil(comparisson)
+        comparisson = lit1 < lit2
+        XCTAssertNil(comparisson)
+        comparisson = lit1 <= lit2
+        XCTAssertNil(comparisson)
+        comparisson = lit1 >= lit2
+        XCTAssertNil(comparisson)
         lit2 = Literal(stringValue: "P1Y13M", dataType: XSD.duration)!
         comparisson = lit1 == lit2
         XCTAssertNotNil(comparisson)
         XCTAssertFalse(comparisson!)
+        comparisson = lit1 > lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        comparisson = lit1 < lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        comparisson = lit1 >= lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        comparisson = lit1 <= lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
         lit2 = Literal(stringValue: "P1Y11M15D", dataType: XSD.duration)!
         comparisson = lit1 == lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        comparisson = lit1 > lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        comparisson = lit1 < lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        comparisson = lit1 >= lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        comparisson = lit1 <= lit2
         XCTAssertNotNil(comparisson)
         XCTAssertFalse(comparisson!)
         
         lit1 = Literal(stringValue: "P10D", dataType: XSD.duration)!
         lit2 = Literal(stringValue: "PT240H", dataType: XSD.duration)!
         comparisson = lit1 == lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        comparisson = lit1 == lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        comparisson = lit1 > lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        comparisson = lit1 < lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        comparisson = lit1 >= lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        comparisson = lit1 <= lit2
         XCTAssertNotNil(comparisson)
         XCTAssertTrue(comparisson!)
     }
