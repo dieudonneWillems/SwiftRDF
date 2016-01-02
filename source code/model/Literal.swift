@@ -1835,10 +1835,10 @@ public func == (left: Literal, right: Literal) -> Bool? {
     }
     if left.isStringLiteral && right.isStringLiteral {
         if left.language == nil && right.language != nil {
-            return nil
+            return false
         }
         if left.language != nil && right.language == nil {
-            return nil
+            return false
         }
         if left.language != nil && right.language != nil {
             if left.language != right.language {
@@ -1954,17 +1954,19 @@ public func < (left: Literal, right: Literal) -> Bool? {
     }
     if left.isStringLiteral && right.isStringLiteral {
         if left.language == nil && right.language != nil {
-            return nil
+            return false
         }
         if left.language != nil && right.language == nil {
-            return nil
+            return true
         }
-        if left.language != nil && right.language != nil {
-            if left.language != right.language {
-                return false
-            }
+        let comp = left.stringValue < right.stringValue
+        if comp {
+            return true
         }
-        return left.stringValue < right.stringValue
+        if left.stringValue == right.stringValue && left.language != nil && right.language != nil {
+            return left.language < right.language
+        }
+        return false
     }
     if left.isNumericLiteral && right.isNumericLiteral {
         if left.decimalValue != nil && right.decimalValue != nil {
@@ -2077,17 +2079,19 @@ public func > (left: Literal, right: Literal) -> Bool? {
     }
     if left.isStringLiteral && right.isStringLiteral {
         if left.language == nil && right.language != nil {
-            return nil
+            return false
         }
         if left.language != nil && right.language == nil {
-            return nil
+            return true
         }
-        if left.language != nil && right.language != nil {
-            if left.language != right.language {
-                return false
-            }
+        let comp = left.stringValue > right.stringValue
+        if comp {
+            return true
         }
-        return left.stringValue > right.stringValue
+        if left.stringValue == right.stringValue && left.language != nil && right.language != nil {
+            return left.language > right.language
+        }
+        return false
     }
     if left.isNumericLiteral && right.isNumericLiteral {
         if left.decimalValue != nil && right.decimalValue != nil {

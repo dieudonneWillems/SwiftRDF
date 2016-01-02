@@ -434,7 +434,8 @@ class StringLiteralTests: XCTestCase {
         XCTAssertTrue(comparisson!)
         lit2 = Literal(stringValue: "abcdefg", language: "en")!
         comparisson = lit1 == lit2
-        XCTAssertNil(comparisson)
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
         lit1 = Literal(stringValue: "abcdefg", language: "en")!
         lit2 = Literal(stringValue: "abcdefg", language: "en")!
         comparisson = lit1 == lit2
@@ -445,5 +446,100 @@ class StringLiteralTests: XCTestCase {
         XCTAssertNotNil(comparisson)
         XCTAssertFalse(comparisson!)
         
+        lit1 = Literal(stringValue: "abcdefg", dataType: XSD.string)!
+        lit2 = Literal(stringValue: "Abcdefg", dataType: XSD.string)!
+        comparisson = lit1 > lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        comparisson = lit1 >= lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        lit2 = Literal(stringValue: "abcdefg", dataType: XSD.string)!
+        comparisson = lit1 >= lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        lit1 = Literal(stringValue: "Abcdefg", dataType: XSD.string)!
+        comparisson = lit1 > lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        comparisson = lit1 >= lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        
+        lit1 = Literal(stringValue: "abcdefg", language: "fr")!
+        lit2 = Literal(stringValue: "abcdefg", language: "en")!
+        comparisson = lit1 > lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        lit2 = Literal(stringValue: "abcdefg", language: "nl")!
+        comparisson = lit1 > lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        lit2 = Literal(stringValue: "abcdefg", language: "fr")!
+        comparisson = lit1 > lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        
+        lit1 = Literal(stringValue: "abcdefg", language: "fr")!
+        lit2 = Literal(stringValue: "abcdefg", language: "en")!
+        comparisson = lit1 >= lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        lit2 = Literal(stringValue: "abcdefg", language: "nl")!
+        comparisson = lit1 >= lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        lit2 = Literal(stringValue: "abcdefg", language: "fr")!
+        comparisson = lit1 >= lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        
+        lit1 = Literal(stringValue: "abcdefg", dataType: XSD.string)!
+        lit2 = Literal(stringValue: "Abcdefg", dataType: XSD.string)!
+        comparisson = lit1 < lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        comparisson = lit1 <= lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        lit2 = Literal(stringValue: "abcdefg", dataType: XSD.string)!
+        comparisson = lit1 <= lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        lit1 = Literal(stringValue: "Abcdefg", dataType: XSD.string)!
+        comparisson = lit1 < lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        comparisson = lit1 <= lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        
+        lit1 = Literal(stringValue: "abcdefg", language: "fr")!
+        lit2 = Literal(stringValue: "abcdefg", language: "en")!
+        comparisson = lit1 < lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        lit2 = Literal(stringValue: "abcdefg", language: "nl")!
+        comparisson = lit1 < lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        lit2 = Literal(stringValue: "abcdefg", language: "fr")!
+        comparisson = lit1 < lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        
+        lit1 = Literal(stringValue: "abcdefg", language: "fr")!
+        lit2 = Literal(stringValue: "abcdefg", language: "en")!
+        comparisson = lit1 <= lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        lit2 = Literal(stringValue: "abcdefg", language: "nl")!
+        comparisson = lit1 <= lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        lit2 = Literal(stringValue: "abcdefg", language: "fr")!
+        comparisson = lit1 <= lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
     }
 }
