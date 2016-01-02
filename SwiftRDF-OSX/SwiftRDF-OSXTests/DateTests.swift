@@ -156,7 +156,7 @@ class DateTests: XCTestCase {
         var sdate = gdate!.startDate
         XCTAssertTrue(1450028372.233 == sdate!.timeIntervalSince1970)
         var edate = gdate!.endDate
-        XCTAssertTrue(1450028372.233 == edate!.timeIntervalSince1970)
+        XCTAssertTrue(1450028373.233 == edate!.timeIntervalSince1970)
         string = "2015-12-13+02:00"
         gdate = GregorianDate(date: string)
         sdate = gdate!.startDate
@@ -331,6 +331,424 @@ class DateTests: XCTestCase {
         string = "12:23:54.983244+02:00"
         gdate = GregorianDate(gDay: string)
         XCTAssertNil(gdate)
+    }
+    
+    func testStartAndEndDate() {
+        var string = "2012-03-02T13:45:23-01:30"
+        var gdate = GregorianDate(dateTime: string)
+        print("start date: \(gdate?.startDate)")
+        print("end date: \(gdate?.endDate)")
+        XCTAssertEqual("2012-03-02 15:15:23 +0000", "\(gdate!.startDate!)")
+        XCTAssertEqual("2012-03-02 15:15:24 +0000", "\(gdate!.endDate!)")
+        
+        string = "2012-03-02-01:30"
+        gdate = GregorianDate(date: string)
+        XCTAssertEqual("2012-03-02 01:30:00 +0000", "\(gdate!.startDate!)")
+        XCTAssertEqual("2012-03-03 01:30:00 +0000", "\(gdate!.endDate!)")
+        
+        string = "2012-03-01:30"
+        gdate = GregorianDate(gYearMonth: string)
+        XCTAssertEqual("2012-03-01 01:30:00 +0000", "\(gdate!.startDate!)")
+        XCTAssertEqual("2012-04-01 01:30:00 +0000", "\(gdate!.endDate!)")
+        
+        string = "2012-01:30"
+        gdate = GregorianDate(gYear: string)
+        XCTAssertEqual("2012-01-01 01:30:00 +0000", "\(gdate!.startDate!)")
+        XCTAssertEqual("2013-01-01 01:30:00 +0000", "\(gdate!.endDate!)")
+    }
+    
+    func testStartAndEndTimeRecurring() {
+        var string = "13:45:23-01:30"
+        var gdate = GregorianDate(time: string)
+        let date = NSDate(timeIntervalSince1970: 1451038514.37942)
+        var sdate = gdate!.nextStartTimeAfter(date)
+        var edate = gdate!.nextEndTimeAfter(date)
+        XCTAssertEqual("2015-12-25 15:15:23 +0000", "\(sdate!)")
+        XCTAssertEqual("2015-12-25 15:15:24 +0000", "\(edate!)")
+        sdate = gdate!.previousStartTimeBefore(date)
+        edate = gdate!.previousEndTimeBefore(date)
+        XCTAssertEqual("2015-12-24 15:15:23 +0000", "\(sdate!)")
+        XCTAssertEqual("2015-12-24 15:15:24 +0000", "\(edate!)")
+        
+        string = "00:30:56+02:30"
+        gdate = GregorianDate(time: string)
+        sdate = gdate!.nextStartTimeAfter(date)
+        edate = gdate!.nextEndTimeAfter(date)
+        XCTAssertEqual("2015-12-25 22:00:56 +0000", "\(sdate!)")
+        XCTAssertEqual("2015-12-25 22:00:57 +0000", "\(edate!)")
+        sdate = gdate!.previousStartTimeBefore(date)
+        edate = gdate!.previousEndTimeBefore(date)
+        XCTAssertEqual("2015-12-24 22:00:56 +0000", "\(sdate!)")
+        XCTAssertEqual("2015-12-24 22:00:57 +0000", "\(edate!)")
+    }
+    
+    func testStartAndEndgDayRecurring() {
+        var string = "---05-00:30"
+        var gdate = GregorianDate(gDay: string)
+        var date = NSDate(timeIntervalSince1970: 1451038514.37942)
+        var sdate = gdate!.nextStartTimeAfter(date)
+        var edate = gdate!.nextEndTimeAfter(date)
+        XCTAssertEqual("2016-01-05 00:30:00 +0000", "\(sdate!)")
+        XCTAssertEqual("2016-01-06 00:30:00 +0000", "\(edate!)")
+        sdate = gdate!.previousStartTimeBefore(date)
+        edate = gdate!.previousEndTimeBefore(date)
+        XCTAssertEqual("2015-12-05 00:30:00 +0000", "\(sdate!)")
+        XCTAssertEqual("2015-12-06 00:30:00 +0000", "\(edate!)")
+        
+        string = "---30Z"
+        gdate = GregorianDate(gDay: string)
+        sdate = gdate!.nextStartTimeAfter(date)
+        edate = gdate!.nextEndTimeAfter(date)
+        XCTAssertEqual("2015-12-30 00:00:00 +0000", "\(sdate!)")
+        XCTAssertEqual("2015-12-31 00:00:00 +0000", "\(edate!)")
+        sdate = gdate!.previousStartTimeBefore(date)
+        edate = gdate!.previousEndTimeBefore(date)
+        XCTAssertEqual("2015-11-30 00:00:00 +0000", "\(sdate!)")
+        XCTAssertEqual("2015-12-01 00:00:00 +0000", "\(edate!)")
+        
+        string = "---30Z"
+        gdate = GregorianDate(gDay: string)
+        date = NSDate(timeIntervalSince1970: 1451038514.37942+4320000)
+        sdate = gdate!.nextStartTimeAfter(date)
+        edate = gdate!.nextEndTimeAfter(date)
+        XCTAssertEqual("2016-03-30 00:00:00 +0000", "\(sdate!)")
+        XCTAssertEqual("2016-03-31 00:00:00 +0000", "\(edate!)")
+        sdate = gdate!.previousStartTimeBefore(date)
+        edate = gdate!.previousEndTimeBefore(date)
+        XCTAssertEqual("2016-01-30 00:00:00 +0000", "\(sdate!)")
+        XCTAssertEqual("2016-01-31 00:00:00 +0000", "\(edate!)")
+        
+        string = "---01Z"
+        gdate = GregorianDate(gDay: string)
+        date = NSDate(timeIntervalSince1970: 1451038514.37942)
+        sdate = gdate!.nextStartTimeAfter(date)
+        edate = gdate!.nextEndTimeAfter(date)
+        XCTAssertEqual("2016-01-01 00:00:00 +0000", "\(sdate!)")
+        XCTAssertEqual("2016-01-02 00:00:00 +0000", "\(edate!)")
+        sdate = gdate!.previousStartTimeBefore(date)
+        edate = gdate!.previousEndTimeBefore(date)
+        XCTAssertEqual("2015-12-01 00:00:00 +0000", "\(sdate!)")
+        XCTAssertEqual("2015-12-02 00:00:00 +0000", "\(edate!)")
+        
+        string = "---01Z"
+        gdate = GregorianDate(gDay: string)
+        date = NSDate(timeIntervalSince1970: 1451038514.37942+4320000)
+        sdate = gdate!.nextStartTimeAfter(date)
+        edate = gdate!.nextEndTimeAfter(date)
+        XCTAssertEqual("2016-03-01 00:00:00 +0000", "\(sdate!)")
+        XCTAssertEqual("2016-03-02 00:00:00 +0000", "\(edate!)")
+        sdate = gdate!.previousStartTimeBefore(date)
+        edate = gdate!.previousEndTimeBefore(date)
+        XCTAssertEqual("2016-02-01 00:00:00 +0000", "\(sdate!)")
+        XCTAssertEqual("2016-02-02 00:00:00 +0000", "\(edate!)")
+    }
+    
+    func testStartAndEndgDayRecurring2() {
+        let calendar = NSCalendar.currentCalendar()
+        calendar.timeZone = NSTimeZone(forSecondsFromGMT: 0)
+        var comps = NSDateComponents()
+        comps.year = 2016
+        comps.month = 1
+        comps.day = 1
+        comps.hour = 0
+        comps.minute = 0
+        comps.second = 1
+        var string = "---01Z"
+        var gdate = GregorianDate(gDay: string)
+        var date = calendar.dateFromComponents(comps)!
+        var sdate = gdate!.nextStartTimeAfter(date)
+        var edate = gdate!.nextEndTimeAfter(date)
+        XCTAssertEqual("2016-02-01 00:00:00 +0000", "\(sdate!)")
+        XCTAssertEqual("2016-02-02 00:00:00 +0000", "\(edate!)")
+        sdate = gdate!.previousStartTimeBefore(date)
+        edate = gdate!.previousEndTimeBefore(date)
+        XCTAssertEqual("2016-01-01 00:00:00 +0000", "\(sdate!)")
+        XCTAssertEqual("2016-01-02 00:00:00 +0000", "\(edate!)")
+        
+        string = "---31Z"
+        gdate = GregorianDate(gDay: string)
+        date = calendar.dateFromComponents(comps)!
+        sdate = gdate!.nextStartTimeAfter(date)
+        edate = gdate!.nextEndTimeAfter(date)
+        XCTAssertEqual("2016-01-31 00:00:00 +0000", "\(sdate!)")
+        XCTAssertEqual("2016-02-01 00:00:00 +0000", "\(edate!)")
+        sdate = gdate!.previousStartTimeBefore(date)
+        edate = gdate!.previousEndTimeBefore(date)
+        XCTAssertEqual("2015-12-31 00:00:00 +0000", "\(sdate!)")
+        XCTAssertEqual("2016-01-01 00:00:00 +0000", "\(edate!)")
+        
+        comps = NSDateComponents()
+        comps.year = 2016
+        comps.month = 1
+        comps.day = 31
+        comps.hour = 0
+        comps.minute = 0
+        comps.second = 1
+        string = "---01Z"
+        gdate = GregorianDate(gDay: string)
+        date = calendar.dateFromComponents(comps)!
+        sdate = gdate!.nextStartTimeAfter(date)
+        edate = gdate!.nextEndTimeAfter(date)
+        XCTAssertEqual("2016-02-01 00:00:00 +0000", "\(sdate!)")
+        XCTAssertEqual("2016-02-02 00:00:00 +0000", "\(edate!)")
+        sdate = gdate!.previousStartTimeBefore(date)
+        edate = gdate!.previousEndTimeBefore(date)
+        XCTAssertEqual("2016-01-01 00:00:00 +0000", "\(sdate!)")
+        XCTAssertEqual("2016-01-02 00:00:00 +0000", "\(edate!)")
+        
+        string = "---31Z"
+        gdate = GregorianDate(gDay: string)
+        date = calendar.dateFromComponents(comps)!
+        sdate = gdate!.nextStartTimeAfter(date)
+        edate = gdate!.nextEndTimeAfter(date)
+        XCTAssertEqual("2016-03-31 00:00:00 +0000", "\(sdate!)")
+        XCTAssertEqual("2016-04-01 00:00:00 +0000", "\(edate!)")
+        sdate = gdate!.previousStartTimeBefore(date)
+        edate = gdate!.previousEndTimeBefore(date)
+        XCTAssertEqual("2016-01-31 00:00:00 +0000", "\(sdate!)")
+        XCTAssertEqual("2016-02-01 00:00:00 +0000", "\(edate!)")
+        
+        string = "---30Z"
+        gdate = GregorianDate(gDay: string)
+        date = calendar.dateFromComponents(comps)!
+        sdate = gdate!.nextStartTimeAfter(date)
+        edate = gdate!.nextEndTimeAfter(date)
+        XCTAssertEqual("2016-03-30 00:00:00 +0000", "\(sdate!)")
+        XCTAssertEqual("2016-03-31 00:00:00 +0000", "\(edate!)")
+        sdate = gdate!.previousStartTimeBefore(date)
+        edate = gdate!.previousEndTimeBefore(date)
+        XCTAssertEqual("2016-01-30 00:00:00 +0000", "\(sdate!)")
+        XCTAssertEqual("2016-01-31 00:00:00 +0000", "\(edate!)")
+        
+        comps = NSDateComponents()
+        comps.year = 2016
+        comps.month = 2
+        comps.day = 15
+        comps.hour = 0
+        comps.minute = 0
+        comps.second = 1
+        string = "---01Z"
+        gdate = GregorianDate(gDay: string)
+        date = calendar.dateFromComponents(comps)!
+        sdate = gdate!.nextStartTimeAfter(date)
+        edate = gdate!.nextEndTimeAfter(date)
+        XCTAssertEqual("2016-03-01 00:00:00 +0000", "\(sdate!)")
+        XCTAssertEqual("2016-03-02 00:00:00 +0000", "\(edate!)")
+        sdate = gdate!.previousStartTimeBefore(date)
+        edate = gdate!.previousEndTimeBefore(date)
+        XCTAssertEqual("2016-02-01 00:00:00 +0000", "\(sdate!)")
+        XCTAssertEqual("2016-02-02 00:00:00 +0000", "\(edate!)")
+        
+        string = "---31Z"
+        gdate = GregorianDate(gDay: string)
+        date = calendar.dateFromComponents(comps)!
+        sdate = gdate!.nextStartTimeAfter(date)
+        edate = gdate!.nextEndTimeAfter(date)
+        XCTAssertEqual("2016-03-31 00:00:00 +0000", "\(sdate!)")
+        XCTAssertEqual("2016-04-01 00:00:00 +0000", "\(edate!)")
+        sdate = gdate!.previousStartTimeBefore(date)
+        edate = gdate!.previousEndTimeBefore(date)
+        XCTAssertEqual("2016-01-31 00:00:00 +0000", "\(sdate!)")
+        XCTAssertEqual("2016-02-01 00:00:00 +0000", "\(edate!)")
+    }
+    
+    func testStartAndEndgMonthRecurring() {
+        let calendar = NSCalendar.currentCalendar()
+        calendar.timeZone = NSTimeZone(forSecondsFromGMT: 0)
+        var comps = NSDateComponents()
+        comps.year = 2016
+        comps.month = 1
+        comps.day = 1
+        comps.hour = 0
+        comps.minute = 0
+        comps.second = 1
+        var string = "--01Z"
+        var gdate = GregorianDate(gMonth: string)
+        var date = calendar.dateFromComponents(comps)!
+        var sdate = gdate!.nextStartTimeAfter(date)
+        var edate = gdate!.nextEndTimeAfter(date)
+        XCTAssertEqual("2017-01-01 00:00:00 +0000", "\(sdate!)")
+        XCTAssertEqual("2017-02-01 00:00:00 +0000", "\(edate!)")
+        sdate = gdate!.previousStartTimeBefore(date)
+        edate = gdate!.previousEndTimeBefore(date)
+        XCTAssertEqual("2016-01-01 00:00:00 +0000", "\(sdate!)")
+        XCTAssertEqual("2016-02-01 00:00:00 +0000", "\(edate!)")
+        
+        string = "--12Z"
+        gdate = GregorianDate(gMonth: string)
+        date = calendar.dateFromComponents(comps)!
+        sdate = gdate!.nextStartTimeAfter(date)
+        edate = gdate!.nextEndTimeAfter(date)
+        XCTAssertEqual("2016-12-01 00:00:00 +0000", "\(sdate!)")
+        XCTAssertEqual("2017-01-01 00:00:00 +0000", "\(edate!)")
+        sdate = gdate!.previousStartTimeBefore(date)
+        edate = gdate!.previousEndTimeBefore(date)
+        XCTAssertEqual("2015-12-01 00:00:00 +0000", "\(sdate!)")
+        XCTAssertEqual("2016-01-01 00:00:00 +0000", "\(edate!)")
+        
+        comps = NSDateComponents()
+        comps.year = 2016
+        comps.month = 12
+        comps.day = 31
+        comps.hour = 0
+        comps.minute = 0
+        comps.second = 1
+        string = "--01Z"
+        gdate = GregorianDate(gMonth: string)
+        date = calendar.dateFromComponents(comps)!
+        sdate = gdate!.nextStartTimeAfter(date)
+        edate = gdate!.nextEndTimeAfter(date)
+        XCTAssertEqual("2017-01-01 00:00:00 +0000", "\(sdate!)")
+        XCTAssertEqual("2017-02-01 00:00:00 +0000", "\(edate!)")
+        sdate = gdate!.previousStartTimeBefore(date)
+        edate = gdate!.previousEndTimeBefore(date)
+        XCTAssertEqual("2016-01-01 00:00:00 +0000", "\(sdate!)")
+        XCTAssertEqual("2016-02-01 00:00:00 +0000", "\(edate!)")
+        
+        string = "--12Z"
+        gdate = GregorianDate(gMonth: string)
+        date = calendar.dateFromComponents(comps)!
+        sdate = gdate!.nextStartTimeAfter(date)
+        edate = gdate!.nextEndTimeAfter(date)
+        XCTAssertEqual("2017-12-01 00:00:00 +0000", "\(sdate!)")
+        XCTAssertEqual("2018-01-01 00:00:00 +0000", "\(edate!)")
+        sdate = gdate!.previousStartTimeBefore(date)
+        edate = gdate!.previousEndTimeBefore(date)
+        XCTAssertEqual("2016-12-01 00:00:00 +0000", "\(sdate!)")
+        XCTAssertEqual("2017-01-01 00:00:00 +0000", "\(edate!)")
+    }
+    
+    func testStartAndEndgMonthDayRecurring() {
+        let calendar = NSCalendar.currentCalendar()
+        calendar.timeZone = NSTimeZone(forSecondsFromGMT: 0)
+        var comps = NSDateComponents()
+        comps.year = 2016
+        comps.month = 1
+        comps.day = 1
+        comps.hour = 0
+        comps.minute = 0
+        comps.second = 1
+        var string = "--01-01Z"
+        var gdate = GregorianDate(gMonthDay: string)
+        var date = calendar.dateFromComponents(comps)!
+        var sdate = gdate!.nextStartTimeAfter(date)
+        var edate = gdate!.nextEndTimeAfter(date)
+        XCTAssertEqual("2017-01-01 00:00:00 +0000", "\(sdate!)")
+        XCTAssertEqual("2017-01-02 00:00:00 +0000", "\(edate!)")
+        sdate = gdate!.previousStartTimeBefore(date)
+        edate = gdate!.previousEndTimeBefore(date)
+        XCTAssertEqual("2016-01-01 00:00:00 +0000", "\(sdate!)")
+        XCTAssertEqual("2016-01-02 00:00:00 +0000", "\(edate!)")
+        
+        string = "--12-05Z"
+        gdate = GregorianDate(gMonthDay: string)
+        date = calendar.dateFromComponents(comps)!
+        sdate = gdate!.nextStartTimeAfter(date)
+        edate = gdate!.nextEndTimeAfter(date)
+        XCTAssertEqual("2016-12-05 00:00:00 +0000", "\(sdate!)")
+        XCTAssertEqual("2016-12-06 00:00:00 +0000", "\(edate!)")
+        sdate = gdate!.previousStartTimeBefore(date)
+        edate = gdate!.previousEndTimeBefore(date)
+        XCTAssertEqual("2015-12-05 00:00:00 +0000", "\(sdate!)")
+        XCTAssertEqual("2015-12-06 00:00:00 +0000", "\(edate!)")
+        
+        comps = NSDateComponents()
+        comps.year = 2016
+        comps.month = 12
+        comps.day = 31
+        comps.hour = 0
+        comps.minute = 0
+        comps.second = 1
+        string = "--01-01Z"
+        gdate = GregorianDate(gMonthDay: string)
+        date = calendar.dateFromComponents(comps)!
+        sdate = gdate!.nextStartTimeAfter(date)
+        edate = gdate!.nextEndTimeAfter(date)
+        XCTAssertEqual("2017-01-01 00:00:00 +0000", "\(sdate!)")
+        XCTAssertEqual("2017-01-02 00:00:00 +0000", "\(edate!)")
+        sdate = gdate!.previousStartTimeBefore(date)
+        edate = gdate!.previousEndTimeBefore(date)
+        XCTAssertEqual("2016-01-01 00:00:00 +0000", "\(sdate!)")
+        XCTAssertEqual("2016-01-02 00:00:00 +0000", "\(edate!)")
+        
+        string = "--12-31Z"
+        gdate = GregorianDate(gMonthDay: string)
+        date = calendar.dateFromComponents(comps)!
+        sdate = gdate!.nextStartTimeAfter(date)
+        edate = gdate!.nextEndTimeAfter(date)
+        XCTAssertEqual("2017-12-31 00:00:00 +0000", "\(sdate!)")
+        XCTAssertEqual("2018-01-01 00:00:00 +0000", "\(edate!)")
+        sdate = gdate!.previousStartTimeBefore(date)
+        edate = gdate!.previousEndTimeBefore(date)
+        XCTAssertEqual("2016-12-31 00:00:00 +0000", "\(sdate!)")
+        XCTAssertEqual("2017-01-01 00:00:00 +0000", "\(edate!)")
+    }
+    
+    func testComparisons() {
+        let date1 = GregorianDate(dateTime: "2015-12-29T13:40:20+01:00")!
+        var date2 = GregorianDate(dateTime: "2015-12-29T13:40:22+01:00")!
+        XCTAssertTrue(date1 < date2)
+        XCTAssertTrue(date1 <= date2)
+        XCTAssertTrue(date1 != date2)
+        XCTAssertFalse(date1 > date2)
+        XCTAssertFalse(date1 >= date2)
+        XCTAssertFalse(date1 == date2)
+        
+        date2 = GregorianDate(dateTime: "2015-12-29T13:40:20+01:00")!
+        XCTAssertFalse(date1 < date2)
+        XCTAssertTrue(date1 <= date2)
+        XCTAssertFalse(date1 != date2)
+        XCTAssertFalse(date1 > date2)
+        XCTAssertTrue(date1 >= date2)
+        XCTAssertTrue(date1 == date2)
+        
+        date2 = GregorianDate(date: "2015-12-29+01:00")!
+        XCTAssertFalse(date1 < date2)
+        XCTAssertFalse(date1 <= date2)
+        XCTAssertTrue(date1 > date2)
+        XCTAssertTrue(date1 >= date2)
+        XCTAssertTrue(date1 != date2)
+        XCTAssertFalse(date1 == date2)
+        
+        date2 = GregorianDate(gYearMonth: "2015-12+01:00")!
+        XCTAssertFalse(date1 < date2)
+        XCTAssertFalse(date1 <= date2)
+        XCTAssertTrue(date1 > date2)
+        XCTAssertTrue(date1 >= date2)
+        XCTAssertTrue(date1 != date2)
+        XCTAssertFalse(date1 == date2)
+        
+        date2 = GregorianDate(gYear: "2015+01:00")!
+        XCTAssertFalse(date1 < date2)
+        XCTAssertFalse(date1 <= date2)
+        XCTAssertTrue(date1 > date2)
+        XCTAssertTrue(date1 >= date2)
+        XCTAssertTrue(date1 != date2)
+        XCTAssertFalse(date1 == date2)
+        
+        date2 = GregorianDate(date: "2015-12-30+01:00")!
+        XCTAssertTrue(date1 < date2)
+        XCTAssertTrue(date1 <= date2)
+        XCTAssertFalse(date1 > date2)
+        XCTAssertFalse(date1 >= date2)
+        XCTAssertTrue(date1 != date2)
+        XCTAssertFalse(date1 == date2)
+        
+        date2 = GregorianDate(gYearMonth: "2016-05+01:00")!
+        XCTAssertTrue(date1 < date2)
+        XCTAssertTrue(date1 <= date2)
+        XCTAssertFalse(date1 > date2)
+        XCTAssertFalse(date1 >= date2)
+        XCTAssertTrue(date1 != date2)
+        XCTAssertFalse(date1 == date2)
+        
+        date2 = GregorianDate(gYear: "2016+01:00")!
+        XCTAssertTrue(date1 < date2)
+        XCTAssertTrue(date1 <= date2)
+        XCTAssertFalse(date1 > date2)
+        XCTAssertFalse(date1 >= date2)
+        XCTAssertTrue(date1 != date2)
+        XCTAssertFalse(date1 == date2)
     }
 }
 

@@ -138,10 +138,12 @@ public class GregorianDate : CustomStringConvertible {
                 let date = GregorianDate.calendar.dateFromComponents(components)
                 return date
             } else {
-                // TODO: Start date for recuring dates/times
-                
+                if isRecurringNow {
+                    return previousStartTime
+                } else {
+                    return nextStartTime
+                }
             }
-            return nil
         }
     }
     
@@ -170,7 +172,7 @@ public class GregorianDate : CustomStringConvertible {
     public var duration : Duration? {
         get {
             if second != nil {
-                return Duration(positive: true, years: 0, months: 0, days: 0, hours: 0, minutes: 0, seconds: 0)
+                return Duration(positive: true, years: 0, months: 0, days: 0, hours: 0, minutes: 0, seconds: 1)
             } else if minute != nil {
                 return Duration(positive: true, years: 0, months: 0, days: 0, hours: 0, minutes: 1, seconds: 0)
             } else if hour != nil {
@@ -203,11 +205,76 @@ public class GregorianDate : CustomStringConvertible {
         }
     }
     
+    /**
+     This property is true when the Gregorian Date is at this moment in time occurring or recurring. For instance
+     when the Gregorian date is a date that recurs every 5th day of the month and today is the 5th of December,
+     this property will be `true`.
+     */
+    public var isRecurringNow : Bool {
+        return isRecurringAt(NSDate())
+    }
+    
+    /**
+     The first (non-recurring) Gregorian Date occurrence of this (possibly recurring) Gregorigan Date in the future. 
+     See also: `previousGregorianDate`, `nextStartTime`, `previousGregorianDateBefore(_:)`, and `nextStartTimeAfter(_:)`.
+     */
+    public var nextGregorianDate : GregorianDate? {
+        return nextGregorianDateAfter(NSDate())
+    }
+    
+    /**
+     The last (non-recurring) Gregorian Date occurrence of this (possibly recurring) Gregorigan Date in the past.
+     If the Gregorian date is occurring at this moment, the current occurrence is returned. 
+     See also: `nextGregorianDate`, `previousStartTime`, `previousGregorianDateBefore(_:)`, and `previousStartTimeBefore(_:)`.
+     */
+    public var previousGregorianDate : GregorianDate? {
+        return previousGregorianDateBefore(NSDate())
+    }
+    
+    /**
+     The first start time of the Gregorian Date in the future.
+     See also: `nextGregorianDate`, `previousStartTime`, `nextGregorianDateAfter(_:)`, and `nextStartTimeAfter(_:)`.
+     */
+    public var nextStartTime : NSDate? {
+        return nextStartTimeAfter(NSDate())
+    }
+    
+    /**
+     The first end time of the Gregorian Date after the next start time (see `nextStartTime`).
+     See also: `nextGregorianDate`, `previousEndTime`, `nextGregorianDateAfter(_:)`, and `nextEndTimeAfter(_:)`.
+     */
+    public var nextEndTime : NSDate? {
+        let stime = nextStartTimeAfter(NSDate())
+        if stime != nil {
+            return nextEndTimeAfter(stime!)
+        }
+        return nil
+    }
+    
+    /**
+     The last start time of the Gregorian Date in the past.
+     See also: `previousGregorianDate`, `nextStartTime`, `previousGregorianDateBefore(_:)`, and `previousStartTimeBefore(_:)`.
+     */
+    public var previousStartTime : NSDate? {
+        let etime = previousEndTimeBefore(NSDate())
+        if etime != nil {
+            return previousStartTimeBefore(etime!)
+        }
+        return nil
+    }
+    
+    /**
+     The last end time of the Gregorian Date after the previous start time (see `previousStartTime`).
+     See also: `previousGregorianDate`, `nextEndTime`, `previousGregorianDateBefore(_:)`, and `previousEndTimeBefore(_:)`.
+     */
+    public var previousEndTime : NSDate? {
+        return previousEndTimeBefore(NSDate())
+    }
     
     // MARK: XSD string representations
     
     /**
-     The XSD data type for this Gregorian date. The `GregorianDate` class can represent all (recurring) date and 
+     The XSD data type for this Gregorian date. The `GregorianDate` class can represent all (recurring) date and
      time data types specified in the [XML Schema specification for datatypes](http://www.w3.org/TR/xmlschema-2/),
      such as `XSD.dateTime`, `XSD.date`, `XSD.gYearMonth`, `XSD.gYear`, and the recurring dates/times `XSD.time`,
      `XSD.gMonthDay`, `XSD.gMonth`, and `XSD.gDay`.
@@ -729,6 +796,55 @@ public class GregorianDate : CustomStringConvertible {
     }
     
     /**
+     Creates a new `GregorianDate` with the date and/or time of the specified `NSDate` object.
+     The time zone of the Gregorian Date will be Greenwich Mean Time (GMT). Only those date components
+     relevant for the specified datatype will be used. For instance, when the datatype is
+     `xsd:date`, only the year, month, and day will be copied into the gregorian date, the hour, minute,
+     and second will be set to 0. If the datatype is `xsd:gDay` only the day component will be copied and
+     a recurring Gregorian date will be returned that will recur each month on the same day as the day
+     component in the date.
+     
+     - parameter date: The `NSDate` object that represents the date and time.
+     - parameter datatype: The type of date to be represented.
+     */
+    public convenience init(date: NSDate, datatype : Datatype) {
+        let tz = NSTimeZone(forSecondsFromGMT: 0)
+        self.init(date:date, timeZone : tz, datatype : datatype)
+    }
+    
+    /**
+     Creates a new `GregorianDate` with the date and/or time of the specified `NSDate` object.
+     Only those date components
+     relevant for the specified datatype will be used. For instance, when the datatype is
+     `xsd:date`, only the year, month, and day will be copied into the gregorian date, the hour, minute,
+     and second will be set to 0. If the datatype is `xsd:gDay` only the day component will be copied and
+     a recurring Gregorian date will be returned that will recur each month on the same day as the day
+     component in the date.
+     
+     - parameter date: The `NSDate` object that represents the date and time.
+     - parameter timeZone: The time zone of the date.
+     - parameter datatype: The type of date to be represented.
+     */
+    public convenience init(date: NSDate, timeZone : NSTimeZone, datatype : Datatype) {
+        self.init(date:date, timeZone : timeZone)
+        if datatype == XSD.date || datatype == XSD.gYear || datatype == XSD.gYearMonth ||
+            datatype == XSD.gMonthDay || datatype == XSD.gMonth || datatype == XSD.gDay {
+            self.hour = 0
+            self.minute = 0
+            self.second = 0
+        }
+        if datatype == XSD.gYear || datatype == XSD.gYearMonth || datatype == XSD.gMonth  {
+                self.day = 0
+        }
+        if datatype == XSD.gYear || datatype == XSD.gDay {
+                self.month = 0
+        }
+        if datatype == XSD.gMonthDay || datatype == XSD.gMonth || datatype == XSD.gDay {
+                self.year = 0
+        }
+    }
+    
+    /**
      Creates a new `GregorianDate` with the date and time of the specified `NSDate` object.
      
      - parameter date: The `NSDate` object that represents the date and time.
@@ -1048,6 +1164,552 @@ public class GregorianDate : CustomStringConvertible {
         return ngd
     }
     
+    /**
+     Returns true when the gregorian date is at recurring or occuring at the specified date,
+     i.e. when the start time is earlier, and the end time is later than the specified date.
+     
+     - parameter date: The date that is tested whether the gregorian date is reocurring or occuring at that moment.
+     - returns: True when the gregorian date is recurring or occuring at the moment specified by the date.
+     */
+    public func isRecurringAt(date : NSDate) -> Bool {
+        let sdate = previousStartTimeBefore(date)
+        let dur = duration
+        if sdate != nil && dur != nil {
+            let calendar = NSCalendar.currentCalendar()
+            if timezone != nil {
+                calendar.timeZone = timezone!
+            } else {
+                calendar.timeZone = NSTimeZone(forSecondsFromGMT: 0)
+            }
+            let components = NSDateComponents()
+            components.year = Int(dur!.years)
+            components.month = Int(dur!.months)
+            components.day = Int(dur!.days)
+            components.hour = Int(dur!.hours)
+            components.minute = Int(dur!.minutes)
+            components.second = Int(dur!.seconds)
+            components.nanosecond = Int((dur!.seconds-Double(Int(dur!.seconds)))*1e9)
+            let edate = calendar.dateFromComponents(components)
+            if edate != nil && sdate == date.earlierDate(sdate!) && edate == date.laterDate(edate!) {
+                return true
+            }
+        }
+        return false
+    }
+    
+    /**
+     Returns the non-recurring Gregorian date that is the next occurrence of this Gregorian date after the
+     specified date. If this Gregorian date is not recurring, this instance of Gregorian date (`self`) will
+     be returned. If this Gregorian date is recurring the datatype (`XSDDataType`) of the returned Gregorian date
+     will depend on the datatype of the recieving instance:
+     
+     - For a recurring date `xsd:time`, a Gregorian date of type `xsd:dateTime` will be returned.
+     - For a recurring date `xsd:gMonthDay`, a Gregorian date of type `xsd:date` will be returned.
+     - For a recurring date `xsd:gMonth`, a Gregorian date of type `xsd:gYearMonth` will be returned.
+     - For a recurring date `xsd:gDay`, a Gregorian date of type `xsd:date` will be returned.
+     
+     - parameter date: The date after which the next Gregorian Date should be found and returned.
+     - returns: The non-recurring date of the next time the reciever occurs.
+     */
+    public func nextGregorianDateAfter(date: NSDate) -> GregorianDate? {
+        let starttime = nextStartTimeAfter(date)
+        if starttime != nil {
+            return gregorianDateFrom(starttime!)
+        }
+        return nil
+    }
+    
+    /**
+     Returns the non-recurring Gregorian date that is the previous occurrence of this Gregorian date after the
+     specified date. If the Gregorian date is occurring at the specified date, that occurrence
+     will be returned.
+     If this Gregorian date is not recurring, this instance of Gregorian date (`self`) will
+     be returned. If this Gregorian date is recurring the datatype (`XSDDataType`) of the returned Gregorian date
+     will depend on the datatype of the recieving instance:
+     
+     - For a recurring date `xsd:time`, a Gregorian date of type `xsd:dateTime` will be returned.
+     - For a recurring date `xsd:gMonthDay`, a Gregorian date of type `xsd:date` will be returned.
+     - For a recurring date `xsd:gMonth`, a Gregorian date of type `xsd:gYearMonth` will be returned.
+     - For a recurring date `xsd:gDay`, a Gregorian date of type `xsd:date` will be returned.
+     
+     - parameter date: The date before which the previous Gregorian Date should be found and returned.
+     - returns: The non-recurring date of the previous time the reciever occurs.
+     */
+    public func previousGregorianDateBefore(date: NSDate) -> GregorianDate? {
+        let starttime = previousStartTimeBefore(date)
+        if starttime != nil {
+            return gregorianDateFrom(starttime!)
+        }
+        return nil
+    }
+    
+    /**
+     Returns the start time of the next occurrence of the gregorian date after the specified date.
+     The start time is determined according to:
+     
+     - If the Gregorian date is not recurring, this will be the start time of the gregorian date if the start time
+     is in the future of the specified date, or nil if it is in the past.
+     - If the Gregorian date is a recurring date, the first start time that is later than the specified date will
+     be returned.
+     - If the recurring Gregorian date is occurring at the specified date, the start time of the next occurrence will
+     be returned.
+     
+     - parameter date: The date after which the first start time is to be returned.
+     - returns: The first start time of the gregorian date after the specified date.
+     */
+    public func nextStartTimeAfter(date : NSDate) -> NSDate? {
+        if !isRecurring {
+            let sd = startDate
+            if sd != nil && sd == date.laterDate(sd!) {
+                return sd
+            }
+            return nil
+        }
+        return nextStartTimeAfter(date, runningDate: date)
+    }
+    
+    /**
+     Returns the start time of the previous occurrence of the gregorian date before the specified date.
+     The start time is determined according to:
+     
+     - If the Gregorian date is not recurring, this will be the start time of the gregorian date if the start time
+     is in the past of the specified date, or nil if it is in the future.
+     - If the Gregorian date is a recurring date, the last start time that is earlier than the specified date will
+     be returned.
+     - If the recurring Gregorian date is occurring at the specified date, the start time of the current occurrence will
+     be returned.
+     
+     - parameter date: The date before which the last start time is to be returned.
+     - returns: The last start time of the gregorian date before the specified date.
+     */
+    public func previousStartTimeBefore(date : NSDate) -> NSDate? {
+        if !isRecurring {
+            let sd = startDate
+            if sd != nil && sd == date.earlierDate(sd!) {
+                return sd
+            }
+            return nil
+        }
+        return previousStartTimeBefore(date, runningDate: date)
+    }
+    /**
+     Returns the end time of the next occurrence of the gregorian date after the specified date.
+     The end time is determined according to:
+     
+     - If the gregorian date is not recurring, this will be the end time of the gregorian date if the end time
+     is in the future of the specified date, or nil if it is in the past.
+     - If the gregorian date is a recurring date, the first end time that is later than the specified date will
+     be returned.
+     - If the recurring Gregorian date is occurring at the specified date, the end time of the next occurrence will
+     be returned.
+     
+     - parameter date: The date after which the first end time is to be returned.
+     - returns: The first end time of the gregorian date after the specified date.
+     */
+    public func nextEndTimeAfter(date : NSDate) -> NSDate? {
+        var retDate = nextStartTimeAfter(date)
+        let changedc = NSDateComponents()
+        let calendar = NSCalendar.currentCalendar()
+        if timezone != nil {
+            calendar.timeZone = timezone!
+        } else {
+            calendar.timeZone = NSTimeZone(forSecondsFromGMT: 0)
+        }
+        if retDate != nil {
+            if year == nil && month == nil && day == nil { // xsd:time
+                changedc.second = 1
+            } else if year == nil && month == nil { // xsd:gDay
+                changedc.day = 1
+            } else if year == nil && day == nil { // xsd:gMonth
+                changedc.month = 1
+            } else if year == nil { // xsd:gMonthDay
+                changedc.day = 1
+            }
+            retDate = calendar.dateByAddingComponents(changedc, toDate: retDate!, options: NSCalendarOptions(rawValue: 0))
+        }
+        return retDate
+    }
+    
+    /**
+     Returns the end time of the previous occurrence of the gregorian date before the specified date.
+     The end time is determined according to:
+     
+     - If the gregorian date is not recurring, this will be the end time of the gregorian date if the end time
+     is in the past of the specified date, or nil if it is in the future.
+     - If the gregorian date is a recurring date, the last end time that is earlier than the specified date will
+     be returned.
+     - If the recurring Gregorian date is occurring at the specified date, the end time of the current occurrence will
+     be returned.
+     
+     - parameter date: The date before which the last end time is to be returned.
+     - returns: The last end time of the gregorian date before the specified date.
+     */
+    public func previousEndTimeBefore(date : NSDate) -> NSDate? {
+        var retDate = previousStartTimeBefore(date)
+        let changedc = NSDateComponents()
+        let calendar = NSCalendar.currentCalendar()
+        if timezone != nil {
+            calendar.timeZone = timezone!
+        } else {
+            calendar.timeZone = NSTimeZone(forSecondsFromGMT: 0)
+        }
+        if retDate != nil {
+            if year == nil && month == nil && day == nil { // xsd:time
+                changedc.second = 1
+            } else if year == nil && month == nil { // xsd:gDay
+                changedc.day = 1
+            } else if year == nil && day == nil { // xsd:gMonth
+                changedc.month = 1
+            } else if year == nil { // xsd:gMonthDay
+                changedc.day = 1
+            }
+            retDate = calendar.dateByAddingComponents(changedc, toDate: retDate!, options: NSCalendarOptions(rawValue: 0))
+        }
+        return retDate
+    }
+    
+    
+    // MARK: Date comparissons
+    
+    /**
+     Returnst the earlier date of the reciever or the compared gregorian date. A date is earlier if one of the following
+     is true. The first condition has precedence over the following conditions.
+    
+     - The start date is earlier
+     - The start dates are equal but the end date is earlier.
+    
+     This function will return `nil` if:
+     
+     - The start dates of one the two Gregorian dates could not be determined, i.e. `startDate` returns `nil`.
+     - The start dates are equal and the end date of one of the two Gregorian dates could not be determined, i.e. `endDate` returns `nil`.
+     - Both start dates and end dates are equal, i.e. the Gregorian dates are equal.
+    
+     - parameter comparedDate: The date to be compared with the reciever.
+     - returns: The earlier date or `nil` when the start and end dates are equal or the dates could not be compared.
+     */
+    public func earlierGregorianDate(comparedDate : GregorianDate) -> GregorianDate? {
+        let startDate1 = self.startDate
+        let startDate2 = comparedDate.startDate
+        if startDate1 == nil || startDate2 == nil {
+            return nil    // one of the two start dates is nil ==> cannot be compared
+        }
+        if startDate1 == startDate1!.earlierDate(startDate2!) {
+            if startDate1!.isEqualToDate(startDate2!) {
+                let endDate1 = self.endDate
+                let endDate2 = comparedDate.endDate
+                if endDate1 == nil || endDate2 == nil {
+                    return nil // One of the two end dates is nil while the start dates are equal ==> cannot be compared
+                }
+                if endDate1 == endDate1!.earlierDate(endDate2!) {
+                    if endDate1!.isEqualToDate(endDate2!) {
+                        return nil // Both start dates and end dates are equal, the gregorian dates are equal ==> return nil
+                    } else {
+                        return self // Start dates are equal but the reciever has an earlier end date
+                    }
+                } else {
+                    return comparedDate // The start dates are equal but the comparedDate has en earlier end date
+                }
+            } else {
+                return self // The start date of the reciever is earlier.
+            }
+        } else {
+            return comparedDate // The start date of the comparedDate is earlier.
+        }
+    }
+    
+    /**
+     Returnst the later date of the reciever or the compared gregorian date. A date is later if one of the following
+     is true. The first condition has precedence over the following conditions.
+     
+     - The start date is later
+     - The start dates are equal but the end date is later.
+     
+     This function will return `nil` if:
+     
+     - The start dates of one the two Gregorian dates could not be determined, i.e. `startDate` returns `nil`.
+     - The start dates are equal and the end date of one of the two Gregorian dates could not be determined, i.e. `endDate` returns `nil`.
+     - Both start dates and end dates are equal, i.e. the Gregorian dates are equal.
+     
+     - parameter comparedDate: The date to be compared with the reciever.
+     - returns: The later date or `nil` when the start and end dates are equal or the dates could not be compared.
+     */
+    public func laterGregorianDate(comparedDate : GregorianDate) -> GregorianDate? {
+        let startDate1 = self.startDate
+        let startDate2 = comparedDate.startDate
+        if startDate1 == nil || startDate2 == nil {
+            return nil    // one of the two start dates is nil ==> cannot be compared
+        }
+        if startDate1 == startDate1!.laterDate(startDate2!) {
+            if startDate1!.isEqualToDate(startDate2!) {
+                let endDate1 = self.endDate
+                let endDate2 = comparedDate.endDate
+                if endDate1 == nil || endDate2 == nil {
+                    return nil // One of the two end dates is nil while the start dates are equal ==> cannot be compared
+                }
+                if endDate1 == endDate1!.laterDate(endDate2!) {
+                    if endDate1!.isEqualToDate(endDate2!) {
+                        return nil // Both start dates and end dates are equal, the gregorian dates are equal ==> return nil
+                    } else {
+                        return self // Start dates are equal but the reciever has a later end date
+                    }
+                } else {
+                    return comparedDate // The start dates are equal but the comparedDate has a later end date
+                }
+            } else {
+                return self // The start date of the reciever is later.
+            }
+        } else {
+            return comparedDate // The start date of the comparedDate is later.
+        }
+    }
+    
+    /**
+     Returns true when the reciever and compared dates are equals, i.e. have the same start and end dates.
+     If one of the start dates cannot be determined or if the start dates are equal and one of the end dates cannot 
+     be determined `nil` is returned.
+     
+     - parameter comparedDate: The date to be compared with the reciever.
+     - returns: True when the Gregorian dates are equal, or `nil` if one of the start or end dates could not be determined.
+     */
+    public func isEqualToGregorianDate(comparedDate : GregorianDate) -> Bool? {
+        let startDate1 = self.startDate
+        let startDate2 = comparedDate.startDate
+        if startDate1 == nil || startDate2 == nil {
+            return nil    // one of the two start dates is nil ==> cannot be compared
+        }
+        if !startDate1!.isEqualToDate(startDate2!) {
+            return false
+        }
+        let endDate1 = self.endDate
+        let endDate2 = comparedDate.endDate
+        if endDate1 == nil || endDate2 == nil {
+            return nil // One of the two end dates is nil while the start dates are equal ==> cannot be compared
+        }
+        return endDate1!.isEqualToDate(endDate2!)
+    }
+    
+    
+    
+    
+    // MARK: Private methods
+    
+    
+    
+    /**
+    Returns the non-recurring Gregorian date that starts at the
+    specified date. If this Gregorian date is not recurring, this instance of Gregorian date (`self`) will
+    be returned. If this Gregorian date is recurring the datatype (`XSDDataType`) of the returned Gregorian date
+    will depend on the datatype of the recieving instance:
+    
+    - For a recurring date `xsd:time`, a Gregorian date of type `xsd:dateTime` will be returned.
+    - For a recurring date `xsd:gMonthDay`, a Gregorian date of type `xsd:date` will be returned.
+    - For a recurring date `xsd:gMonth`, a Gregorian date of type `xsd:gYearMonth` will be returned.
+    - For a recurring date `xsd:gDay`, a Gregorian date of type `xsd:date` will be returned.
+    
+    - parameter starttime: The date at which the Gregorian date should start.
+    - returns: The non-recurring date of the next time the reciever occurs.
+    */
+    public func gregorianDateFrom(starttime: NSDate) -> GregorianDate? {
+        let datatype = self.XSDDataType
+        if datatype != nil {
+            if datatype! == XSD.dateTime || datatype! == XSD.date || datatype! == XSD.gYearMonth || datatype! == XSD.gYear {
+                return self
+            } else if datatype! == XSD.time {
+                if timezone == nil {
+                    return GregorianDate(date: starttime, datatype: XSD.dateTime)
+                } else {
+                    return GregorianDate(date: starttime, timeZone: self.timezone!, datatype: XSD.dateTime)
+                }
+            } else if datatype! == XSD.gMonthDay {
+                if timezone == nil {
+                    return GregorianDate(date: starttime, datatype: XSD.date)
+                } else {
+                    return GregorianDate(date: starttime, timeZone: self.timezone!, datatype: XSD.date)
+                }
+            } else if datatype! == XSD.gMonth {
+                if timezone == nil {
+                    return GregorianDate(date: starttime, datatype: XSD.gYearMonth)
+                } else {
+                    return GregorianDate(date: starttime, timeZone: self.timezone!, datatype: XSD.gYearMonth)
+                }
+            } else if datatype! == XSD.gDay {
+                if timezone == nil {
+                    return GregorianDate(date: starttime, datatype: XSD.date)
+                } else {
+                    return GregorianDate(date: starttime, timeZone: self.timezone!, datatype: XSD.date)
+                }
+            }
+        }
+        return nil
+    }
+    
+    /**
+     Returns the start time of the next occurrence of the gregorian date after the specified date.
+     The running date is used to start creating the initial start date to be tested.
+     The start time is determined according to:
+     
+     - If the Gregorian date is not recurring, this will be the start time of the gregorian date if the start time
+     is in the future of the specified date, or nil if it is in the past.
+     - If the Gregorian date is a recurring date, the first start time that is later than the specified date will
+     be returned.
+     - If the recurring Gregorian date is occurring at the specified date, the start time of the next occurrence will
+     be returned.
+     
+     - parameter date: The date after which the first start time is to be returned.
+     - parameter runningDate: The date used to determine the initial date.
+     - returns: The first start time of the gregorian date after the specified date.
+     */
+    public func nextStartTimeAfter(date : NSDate, runningDate: NSDate) -> NSDate? {
+        let calendar = NSCalendar.currentCalendar()
+        if timezone != nil {
+            calendar.timeZone = timezone!
+        } else {
+            calendar.timeZone = NSTimeZone(forSecondsFromGMT: 0)
+        }
+        let dc = NSDateComponents()
+        let changedc = NSDateComponents()
+        let unitFlags: NSCalendarUnit = [.Day, .Month, .Year]
+        let curcomps = calendar.components(unitFlags, fromDate:runningDate)
+        dc.hour = 0
+        dc.minute = 0
+        dc.second = 0
+        dc.nanosecond = 0
+        dc.year = curcomps.year
+        dc.month = curcomps.month
+        dc.day = curcomps.day
+        if year == nil && month == nil && day == nil { // xsd:time
+            dc.hour = hour!
+            dc.minute = minute!
+            dc.second = Int(second!)
+            let ns = Int((second!-Double(Int(second!)))*1e9)
+            dc.nanosecond = ns
+        } else {
+            if month != nil {
+                dc.month = month!
+            }
+            dc.day = 1 // for gDay and gMonthDay this has to be changed after checking range of days in the month
+        }
+        var testDate = calendar.dateFromComponents(dc)
+        var retDate = testDate
+        if year == nil && month == nil && day != nil && testDate != nil { // xsd:gDay
+            changedc.month = 1
+            var range = calendar.rangeOfUnit(.Day, inUnit: .Month, forDate: testDate!)
+            while testDate != nil && range.length < day! { // day not in range of month (e.g. 31 february)
+                testDate = calendar.dateByAddingComponents(changedc, toDate: testDate!, options: NSCalendarOptions(rawValue: 0))
+                range = calendar.rangeOfUnit(.Day, inUnit: .Month, forDate: testDate!)
+            }
+            changedc.month = 0
+            changedc.day = day! - 1
+            retDate = calendar.dateByAddingComponents(changedc, toDate: testDate!, options: NSCalendarOptions(rawValue: 0))
+        }else if year == nil && month != nil && day != nil && testDate != nil { // xsd:gMonthDay
+            let range = calendar.rangeOfUnit(.Day, inUnit: .Month, forDate: testDate!)
+            if range.length < day! { // day not in range of month (e.g. 31 february)
+                return nil
+            }
+            changedc.month = 0
+            changedc.day = day! - 1
+            retDate = calendar.dateByAddingComponents(changedc, toDate: testDate!, options: NSCalendarOptions(rawValue: 0))
+        }
+        if testDate != nil && retDate != retDate!.laterDate(date) {
+            changedc.month = 0
+            changedc.day = 0
+            if year == nil && month == nil && day == nil { // xsd:time
+                changedc.day = 1
+            } else if year == nil && month == nil { // xsd:gDay
+                changedc.month = 1
+            } else if year == nil { // xsd:gMonth or xsd:gMonthDay
+                changedc.year = 1
+            }
+            retDate = calendar.dateByAddingComponents(changedc, toDate: testDate!, options: NSCalendarOptions(rawValue: 0))
+            return nextStartTimeAfter(date, runningDate: retDate!)
+        }
+        return retDate
+    }
+    
+    /**
+     Returns the start time of the previous occurrence of the gregorian date before the specified date.
+     The running date is used to start creating the initial start date to be tested.
+     The start time is determined according to:
+     
+     - If the Gregorian date is not recurring, this will be the start time of the gregorian date if the start time
+     is in the past of the specified date, or nil if it is in the future.
+     - If the Gregorian date is a recurring date, the last start time that is earlier than the specified date will
+     be returned.
+     - If the recurring Gregorian date is occurring at the specified date, the start time of the current occurrence will
+     be returned.
+     
+     - parameter date: The date before which the last start time is to be returned.
+     - parameter runningDate: The date used to determine the initial date.
+     - returns: The last start time of the gregorian date before the specified date.
+     */
+    private func previousStartTimeBefore(date : NSDate, runningDate : NSDate) -> NSDate? {
+        let calendar = NSCalendar.currentCalendar()
+        if timezone != nil {
+            calendar.timeZone = timezone!
+        } else {
+            calendar.timeZone = NSTimeZone(forSecondsFromGMT: 0)
+        }
+        let dc = NSDateComponents()
+        let changedc = NSDateComponents()
+        let unitFlags: NSCalendarUnit = [.Day, .Month, .Year]
+        let curcomps = calendar.components(unitFlags, fromDate:runningDate) // use running date
+        dc.hour = 0
+        dc.minute = 0
+        dc.second = 0
+        dc.nanosecond = 0
+        dc.year = curcomps.year
+        dc.month = curcomps.month
+        dc.day = curcomps.day
+        if year == nil && month == nil && day == nil { // xsd:time
+            dc.hour = hour!
+            dc.minute = minute!
+            dc.second = Int(second!)
+            let ns = Int((second!-Double(Int(second!)))*1e9)
+            dc.nanosecond = ns
+        } else {
+            if month != nil {
+                dc.month = month!
+            }
+            dc.day = 1 // for gDay and gMonthDay this has to be changed after checking range of days in the month
+        }
+        var testDate = calendar.dateFromComponents(dc)
+        var retDate = testDate
+        if year == nil && month == nil && day != nil && testDate != nil { // xsd:gDay
+            changedc.month = -1
+            var range = calendar.rangeOfUnit(.Day, inUnit: .Month, forDate: testDate!)
+            while testDate != nil && range.length < day! { // day not in range of month (e.g. 31 february)
+                testDate = calendar.dateByAddingComponents(changedc, toDate: testDate!, options: NSCalendarOptions(rawValue: 0))
+                range = calendar.rangeOfUnit(.Day, inUnit: .Month, forDate: testDate!)
+            }
+            changedc.month = 0
+            changedc.day = day! - 1
+            retDate = calendar.dateByAddingComponents(changedc, toDate: testDate!, options: NSCalendarOptions(rawValue: 0))
+        }else if year == nil && month != nil && day != nil && testDate != nil { // xsd:gMonthDay
+            let range = calendar.rangeOfUnit(.Day, inUnit: .Month, forDate: testDate!)
+            if range.length < day! { // day not in range of month (e.g. 31 february)
+                return nil
+            }
+            changedc.month = 0
+            changedc.day = day! - 1
+            retDate = calendar.dateByAddingComponents(changedc, toDate: testDate!, options: NSCalendarOptions(rawValue: 0))
+        }
+        if testDate != nil && retDate != retDate!.earlierDate(date) {
+            changedc.month = 0
+            changedc.day = 0
+            if year == nil && month == nil && day == nil { // xsd:time
+                changedc.day = -1
+            } else if year == nil && month == nil { // xsd:gDay
+                changedc.day = -1
+            } else if year == nil { // xsd:gMonth or xsd:gMonthDay
+                changedc.year = -1
+            }
+            retDate = calendar.dateByAddingComponents(changedc, toDate: testDate!, options: NSCalendarOptions(rawValue: 0))
+            return previousStartTimeBefore(date, runningDate: retDate!)
+        }
+        return retDate
+    }
+
+    
     private func parseDateString(stringValue: String, pattern : String) -> Bool {
         do {
             let regex = try NSRegularExpression(pattern: pattern, options: [])
@@ -1060,15 +1722,19 @@ public class GregorianDate : CustomStringConvertible {
                 if match.rangeAtIndex(match.numberOfRanges-3).location != NSNotFound {
                     var tzhrs = 0;
                     var tzmins = 0;
+                    var sign = 1
                     if match.rangeAtIndex(match.numberOfRanges-2).location != NSNotFound {
                         let tzhrsStr = nsstring.substringWithRange(match.rangeAtIndex(match.numberOfRanges-2)) as String
+                        if nsstring.characterAtIndex(match.rangeAtIndex(match.numberOfRanges-2).location) == 45 {
+                            sign = -1
+                        }
                         tzhrs = Int(tzhrsStr)!
                     }
                     if match.rangeAtIndex(match.numberOfRanges-1).location != NSNotFound {
                         let tzminsStr = nsstring.substringWithRange(match.rangeAtIndex(match.numberOfRanges-1)) as String
                         tzmins = Int(tzminsStr)!
                     }
-                    if tzhrs < 0 {
+                    if tzhrs < 0 || sign < 0 {
                         tzmins = -tzmins
                     }
                     timezone = NSTimeZone.init(forSecondsFromGMT: tzhrs*3600+tzmins*60)
@@ -1117,15 +1783,19 @@ public class GregorianDate : CustomStringConvertible {
                 if match.rangeAtIndex(match.numberOfRanges-3).location != NSNotFound {
                     var tzhrs = 0;
                     var tzmins = 0;
+                    var sign = 1
                     if match.rangeAtIndex(match.numberOfRanges-2).location != NSNotFound {
                         let tzhrsStr = nsstring.substringWithRange(match.rangeAtIndex(match.numberOfRanges-2)) as String
+                        if nsstring.characterAtIndex(match.rangeAtIndex(match.numberOfRanges-2).location) == 45 {
+                            sign = -1
+                        }
                         tzhrs = Int(tzhrsStr)!
                     }
                     if match.rangeAtIndex(match.numberOfRanges-1).location != NSNotFound {
                         let tzminsStr = nsstring.substringWithRange(match.rangeAtIndex(match.numberOfRanges-1)) as String
                         tzmins = Int(tzminsStr)!
                     }
-                    if tzhrs < 0 {
+                    if tzhrs < 0 || sign < 0 {
                         tzmins = -tzmins
                     }
                     timezone = NSTimeZone.init(forSecondsFromGMT: tzhrs*3600+tzmins*60)
@@ -1162,15 +1832,19 @@ public class GregorianDate : CustomStringConvertible {
                 if match.rangeAtIndex(match.numberOfRanges-3).location != NSNotFound {
                     var tzhrs = 0;
                     var tzmins = 0;
+                    var sign = 1
                     if match.rangeAtIndex(match.numberOfRanges-2).location != NSNotFound {
                         let tzhrsStr = nsstring.substringWithRange(match.rangeAtIndex(match.numberOfRanges-2)) as String
+                        if nsstring.characterAtIndex(match.rangeAtIndex(match.numberOfRanges-2).location) == 45 {
+                            sign = -1
+                        }
                         tzhrs = Int(tzhrsStr)!
                     }
                     if match.rangeAtIndex(match.numberOfRanges-1).location != NSNotFound {
                         let tzminsStr = nsstring.substringWithRange(match.rangeAtIndex(match.numberOfRanges-1)) as String
                         tzmins = Int(tzminsStr)!
                     }
-                    if tzhrs < 0 {
+                    if tzhrs < 0 || sign < 0 {
                         tzmins = -tzmins
                     }
                     timezone = NSTimeZone.init(forSecondsFromGMT: tzhrs*3600+tzmins*60)
@@ -1203,15 +1877,19 @@ public class GregorianDate : CustomStringConvertible {
                 if match.rangeAtIndex(match.numberOfRanges-3).location != NSNotFound {
                     var tzhrs = 0;
                     var tzmins = 0;
+                    var sign = 1
                     if match.rangeAtIndex(match.numberOfRanges-2).location != NSNotFound {
                         let tzhrsStr = nsstring.substringWithRange(match.rangeAtIndex(match.numberOfRanges-2)) as String
+                        if nsstring.characterAtIndex(match.rangeAtIndex(match.numberOfRanges-2).location) == 45 {
+                            sign = -1
+                        }
                         tzhrs = Int(tzhrsStr)!
                     }
                     if match.rangeAtIndex(match.numberOfRanges-1).location != NSNotFound {
                         let tzminsStr = nsstring.substringWithRange(match.rangeAtIndex(match.numberOfRanges-1)) as String
                         tzmins = Int(tzminsStr)!
                     }
-                    if tzhrs < 0 {
+                    if tzhrs < 0 || sign < 0 {
                         tzmins = -tzmins
                     }
                     timezone = NSTimeZone.init(forSecondsFromGMT: tzhrs*3600+tzmins*60)
@@ -1240,15 +1918,19 @@ public class GregorianDate : CustomStringConvertible {
                 if match.rangeAtIndex(match.numberOfRanges-3).location != NSNotFound {
                     var tzhrs = 0;
                     var tzmins = 0;
+                    var sign = 1
                     if match.rangeAtIndex(match.numberOfRanges-2).location != NSNotFound {
                         let tzhrsStr = nsstring.substringWithRange(match.rangeAtIndex(match.numberOfRanges-2)) as String
+                        if nsstring.characterAtIndex(match.rangeAtIndex(match.numberOfRanges-2).location) == 45 {
+                            sign = -1
+                        }
                         tzhrs = Int(tzhrsStr)!
                     }
                     if match.rangeAtIndex(match.numberOfRanges-1).location != NSNotFound {
                         let tzminsStr = nsstring.substringWithRange(match.rangeAtIndex(match.numberOfRanges-1)) as String
                         tzmins = Int(tzminsStr)!
                     }
-                    if tzhrs < 0 {
+                    if tzhrs < 0 || sign < 0 {
                         tzmins = -tzmins
                     }
                     timezone = NSTimeZone.init(forSecondsFromGMT: tzhrs*3600+tzmins*60)
@@ -1263,5 +1945,134 @@ public class GregorianDate : CustomStringConvertible {
             
         }
         return false
+   
     }
+}
+
+// MARK: Operators for GregorianDates
+
+/**
+ This operator returns `true` when the GregorianDate values are equal to each other.
+ 
+ - parameter left: The left side GregorianDate in the comparison.
+ - parameter right: The right side GregorianDate in the comparison.
+ - returns: True when the GregorianDates are equal, false otherwise.
+ */
+public func == (left: GregorianDate, right: GregorianDate) -> Bool {
+    return left.startDate == right.startDate && left.endDate == right.endDate
+}
+
+/**
+ This operator returns `true` when the GregorianDate values are not equal to each other.
+ 
+ - parameter left: The left side GregorianDate in the comparison.
+ - parameter right: The right side GregorianDate in the comparison.
+ - returns: True when the GregorianDates are not equal, false otherwise.
+ */
+public func != (left: GregorianDate, right: GregorianDate) -> Bool {
+    return left.startDate != right.startDate || left.endDate != right.endDate
+}
+
+/**
+ Returns true when the left side Gregorian date is earlier than the right side date.
+ The Gregorian Date is earlier when either:
+ 
+ - The start date is earlier
+ - The start dates are equal but the end date is earlier.
+ 
+ If the dates cannot be compared, this operator will return `false`.
+ 
+ - parameter left: The left side GregorianDate in the comparison.
+ - parameter right: The right side GregorianDate in the comparison.
+ - returns: True when the left side date is earlier than the right side date.
+ */
+public func < (left: GregorianDate, right: GregorianDate) -> Bool {
+    let earlier = left.earlierGregorianDate(right)
+    if earlier == nil {
+        return false
+    }
+    if earlier! == left {
+        return true
+    }
+    return false
+}
+
+/**
+ Returns true when the left side Gregorian date is earlier or equal to the right side date.
+ The Gregorian Date is earlier or equal when either:
+ 
+ - The start date is earlier
+ - The start dates are equal but the end date is earlier.
+ - The start and end dates are equal.
+ 
+ If the dates cannot be compared, this operator will return `false`.
+ 
+ - parameter left: The left side GregorianDate in the comparison.
+ - parameter right: The right side GregorianDate in the comparison.
+ - returns: True when the left side date is earlier or equal to the right side date.
+ */
+public func <= (left: GregorianDate, right: GregorianDate) -> Bool {
+    if left == right {
+        return true
+    }
+    let earlier = left.earlierGregorianDate(right)
+    if earlier == nil {
+        return false
+    }
+    if earlier! == left {
+        return true
+    }
+    return false
+}
+
+/**
+ Returns true when the left side Gregorian date is later than the right side date.
+ The Gregorian Date is later when either:
+ 
+ - The start date is later
+ - The start dates are equal but the end date is later.
+ 
+ If the dates cannot be compared, this operator will return `false`.
+ 
+ - parameter left: The left side GregorianDate in the comparison.
+ - parameter right: The right side GregorianDate in the comparison.
+ - returns: True when the left side date is later than the right side date.
+ */
+public func > (left: GregorianDate, right: GregorianDate) -> Bool {
+    let later = left.laterGregorianDate(right)
+    if later == nil {
+        return false
+    }
+    if later! == left {
+        return true
+    }
+    return false
+}
+
+/**
+ Returns true when the left side Gregorian date is later or equal to the right side date.
+ The Gregorian Date is later or equal when either:
+ 
+ - The start date is later
+ - The start dates are equal but the end date is later.
+ - The start and end dates are equal.
+ 
+ If the dates cannot be compared, this operator will return `false`.
+ 
+ - parameter left: The left side GregorianDate in the comparison.
+ - parameter right: The right side GregorianDate in the comparison.
+ - returns: True when the left side date is later or equal to the right side date.
+ */
+public func >= (left: GregorianDate, right: GregorianDate) -> Bool {
+    if left == right {
+        return true
+    }
+    let later = left.laterGregorianDate(right)
+    if later == nil {
+        return false
+    }
+    if later! == left {
+        return true
+    }
+    return false
 }
