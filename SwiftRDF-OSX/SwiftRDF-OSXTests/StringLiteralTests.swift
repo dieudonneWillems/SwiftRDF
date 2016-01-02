@@ -411,4 +411,39 @@ class StringLiteralTests: XCTestCase {
         lit = Literal(sparqlString: sparqlString)
         XCTAssertNil(lit)
     }
+    
+    func testStringLiteralComparisson(){
+        var lit1 = Literal(stringValue: "abcdefg")
+        var lit2 = Literal(stringValue: "abcdefg")
+        var comparisson = lit1 == lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        lit2 = Literal(stringValue: "abcdEfg")
+        comparisson = lit1 == lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        lit2 = Literal(stringValue: "abcdefg", dataType: XSD.string)!
+        comparisson = lit1 == lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        
+        lit1 = Literal(stringValue: "abcdefg", dataType: XSD.string)!
+        lit2 = Literal(stringValue: "abcdefg", dataType: XSD.string)!
+        comparisson = lit1 == lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        lit2 = Literal(stringValue: "abcdefg", language: "en")!
+        comparisson = lit1 == lit2
+        XCTAssertNil(comparisson)
+        lit1 = Literal(stringValue: "abcdefg", language: "en")!
+        lit2 = Literal(stringValue: "abcdefg", language: "en")!
+        comparisson = lit1 == lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertTrue(comparisson!)
+        lit2 = Literal(stringValue: "abcdefg", language: "fr")!
+        comparisson = lit1 == lit2
+        XCTAssertNotNil(comparisson)
+        XCTAssertFalse(comparisson!)
+        
+    }
 }

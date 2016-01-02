@@ -73,12 +73,16 @@ public class Datatype : URI {
     // MARK: Methods
     
     /**
-    Returns true when the datatype is derived (either by restriction or list) from the specified datatype.
+    Returns true when the datatype is derived (either by restriction or list) from the specified datatype or when the
+    specified datatype is the same datatype as the reciever.
     
     - parameter datatype: The datatype that is tested whether this datatype is derived from it.
-    - returns: True, when this datatype is derived from the specified datatype, false otherwise.
+    - returns: True, when this datatype is derived from the specified datatype or when the specified datatype is the reciever, false otherwise.
     */
     public func isDerivedFromDatatype(datatype : Datatype) -> Bool {
+        if datatype == self {
+            return true
+        }
         if derivedFromDatatype == nil {
             return false
         }

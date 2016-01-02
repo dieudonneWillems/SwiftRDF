@@ -1828,12 +1828,23 @@ public func == (left: Literal, right: Literal) -> Bool? {
         if left.stringValue == right.stringValue {
             return true
         }
-        return nil
+        return false
     }
     if left.dataType == nil || right.dataType == nil {
         return false        // one of the data types is nil the other is not.
     }
     if left.isStringLiteral && right.isStringLiteral {
+        if left.language == nil && right.language != nil {
+            return nil
+        }
+        if left.language != nil && right.language == nil {
+            return nil
+        }
+        if left.language != nil && right.language != nil {
+            if left.language != right.language {
+                return false
+            }
+        }
         return left.stringValue == right.stringValue
     }
     if left.isNumericLiteral && right.isNumericLiteral {
