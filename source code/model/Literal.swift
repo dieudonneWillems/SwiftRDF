@@ -1859,6 +1859,9 @@ public func == (left: Literal, right: Literal) -> Bool? {
                 if left.decimalValue! > Decimal(longValue: Literal.maxIntValueFromDouble) {
                     return nil // double not precise enough
                 }
+                if left.decimalValue! < Decimal(longValue: -Literal.maxIntValueFromDouble) {
+                    return nil // double not precise enough
+                }
                 return true
             }
         }
@@ -1868,6 +1871,9 @@ public func == (left: Literal, right: Literal) -> Bool? {
                 return false
             } else {
                 if right.decimalValue! > Decimal(longValue: Literal.maxIntValueFromDouble) {
+                    return nil // double not precise enough
+                }
+                if right.decimalValue! < Decimal(longValue: -Literal.maxIntValueFromDouble) {
                     return nil // double not precise enough
                 }
                 return true
@@ -1914,5 +1920,263 @@ public func == (left: Literal, right: Literal) -> Bool? {
         }
     }
     return nil
+}
+
+/**
+ This operator returns `true` when the Literal values are not equal to each other.
+ 
+ - parameter left: The left Literal in the comparison.
+ - parameter right: The right Literal in the comparison.
+ - returns: True when the Literals are not equal, false otherwise, or `nil` if the literal values could not be compared (because of
+ incompatible data types.
+ */
+public func != (left: Literal, right: Literal) -> Bool? {
+    return !(left == right)
+}
+
+/**
+ This operator returns `true` when the left Literal value is smaller than the right Literal value.
+ 
+ - parameter left: The left Literal in the comparison.
+ - parameter right: The right Literal in the comparison.
+ - returns: True when the left literal is smaller than the right literal, false otherwise,
+ or `nil` if the literal values could not be compared (because of incompatible data types.
+ */
+public func < (left: Literal, right: Literal) -> Bool? {
+    if left.dataType == nil && right.dataType == nil {
+        if left.stringValue < right.stringValue {
+            return true
+        }
+        return false
+    }
+    if left.dataType == nil || right.dataType == nil {
+        return nil        // one of the data types is nil the other is not.
+    }
+    if left.isStringLiteral && right.isStringLiteral {
+        if left.language == nil && right.language != nil {
+            return nil
+        }
+        if left.language != nil && right.language == nil {
+            return nil
+        }
+        if left.language != nil && right.language != nil {
+            if left.language != right.language {
+                return false
+            }
+        }
+        return left.stringValue < right.stringValue
+    }
+    if left.isNumericLiteral && right.isNumericLiteral {
+        if left.decimalValue != nil && right.decimalValue != nil {
+            return left.decimalValue! < right.decimalValue!
+        }
+        if left.decimalValue != nil && right.doubleValue != nil {
+            let equals = left.decimalValue! < Decimal(doubleValue: right.doubleValue!)!
+            if !equals {
+                return false
+            } else {
+                if left.decimalValue! > Decimal(longValue: Literal.maxIntValueFromDouble) {
+                    return nil // double not precise enough
+                }
+                if left.decimalValue! < Decimal(longValue: -Literal.maxIntValueFromDouble) {
+                    return nil // double not precise enough
+                }
+                return true
+            }
+        }
+        if left.doubleValue != nil && right.decimalValue != nil {
+            let equals = right.decimalValue! < Decimal(doubleValue: left.doubleValue!)!
+            if !equals {
+                return false
+            } else {
+                if right.decimalValue! > Decimal(longValue: Literal.maxIntValueFromDouble) {
+                    return nil // double not precise enough
+                }
+                if right.decimalValue! < Decimal(longValue: -Literal.maxIntValueFromDouble) {
+                    return nil // double not precise enough
+                }
+                return true
+            }
+        }
+        if left.unsignedLongValue != nil && right.unsignedLongValue != nil {
+            return left.unsignedLongValue < right.unsignedLongValue
+        }
+        if left.longValue != nil && right.longValue != nil {
+            return left.unsignedLongValue < right.unsignedLongValue
+        }
+        if left.longValue != nil && right.doubleValue != nil {
+            let equals = Double(left.longValue!) < right.doubleValue!
+            if !equals {
+                return false
+            } else {
+                if left.longValue! > Literal.maxIntValueFromDouble || left.longValue! < -Literal.maxIntValueFromDouble {
+                    return nil // double not precise enough
+                }
+                return true
+            }
+        }
+        if right.longValue != nil && left.doubleValue != nil {
+            let equals = Double(right.longValue!) < left.doubleValue!
+            if !equals {
+                return false
+            } else {
+                if right.longValue! > Literal.maxIntValueFromDouble || right.longValue! < -Literal.maxIntValueFromDouble {
+                    return nil // double not precise enough
+                }
+                return true
+            }
+        }
+        if left.doubleValue != nil && right.doubleValue != nil {
+            return left.doubleValue < right.doubleValue
+        }
+    }
+    if left.isDateLiteral && right.isDateLiteral {
+        if left.dateValue != nil && right.dateValue != nil {
+            return left.dateValue! < right.dateValue!
+        }
+        if left.durationValue != nil && right.durationValue != nil {
+            return left.durationValue! < right.durationValue!
+        }
+    }
+    return nil
+}
+
+/**
+ This operator returns `true` when the left Literal value is smaller than or equal to the right Literal value.
+ 
+ - parameter left: The left Literal in the comparison.
+ - parameter right: The right Literal in the comparison.
+ - returns: True when the left literal is smaller than or equal to the right literal, false otherwise,
+ or `nil` if the literal values could not be compared (because of incompatible data types.
+ */
+public func <= (left: Literal, right: Literal) -> Bool? {
+    let equals = left == right
+    if equals == nil || !equals! {
+        return equals
+    }
+    return left < right
+}
+
+/**
+ This operator returns `true` when the left Literal value is greater than the right Literal value.
+ 
+ - parameter left: The left Literal in the comparison.
+ - parameter right: The right Literal in the comparison.
+ - returns: True when the left literal is greater than the right literal, false otherwise, 
+ or `nil` if the literal values could not be compared (because of incompatible data types.
+ */
+public func > (left: Literal, right: Literal) -> Bool? {
+    if left.dataType == nil && right.dataType == nil {
+        if left.stringValue > right.stringValue {
+            return true
+        }
+        return false
+    }
+    if left.dataType == nil || right.dataType == nil {
+        return nil        // one of the data types is nil the other is not.
+    }
+    if left.isStringLiteral && right.isStringLiteral {
+        if left.language == nil && right.language != nil {
+            return nil
+        }
+        if left.language != nil && right.language == nil {
+            return nil
+        }
+        if left.language != nil && right.language != nil {
+            if left.language != right.language {
+                return false
+            }
+        }
+        return left.stringValue > right.stringValue
+    }
+    if left.isNumericLiteral && right.isNumericLiteral {
+        if left.decimalValue != nil && right.decimalValue != nil {
+            return left.decimalValue! > right.decimalValue!
+        }
+        if left.decimalValue != nil && right.doubleValue != nil {
+            let equals = left.decimalValue! > Decimal(doubleValue: right.doubleValue!)!
+            if !equals {
+                return false
+            } else {
+                if left.decimalValue! > Decimal(longValue: Literal.maxIntValueFromDouble) {
+                    return nil // double not precise enough
+                }
+                if left.decimalValue! < Decimal(longValue: -Literal.maxIntValueFromDouble) {
+                    return nil // double not precise enough
+                }
+                return true
+            }
+        }
+        if left.doubleValue != nil && right.decimalValue != nil {
+            let equals = right.decimalValue! > Decimal(doubleValue: left.doubleValue!)!
+            if !equals {
+                return false
+            } else {
+                if right.decimalValue! > Decimal(longValue: Literal.maxIntValueFromDouble) {
+                    return nil // double not precise enough
+                }
+                if right.decimalValue! < Decimal(longValue: -Literal.maxIntValueFromDouble) {
+                    return nil // double not precise enough
+                }
+                return true
+            }
+        }
+        if left.unsignedLongValue != nil && right.unsignedLongValue != nil {
+            return left.unsignedLongValue > right.unsignedLongValue
+        }
+        if left.longValue != nil && right.longValue != nil {
+            return left.unsignedLongValue > right.unsignedLongValue
+        }
+        if left.longValue != nil && right.doubleValue != nil {
+            let equals = Double(left.longValue!) > right.doubleValue!
+            if !equals {
+                return false
+            } else {
+                if left.longValue! > Literal.maxIntValueFromDouble || left.longValue! < -Literal.maxIntValueFromDouble {
+                    return nil // double not precise enough
+                }
+                return true
+            }
+        }
+        if right.longValue != nil && left.doubleValue != nil {
+            let equals = Double(right.longValue!) > left.doubleValue!
+            if !equals {
+                return false
+            } else {
+                if right.longValue! > Literal.maxIntValueFromDouble || right.longValue! < -Literal.maxIntValueFromDouble {
+                    return nil // double not precise enough
+                }
+                return true
+            }
+        }
+        if left.doubleValue != nil && right.doubleValue != nil {
+            return left.doubleValue > right.doubleValue
+        }
+    }
+    if left.isDateLiteral && right.isDateLiteral {
+        if left.dateValue != nil && right.dateValue != nil {
+            return left.dateValue! > right.dateValue!
+        }
+        if left.durationValue != nil && right.durationValue != nil {
+            return left.durationValue! > right.durationValue!
+        }
+    }
+    return nil
+}
+
+/**
+ This operator returns `true` when the left Literal value is smaller than or equal to the right Literal value.
+ 
+ - parameter left: The left Literal in the comparison.
+ - parameter right: The right Literal in the comparison.
+ - returns: True when the left literal is smaller than or equal to the right literal, false otherwise,
+ or `nil` if the literal values could not be compared (because of incompatible data types.
+ */
+public func >= (left: Literal, right: Literal) -> Bool? {
+    let equals = left == right
+    if equals == nil || !equals! {
+        return equals
+    }
+    return left > right
 }
    
