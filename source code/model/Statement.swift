@@ -93,6 +93,27 @@ public class Statement : NSObject, SPARQLValue {
         self.object = object
         self.namedGraphs.appendContentsOf(namedGraph)
     }
+    
+    /**
+     Adds the statement to the specified named graph.
+     
+     - parameter namedGraph: The named graph to which the statement is added.
+     */
+    public func addToNamedGraph(namedGraph : Resource) {
+        if !namedGraphs.contains({$0 == namedGraph}) {
+            namedGraphs.append(namedGraph)
+        }
+    }
+    
+    /**
+     Returns true when this statement is part of the specified graph.
+    
+     - parameter namedGraph: The named graph to be tested.
+     - returns: True when the statement is part of the specified named graph, false otherwise.
+     */
+    public func inNamedGraph(namedGraph : Resource) -> Bool {
+        return namedGraphs.contains({$0 == namedGraph})
+    }
 }
 
 // MARK: Operators for Statements

@@ -52,6 +52,9 @@
          <FileRef
             location = "group:source code/model/SPARQLValue.swift">
          </FileRef>
+         <FileRef
+            location = "group:source code/model/Graph.swift">
+         </FileRef>
       </Group>
       <Group
          location = "container:"
