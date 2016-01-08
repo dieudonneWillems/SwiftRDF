@@ -63,7 +63,7 @@ public class Graph {
      
      - parameter statement: The statement to be added to the graph.
      */
-    public func addStatement(statement : Statement){
+    public func add(statement : Statement){
         if name != nil {
             statement.addToNamedGraph(name!)
         }
@@ -83,10 +83,33 @@ public class Graph {
     public func addStatement(subject: Resource, predicate: URI, object: Value, namedGraph: Resource...) {
         let statement = Statement(subject: subject, predicate: predicate, object: object)
         statement.namedGraphs = namedGraph
-        if name != nil {
-            statement.addToNamedGraph(name!)
+        self.add(statement)
+    }
+    
+    /**
+     Adds the statements in the list to the `Graph`. If the graph is a named graph, the URI identifier of
+     this named graph is added as named graph to the statement.
+     
+     - parameter statements: The statements to be added.
+     */
+    public func add(statements : [Statement]){
+        for statement in statements {
+            self.add(statement)
         }
-        self.addStatement(statement)
+    }
+    
+    /**
+     Adds the contents of the specified graph to the reciever. If the recieving graph is a named graph, the URI identifier of
+     this named graph is added as named graph to the statement.
+     
+     - parameter graph: The graph whose contents (statements) are added to the reciever.
+     */
+    public func add(graph : Graph){
+        let count = graph.count
+        for var index = 0; index < count; index++ {
+            let statement = graph[index]
+            add(statement)
+        }
     }
     
     /**
@@ -104,7 +127,7 @@ public class Graph {
      - parameter object: The object of the statements to be deleted, or nill if the statement can have any
      object value for it to be deleted.
      */
-    public func deleteStatement(subject: Resource?, predicate: Resource?, object: Value?){
+    public func deleteStatements(subject: Resource?, predicate: Resource?, object: Value?){
         let graph = subGraph(subject, predicate: predicate, object: object)
         let count = graph.count
         for var index = 0; index < count; index++ {
@@ -143,16 +166,29 @@ public class Graph {
                 if namedGraph.count > 0 {
                     for ng in namedGraph {
                         if statement.inNamedGraph(ng) {
-                            graph.addStatement(statement)
+                            graph.add(statement)
                             break
                         }
                     }
                 } else {
-                    graph.addStatement(statement)
+                    graph.add(statement)
                 }
             }
         }
         return graph
     }
     
+    /**
+     Merges multiple graphs in a new (unnamed) graph by adding all statements from each graph into the merged graph.
+     
+     - parameter graphs: The graphs to be merged.
+     - returns: The merged graph.
+     */
+    public static func merge(graphs : Graph...) -> Graph {
+        let merged = Graph()
+        for graph in graphs {
+            merged.add(graph)
+        }
+        return merged;
+    }
 }
