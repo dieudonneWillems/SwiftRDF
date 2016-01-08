@@ -42,6 +42,8 @@
 		02912C391C25A13D00F64580 /* String-extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02912C381C25A13D00F64580 /* String-extensions.swift */; };
 		02943EB61C0C730000C42159 /* RDFS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02943EB51C0C730000C42159 /* RDFS.swift */; };
 		029699F01C0EDA700067BB99 /* OWL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 029699EF1C0EDA700067BB99 /* OWL.swift */; };
+		02C6406E1C3B024E00231345 /* Graph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C6406D1C3B024E00231345 /* Graph.swift */; };
+		02C640701C40283400231345 /* GraphTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C6406F1C40283400231345 /* GraphTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -93,6 +95,8 @@
 		02912C381C25A13D00F64580 /* String-extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "String-extensions.swift"; path = "/Users/wonco/Development/SwiftRDF/source code/utilities/String-extensions.swift"; sourceTree = "<absolute>"; };
 		02943EB51C0C730000C42159 /* RDFS.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RDFS.swift; path = "../source code/vocabularies/RDFS.swift"; sourceTree = "<group>"; };
 		029699EF1C0EDA700067BB99 /* OWL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OWL.swift; path = "../source code/vocabularies/OWL.swift"; sourceTree = "<group>"; };
+		02C6406D1C3B024E00231345 /* Graph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Graph.swift; path = "../source code/model/Graph.swift"; sourceTree = "<group>"; };
+		02C6406F1C40283400231345 /* GraphTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -145,6 +149,7 @@
 		022232201BFF719D00362D9B /* SwiftRDF-OSXTests */ = {
 			isa = PBXGroup;
 			children = (
+				02C6406F1C40283400231345 /* GraphTests.swift */,
 				022232211BFF719D00362D9B /* URITests.swift */,
 				0262BB121C0C5E45002E24A4 /* DatatypeTests.swift */,
 				024E09661C124A9C002EE84C /* NumericLiteralTests.swift */,
@@ -165,6 +170,7 @@
 		0222323E1C02108A00362D9B /* source */ = {
 			isa = PBXGroup;
 			children = (
+				02C6406D1C3B024E00231345 /* Graph.swift */,
 				0211FF851C2AB6DB00A1B944 /* MathFunctions.swift */,
 				024E09701C15EFDF002EE84C /* Duration.swift */,
 				024E09641C11DEF2002EE84C /* LiteralFormattingError.swift */,
@@ -316,6 +322,7 @@
 				024E09711C15EFDF002EE84C /* Duration.swift in Sources */,
 				024E09651C11DEF2002EE84C /* LiteralFormattingError.swift in Sources */,
 				022232391BFF7A4700362D9B /* BlankNode.swift in Sources */,
+				02C6406E1C3B024E00231345 /* Graph.swift in Sources */,
 				022D68361C21D64B00C4000D /* GregorianDate.swift in Sources */,
 				02912C391C25A13D00F64580 /* String-extensions.swift in Sources */,
 				022232351BFF7A3D00362D9B /* Literal.swift in Sources */,
@@ -329,6 +336,7 @@
 				02912C371C25A04800F64580 /* StringExtensionsTests.swift in Sources */,
 				024E09791C177240002EE84C /* DateTests.swift in Sources */,
 				024E09751C162E27002EE84C /* TimeLiteralTests.swift in Sources */,
+				02C640701C40283400231345 /* GraphTests.swift in Sources */,
 				022D683C1C22265100C4000D /* MiscellaneousTypesLiteralTests.swift in Sources */,
 				022232221BFF719D00362D9B /* URITests.swift in Sources */,
 				0262BB131C0C5E45002E24A4 /* DatatypeTests.swift in Sources */,
