@@ -71,22 +71,6 @@ public class Graph {
     }
     
     /**
-     Creates a new statement of the specified subject, predicate, and object and adds it to the `Graph`. 
-     If the graph is a named graph, the URI identifier of his named graph is added as named graph to the statement.
-     
-     - parameter subject: The subject of the new statement.
-     - parameter predicate: The predicate of the new statement.
-     - parameter object: The object of the new statement.
-     */
-    public func addStatement(subject: Resource, predicate: URI, object: Value) {
-        let statement = Statement(subject: subject, predicate: predicate, object: object)
-        if name != nil {
-            statement.addToNamedGraph(name!)
-        }
-        self.addStatement(statement)
-    }
-    
-    /**
      Creates a new statement of the specified subject, predicate, and object, and as part of the specified 
      named graphs and adds it to the `Graph`.
      If this graph is a named graph, the URI identifier of his named graph is added as named graph to the statement.
