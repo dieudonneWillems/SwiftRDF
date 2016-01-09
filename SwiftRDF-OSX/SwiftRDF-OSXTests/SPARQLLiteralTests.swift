@@ -451,16 +451,12 @@ class SPARQLLiteralTests: XCTestCase {
     }
     
     func testSPARQLStringLiteralWithCustomDatatype(){
-        do{
-            let lit0 = Literal(sparqlString: "\"test string\"^^<http://www.example.org/datatypes/custom>")!;
-            XCTAssertEqual("test string", lit0.stringValue)
-            let custom = try Datatype(namespace:"http://www.example.org/datatypes/", localName: "custom", derivedFromDatatype: nil, isListDataType: false)
-            XCTAssertTrue(custom == lit0.dataType!)
-            XCTAssertNil(lit0.language)
-            XCTAssertNil(lit0.longValue)
-        }catch{
-            XCTFail("Failed when testing custom datatype.")
-        }
+        let lit0 = Literal(sparqlString: "\"test string\"^^<http://www.example.org/datatypes/custom>")!;
+        XCTAssertEqual("test string", lit0.stringValue)
+        let custom = Datatype(namespace:"http://www.example.org/datatypes/", localName: "custom", derivedFromDatatype: nil, isListDataType: false)!
+        XCTAssertTrue(custom == lit0.dataType!)
+        XCTAssertNil(lit0.language)
+        XCTAssertNil(lit0.longValue)
     }
 
 }

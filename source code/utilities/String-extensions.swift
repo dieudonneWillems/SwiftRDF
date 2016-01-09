@@ -191,13 +191,8 @@ extension String {
      Is true when the string is a valid URI.
      */
     var validURI : Bool {
-        do {
-            let _ = try URI(string: self)
-            return true
-        } catch {
-            
-        }
-        return false
+        let uri = URI(string: self)
+        return (uri != nil)
     }
     
     /**

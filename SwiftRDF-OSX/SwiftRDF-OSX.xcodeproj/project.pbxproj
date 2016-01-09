@@ -17,7 +17,6 @@
 		022232371BFF7A4200362D9B /* URI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022232361BFF7A4200362D9B /* URI.swift */; };
 		022232391BFF7A4700362D9B /* BlankNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022232381BFF7A4700362D9B /* BlankNode.swift */; };
 		0222323B1BFF7ADF00362D9B /* Statement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0222323A1BFF7ADF00362D9B /* Statement.swift */; };
-		0222323D1C020A9200362D9B /* MalformedURIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0222323C1C020A9200362D9B /* MalformedURIError.swift */; };
 		022232401C061D8100362D9B /* SPARQLValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0222323F1C061D8100362D9B /* SPARQLValue.swift */; };
 		022232421C0702AC00362D9B /* RDF.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022232411C0702AC00362D9B /* RDF.swift */; };
 		022D68351C21D64B00C4000D /* Decimal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022D68311C21D64B00C4000D /* Decimal.swift */; };
@@ -70,7 +69,6 @@
 		022232361BFF7A4200362D9B /* URI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = URI.swift; path = "../source code/model/URI.swift"; sourceTree = "<group>"; };
 		022232381BFF7A4700362D9B /* BlankNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BlankNode.swift; path = "../source code/model/BlankNode.swift"; sourceTree = "<group>"; };
 		0222323A1BFF7ADF00362D9B /* Statement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Statement.swift; path = "../source code/model/Statement.swift"; sourceTree = "<group>"; };
-		0222323C1C020A9200362D9B /* MalformedURIError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MalformedURIError.swift; path = "../source code/errors/MalformedURIError.swift"; sourceTree = "<group>"; };
 		0222323F1C061D8100362D9B /* SPARQLValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SPARQLValue.swift; path = "../source code/model/SPARQLValue.swift"; sourceTree = "<group>"; };
 		022232411C0702AC00362D9B /* RDF.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RDF.swift; path = "../source code/vocabularies/RDF.swift"; sourceTree = "<group>"; };
 		022D68311C21D64B00C4000D /* Decimal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Decimal.swift; path = "../source code/utilities/Decimal.swift"; sourceTree = "<group>"; };
@@ -180,7 +178,6 @@
 				0262BB0A1C075F9E002E24A4 /* XSD.swift */,
 				022232411C0702AC00362D9B /* RDF.swift */,
 				02943EB51C0C730000C42159 /* RDFS.swift */,
-				0222323C1C020A9200362D9B /* MalformedURIError.swift */,
 				0222323A1BFF7ADF00362D9B /* Statement.swift */,
 				022232381BFF7A4700362D9B /* BlankNode.swift */,
 				022232361BFF7A4200362D9B /* URI.swift */,
@@ -307,7 +304,6 @@
 				0222323B1BFF7ADF00362D9B /* Statement.swift in Sources */,
 				022232311BFF79C300362D9B /* Value.swift in Sources */,
 				02943EB61C0C730000C42159 /* RDFS.swift in Sources */,
-				0222323D1C020A9200362D9B /* MalformedURIError.swift in Sources */,
 				022232331BFF7A3600362D9B /* Resource.swift in Sources */,
 				022232401C061D8100362D9B /* SPARQLValue.swift in Sources */,
 				0262BB0D1C076409002E24A4 /* Vocabulary.swift in Sources */,

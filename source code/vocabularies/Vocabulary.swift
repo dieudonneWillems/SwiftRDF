@@ -43,12 +43,7 @@ public class Vocabulary {
      - returns: The URI that was created.
      */
     public static func createURI(namespace: String, localName: String) -> URI {
-        var uri : URI? = nil
-        do {
-            uri = try URI(namespace: namespace, localName: localName)
-        } catch {
-            uri = nil
-        }
+        let uri = URI(namespace: namespace, localName: localName)
         return uri!
     }
 }

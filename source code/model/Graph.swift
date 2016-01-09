@@ -315,10 +315,7 @@ public class Graph {
             if localname == nil {
                 return nil
             }
-            do {
-                let uri = try URI(namespace: nsURI!, localName: localname!)
-                return uri
-            } catch {}
+            return URI(namespace: nsURI!, localName: localname!)
         }
         return nil
     }
