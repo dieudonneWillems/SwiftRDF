@@ -203,7 +203,7 @@ public class URI : Resource {
             let regex = try NSRegularExpression(pattern: pattern, options: [.CaseInsensitive])
             let matches = regex.matchesInString(authorityPart, options: [], range: NSMakeRange(0, authorityPart.characters.count)) as Array<NSTextCheckingResult>
             if matches.count <= 0 {
-                throw MalformedURIError.URIAuthorityPartIsMalformed(message: "The URI has a malformed authority part: '\(authorityPart)'.")
+                return false
             }
             let nsstring = authorityPart as NSString
             for match in matches as [NSTextCheckingResult] {
@@ -263,7 +263,7 @@ public class URI : Resource {
                 if match.rangeAtIndex(2).location != NSNotFound {
                     scheme = nsstring.substringWithRange(match.rangeAtIndex(2)) as String
                 } else {
-                    throw MalformedURIError.URISchemeMissing(message: "The URI '\(uri)' does not contain a scheme.", uri: uri)
+                    return false
                 }
                 if match.rangeAtIndex(4).location != NSNotFound {
                     authorityPart = nsstring.substringWithRange(match.rangeAtIndex(4)) as String
