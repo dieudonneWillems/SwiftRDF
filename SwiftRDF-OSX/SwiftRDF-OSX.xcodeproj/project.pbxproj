@@ -44,6 +44,13 @@
 		029699F01C0EDA700067BB99 /* OWL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 029699EF1C0EDA700067BB99 /* OWL.swift */; };
 		02C6406E1C3B024E00231345 /* Graph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C6406D1C3B024E00231345 /* Graph.swift */; };
 		02C640701C40283400231345 /* GraphTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C6406F1C40283400231345 /* GraphTests.swift */; };
+		02C640741C40714800231345 /* RDFXMLParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C640731C40714800231345 /* RDFXMLParser.swift */; };
+		02C640761C4071C900231345 /* RDFParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C640751C4071C900231345 /* RDFParser.swift */; };
+		02C640781C40797600231345 /* RDFParserDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C640771C40797600231345 /* RDFParserDelegate.swift */; };
+		02C6407A1C407DA900231345 /* RDFParserError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C640791C407DA900231345 /* RDFParserError.swift */; };
+		02C6407C1C40820B00231345 /* RDFXMLParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C6407B1C40820B00231345 /* RDFXMLParserTests.swift */; };
+		02C6407E1C4084AA00231345 /* geonames.london.xml in Resources */ = {isa = PBXBuildFile; fileRef = 02C6407D1C4084AA00231345 /* geonames.london.xml */; };
+		02C640801C4089CA00231345 /* geonames.london-ontario.xml in Resources */ = {isa = PBXBuildFile; fileRef = 02C6407F1C4089CA00231345 /* geonames.london-ontario.xml */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -97,6 +104,13 @@
 		029699EF1C0EDA700067BB99 /* OWL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OWL.swift; path = "../source code/vocabularies/OWL.swift"; sourceTree = "<group>"; };
 		02C6406D1C3B024E00231345 /* Graph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Graph.swift; path = "../source code/model/Graph.swift"; sourceTree = "<group>"; };
 		02C6406F1C40283400231345 /* GraphTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphTests.swift; sourceTree = "<group>"; };
+		02C640731C40714800231345 /* RDFXMLParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RDFXMLParser.swift; path = "../source code/parsers/RDFXMLParser.swift"; sourceTree = "<group>"; };
+		02C640751C4071C900231345 /* RDFParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RDFParser.swift; path = "/Users/wonco/Development/SwiftRDF/source code/parsers/RDFParser.swift"; sourceTree = "<absolute>"; };
+		02C640771C40797600231345 /* RDFParserDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RDFParserDelegate.swift; path = "../source code/parsers/RDFParserDelegate.swift"; sourceTree = "<group>"; };
+		02C640791C407DA900231345 /* RDFParserError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RDFParserError.swift; path = "../source code/errors/RDFParserError.swift"; sourceTree = "<group>"; };
+		02C6407B1C40820B00231345 /* RDFXMLParserTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RDFXMLParserTests.swift; sourceTree = "<group>"; };
+		02C6407D1C4084AA00231345 /* geonames.london.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = geonames.london.xml; sourceTree = "<group>"; };
+		02C6407F1C4089CA00231345 /* geonames.london-ontario.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "geonames.london-ontario.xml"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -162,7 +176,10 @@
 				022D68391C22015E00C4000D /* BinaryDataTests.swift */,
 				02912C361C25A04800F64580 /* StringExtensionsTests.swift */,
 				024E09781C177240002EE84C /* DateTests.swift */,
+				02C6407B1C40820B00231345 /* RDFXMLParserTests.swift */,
 				022232231BFF719D00362D9B /* Info.plist */,
+				02C6407D1C4084AA00231345 /* geonames.london.xml */,
+				02C6407F1C4089CA00231345 /* geonames.london-ontario.xml */,
 			);
 			path = "SwiftRDF-OSXTests";
 			sourceTree = "<group>";
@@ -170,6 +187,10 @@
 		0222323E1C02108A00362D9B /* source */ = {
 			isa = PBXGroup;
 			children = (
+				02C640791C407DA900231345 /* RDFParserError.swift */,
+				02C640771C40797600231345 /* RDFParserDelegate.swift */,
+				02C640751C4071C900231345 /* RDFParser.swift */,
+				02C640731C40714800231345 /* RDFXMLParser.swift */,
 				02C6406D1C3B024E00231345 /* Graph.swift */,
 				0211FF851C2AB6DB00A1B944 /* MathFunctions.swift */,
 				024E09701C15EFDF002EE84C /* Duration.swift */,
@@ -294,6 +315,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				02C640801C4089CA00231345 /* geonames.london-ontario.xml in Resources */,
+				02C6407E1C4084AA00231345 /* geonames.london.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -311,6 +334,7 @@
 				022232331BFF7A3600362D9B /* Resource.swift in Sources */,
 				022232401C061D8100362D9B /* SPARQLValue.swift in Sources */,
 				0262BB0D1C076409002E24A4 /* Vocabulary.swift in Sources */,
+				02C640761C4071C900231345 /* RDFParser.swift in Sources */,
 				0262BB0B1C075F9E002E24A4 /* XSD.swift in Sources */,
 				029699F01C0EDA700067BB99 /* OWL.swift in Sources */,
 				022D68371C21D64B00C4000D /* NSData-extensions.swift in Sources */,
@@ -321,11 +345,14 @@
 				0262BB0F1C076606002E24A4 /* Datatype.swift in Sources */,
 				024E09711C15EFDF002EE84C /* Duration.swift in Sources */,
 				024E09651C11DEF2002EE84C /* LiteralFormattingError.swift in Sources */,
+				02C640781C40797600231345 /* RDFParserDelegate.swift in Sources */,
 				022232391BFF7A4700362D9B /* BlankNode.swift in Sources */,
+				02C6407A1C407DA900231345 /* RDFParserError.swift in Sources */,
 				02C6406E1C3B024E00231345 /* Graph.swift in Sources */,
 				022D68361C21D64B00C4000D /* GregorianDate.swift in Sources */,
 				02912C391C25A13D00F64580 /* String-extensions.swift in Sources */,
 				022232351BFF7A3D00362D9B /* Literal.swift in Sources */,
+				02C640741C40714800231345 /* RDFXMLParser.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -334,6 +361,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				02912C371C25A04800F64580 /* StringExtensionsTests.swift in Sources */,
+				02C6407C1C40820B00231345 /* RDFXMLParserTests.swift in Sources */,
 				024E09791C177240002EE84C /* DateTests.swift in Sources */,
 				024E09751C162E27002EE84C /* TimeLiteralTests.swift in Sources */,
 				02C640701C40283400231345 /* GraphTests.swift in Sources */,
