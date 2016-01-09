@@ -16,6 +16,8 @@ import Foundation
  */
 public class Graph {
     
+    // MARK: Properties
+    
     /**
      The name (identifier) of the named graph.
      */
@@ -35,11 +37,18 @@ public class Graph {
     }
     
     /**
+     The namespaces defined for this `Graph`. The key is the prefix and the value is the namespace URI.
+     */
+    private var namespaces = [String : String]()
+    
+    /**
      The number of statements in the Graph.
      */
     public var count : Int {
         return statements.count
     }
+    
+    // MARK: Initialisers
     
     /**
      Creates an unnamed `Graph`.
@@ -56,6 +65,8 @@ public class Graph {
     public init(name : Resource){
         self.name = name
     }
+    
+    // MARK: Access to statements
     
     /**
      Adds the specfied statement to the `Graph`. If the graph is a named graph, the URI identifier of
@@ -177,6 +188,113 @@ public class Graph {
         }
         return graph
     }
+    
+    // MARK: Namespace functions
+    
+    /**
+     Returns the namespace URI defined in this `Graph` for the specified prefix.
+     If no prefix is defined for this namespace, `nil` is returned.
+     
+     - parameter prefix: The prefix name of the requested namespace.
+     - returns: The namespace URI.
+     */
+    public func namespaceForPrefix(prefix : String) -> String? {
+        return namespaces[prefix]
+    }
+    
+    /**
+     Returns the prefix used for the specified namespace URI.
+     If the namespace URI has no prefix, `nil` will be returned.
+     
+     - parameter namespaceURI: The namespace URI whose prefix is requested.
+     - returns: The prefix or `nil` if no prefix was defined for  the namespace.
+     */
+    public func prefixForNamespace(namespaceURI : String) -> String? {
+        // TODO: Implement prefixForNamespace
+        return nil
+    }
+    
+    /**
+     Adds the specified namespace to the `Graph` and creates a prefix for that namespace,
+     which will be `ns` with possibly a sequence number, e.g. `ns4:`.
+     
+     - parameter namespaceURI: The namespace URI.
+     - returns: The prefix that will be used for the namespace.
+     */
+    public func addNamespace(namespaceURI: String) -> String {
+        var prefix = "ns"
+        var count = 0
+        while namespaces[prefix] != nil {
+            count = count + 1
+            prefix = "\(prefix)\(count)"
+        }
+        return prefix
+    }
+    
+    /**
+     Adds the namespace with the specified prefix to the `Graph`.
+     If the prefix was defined for another namespace, the namespace will still be added
+     to the `Graph` but with another prefix (with a number appended to the suggested prefix).
+     The prefix that will be used is returned by this function.
+     
+     - parameter suggestedPrefix: The suggested prefix.
+     - parameter namespaceURI: The namespace URI.
+     - returns: The suggested prefix or if that prefix has already been used, an
+     alternative prefix.
+     */
+    public func addMappedNamespace(suggestedPrefix: String, namespaceURI: String) -> String {
+        return suggestedPrefix
+    }
+    
+    /**
+     Returns the qualified name for the specified URI, using the namespaces that were added
+     to this `Graph`, or `nil` if the no namespace was defined that can qualify the URI.
+     
+     - parameter uri: The URI whose qualified name is requested.
+     - returns: The qualified name of the URI/
+     */
+    public func qualifiedName(uri : URI) -> String? {
+        let ns = uri.namespace
+        let prefix = prefixForNamespace(ns)
+        if prefix == nil {
+            return nil
+        }
+        let localname = uri.localName
+        return "\(prefix!):\(localname)"
+    }
+    
+    /**
+     Returns the URI specified by the qualified name using the namespace defined for this
+     `Graph`, or `nil` if the specified string was not a qualified name or if the qualified
+     name could not be converted to a URI.
+     
+     - parameter qualifiedName: The qualified name specifying the URI given the namespace defined
+     in this `Graph`.
+     - returns: The URI, or `nil` if the qualified name could not be converted to a URI.
+     */
+    public func URIFrom(qualifiedName : String) -> URI? {
+        if qualifiedName.isQualifiedName {
+            let prefix = qualifiedName.qualifiedNamePrefix
+            if prefix == nil {
+                return nil
+            }
+            let nsURI = namespaceForPrefix(prefix!)
+            if nsURI == nil {
+                return nil
+            }
+            let localname = qualifiedName.qualifiedNameLocalPart
+            if localname == nil {
+                return nil
+            }
+            do {
+                let uri = try URI(namespace: nsURI!, localName: localname!)
+                return uri
+            } catch {}
+        }
+        return nil
+    }
+    
+    // MARK: Static functions
     
     /**
      Merges multiple graphs in a new (unnamed) graph by adding all statements from each graph into the merged graph.

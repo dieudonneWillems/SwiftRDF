@@ -96,6 +96,44 @@ public class URI : Resource {
     */
     public private(set) var fragment : String?
     
+    /**
+     The namespace of the URI, i.e. the hierarchical part if a fragment is present, otherwise the 
+     hierarchical part minus the last path component.
+     */
+    public var namespace : String {
+        var namespace = scheme + ":"
+        if authorityPart != nil {
+            namespace += "//"+authorityPart!
+        }
+        
+        if fragment == nil {
+            if path != nil {
+                let pathNSString = (path! as NSString)
+                let localname = pathNSString.lastPathComponent
+                let fpath = pathNSString.substringToIndex(pathNSString.length-(localname as NSString).length)
+                namespace += fpath
+            }
+        }else {
+            if path != nil {
+                namespace += path! + "#"
+            }
+        }
+        return namespace
+    }
+    
+    /**
+     The local name of the URI, i.e. the fragment when available, otherwise the last component of the path.
+     */
+    public var localName : String {
+        if fragment == nil {
+            if path != nil {
+                return (path! as NSString).lastPathComponent
+            }
+        }
+        return fragment!
+    }
+    
+    
     // MARK: SPARQL properties
     
     /**

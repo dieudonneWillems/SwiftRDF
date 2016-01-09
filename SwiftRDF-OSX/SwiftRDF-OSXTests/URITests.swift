@@ -21,6 +21,25 @@ class URITests: XCTestCase {
         super.tearDown()
     }
     
+    func testNamespaceAndLocalName(){
+        do {
+            var localname = "localname"
+            var namespace = "http://example.com/my/file#"
+            var uri = try URI(namespace: namespace, localName: localname)
+            XCTAssertEqual(localname, uri.localName)
+            XCTAssertEqual(namespace, uri.namespace)
+            
+            localname = "localname2"
+            namespace = "http://example.com/my/file/"
+            uri = try URI(namespace: namespace, localName: localname)
+            XCTAssertEqual(localname, uri.localName)
+            XCTAssertEqual(namespace, uri.namespace)
+        } catch {
+            print("Error thrown!")
+            XCTFail("Error thrown while testing namespace and local name of URI.")
+        }
+    }
+    
     func testURIEquality() {
         do {
             let uri = try URI(string : "http://www.w3.org/1999/02/22-rdf-syntax-ns#Bag")
