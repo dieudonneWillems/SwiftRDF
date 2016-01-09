@@ -27,7 +27,7 @@ class RDFXMLParserTests : XCTestCase {
     func testRDFXMLParserOnGeonames() {
         
         do{
-            let uri = try URI(string: "http://sws.geonames.org/6058560/about.rdf")
+            let uri = URI(string: "http://sws.geonames.org/6058560/about.rdf")!
             let parser = RDFXMLParser(uri: uri)
             
             var graph = parser?.parse()
