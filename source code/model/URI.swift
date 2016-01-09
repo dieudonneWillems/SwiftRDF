@@ -96,6 +96,44 @@ public class URI : Resource {
     */
     public private(set) var fragment : String?
     
+    /**
+     The namespace of the URI, i.e. the hierarchical part if a fragment is present, otherwise the 
+     hierarchical part minus the last path component.
+     */
+    public var namespace : String {
+        var namespace = scheme + ":"
+        if authorityPart != nil {
+            namespace += "//"+authorityPart!
+        }
+        
+        if fragment == nil {
+            if path != nil {
+                let pathNSString = (path! as NSString)
+                let localname = pathNSString.lastPathComponent
+                let fpath = pathNSString.substringToIndex(pathNSString.length-(localname as NSString).length)
+                namespace += fpath
+            }
+        }else {
+            if path != nil {
+                namespace += path! + "#"
+            }
+        }
+        return namespace
+    }
+    
+    /**
+     The local name of the URI, i.e. the fragment when available, otherwise the last component of the path.
+     */
+    public var localName : String {
+        if fragment == nil {
+            if path != nil {
+                return (path! as NSString).lastPathComponent
+            }
+        }
+        return fragment!
+    }
+    
+    
     // MARK: SPARQL properties
     
     /**
@@ -113,18 +151,15 @@ public class URI : Resource {
     /**
      Initialises the URI from the specified string representing the URI.
     
-     - parameter string: The string representing the URI.
-    
-     - throws MalformedURIError.URIAuthorityPartIsMalformed: If the authority part of the URI represented
-                                                             in the string is malformed.
-     - throws MalformedURIError.URIHostMissingFromAuthorityPath: If the host is missing from the authority path.
-     - throws MalformedURIError.URISchemeMissing: If the scheme is missing from the URI.
-     - throws MalformedURIError.MalformedURI: When the URI was malformed.
+     - parameter string: The string representing the URI, or nil if the string did not represent a valid URI.
+     - returns: The URI or nil if the string did not represent a valid URI.
     */
-    public init(string : String) throws {
+    public init?(string : String) {
         scheme = ""
         super.init(stringValue: string)
-        try parseURI(string)
+        if !parseURI(string) {
+            return nil
+        }
     }
     
     
@@ -133,18 +168,15 @@ public class URI : Resource {
      
      - parameter namespace: The namespace to which the resource belongs.
      - parameter localName: The local name of the resource.
-     
-     - throws `MalformedURIError.URIAuthorityPartIsMalformed`: If the authority part of the URI represented
-     in the string is malformed.
-     - throws `MalformedURIError.URIHostMissingFromAuthorityPath`: If the host is missing from the authority path.
-     - throws `MalformedURIError.URISchemeMissing`: If the scheme is missing from the URI.
-     - throws `MalformedURIError.MalformedURI`: When the URI was malformed.
+     - returns: The URI or nil if the string did not represent a valid URI.
      */
-    public init(namespace : String, localName : String) throws {
+    public init?(namespace : String, localName : String) {
         scheme = ""
         let string = "\(namespace)\(localName)"
         super.init(stringValue: string)
-        try parseURI(string)
+        if !parseURI(string) {
+            return nil
+        }
     }
     
     
@@ -163,7 +195,7 @@ public class URI : Resource {
           5: host
           7: port
     */
-    private func parseAuthorityPart(authorityPart : String) throws {
+    private func parseAuthorityPart(authorityPart : String) -> Bool{
         // TODO: Determine what to do when passwords include characters like @
         // TODO: Determine if the pattern works with IP addresses IPv4 and IPv6 (between brackets)
         let pattern = "^(([\\w\\.]+)(:([\\S\\.]+))?@)?([-\\w\\.]*)(:([\\d]*))?$"
@@ -171,7 +203,7 @@ public class URI : Resource {
             let regex = try NSRegularExpression(pattern: pattern, options: [.CaseInsensitive])
             let matches = regex.matchesInString(authorityPart, options: [], range: NSMakeRange(0, authorityPart.characters.count)) as Array<NSTextCheckingResult>
             if matches.count <= 0 {
-                throw MalformedURIError.URIAuthorityPartIsMalformed(message: "The URI has a malformed authority part: '\(authorityPart)'.")
+                return false
             }
             let nsstring = authorityPart as NSString
             for match in matches as [NSTextCheckingResult] {
@@ -189,7 +221,7 @@ public class URI : Resource {
                 if match.rangeAtIndex(5).location != NSNotFound {
                     host = nsstring.substringWithRange(match.rangeAtIndex(5)) as String
                 } else {
-                    throw MalformedURIError.URIHostMissingFromAuthorityPath(message: "The host is missing from the authority part '\(authorityPart)' of the URI.")
+                    return false
                 }
                 if match.rangeAtIndex(7).location != NSNotFound {
                     let portstr = nsstring.substringWithRange(match.rangeAtIndex(7)) as String
@@ -201,20 +233,20 @@ public class URI : Resource {
                 if match.rangeAtIndex(4).location != NSNotFound {
                     password = nsstring.substringWithRange(match.rangeAtIndex(4)) as String
                 }
+                return true
             }
-            
-            
+            return false
         } catch {
-            throw MalformedURIError.URIAuthorityPartIsMalformed(message: "The URI has a malformed authority part: '\(authorityPart)'.")
+            return false
         }
     }
     
-    private func parseURI(uri : String) throws {
+    private func parseURI(uri : String) -> Bool {
         do {
             let regex = try NSRegularExpression(pattern: pattern, options: [.CaseInsensitive])
             let matches = regex.matchesInString(uri, options: [], range: NSMakeRange(0, uri.characters.count)) as Array<NSTextCheckingResult>
             if matches.count <= 0 {
-                throw MalformedURIError.MalformedURI(message: "The URI '\(uri)' is malformed.", uri: uri)
+                return false
             }
             let nsstring = uri as NSString
             for match in matches as [NSTextCheckingResult] {
@@ -231,7 +263,7 @@ public class URI : Resource {
                 if match.rangeAtIndex(2).location != NSNotFound {
                     scheme = nsstring.substringWithRange(match.rangeAtIndex(2)) as String
                 } else {
-                    throw MalformedURIError.URISchemeMissing(message: "The URI '\(uri)' does not contain a scheme.", uri: uri)
+                    return false
                 }
                 if match.rangeAtIndex(4).location != NSNotFound {
                     authorityPart = nsstring.substringWithRange(match.rangeAtIndex(4)) as String
@@ -253,11 +285,16 @@ public class URI : Resource {
                     hierarchicalPart = path!
                 }
                 if authorityPart != nil {
-                    try parseAuthorityPart(authorityPart!)
+                    let sucAuth = parseAuthorityPart(authorityPart!)
+                    if !sucAuth {
+                        return false
+                    }
                 }
+                return true
             }
+            return false
         } catch {
-            throw MalformedURIError.MalformedURI(message: "The URI '\(uri)' is malformed.", uri: uri)
+            return false
         }
     }
 }

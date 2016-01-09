@@ -541,7 +541,7 @@ public class Literal: Value{
                 }
                 var datatypeFS : Datatype? = nil
                 if dtypeURI != nil {
-                    datatypeFS = try Datatype(uri: dtypeURI!, derivedFromDatatype: nil, isListDataType: false)
+                    datatypeFS = Datatype(uri: dtypeURI!, derivedFromDatatype: nil, isListDataType: false)
                 }else if dtypeStr != nil {
                     if dtypeStr! == "string" {
                         datatypeFS = XSD.string
@@ -626,7 +626,7 @@ public class Literal: Value{
                     } else if dtypeStr! == "xsd:QName" || dtypeStr! == "QName" {
                         datatypeFS = XSD.QName
                     } else {
-                        datatypeFS = try Datatype(namespace: XSD.namespace(), localName: dtypeStr!, derivedFromDatatype: nil, isListDataType: false)
+                        datatypeFS = Datatype(namespace: XSD.namespace(), localName: dtypeStr!, derivedFromDatatype: nil, isListDataType: false)
                     }
                 } else {
                     if match.rangeAtIndex(16).location != NSNotFound {
@@ -822,12 +822,8 @@ public class Literal: Value{
                     return nil
                 }
             }else if dataType == XSD.anyURI {
-                do {
-                    anyURIValue = try URI(string: stringValue)
-                    if anyURIValue == nil {
-                        return nil
-                    }
-                } catch {
+                anyURIValue = URI(string: stringValue)
+                if anyURIValue == nil {
                     return nil
                 }
             }else if dataType == XSD.base64Binary {

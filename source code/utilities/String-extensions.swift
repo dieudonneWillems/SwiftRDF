@@ -188,6 +188,14 @@ extension String {
     }
     
     /**
+     Is true when the string is a valid URI.
+     */
+    var validURI : Bool {
+        let uri = URI(string: self)
+        return (uri != nil)
+    }
+    
+    /**
      Creates a `NSData` instance from a hexadecimal string representation
      It takes a hexadecimal representation and creates an NSData object.
      Note, if the string has any spaces, those are removed. 

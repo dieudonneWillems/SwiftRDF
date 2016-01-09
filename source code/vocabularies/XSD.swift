@@ -227,12 +227,7 @@ public class XSD : Vocabulary {
      - returns: The Datatype that was created.
      */
     internal static func createDatatype(namespace: String, localName: String, derivedFromDatatype: Datatype?, isListDataType: Bool) -> Datatype {
-        var datatype : Datatype? = nil
-        do {
-            datatype = try Datatype(namespace: namespace, localName: localName, derivedFromDatatype: derivedFromDatatype, isListDataType: isListDataType)
-        } catch {
-            datatype = nil
-        }
+        let datatype = Datatype(namespace: namespace, localName: localName, derivedFromDatatype: derivedFromDatatype, isListDataType: isListDataType)
         return datatype!
     }
 }

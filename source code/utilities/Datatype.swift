@@ -38,16 +38,12 @@ public class Datatype : URI {
         or by list.
      - parameter isListDataType: Set to true when the datatype specified data provided as a list of data.
     
-     - throws `MalformedURIError.URIAuthorityPartIsMalformed`: If the authority part of the URI represented
-        in the string is malformed.
-     - throws `MalformedURIError.URIHostMissingFromAuthorityPath`: If the host is missing from the authority path.
-     - throws `MalformedURIError.URISchemeMissing`: If the scheme is missing from the URI.
-     - throws `MalformedURIError.MalformedURI`: When the URI was malformed.
+     - returns: The datatype, or nil if the namespace and local name could not be combined to a valid URI.
      */
-    public init(namespace: String, localName : String, derivedFromDatatype: Datatype?, isListDataType : Bool) throws {
+    public init?(namespace: String, localName : String, derivedFromDatatype: Datatype?, isListDataType : Bool) {
         self.derivedFromDatatype = derivedFromDatatype
         self.isListDataType = isListDataType
-        try super.init(namespace: namespace, localName: localName)
+        super.init(namespace: namespace, localName: localName)
     }
     
     /**
@@ -57,17 +53,12 @@ public class Datatype : URI {
      - parameter derivedFromDatatype: The parent datatype from which this datatype is derived (either by restriction
      or by list.
      - parameter isListDataType: Set to true when the datatype specified data provided as a list of data.
-     
-     - throws `MalformedURIError.URIAuthorityPartIsMalformed`: If the authority part of the URI represented
-     in the string is malformed.
-     - throws `MalformedURIError.URIHostMissingFromAuthorityPath`: If the host is missing from the authority path.
-     - throws `MalformedURIError.URISchemeMissing`: If the scheme is missing from the URI.
-     - throws `MalformedURIError.MalformedURI`: When the URI was malformed.
+     - returns: The datatype, or nil if the uri string did not represent a valid URI.
      */
-    public init(uri : String, derivedFromDatatype: Datatype?, isListDataType : Bool) throws {
+    public init?(uri : String, derivedFromDatatype: Datatype?, isListDataType : Bool) {
         self.derivedFromDatatype = derivedFromDatatype
         self.isListDataType = isListDataType
-        try super.init(string: uri)
+        super.init(string: uri)
     }
     
     // MARK: Methods

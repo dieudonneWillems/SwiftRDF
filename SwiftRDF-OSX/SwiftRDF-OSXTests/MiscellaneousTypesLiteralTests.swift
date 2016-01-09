@@ -64,23 +64,19 @@ class MiscellaneousTypesLiteralTests: XCTestCase {
     }
     
     func testAnyURILiterals() {
-        do{
-            let uristr = "http://donme:posdoe@example.org/path/to/resource#fragment?query=something"
-            let uri = try URI(string: uristr)
-            var lit = Literal(anyURIValue: uri)
-            XCTAssertEqual("http://donme:posdoe@example.org/path/to/resource#fragment?query=something", lit.stringValue)
-            XCTAssertEqual("\"http://donme:posdoe@example.org/path/to/resource#fragment?query=something\"^^xsd:anyURI", lit.sparql)
-            XCTAssertTrue(XSD.anyURI == lit.dataType!)
-            XCTAssertNil(lit.longValue)
-            
-            lit = Literal(stringValue: uristr, dataType: XSD.anyURI)!
-            XCTAssertTrue(uri == lit.anyURIValue!)
-            
-            lit = Literal(sparqlString: "\"http://donme:posdoe@example.org/path/to/resource#fragment?query=something\"^^xsd:anyURI")!
-            XCTAssertTrue(uri == lit.anyURIValue!)
-        }catch {
-            XCTFail("Error thrown when creating URI.")
-        }
+        let uristr = "http://donme:posdoe@example.org/path/to/resource#fragment?query=something"
+        let uri = URI(string: uristr)!
+        var lit = Literal(anyURIValue: uri)
+        XCTAssertEqual("http://donme:posdoe@example.org/path/to/resource#fragment?query=something", lit.stringValue)
+        XCTAssertEqual("\"http://donme:posdoe@example.org/path/to/resource#fragment?query=something\"^^xsd:anyURI", lit.sparql)
+        XCTAssertTrue(XSD.anyURI == lit.dataType!)
+        XCTAssertNil(lit.longValue)
+        
+        lit = Literal(stringValue: uristr, dataType: XSD.anyURI)!
+        XCTAssertTrue(uri == lit.anyURIValue!)
+        
+        lit = Literal(sparqlString: "\"http://donme:posdoe@example.org/path/to/resource#fragment?query=something\"^^xsd:anyURI")!
+        XCTAssertTrue(uri == lit.anyURIValue!)
     }
     
     func testQNameLiterals() {
