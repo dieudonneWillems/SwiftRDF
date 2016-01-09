@@ -147,4 +147,49 @@ class GraphTests : XCTestCase {
         
     }
     
+    func testNamespaces() {
+        let fruitsNS = "http://example.org/resource/fruits/"
+        let vegetablesNS = "http://example.org/resource/vegetables/"
+        let fruitsURI = URI(string: fruitsNS)!
+        let fruits = Graph(name: fruitsURI)
+        let vegetablesURI = URI(string: vegetablesNS)!
+        let vegetables = Graph(name: vegetablesURI)
+        
+        fruits.addNamespace("fruits", namespaceURI: fruitsNS)
+        
+        vegetables.addNamespace("veg", namespaceURI: vegetablesNS)
+        vegetables.addNamespace("frt", namespaceURI: fruitsNS)
+        
+        let appleURI = URI(namespace: fruitsNS, localName: "apple")!
+        fruits.addStatement(appleURI, predicate: RDF.type, object: OWL.Class)
+        
+        let cabbageURI = URI(namespace: vegetablesNS, localName: "cabbage")!
+        vegetables.addStatement(cabbageURI, predicate: RDF.type, object: OWL.Class)
+        
+        XCTAssertTrue(fruits.namespacePrefixes.count == 1)
+        XCTAssertTrue(vegetables.namespacePrefixes.count == 2)
+        
+        XCTAssertEqual("fruits:apple", fruits.qualifiedName(appleURI))
+        XCTAssertNil(fruits.qualifiedName(cabbageURI))
+        XCTAssertEqual("veg:cabbage", vegetables.qualifiedName(cabbageURI))
+        
+        vegetables.add(fruits)
+        XCTAssertTrue(vegetables.namespacePrefixes.count == 3)
+        XCTAssertTrue(vegetables.allQualifiedNames(appleURI).contains("frt:apple"))
+        XCTAssertTrue(vegetables.allQualifiedNames(appleURI).contains("fruits:apple"))
+        XCTAssertEqual("veg:cabbage", vegetables.qualifiedName(cabbageURI))
+        XCTAssertTrue(appleURI == vegetables.createURIFromQualifiedName("frt:apple")!)
+        XCTAssertTrue(appleURI == vegetables.createURIFromQualifiedName("fruits:apple")!)
+        XCTAssertTrue(cabbageURI == vegetables.createURIFromQualifiedName("veg:cabbage")!)
+        XCTAssertNil(vegetables.createURIFromQualifiedName("vegetables:cabbage"))
+        XCTAssertNotNil(vegetables.createURIFromQualifiedName("veg:pea"))
+        
+        let peaURI = URI(namespace: vegetablesNS, localName: "pea")!
+        XCTAssertTrue(peaURI == vegetables.createURIFromQualifiedName("veg:pea")!)
+        
+        let subgraph = vegetables.subGraph(nil, predicate: nil, object: nil, namedGraph: fruitsURI)
+        XCTAssertTrue(subgraph.namespacePrefixes.count == 3)
+        XCTAssertTrue(peaURI == subgraph.createURIFromQualifiedName("veg:pea")!)
+    }
+    
 }

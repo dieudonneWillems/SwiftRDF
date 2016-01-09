@@ -147,19 +147,10 @@
 		022232201BFF719D00362D9B /* SwiftRDF-OSXTests */ = {
 			isa = PBXGroup;
 			children = (
+				02C640821C4115E300231345 /* Datatype tests */,
+				02C640811C4115C200231345 /* Literal Tests */,
 				02C6406F1C40283400231345 /* GraphTests.swift */,
-				022232211BFF719D00362D9B /* URITests.swift */,
-				0262BB121C0C5E45002E24A4 /* DatatypeTests.swift */,
-				024E09661C124A9C002EE84C /* NumericLiteralTests.swift */,
-				024E09681C12DE49002EE84C /* StringLiteralTests.swift */,
-				024E096E1C15B8F9002EE84C /* SPARQLLiteralTests.swift */,
-				024E09741C162E27002EE84C /* TimeLiteralTests.swift */,
-				022D683B1C22265100C4000D /* MiscellaneousTypesLiteralTests.swift */,
-				024E09721C161B65002EE84C /* DurationTests.swift */,
-				024E096C1C1374C7002EE84C /* DecimalTests.swift */,
-				022D68391C22015E00C4000D /* BinaryDataTests.swift */,
 				02912C361C25A04800F64580 /* StringExtensionsTests.swift */,
-				024E09781C177240002EE84C /* DateTests.swift */,
 				022232231BFF719D00362D9B /* Info.plist */,
 			);
 			path = "SwiftRDF-OSXTests";
@@ -191,6 +182,31 @@
 				022D68331C21D64B00C4000D /* NSData-extensions.swift */,
 			);
 			name = source;
+			sourceTree = "<group>";
+		};
+		02C640811C4115C200231345 /* Literal Tests */ = {
+			isa = PBXGroup;
+			children = (
+				024E09661C124A9C002EE84C /* NumericLiteralTests.swift */,
+				024E09681C12DE49002EE84C /* StringLiteralTests.swift */,
+				024E096E1C15B8F9002EE84C /* SPARQLLiteralTests.swift */,
+				024E09741C162E27002EE84C /* TimeLiteralTests.swift */,
+				022D683B1C22265100C4000D /* MiscellaneousTypesLiteralTests.swift */,
+			);
+			name = "Literal Tests";
+			sourceTree = "<group>";
+		};
+		02C640821C4115E300231345 /* Datatype tests */ = {
+			isa = PBXGroup;
+			children = (
+				024E09781C177240002EE84C /* DateTests.swift */,
+				022232211BFF719D00362D9B /* URITests.swift */,
+				0262BB121C0C5E45002E24A4 /* DatatypeTests.swift */,
+				024E09721C161B65002EE84C /* DurationTests.swift */,
+				024E096C1C1374C7002EE84C /* DecimalTests.swift */,
+				022D68391C22015E00C4000D /* BinaryDataTests.swift */,
+			);
+			name = "Datatype tests";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

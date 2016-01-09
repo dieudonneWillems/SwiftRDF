@@ -131,7 +131,7 @@ public class Graph {
         }
         let prefixes = graph.namespacePrefixes
         for prefix in prefixes {
-            addNamespace(prefix, namespaceURI: namespaceForPrefix(prefix)!)
+            addNamespace(prefix, namespaceURI: graph.namespaceForPrefix(prefix)!)
         }
     }
     
@@ -219,8 +219,10 @@ public class Graph {
     }
     
     /**
-     Returns the prefix used for the specified namespace URI.
-     If the namespace URI has no prefix, `nil` will be returned.
+     Returns the first prefix encountered used for the specified namespace URI.
+     If the namespace URI has no prefix, `nil` will be returned. 
+     One namespace URI may have multiple prefixes. It is not defined which prefix
+     will be returned.
      
      - parameter namespaceURI: The namespace URI whose prefix is requested.
      - returns: The prefix or `nil` if no prefix was defined for  the namespace.
@@ -232,6 +234,22 @@ public class Graph {
             }
         }
         return nil
+    }
+    
+    /**
+     Returns all prefixes that were defined for the specified namespace URI.
+     
+     - parameter namespaceURI: The namespace URI whose prefixes are requested.
+     - returns: The prefixes defined for the namespace URI.
+     */
+    public func allPrefixesForNamespace(namespaceURI : String) -> [String] {
+        var prefixes = [String]()
+        for (prefix, nsURI) in namespaces {
+            if nsURI == namespaceURI {
+                prefixes.append(prefix)
+            }
+        }
+        return prefixes
     }
     
     /**
@@ -251,6 +269,7 @@ public class Graph {
      If the prefix was defined for another namespace, the namespace will still be added
      to the `Graph` but with another prefix (with a number appended to the suggested prefix).
      The prefix that will be used is returned by this function.
+     Namespaces are allowed to have multiple prefixes, but only one namespace is defined per prefix.
      
      - parameter suggestedPrefix: The suggested prefix.
      - parameter namespaceURI: The namespace URI.
@@ -258,20 +277,16 @@ public class Graph {
      alternative prefix. Returns `nil` when the namespace URI is not a valid URI.
      */
     public func addNamespace(suggestedPrefix: String, namespaceURI: String) -> String? {
-        var prefix = prefixForNamespace(namespaceURI)
-        if prefix != nil {
-            return prefix
-        }
-        prefix = suggestedPrefix
-        if !prefix!.validNCName {
-            prefix! = "ns"
+        var prefix = suggestedPrefix
+        if !prefix.validNCName {
+            prefix = "ns"
         }
         var count = 0
-        while namespaces[prefix!] != nil {
+        while namespaces[prefix] != nil {
             count = count + 1
             prefix = "\(prefix)\(count)"
         }
-        namespaces[prefix!] = namespaceURI
+        namespaces[prefix] = namespaceURI
         return prefix
     }
     
@@ -280,7 +295,7 @@ public class Graph {
      to this `Graph`, or `nil` if the no namespace was defined that can qualify the URI.
      
      - parameter uri: The URI whose qualified name is requested.
-     - returns: The qualified name of the URI/
+     - returns: The qualified name of the URI.
      */
     public func qualifiedName(uri : URI) -> String? {
         let ns = uri.namespace
@@ -290,6 +305,25 @@ public class Graph {
         }
         let localname = uri.localName
         return "\(prefix!):\(localname)"
+    }
+    
+    /**
+     Returns all valid qualified names for the specified URI, using the namespaces that
+     were added to this `Graph`. A namespace URI can have multiple prefixes. For each of
+     these prefixes ad qualified names will be returned.
+     
+     - parameter uri: The URI whose qualified name is requested.
+     - returns: All qualified names for this URI.
+     */
+    public func allQualifiedNames(uri : URI) -> [String] {
+        let ns = uri.namespace
+        let localname = uri.localName
+        let prefixes = allPrefixesForNamespace(ns)
+        var qnames = [String]()
+        for prefix in prefixes {
+            qnames.append("\(prefix):\(localname)")
+        }
+        return qnames
     }
     
     /**
