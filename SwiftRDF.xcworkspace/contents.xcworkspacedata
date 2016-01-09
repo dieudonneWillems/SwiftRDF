@@ -24,6 +24,9 @@
          <FileRef
             location = "group:/Users/wonco/Development/SwiftRDF/source code/errors/LiteralFormattingError.swift">
          </FileRef>
+         <FileRef
+            location = "group:source code/errors/RDFParserError.swift">
+         </FileRef>
       </Group>
       <Group
          location = "container:"
@@ -55,21 +58,15 @@
       </Group>
       <Group
          location = "container:"
-         name = "vocabularies">
+         name = "parser">
          <FileRef
-            location = "group:source code/vocabularies/OWL.swift">
+            location = "group:/Users/wonco/Development/SwiftRDF/source code/parsers/RDFParser.swift">
          </FileRef>
          <FileRef
-            location = "group:source code/vocabularies/RDF.swift">
+            location = "group:source code/parsers/RDFParserDelegate.swift">
          </FileRef>
          <FileRef
-            location = "group:source code/vocabularies/RDFS.swift">
-         </FileRef>
-         <FileRef
-            location = "group:source code/vocabularies/XSD.swift">
-         </FileRef>
-         <FileRef
-            location = "group:source code/vocabularies/Vocabulary.swift">
+            location = "group:source code/parsers/RDFXMLParser.swift">
          </FileRef>
       </Group>
       <Group
@@ -95,6 +92,25 @@
          </FileRef>
          <FileRef
             location = "group:source code/utilities/MathFunctions.swift">
+         </FileRef>
+      </Group>
+      <Group
+         location = "container:"
+         name = "vocabularies">
+         <FileRef
+            location = "group:source code/vocabularies/OWL.swift">
+         </FileRef>
+         <FileRef
+            location = "group:source code/vocabularies/RDF.swift">
+         </FileRef>
+         <FileRef
+            location = "group:source code/vocabularies/RDFS.swift">
+         </FileRef>
+         <FileRef
+            location = "group:source code/vocabularies/XSD.swift">
+         </FileRef>
+         <FileRef
+            location = "group:source code/vocabularies/Vocabulary.swift">
          </FileRef>
       </Group>
    </Group>

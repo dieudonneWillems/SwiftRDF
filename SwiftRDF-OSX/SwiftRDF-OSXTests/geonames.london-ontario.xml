@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<rdf:RDF xmlns:cc="http://creativecommons.org/ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:gn="http://www.geonames.org/ontology#" xmlns:owl="http://www.w3.org/2002/07/owl#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:wgs84_pos="http://www.w3.org/2003/01/geo/wgs84_pos#">
+    <gn:Feature rdf:about="http://sws.geonames.org/6058560/">
+        <rdfs:isDefinedBy rdf:resource="http://sws.geonames.org/6058560/about.rdf"/>
+        <gn:name>London</gn:name>
+        <gn:alternateName xml:lang="ko">런던</gn:alternateName>
+        <gn:alternateName xml:lang="ja">ロンドン</gn:alternateName>
+        <gn:alternateName xml:lang="de">London</gn:alternateName>
+        <gn:alternateName xml:lang="en">London</gn:alternateName>
+        <gn:alternateName xml:lang="es">London</gn:alternateName>
+        <gn:alternateName xml:lang="et">London</gn:alternateName>
+        <gn:alternateName xml:lang="fi">London</gn:alternateName>
+        <gn:alternateName xml:lang="fr">London</gn:alternateName>
+        <gn:alternateName xml:lang="nl">London</gn:alternateName>
+        <gn:alternateName xml:lang="pl">London</gn:alternateName>
+        <gn:alternateName xml:lang="pt">London</gn:alternateName>
+        <gn:alternateName xml:lang="lt">Londonas</gn:alternateName>
+        <gn:alternateName xml:lang="eo">Londono</gn:alternateName>
+        <gn:alternateName xml:lang="pnb">لندن</gn:alternateName>
+        <gn:alternateName xml:lang="fa">لندن، انتاریو</gn:alternateName>
+        <gn:alternateName xml:lang="ar">لندن، أونتاريو</gn:alternateName>
+        <gn:alternateName xml:lang="ur">لندن، اونٹاریو</gn:alternateName>
+        <gn:alternateName xml:lang="he">לונדון</gn:alternateName>
+        <gn:alternateName xml:lang="bg">Лондон</gn:alternateName>
+        <gn:alternateName xml:lang="os">Лондон</gn:alternateName>
+        <gn:alternateName xml:lang="ru">Лондон</gn:alternateName>
+        <gn:alternateName xml:lang="sr">Лондон</gn:alternateName>
+        <gn:alternateName xml:lang="uk">Лондон</gn:alternateName>
+        <gn:alternateName xml:lang="ka">ლონდონი</gn:alternateName>
+        <gn:alternateName xml:lang="zh">伦敦</gn:alternateName>
+        <gn:featureClass rdf:resource="http://www.geonames.org/ontology#P"/>
+        <gn:featureCode rdf:resource="http://www.geonames.org/ontology#P.PPL"/>
+        <gn:countryCode>CA</gn:countryCode>
+        <gn:population>346765</gn:population>
+        <wgs84_pos:lat>42.98339</wgs84_pos:lat>
+        <wgs84_pos:long>-81.23304</wgs84_pos:long>
+        <gn:parentFeature rdf:resource="http://sws.geonames.org/6093943/"/>
+        <gn:parentCountry rdf:resource="http://sws.geonames.org/6251999/"/>
+        <gn:parentADM1 rdf:resource="http://sws.geonames.org/6093943/"/>
+        <gn:nearbyFeatures rdf:resource="http://sws.geonames.org/6058560/nearby.rdf"/>
+        <gn:locationMap rdf:resource="http://www.geonames.org/6058560/london.html"/>
+        <gn:wikipediaArticle rdf:resource="http://en.wikipedia.org/wiki/London%2C_Ontario"/>
+        <rdfs:seeAlso rdf:resource="http://dbpedia.org/resource/London%2C_Ontario"/>
+        <gn:wikipediaArticle rdf:resource="http://uk.wikipedia.org/wiki/%D0%9B%D0%BE%D0%BD%D0%B4%D0%BE%D0%BD_(%D0%9E%D0%BD%D1%82%D0%B0%D1%80%D1%96%D0%BE)"/>
+    </gn:Feature>
+    <foaf:Document rdf:about="http://sws.geonames.org/6058560/about.rdf">
+        <foaf:primaryTopic rdf:resource="http://sws.geonames.org/6058560/"/>
+        <cc:license rdf:resource="http://creativecommons.org/licenses/by/3.0/"/>
+        <cc:attributionURL rdf:resource="http://sws.geonames.org/6058560/"/>
+        <cc:attributionName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">GeoNames</cc:attributionName>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2006-01-18</dcterms:created>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2012-08-19</dcterms:modified>
+    </foaf:Document>
+</rdf:RDF>
