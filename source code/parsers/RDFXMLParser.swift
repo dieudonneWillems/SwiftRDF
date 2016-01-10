@@ -25,6 +25,16 @@ public class RDFXMLParser : NSObject, RDFParser, NSXMLParserDelegate {
     
     private let xmlParser : NSXMLParser?
     
+    private var currentSubject = [Resource?]()
+    private var currentProperty = [URI?]()
+    private var currentObject = [Value?]()
+    private var currentDatatype = [Datatype?]()
+    private var currentLanguage = [String?]()
+    private var currentNamespaces = [String : String]()
+    private var namespaceMapping = [String : String]()
+    
+    private var currentGraph : Graph?
+    
     /**
      Initialises a parser with the contents of the RDF file reference by the given
      URL.
@@ -83,6 +93,14 @@ public class RDFXMLParser : NSObject, RDFParser, NSXMLParserDelegate {
      */
     public func parse() -> Graph? {
         var success = false
+        currentGraph = Graph()
+        currentDatatype.removeAll()
+        currentLanguage.removeAll()
+        currentProperty.removeAll()
+        currentObject.removeAll()
+        currentNamespaces.removeAll()
+        currentSubject.removeAll()
+        namespaceMapping.removeAll()
         if xmlParser != nil {
             success = xmlParser!.parse()
         }
@@ -92,7 +110,7 @@ public class RDFXMLParser : NSObject, RDFParser, NSXMLParserDelegate {
             }
         }
         print("** FINISHED PARSING RDF/XML **")
-        return nil
+        return currentGraph
     }
     
     // MARK: XML parser delegate functions
@@ -120,18 +138,97 @@ public class RDFXMLParser : NSObject, RDFParser, NSXMLParserDelegate {
     
     public func parser(parser: NSXMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String]) {
         print("Started on element \(elementName) with attributes \(attributeDict).")
+        
+        var subject : Resource? = nil
+        var property : URI? = nil
+        var object : Value? = nil
+        var datatype : Datatype? = nil
+        var language : String? = nil
+        
+        var elementURIstring = elementName
+        if namespaceURI != nil {
+            elementURIstring = namespaceURI! + elementURIstring
+        }
+        var attributes = [String : String]()
+        for attrname in attributeDict.keys {
+            if attrname.isQualifiedName {
+                let uri = currentGraph!.createURIFromQualifiedName(attrname)
+                if uri != nil {
+                    attributes[uri!.stringValue] = attributeDict[attrname]
+                }else {
+                    attributes[attrname] = attributeDict[attrname]
+                }
+            } else {
+                attributes[attrname] = attributeDict[attrname]
+            }
+        }
+        
+        print("\tElement URI: \(elementURIstring) with attributes: \(attributes).")
+        if elementURIstring == RDF.Description.stringValue {
+            let about = attributes[RDF.about.stringValue]
+            if about != nil {
+                let aboutURI = URI(string: about!)
+                if aboutURI != nil {
+                    subject = aboutURI
+                    print("\t\tsubject URI: \(aboutURI)")
+                }
+            }
+        }
+        
+        if attributes[RDF.datatype.stringValue] != nil {
+            let dtstr = attributes[RDF.datatype.stringValue]!
+            var uri : URI? = nil
+            if dtstr.isQualifiedName {
+                uri = currentGraph!.createURIFromQualifiedName(dtstr)
+            }else {
+                uri = URI(string: dtstr)
+            }
+            if uri != nil {
+                datatype = Datatype(uri: uri!.stringValue, derivedFromDatatype: nil, isListDataType: false)
+            }
+        }
+        
+        if attributes["xml:lang"] != nil {
+            language = attributes["xml:lang"]!
+        }
+        
+        currentSubject.append(subject)
+        currentProperty.append(property)
+        currentObject.append(object)
+        currentDatatype.append(datatype)
+        currentLanguage.append(language)
+        
+        print("current Subjects: \(currentSubject)")
+        print("current Properties: \(currentProperty)")
+        print("current Objects: \(currentObject)")
+        print("current Datatypes: \(currentDatatype)")
+        print("current Languages: \(currentLanguage)")
     }
     
     public func parser(parser: NSXMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
         print("Finished on element \(elementName).")
+        currentSubject.removeLast()
+        currentProperty.removeLast()
+        currentObject.removeLast()
+        currentDatatype.removeLast()
+        currentLanguage.removeLast()
     }
     
     public func parser(parser: NSXMLParser, didStartMappingPrefix prefix: String, toURI namespaceURI: String) {
-        print("Started mapping prefix \(prefix) to namespace \(namespaceURI).")
+        let realprefix = currentGraph!.addNamespace(prefix, namespaceURI: namespaceURI)
+        if realprefix != nil {
+            namespaceMapping[prefix] = realprefix!
+            currentNamespaces[realprefix!] = namespaceURI
+        }
     }
     
     public func parser(parser: NSXMLParser, didEndMappingPrefix prefix: String) {
         print("Finished mapping prefix \(prefix).")
+        let realprefix = namespaceMapping[prefix]
+        if realprefix != nil {
+            namespaceMapping.removeValueForKey(realprefix!)
+            currentNamespaces.removeValueForKey(realprefix!)
+        }
     }
     
     public func parser(parser: NSXMLParser, foundCharacters string: String) {

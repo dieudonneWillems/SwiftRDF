@@ -68,4 +68,17 @@ public class RDF : Vocabulary {
     
     /// Represents the property to assgin the object of a statement.
     public static let object = Vocabulary.createURI( RDF.NAMESPACE, localName: "object")
+    
+    
+    // MARK: RDF Syntax
+    
+    /// Represents the basic node element in RDF Syntax.
+    public static let Description = Vocabulary.createURI( RDF.NAMESPACE, localName: "Description")
+    
+    /// The RDF Syntax attribute specifying the IRI for a node element.
+    public static let about = Vocabulary.createURI( RDF.NAMESPACE, localName: "about")
+    
+    /// The RDF Syntax attribute specifying the datatype for values.
+    public static let datatype = Vocabulary.createURI( RDF.NAMESPACE, localName: "datatype")
+    
 }
