@@ -46,9 +46,10 @@ public protocol RDFParser {
      Initialises a parser with the RDF contents encapsulated in the `NSData` object.
      
      - parameter data: The RDF data.
+     - parameter graphName: The name of the named graph, can be nil.
      - returns: An initialised RDF parser.
      */
-    init(data : NSData)
+    init(data : NSData, graphName : Resource?)
     
     /**
      Starts the event driven parsing operation. Statements parsed from the RDF file

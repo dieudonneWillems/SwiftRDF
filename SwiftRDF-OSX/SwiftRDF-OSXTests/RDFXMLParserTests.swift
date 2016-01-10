@@ -53,10 +53,67 @@ class RDFXMLParserTests : XCTestCase {
             "   </rdf:Description>\n\n" +
             "</rdf:RDF>";
         let data = rdf.dataUsingEncoding(NSUTF8StringEncoding)
-        let parser = RDFXMLParser(data: data!)
+        let name = URI(string: "http://www.w3.org/TR/rdf-syntax-grammar/example-8")
+        let parser = RDFXMLParser(data: data!, graphName: name)
         let graph = parser.parse()
         XCTAssertEqual(2, graph?.namespaces.count)
+        printGraph(graph!)
         XCTAssertEqual(6, graph!.count)
-        
+        let rdfxml = URI(string: "http://www.w3.org/TR/rdf-syntax-grammar")
+        let dctitle = URI(string: "http://purl.org/dc/elements/1.1/title")
+        let dcdescription = URI(string: "http://purl.org/dc/elements/1.1/description")
+        let derbaum = URI(string: "http://example.org/buecher/baum")
+        var subgraph =  graph!.subGraph(rdfxml, predicate: dctitle, object: nil)
+        XCTAssertEqual(3,subgraph.count)
+        subgraph =  graph!.subGraph(derbaum, predicate: dctitle, object: nil)
+        XCTAssertEqual(2,subgraph.count)
+        subgraph =  graph!.subGraph(derbaum, predicate: dcdescription, object: nil)
+        XCTAssertEqual(1,subgraph.count)
+        XCTAssertEqual("Das Buch ist außergewöhnlich", subgraph[0].object.stringValue)
+    }
+    
+    func printGraph(graph : Graph){
+        if graph.name == nil {
+            print("\n\nGRAPH\n")
+        }else {
+            print("\n\nNAMED GRAPH \(graph.name!)\n")
+        }
+        let prefixes = graph.namespacePrefixes
+        print("-- Namespaces --")
+        for prefix in prefixes {
+            print("   \(prefix): \(graph.namespaceForPrefix(prefix)!)")
+        }
+        print("\n-- Statements --")
+        for var index = 0 ; index < graph.count ; index++ {
+            let statement = graph[index]
+            let subject = qualifiedNameOrStringValue(statement.subject, graph: graph)
+            let predicate = qualifiedNameOrStringValue(statement.predicate, graph: graph)
+            let object = qualifiedNameOrStringValue(statement.object, graph: graph)
+            var namedGraphs = ""
+            var i = 0
+            for namedGraph in statement.namedGraphs {
+                if i > 0 {
+                    namedGraphs = namedGraphs + ", "
+                }
+                namedGraphs = namedGraphs + qualifiedNameOrStringValue(namedGraph, graph: graph)
+                i++
+            }
+            if i > 0 {
+                namedGraphs = "[\(namedGraphs)]"
+            }
+            print("   \(subject) \(predicate) \(object) \(namedGraphs)")
+        }
+        print("----------------\n")
+    }
+    
+    func qualifiedNameOrStringValue(value : Value, graph : Graph) -> String {
+        var strvalue = value.sparql
+        if let uri = value as? URI {
+            let qname = graph.qualifiedName(uri)
+            if qname != nil {
+                strvalue = qname!
+            }
+        }
+        return strvalue
     }
 }
