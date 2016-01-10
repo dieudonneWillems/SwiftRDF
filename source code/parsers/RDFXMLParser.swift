@@ -347,6 +347,8 @@ public class RDFXMLParser : NSObject, RDFParser, NSXMLParserDelegate {
                 }
             }
         }
+        
+        currentText = ""
         currentSubject.removeLast()
         currentProperty.removeLast()
         currentDatatype.removeLast()
