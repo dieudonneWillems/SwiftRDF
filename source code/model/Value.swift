@@ -63,7 +63,7 @@ public func == (left: Value, right: Value) -> Bool {
         }
     }
     if let leftBN = left as? BlankNode {
-        if let rightBN = right as? URI {
+        if let rightBN = right as? BlankNode {
             return leftBN == rightBN
         }
     }

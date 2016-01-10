@@ -234,6 +234,8 @@ public class RDFXMLParser : NSObject, RDFParser, NSXMLParserDelegate {
                     subject = aboutURI
                     print("\t\tsubject URI: \(aboutURI)")
                 }
+            } else { // Blank node
+                subject = BlankNode()
             }
         }
         
@@ -273,6 +275,11 @@ public class RDFXMLParser : NSObject, RDFParser, NSXMLParserDelegate {
             print("ERROR: \(errormessage)")
             delegate?.parserErrorOccurred(self, error: RDFParserError.malformedRDFFormat(message: errormessage))
                 parser.abortParsing()
+        }
+        
+        if expectedItem == 2 && subject != nil {
+            currentObject = subject
+            createStatement()
         }
         
         currentSubject.append(subject)
