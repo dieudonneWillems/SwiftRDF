@@ -200,6 +200,9 @@ public class RDFXMLParser : NSObject, RDFParser, NSXMLParserDelegate {
         var datatype : Datatype? = nil
         var language : String? = nil
         var emptyPropertyElement = false
+        var propertyAttribute = false
+        var tempProperty : URI? = nil   // for property attributes
+        var tempObject : Value? = nil
         
         // Text content starts with empty string
         currentText = ""
@@ -287,7 +290,7 @@ public class RDFXMLParser : NSObject, RDFParser, NSXMLParserDelegate {
             language = attributes["xml:lang"]!
         }
         
-        if expectedItem == 0 { // property attributes
+        if expectedItem == 0 || expectedItem == 2 { // property attributes
             for attribute in attributes.keys {
                 var rdfxmlattr = false
                 if attribute == RDF.resource.stringValue {
@@ -300,8 +303,8 @@ public class RDFXMLParser : NSObject, RDFParser, NSXMLParserDelegate {
                     rdfxmlattr = true
                 } // TODO: other RDF XML attributes
                 if !rdfxmlattr {
-                    property = URI(string: attribute)
-                    if property != nil {
+                    tempProperty = URI(string: attribute)
+                    if tempProperty != nil {
                         let lang = self.lastNonNillLanguage
                         var literal : Literal? = nil
                         let stringValue = attributes[attribute]
@@ -312,7 +315,8 @@ public class RDFXMLParser : NSObject, RDFParser, NSXMLParserDelegate {
                                 literal = Literal(stringValue: stringValue!, dataType: XSD.string)
                             }
                         }
-                        currentObject = literal
+                        tempObject = literal
+                        propertyAttribute = true
                     }
                 }
             }
@@ -342,6 +346,12 @@ public class RDFXMLParser : NSObject, RDFParser, NSXMLParserDelegate {
         
         if emptyPropertyElement && currentObject != nil { // Empty property elements
             createStatement()
+            currentObject = nil
+        }
+        
+        if propertyAttribute && tempObject != nil {
+            let statement = Statement(subject: subject!, predicate: tempProperty!, object: tempObject!)
+            currentGraph?.add(statement)
         }
         
         print("current Subjects: \(currentSubject)")
@@ -475,4 +485,5 @@ public class RDFXMLParser : NSObject, RDFParser, NSXMLParserDelegate {
         let statement = Statement(subject: subject!, predicate: predicate!, object: object!)
         currentGraph!.add(statement)
     }
+    
 }

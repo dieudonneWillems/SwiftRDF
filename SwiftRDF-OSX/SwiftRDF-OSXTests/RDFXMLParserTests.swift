@@ -204,6 +204,44 @@ class RDFXMLParserTests : XCTestCase {
         XCTAssertEqual("RDF 1.1 XML Syntax", subgraph[0].object.stringValue)
     }
     
+    func testExample6() {
+        let rdf = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" +
+            "<rdf:RDF xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\"\n" +
+            "   xmlns:dc=\"http://purl.org/dc/elements/1.1/\"" +
+            "   xmlns:ex=\"http://example.org/terms/\">\n\n" +
+            "   <rdf:Description rdf:about=\"http://www.w3.org/TR/rdf-syntax-grammar\" dc:title=\"RDF 1.1 XML Syntax\">\n" +
+            "       <ex:editor>\n" +
+            "           <rdf:Description ex:fullName=\"Dave Beckett\">\n" +
+            "               <ex:homePage rdf:resource=\"http://purl.org/net/dajobe/\"/>\n" +
+            "           </rdf:Description>\n" +
+            "       </ex:editor>\n" +
+            "   </rdf:Description>\n" +
+            "</rdf:RDF>";
+        let data = rdf.dataUsingEncoding(NSUTF8StringEncoding)
+        let name = URI(string: "http://www.w3.org/TR/rdf-syntax-grammar/example-6")
+        let parser = RDFXMLParser(data: data!, graphName: name)
+        let graph = parser.parse()
+        XCTAssertEqual(3, graph?.namespaces.count)
+        printGraph(graph!)
+        XCTAssertEqual(4, graph!.count)
+        let rdfxml = URI(string: "http://www.w3.org/TR/rdf-syntax-grammar")
+        let exeditor = URI(string: "http://example.org/terms/editor")
+        let exhomepage = URI(string: "http://example.org/terms/homePage")
+        let exfullname = URI(string: "http://example.org/terms/fullName")
+        let dctitle = URI(string: "http://purl.org/dc/elements/1.1/title")
+        var subgraph =  graph!.subGraph(rdfxml, predicate: exeditor, object: nil)
+        XCTAssertEqual(1,subgraph.count)
+        subgraph =  graph!.subGraph(nil, predicate: exhomepage, object: nil)
+        XCTAssertEqual(1,subgraph.count)
+        XCTAssertEqual("http://purl.org/net/dajobe/", subgraph[0].object.stringValue)
+        subgraph =  graph!.subGraph(nil, predicate: exfullname, object: nil)
+        XCTAssertEqual(1,subgraph.count)
+        XCTAssertEqual("Dave Beckett", subgraph[0].object.stringValue)
+        subgraph =  graph!.subGraph(rdfxml, predicate: dctitle, object: nil)
+        XCTAssertEqual(1,subgraph.count)
+        XCTAssertEqual("RDF 1.1 XML Syntax", subgraph[0].object.stringValue)
+    }
+    
     func testExample8() {
         let rdf = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" +
             "<rdf:RDF xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\"\n" +
