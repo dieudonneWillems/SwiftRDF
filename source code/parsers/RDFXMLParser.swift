@@ -247,8 +247,28 @@ public class RDFXMLParser : NSObject, RDFParser, NSXMLParserDelegate {
             }
         }
         
+        // If we are in a property element
+        if property != nil {
+            if attributes[RDF.resource.stringValue] != nil {  // Empty property elements
+                let stringValue = attributes[RDF.resource.stringValue]
+                let uri = URI(string: stringValue!)
+                if uri != nil {
+                    currentObject = uri
+                }else { // resource should be a blanknode
+                    if stringValue!.validName { // blank node
+                        currentObject = BlankNode(identifier: stringValue!)
+                    } else {
+                        let errormessage = "The RDF/XML parser expected a resource (URI or blank node) in the rdf:resource property but the value (\(stringValue)) was not a valid resource - line: \(parser.lineNumber), column: \(parser.columnNumber)."
+                        print("ERROR: \(errormessage)")
+                        delegate?.parserErrorOccurred(self, error: RDFParserError.malformedRDFFormat(message: errormessage))
+                        parser.abortParsing()
+                    }
+                }
+            }
+        }
         
-        if attributes[RDF.datatype.stringValue] != nil {
+        
+        if attributes[RDF.datatype.stringValue] != nil {  // get datatype property
             let dtstr = attributes[RDF.datatype.stringValue]!
             var uri : URI? = nil
             if dtstr.isQualifiedName {
@@ -261,8 +281,37 @@ public class RDFXMLParser : NSObject, RDFParser, NSXMLParserDelegate {
             }
         }
         
-        if attributes["xml:lang"] != nil {
+        if attributes["xml:lang"] != nil { // get language property
             language = attributes["xml:lang"]!
+        }
+        
+        if expectedItem == 0 { // property attributes
+            for attribute in attributes.keys {
+                var rdfxmlattr = false
+                if attribute == RDF.resource.stringValue {
+                    rdfxmlattr = true
+                } else if attribute == RDF.about.stringValue {
+                    rdfxmlattr = true
+                } else if attribute == RDF.datatype.stringValue {
+                    rdfxmlattr = true
+                } // TODO: other RDF XML attributes
+                if !rdfxmlattr {
+                    property = URI(string: attribute)
+                    if property != nil {
+                        let lang = self.lastNonNillLanguage
+                        var literal : Literal? = nil
+                        let stringValue = attributes[attribute]
+                        if stringValue != nil {
+                            if lang != nil {
+                                literal = Literal(stringValue: stringValue!, language: lang!);
+                            } else {
+                                literal = Literal(stringValue: stringValue!, dataType: XSD.string)
+                            }
+                        }
+                        currentObject = literal
+                    }
+                }
+            }
         }
         
         if (expectedItem == 0 && subject == nil) {
@@ -274,7 +323,7 @@ public class RDFXMLParser : NSObject, RDFParser, NSXMLParserDelegate {
             let errormessage = "The RDF/XML parser expected a definition for the predicate of a triple at line: \(parser.lineNumber), column: \(parser.columnNumber)."
             print("ERROR: \(errormessage)")
             delegate?.parserErrorOccurred(self, error: RDFParserError.malformedRDFFormat(message: errormessage))
-                parser.abortParsing()
+            parser.abortParsing()
         }
         
         if expectedItem == 2 && subject != nil {
@@ -286,6 +335,10 @@ public class RDFXMLParser : NSObject, RDFParser, NSXMLParserDelegate {
         currentProperty.append(property)
         currentDatatype.append(datatype)
         currentLanguage.append(language)
+        
+        if expectedItem == 1 && currentObject != nil { // Empty property elements
+            createStatement()
+        }
         
         print("current Subjects: \(currentSubject)")
         print("current Properties: \(currentProperty)")
@@ -330,6 +383,7 @@ public class RDFXMLParser : NSObject, RDFParser, NSXMLParserDelegate {
         
         // Test if an object is expected, if so we create a literal object value using the text content of the XML node
         let expectedItem = self.expectedItem()
+        
         if expectedItem == 2 {
             let language = lastNonNillLanguage
             let datatype = lastNonNillDatatype
@@ -348,6 +402,7 @@ public class RDFXMLParser : NSObject, RDFParser, NSXMLParserDelegate {
             }
         }
         
+        currentObject = nil
         currentText = ""
         currentSubject.removeLast()
         currentProperty.removeLast()

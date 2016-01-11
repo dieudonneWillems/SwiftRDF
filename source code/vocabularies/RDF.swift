@@ -81,4 +81,7 @@ public class RDF : Vocabulary {
     /// The RDF Syntax attribute specifying the datatype for values.
     public static let datatype = Vocabulary.createURI( RDF.NAMESPACE, localName: "datatype")
     
+    /// The RDF Syntax attribute specifying the resource as a value for a specific property.
+    public static let resource = Vocabulary.createURI( RDF.NAMESPACE, localName: "resource")
+    
 }
