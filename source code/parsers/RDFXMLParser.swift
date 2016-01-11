@@ -199,6 +199,7 @@ public class RDFXMLParser : NSObject, RDFParser, NSXMLParserDelegate {
         var property : URI? = nil
         var datatype : Datatype? = nil
         var language : String? = nil
+        var emptyPropertyElement = false
         
         // Text content starts with empty string
         currentText = ""
@@ -252,6 +253,7 @@ public class RDFXMLParser : NSObject, RDFParser, NSXMLParserDelegate {
             if attributes[RDF.resource.stringValue] != nil {  // Empty property elements
                 let stringValue = attributes[RDF.resource.stringValue]
                 let uri = URI(string: stringValue!)
+                emptyPropertyElement = true
                 if uri != nil {
                     currentObject = uri
                 }else { // resource should be a blanknode
@@ -293,6 +295,8 @@ public class RDFXMLParser : NSObject, RDFParser, NSXMLParserDelegate {
                 } else if attribute == RDF.about.stringValue {
                     rdfxmlattr = true
                 } else if attribute == RDF.datatype.stringValue {
+                    rdfxmlattr = true
+                } else if attribute == "xml:lang" {
                     rdfxmlattr = true
                 } // TODO: other RDF XML attributes
                 if !rdfxmlattr {
@@ -336,7 +340,7 @@ public class RDFXMLParser : NSObject, RDFParser, NSXMLParserDelegate {
         currentDatatype.append(datatype)
         currentLanguage.append(language)
         
-        if expectedItem == 1 && currentObject != nil { // Empty property elements
+        if emptyPropertyElement && currentObject != nil { // Empty property elements
             createStatement()
         }
         
