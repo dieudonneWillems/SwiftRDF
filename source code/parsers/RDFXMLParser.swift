@@ -22,71 +22,8 @@ public class RDFXMLParser : NSObject, RDFParser, NSXMLParserDelegate {
      The delegate that recieves parsing events when parsing is in progress.
      */
     public var delegate : RDFParserDelegate?
-    
-    private let xmlParser : NSXMLParser?
-    
-    private var currentSubject = [Resource?]()
-    
-    private var lastNonNillSubject : Resource? {
-        for var index = currentSubject.count - 1; index >= 0 ; index-- {
-            let value = currentSubject[index]
-            if value != nil {
-                return value
-            }
-        }
-        return nil
-    }
-    
-    private var currentProperty = [URI?]()
-    
-    private var lastNonNillProperty : URI? {
-        for var index = currentProperty.count - 1; index >= 0 ; index-- {
-            let value = currentProperty[index]
-            if value != nil {
-                return value
-            }
-        }
-        return nil
-    }
-    
-    private var currentText : String = ""
-    private var currentObject : Value?
-    
-    private var currentDatatype = [Datatype?]()
-    
-    private var lastNonNillDatatype : Datatype? {
-        for var index = currentDatatype.count - 1; index >= 0 ; index-- {
-            let value = currentDatatype[index]
-            if value != nil {
-                return value
-            }
-        }
-        return nil
-    }
-    
-    private var currentLanguage = [String?]()
-    
-    private var lastNonNillLanguage : String? {
-        for var index = currentLanguage.count - 1; index >= 0 ; index-- {
-            let value = currentLanguage[index]
-            if value != nil {
-                return value
-            }
-        }
-        return nil
-    }
-    
-    private var currentNamespaces = [String : String]()
-    private var namespaceMapping = [String : String]()
-    
-    private var currentGraph : Graph?
-    
-    private var intendedGraphName : Resource?
-    
-    private var parseType : String? = nil
-    private var parseTypeElement : String? = nil
-    private var literalParseTypeContent : String? = nil
-    private var xmlLiteralElementString : String? = nil
+    internal let xmlParser : NSXMLParser?
+    private var xmlParserDelegate : NSXMLParserDelegate?
     
     /**
      Initialises a parser with the contents of the RDF file reference by the given
@@ -97,10 +34,11 @@ public class RDFXMLParser : NSObject, RDFParser, NSXMLParserDelegate {
      */
     public required init(url : NSURL) {
         xmlParser = NSXMLParser(contentsOfURL: url)
-        intendedGraphName = URI(string: url.absoluteString)
+        let intendedGraphName = URI(string: url.absoluteString)
         super.init()
-        if xmlParser != nil {
-            xmlParser!.delegate = self
+        if xmlParser != nil && intendedGraphName != nil {
+            xmlParserDelegate = XMLtoRDFParser(parser: self, name: intendedGraphName!)
+            xmlParser!.delegate = xmlParserDelegate
             xmlParser!.shouldProcessNamespaces = true
             xmlParser!.shouldReportNamespacePrefixes = true
         }
@@ -130,11 +68,12 @@ public class RDFXMLParser : NSObject, RDFParser, NSXMLParserDelegate {
      - returns: An initialised RDF parser.
      */
     public required init(data : NSData, graphName : Resource?) {
-        intendedGraphName = graphName
+        let intendedGraphName = graphName
         xmlParser = NSXMLParser(data: data)
         super.init()
-        if xmlParser != nil {
-            xmlParser!.delegate = self
+        if xmlParser != nil && intendedGraphName != nil {
+            xmlParserDelegate = XMLtoRDFParser(parser: self, name: intendedGraphName!)
+            xmlParser!.delegate = xmlParserDelegate
             xmlParser!.shouldProcessNamespaces = true
             xmlParser!.shouldReportNamespacePrefixes = true
         }
@@ -149,337 +88,265 @@ public class RDFXMLParser : NSObject, RDFParser, NSXMLParserDelegate {
      */
     public func parse() -> Graph? {
         var success = false
-        if intendedGraphName == nil {
-            currentGraph = Graph()
-        } else {
-            currentGraph = Graph(name: intendedGraphName!)
-        }
-        currentDatatype.removeAll()
-        currentLanguage.removeAll()
-        currentProperty.removeAll()
-        currentText = ""
-        currentObject = nil
-        currentNamespaces.removeAll()
-        currentSubject.removeAll()
-        namespaceMapping.removeAll()
         if xmlParser != nil {
             success = xmlParser!.parse()
         }
         if !success {
-            if delegate != nil {
-                delegate!.parserErrorOccurred(self, error: RDFParserError.couldNotCreateRDFParser(message: "Could not create the XML parser to parse the RDF/XML file."))
-            }
+            // TODO: when the parser failed.
         }
         print("** FINISHED PARSING RDF/XML **")
-        return currentGraph
+        return (xmlParserDelegate as! XMLtoRDFParser).graph
+    }
+    
+}
+
+internal class XMLtoRDFParser : NSObject, NSXMLParserDelegate {
+    
+    internal var rdfParser : RDFXMLParser;
+    internal var graph : Graph?
+    internal var graphName : Resource
+    
+    private static let rdfElements = [RDF.Description.stringValue,RDF.ROOT.stringValue]
+    private static let rdfAttributes = [RDF.about.stringValue,RDF.datatype.stringValue,RDF.resource.stringValue,RDF.parseType.stringValue,"xml:lang"]
+    
+    private var currentElements = [(elementName: String, namespaceURI : String?, qualifiedName : String?, attributes : [String: String], text: String)]()
+    private var currentSubjects = [Resource?]()
+    private var currentPredicates = [URI?]()
+    private var currentObjects = [Value?]()
+    private var currentDatatype = [Datatype?]()
+    private var currentLanguage = [String?]()
+    
+    /**
+     The last subject parsed from the RDF/XML file at the current parse position.
+     */
+    private var lastSubject : Resource? {
+        for var index = currentSubjects.count-1; index >= 0; index-- {
+            if currentSubjects[index] != nil {
+                return currentSubjects[index]
+            }
+        }
+        return nil
+    }
+    
+    /**
+     The last predicate parsed from the RDF/XML file at the current parse position.
+     */
+    private var lastPredicate : URI? {
+        for var index = currentPredicates.count-1; index >= 0; index-- {
+            if currentPredicates[index] != nil {
+                return currentPredicates[index]
+            }
+        }
+        return nil
+    }
+    
+    /**
+     The last object parsed from the RDF/XML file at the current parse position.
+     */
+    private var lastObject : Value? {
+        for var index = currentObjects.count-1; index >= 0; index-- {
+            if currentObjects[index] != nil {
+                return currentObjects[index]
+            }
+        }
+        return nil
+    }
+    
+    /**
+     The last object parsed from the RDF/XML file at the current parse position.
+     */
+    private var lastDatatype : Datatype? {
+        for var index = currentDatatype.count-1; index >= 0; index-- {
+            if currentDatatype[index] != nil {
+                return currentDatatype[index]
+            }
+        }
+        return nil
+    }
+    
+    /**
+     The last object parsed from the RDF/XML file at the current parse position.
+     */
+    private var lastLanguage : String? {
+        for var index = currentLanguage.count-1; index >= 0; index-- {
+            if currentLanguage[index] != nil {
+                return currentLanguage[index]
+            }
+        }
+        return nil
+    }
+    
+    // MARK: Namespace Properties
+    private var currentNamespaces = [String : String]()
+    private var namespaceMapping = [String : String]()
+    
+    /**
+     Creates a new XML to RDF parser which is an implementation of the `NSXMLParserDelegate` protocol.
+     It is used to create a `Graph` from the contents of an RDF/XML file.
+     
+     - parameter parser: The RDF/XML parser.
+     - parameter name: The name of the graph to be created.
+     */
+    internal init(parser : RDFXMLParser, name : Resource) {
+        rdfParser = parser
+        graphName = name
     }
     
     // MARK: XML parser delegate functions
     
-    public func parserDidStartDocument(parser: NSXMLParser) {
+    internal func parserDidStartDocument(parser: NSXMLParser) {
         print("Started XML document parsing.")
-        if delegate != nil {
-            delegate!.parserDidStartDocument(self)
-        }
-    }
-    
-    public func parserDidEndDocument(parser: NSXMLParser) {
-        print("Finished XML document parsing.")
-        if delegate != nil {
-            delegate!.parserDidEndDocument(self)
-        }
-    }
-    
-    public func parser(parser: NSXMLParser,parseErrorOccurred parseError: NSError) {
-        print("Error occurred while parsing of the XML document.")
-        if delegate != nil {
-            delegate!.parserErrorOccurred(self, error: RDFParserError.couldNotCreateRDFParser(message: parseError.description))
-        }
-    }
-    
-    public func parser(parser: NSXMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String]) {
-        print("Started on element \(elementName) with attributes \(attributeDict).")
+        currentElements.removeAll()
+        currentSubjects.removeAll()
+        currentPredicates.removeAll()
+        currentObjects.removeAll()
+        currentDatatype.removeAll()
+        currentLanguage.removeAll()
         
-        if parseType == "Literal" { // We are in a Literal parse type not RDF processing needed.
-            if xmlLiteralElementString != nil { // we are now in a subelement
-                literalParseTypeContent = literalParseTypeContent! + xmlLiteralElementString!+">"
-            }
-            xmlLiteralElementString = "<"+qName!
-            for attr in attributeDict.keys {
-                xmlLiteralElementString = xmlLiteralElementString! + " " + attr+"=\""+attributeDict[attr]!+"\""
-            }
-            return
+        graph = Graph(name: graphName)
+        if rdfParser.delegate != nil {
+            rdfParser.delegate!.parserDidStartDocument(rdfParser)
         }
+    }
+    
+    internal func parserDidEndDocument(parser: NSXMLParser) {
+        print("Finished XML document parsing.")
+        currentElements.removeAll()
+        if rdfParser.delegate != nil {
+            rdfParser.delegate!.parserDidEndDocument(rdfParser)
+        }
+    }
+    
+    internal func parser(parser: NSXMLParser,parseErrorOccurred parseError: NSError) {
+        if rdfParser.delegate != nil && parseError.code != 512 {
+            rdfParser.delegate!.parserErrorOccurred(rdfParser, error: RDFParserError.couldNotCreateRDFParser(message: parseError.description))
+        }
+    }
+    
+    internal func parser(parser: NSXMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String]) {
+        print("Started on element \(elementName) with attributes \(attributeDict).")
+        currentElements.append((elementName,namespaceURI,qName,attributeDict,""))
+        //print("elements: \(currentElements)")
         
         var subject : Resource? = nil
-        var property : URI? = nil
+        var predicate : URI? = nil
+        var object : Value? = nil
         var datatype : Datatype? = nil
         var language : String? = nil
-        var emptyPropertyElement = false
-        var propertyAttribute = false
-        var tempProperty : URI? = nil   // for property attributes
-        var tempObject : Value? = nil
         
-        // Text content starts with empty string
-        currentText = ""
-        
-        var elementURIstring = elementName
-        if namespaceURI != nil {
-            elementURIstring = namespaceURI! + elementURIstring
+        // Find language attribute
+        if attributeDict["xml:lang"] != nil {
+            language = attributeDict["xml:lang"]
         }
-        var attributes = [String : String]()
-        for attrname in attributeDict.keys {
-            if attrname.isQualifiedName {
-                let uri = currentGraph!.createURIFromQualifiedName(attrname)
-                if uri != nil {
-                    attributes[uri!.stringValue] = attributeDict[attrname]
-                }else {
-                    attributes[attrname] = attributeDict[attrname]
-                }
-            } else {
-                attributes[attrname] = attributeDict[attrname]
-            }
-        }
-        
-        print("\tElement URI: \(elementURIstring) with attributes: \(attributes).")
-        
-        let expectedItem = self.expectedItem()
-        
-        // Test for rdf:Description element which starts a new triple
-        if elementURIstring == RDF.Description.stringValue {
-            let about = attributes[RDF.about.stringValue]
-            if about != nil {
-                let aboutURI = URI(string: about!)
-                if aboutURI != nil {
-                    subject = aboutURI
-                    print("\t\tsubject URI: \(aboutURI)")
-                }
-            } else { // Blank node
-                subject = BlankNode()
-            }
-        }
-        
-        // If the expected item is a predicate (expectedItem = 1) use the element as predicate
-        if expectedItem == 1 {
-            let predicateURI = URI(string: elementURIstring)
-            if predicateURI != nil {
-                property = predicateURI
-            }
-        }
-        
-        // If we are in a property element
-        if property != nil {
-            if attributes[RDF.resource.stringValue] != nil {  // Empty property elements
-                let stringValue = attributes[RDF.resource.stringValue]
-                let uri = URI(string: stringValue!)
-                emptyPropertyElement = true
-                if uri != nil {
-                    currentObject = uri
-                }else { // resource should be a blanknode
-                    if stringValue!.validName { // blank node
-                        currentObject = BlankNode(identifier: stringValue!)
-                    } else {
-                        let errormessage = "The RDF/XML parser expected a resource (URI or blank node) in the rdf:resource property but the value (\(stringValue)) was not a valid resource - line: \(parser.lineNumber), column: \(parser.columnNumber)."
-                        print("ERROR: \(errormessage)")
-                        delegate?.parserErrorOccurred(self, error: RDFParserError.malformedRDFFormat(message: errormessage))
-                        parser.abortParsing()
-                    }
-                }
-            }
-        }
-        
-        
-        if attributes[RDF.datatype.stringValue] != nil {  // get datatype property
-            let dtstr = attributes[RDF.datatype.stringValue]!
-            var uri : URI? = nil
-            if dtstr.isQualifiedName {
-                uri = currentGraph!.createURIFromQualifiedName(dtstr)
-            }else {
-                uri = URI(string: dtstr)
-            }
-            if uri != nil {
-                datatype = Datatype(uri: uri!.stringValue, derivedFromDatatype: nil, isListDataType: false)
-            }
-        }
-        
-        if attributes["xml:lang"] != nil { // get language property
-            language = attributes["xml:lang"]!
-        }
-        
-        if expectedItem == 0 || expectedItem == 2 { // property attributes
-            for attribute in attributes.keys {
-                var rdfxmlattr = false
-                if attribute == RDF.resource.stringValue {
-                    rdfxmlattr = true
-                } else if attribute == RDF.about.stringValue {
-                    rdfxmlattr = true
-                } else if attribute == RDF.datatype.stringValue {
-                    rdfxmlattr = true
-                } else if attribute == RDF.parseType.stringValue {
-                    rdfxmlattr = true
-                } else if attribute == "xml:lang" {
-                    rdfxmlattr = true
-                } // TODO: other RDF XML attributes
-                if !rdfxmlattr {
-                    tempProperty = URI(string: attribute)
-                    if tempProperty != nil {
-                        let lang = self.lastNonNillLanguage
-                        var literal : Literal? = nil
-                        let stringValue = attributes[attribute]
-                        if stringValue != nil {
-                            if lang != nil {
-                                literal = Literal(stringValue: stringValue!, language: lang!);
-                            } else {
-                                literal = Literal(stringValue: stringValue!, dataType: XSD.string)
-                            }
-                        }
-                        tempObject = literal
-                        propertyAttribute = true
-                    }
-                }
-            }
-        }
-        
-        if attributes[RDF.parseType.stringValue] != nil {
-            parseType = attributes[RDF.parseType.stringValue]
-            parseTypeElement = qName
-            literalParseTypeContent = ""
-        }
-        
-        if (expectedItem == 0 && subject == nil) {
-            let errormessage = "The RDF/XML parser expected a definition for the subject of a triple at line: \(parser.lineNumber), column: \(parser.columnNumber)."
-            print("ERROR: \(errormessage)")
-            delegate?.parserErrorOccurred(self, error: RDFParserError.malformedRDFFormat(message: errormessage))
-            parser.abortParsing()
-        }else if (expectedItem == 1 && property == nil) {
-            let errormessage = "The RDF/XML parser expected a definition for the predicate of a triple at line: \(parser.lineNumber), column: \(parser.columnNumber)."
-            print("ERROR: \(errormessage)")
-            delegate?.parserErrorOccurred(self, error: RDFParserError.malformedRDFFormat(message: errormessage))
-            parser.abortParsing()
-        }
-        
-        if expectedItem == 2 && subject != nil {
-            currentObject = subject
-            createStatement()
-        }
-        
-        currentSubject.append(subject)
-        currentProperty.append(property)
-        currentDatatype.append(datatype)
         currentLanguage.append(language)
         
-        if emptyPropertyElement && currentObject != nil { // Empty property elements
-            createStatement()
-            currentObject = nil
-        }
-        
-        if propertyAttribute && tempObject != nil {
-            let statement = Statement(subject: subject!, predicate: tempProperty!, object: tempObject!)
-            currentGraph?.add(statement)
-        }
-        
-        
-        print("current Subjects: \(currentSubject)")
-        print("current Properties: \(currentProperty)")
-        print("current Datatypes: \(currentDatatype)")
-        print("current Languages: \(currentLanguage)")
-    }
-    
-    /**
-     Returns 0 when the parser expects a subject, 1 when the parser expects a predicate, and 2 when the parser expects an object.
-     When no subject, predicate, or object is expected, return -1.
-     
-     - returns: The expected item code.
-     */
-    private func expectedItem() -> Int {
-        
-        if currentSubject.count == 0 {
-            return -1
-        }
-        
-        let lastsubject = currentSubject.last!
-        let lastproperty = currentProperty.last!
-        
-        if lastsubject == nil && lastproperty == nil {
-            return 0 // expects subject
-        }
-        
-        if lastsubject != nil && lastproperty == nil {
-            return 1 // expects predicate
-        }
-        
-        if lastproperty != nil && lastsubject == nil {
-            return 2 // expects object
-        }
-        
-        return -1
-    }
-    
-    public func parser(parser: NSXMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
-        print("Finished on element \(elementName).")
-        
-        if parseType == "Literal" && qName != parseTypeElement { // We are in a Literal parse Type, no RDF processing needed
-            if literalParseTypeContent?.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 0 {
-                xmlLiteralElementString = xmlLiteralElementString! + ">"
-                literalParseTypeContent = literalParseTypeContent! + xmlLiteralElementString! + currentText + "</"+qName!+">"
-            }else{
-                literalParseTypeContent = literalParseTypeContent! + xmlLiteralElementString! + "/>"
+        // Find datatype attribute
+        if attributesContainsAttributeName(attributeDict, nameURI: RDF.datatype) {
+            let datatypeval = attributeValue(attributeDict, nameURI: RDF.datatype)
+            if datatypeval != nil {
+                if datatypeval!.qualifiedNamePrefix == "xsd" {
+                    datatype = Datatype(namespace: XSD.namespace(), localName: datatypeval!.qualifiedNameLocalPart!, derivedFromDatatype: nil, isListDataType: false)
+                } else {
+                    let dturi = URIStringOrName(datatypeval!)
+                    datatype = Datatype(uri: dturi, derivedFromDatatype: nil, isListDataType: false)
+                }
             }
-            xmlLiteralElementString = nil
-            return
         }
+        currentDatatype.append(datatype)
         
+        let elementURI = URIStringOrName(qName!)
         
-        let trimmed = currentText.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
-        
-        // Test if an object is expected, if so we create a literal object value using the text content of the XML node
-        var expectedItem = self.expectedItem()
-        
-        if parseType == "Literal" && qName == parseTypeElement { // End of Literal parse Type, literal content is object
-            parseTypeElement = nil
-            parseType = nil
-            currentObject = Literal(stringValue: literalParseTypeContent!)
-            literalParseTypeContent = nil
-            expectedItem = 2
-        }
-        
-        if expectedItem == 2 {
-            let language = lastNonNillLanguage
-            let datatype = lastNonNillDatatype
+        if elementURI != RDF.ROOT.stringValue { // ignore the rdf:RDF element
             
-            if datatype != nil {
-                currentObject = Literal(stringValue: trimmed, dataType: datatype!)
-                createStatement()
-            } else if language != nil {
-                currentObject = Literal(stringValue: trimmed, language: language!)
-                createStatement()
-            } else if currentObject != nil {
-                createStatement()
-            } else {
-                if trimmed.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 0 {
-                    currentObject = Literal(stringValue: trimmed)
-                    createStatement()
+            let lastElements = self.lastElements()
+            
+            var elementResource : Resource? = nil
+            
+            if elementURI == RDF.Description.stringValue { // Handle rdf:Description elements
+                elementResource = self.handleRDFDescriptionElement(attributeDict)
+            } else { // Type element
+                elementResource = URI(string: self.URIStringOrName(qName!)) // A predicate or the type of a subject
+            }
+            
+            if !lastElements.subject && !lastElements.predicate && !lastElements.object { // no resources defined yet, this needs to be a subject
+                subject = elementResource
+            } else if lastElements.predicate  { // needs to be an object
+                if elementResource != nil { // object is a resource ==> also a new subject
+                    object = elementResource
+                    subject = elementResource
+                }
+            } else if lastElements.subject { // needs to be a predicate/property element
+                if ((elementResource as? URI) != nil) {
+                    predicate = elementResource as? URI
+                }else{  // A predicate should be a URI
+                    let error = RDFParserError.malformedRDFFormat(message: "The predicate at line:\(rdfParser.xmlParser?.lineNumber), column:\(rdfParser.xmlParser?.columnNumber) is not a valid URI.")
+                    rdfParser.delegate?.parserErrorOccurred(rdfParser, error: error)
+                    rdfParser.xmlParser?.abortParsing()
                 }
             }
         }
         
-        currentObject = nil
-        currentText = ""
-        currentSubject.removeLast()
-        currentProperty.removeLast()
+        currentObjects.append(object)
+        
+        if object != nil {
+            self.createStatement()
+        }
+        
+        currentSubjects.append(subject)
+        currentPredicates.append(predicate)
+        
+        // empty property elements
+        self.handleEmptyPropertyElement(subject, predicate: predicate)
+        
+        // property attributes
+        self.handlePropertyAttributes(subject)
+    }
+    
+    internal func parser(parser: NSXMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
+        print("Finished on element \(elementName).")
+        //print("elements: \(currentElements)")
+        
+        let lastElements = self.lastElements()
+        if lastElements.predicate && lastElements.literal {
+            var litstring = currentElements.last!.text
+            litstring = litstring.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+            let datatype = self.lastDatatype
+            let language = self.lastLanguage
+            var literal : Literal? = nil
+            if language != nil && (datatype == nil || datatype! == XSD.string) {
+                literal = Literal(stringValue: litstring, language: language!)
+            } else if datatype != nil {
+                literal = Literal(stringValue: litstring, dataType: datatype!)
+            } else {
+                literal = Literal(stringValue: litstring)
+            }
+            let subject = lastSubject
+            let predicate = lastPredicate
+            if subject != nil && predicate != nil && literal != nil {
+                self.createStatement(subject!, predicate: predicate!, object: literal!)
+            }
+        }
+        
+        currentElements.removeLast()
+        currentSubjects.removeLast()
+        currentPredicates.removeLast()
+        currentObjects.removeLast()
         currentDatatype.removeLast()
         currentLanguage.removeLast()
     }
     
-    public func parser(parser: NSXMLParser, didStartMappingPrefix prefix: String, toURI namespaceURI: String) {
-        let realprefix = currentGraph!.addNamespace(prefix, namespaceURI: namespaceURI)
+    internal func parser(parser: NSXMLParser, didStartMappingPrefix prefix: String, toURI namespaceURI: String) {
+        let realprefix = graph!.addNamespace(prefix, namespaceURI: namespaceURI)
         if realprefix != nil {
+            if rdfParser.delegate != nil {
+                rdfParser.delegate!.namespaceAdded(rdfParser, graph: graph!, prefix: prefix, namespaceURI: namespaceURI)
+            }
             namespaceMapping[prefix] = realprefix!
             currentNamespaces[realprefix!] = namespaceURI
         }
     }
     
-    public func parser(parser: NSXMLParser, didEndMappingPrefix prefix: String) {
+    internal func parser(parser: NSXMLParser, didEndMappingPrefix prefix: String) {
         print("Finished mapping prefix \(prefix).")
         let realprefix = namespaceMapping[prefix]
         if realprefix != nil {
@@ -488,49 +355,264 @@ public class RDFXMLParser : NSObject, RDFParser, NSXMLParserDelegate {
         }
     }
     
-    public func parser(parser: NSXMLParser, foundCharacters string: String) {
+    internal func parser(parser: NSXMLParser, foundCharacters string: String) {
         print("Found characters '\(string)'.")
-        
-        currentText =  currentText + string
+        if currentElements.count > 0 {
+            var lastelement = currentElements.last!
+            lastelement.text = lastelement.text + string
+            currentElements.removeLast()
+            currentElements.append(lastelement)
+        }
     }
     
-    public func parser(parser: NSXMLParser, foundIgnorableWhitespace whitespaceString: String){
+    internal func parser(parser: NSXMLParser, foundIgnorableWhitespace whitespaceString: String){
         print("Found ignorable whitespace '\(whitespaceString)'.")
     }
     
-    public func parser(parser: NSXMLParser, foundCDATA CDATABlock: NSData) {
+    internal func parser(parser: NSXMLParser, foundCDATA CDATABlock: NSData) {
         print("Found CDATA block '\(CDATABlock)'.")
     }
     
+    
+    /**
+     Tests if the current element contains property attributes and if so adds statements with the specified subject.
+     
+     - parameter subject: The subject of the statement if the element contains property attributes.
+     */
+    private func handlePropertyAttributes(subject: Resource?){
+        if subject != nil {
+            let attributeDict = currentElements.last!.attributes
+            for attribute in attributeDict.keys {
+                if !self.attributeIsRDFAttribute(attribute) {
+                    let predicate = graph!.createURIFromQualifiedName(attribute)
+                    if predicate != nil {
+                        let stringValue = attributeDict[attribute]
+                        var object : Literal? = nil
+                        let datatype = self.lastDatatype
+                        let language = self.lastLanguage
+                        if language != nil {
+                            object = Literal(stringValue: stringValue!, language: language!)
+                        } else if datatype != nil {
+                            object = Literal(stringValue: stringValue!, dataType: datatype!)
+                        } else {
+                            object = Literal(stringValue: stringValue!)
+                        }
+                        self.createStatement(subject!, predicate: predicate!, object: object!)
+                    } else {
+                        let error = RDFParserError.malformedRDFFormat(message: "The property attribute at line:\(rdfParser.xmlParser?.lineNumber), column:\(rdfParser.xmlParser?.columnNumber) is not a valid URI.")
+                        rdfParser.delegate?.parserErrorOccurred(rdfParser, error: error)
+                        rdfParser.xmlParser?.abortParsing()
+                    }
+                }
+            }
+        }
+    }
+    
+    /**
+     Tests if the current element is an empty property element and if so adds a statement with the specified subject and predicate.
+     
+     - parameter subject: The subject of the statement if the element is an empty property element.
+     - parameter predicate: The predicate of the statement if the element is an empty property element.
+     */
+    private func handleEmptyPropertyElement(subject: Resource?, predicate: URI?){
+        let attributeDict = currentElements.last!.attributes
+        if predicate != nil && self.attributesContainsAttributeName(attributeDict, nameURI: RDF.resource) {
+            let subject = lastSubject
+            let predicate = lastPredicate
+            let attrvalue = self.attributeValue(attributeDict, nameURI: RDF.resource)!
+            let uriOrQName = self.URIStringOrName(attrvalue)
+            let object = URI(string: uriOrQName)
+            if object != nil {
+                self.createStatement(subject!, predicate: predicate!, object: object!)
+            } else {
+                let error = RDFParserError.malformedRDFFormat(message: "The rdf:resource attribute at line:\(rdfParser.xmlParser?.lineNumber), column:\(rdfParser.xmlParser?.columnNumber) does not contain a valid URI.")
+                rdfParser.delegate?.parserErrorOccurred(rdfParser, error: error)
+                rdfParser.xmlParser?.abortParsing()
+            }
+        }
+    }
+    
+    /**
+     Returns a tuple containing four booleans each specifying whether the last element contains respectively a 
+     subject, a predicate, an object, and a string literal (in a text node).
+     
+     - returns: The tuple containing four booleans.
+     */
+    private func lastElements() -> (subject : Bool, predicate : Bool, object : Bool, literal : Bool) {
+        var lastNonNilIndex = currentSubjects.count-1
+        while lastNonNilIndex >= 0 && currentSubjects[lastNonNilIndex] == nil &&
+            currentPredicates[lastNonNilIndex] == nil && currentObjects[lastNonNilIndex] == nil {
+                lastNonNilIndex--
+        }
+        if lastNonNilIndex < 0 {
+            return (false,false,false,false)
+        }
+        var containsLiteral = false
+        var litstring = currentElements[lastNonNilIndex].text
+        litstring = litstring.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+        if litstring.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 0 {
+            containsLiteral = true
+        }
+        let lastElements : (Bool,Bool,Bool,Bool) = ((currentSubjects[lastNonNilIndex] != nil),(currentPredicates[lastNonNilIndex] != nil),(currentObjects[lastNonNilIndex] != nil),containsLiteral)
+        return lastElements
+    }
+    
+    /**
+     Handles `rdf:Description` elements that are translated into a new resource.
+     
+     - parameters attributes: The XML attributes of a rdf:Description element.
+     - returns: The resource defined by the rdf:Description element.
+     */
+    private func handleRDFDescriptionElement(attributes : [String : String]) -> Resource {
+        var rdfabout = self.attributeValue(attributes, nameURI: RDF.about)
+        let rdfnodeID = self.attributeValue(attributes, nameURI: RDF.nodeID)
+        if rdfnodeID != nil && rdfabout != nil {
+            let error = RDFParserError.malformedRDFFormat(message: "Only one of the rdf:about or rdf:nodeID attributes is allowed for a rdf:Description node (at line:\(rdfParser.xmlParser?.lineNumber), column:\(rdfParser.xmlParser?.columnNumber)).")
+            rdfParser.delegate!.parserErrorOccurred(rdfParser, error: error)
+            rdfParser.xmlParser?.abortParsing()
+        }
+        
+        var resource : Resource?
+        if rdfabout != nil {        // node with URI
+            rdfabout = self.URIStringOrName(rdfabout!)
+            resource = URI(string: rdfabout!)
+            if resource == nil {         // node is not a valid URI -> error
+                let error = RDFParserError.malformedRDFFormat(message: "The rdf:about attribute at line:\(rdfParser.xmlParser?.lineNumber), column:\(rdfParser.xmlParser?.columnNumber) does not contain a valid URI.")
+                rdfParser.delegate!.parserErrorOccurred(rdfParser, error: error)
+                rdfParser.xmlParser?.abortParsing()
+            }
+        } else if rdfnodeID != nil { // blank node with specified identifier
+            resource = BlankNode(identifier: rdfnodeID!)
+        } else { // blank node without identifier
+            resource = BlankNode()
+        }
+        
+        return resource!;
+    }
+    
+    /**
+     Creates a new statement from the last subject, predicate and object parsed from the XML tree.
+     */
     private func createStatement() {
-        let subject = lastNonNillSubject
-        let predicate = lastNonNillProperty
-        let object = currentObject
-        
-        if subject == nil {
-            let errormessage = "The RDF/XML parser could not create triple [\(subject) \(predicate) \(object)] because the subject was nil. - line: \(xmlParser!.lineNumber), column: \(xmlParser!.columnNumber)."
-            print("ERROR: \(errormessage)")
-            delegate?.parserErrorOccurred(self, error: RDFParserError.malformedRDFFormat(message: errormessage))
-            xmlParser!.abortParsing()
-            return
+        let subject = lastSubject
+        let predicate = lastPredicate
+        let object = lastObject
+        if subject != nil && predicate != nil && object != nil {
+            self.createStatement(subject!, predicate: predicate!, object: object!)
+        }else{
+            if rdfParser.delegate != nil {
+                var error : RDFParserError? = nil
+                if subject != nil {
+                    error = RDFParserError.malformedRDFFormat(message: "Could not create a statement as no subject could be parsed (at line:\(rdfParser.xmlParser?.lineNumber), column:\(rdfParser.xmlParser?.columnNumber)).")
+                }else if predicate != nil {
+                    error = RDFParserError.malformedRDFFormat(message: "Could not create a statement as no predicate could be parsed (at line:\(rdfParser.xmlParser?.lineNumber), column:\(rdfParser.xmlParser?.columnNumber)).")
+                } else if object != nil {
+                    error = RDFParserError.malformedRDFFormat(message: "Could not create a statement as no object could be parsed (at line:\(rdfParser.xmlParser?.lineNumber), column:\(rdfParser.xmlParser?.columnNumber)).")
+                }
+                rdfParser.delegate!.parserErrorOccurred(rdfParser, error: error!)
+                rdfParser.xmlParser?.abortParsing()
+            }
         }
-        if predicate == nil {
-            let errormessage = "The RDF/XML parser could not create triple [\(subject) \(predicate) \(object)] because the predicate was nil. - line: \(xmlParser!.lineNumber), column: \(xmlParser!.columnNumber)."
-            print("ERROR: \(errormessage)")
-            delegate?.parserErrorOccurred(self, error: RDFParserError.malformedRDFFormat(message: errormessage))
-            xmlParser!.abortParsing()
-            return
+    }
+    
+    /**
+     Creates a new statement with the specified subject, predicate, and object in the graph.
+     
+     - parameter subject: The subject of the statement.
+     - parameter predicate: The predicate of the statement.
+     - parameter object: The object of the statement.
+     */
+    private func createStatement(subject: Resource, predicate : URI, object : Value){
+        let statement = Statement(subject: subject, predicate: predicate, object: object)
+        graph!.add(statement)
+        if rdfParser.delegate != nil {
+            rdfParser.delegate!.statementAdded(rdfParser, graph: graph!, statement: statement)
         }
-        if object == nil {
-            let errormessage = "The RDF/XML parser could not create triple [\(subject) \(predicate) \(object)] because the object was nil. - line: \(xmlParser!.lineNumber), column: \(xmlParser!.columnNumber)."
-            print("ERROR: \(errormessage)")
-            delegate?.parserErrorOccurred(self, error: RDFParserError.malformedRDFFormat(message: errormessage))
-            xmlParser!.abortParsing()
-            return
+    }
+    
+    /**
+     Tests if the specfied name is a qualified name and if so returns the full URI for the qualified name.
+     If the possible qualified name cannot be translated to a URI, this method returns the specifid name.
+     
+     - parameter possibleQName: The name that may be translated to a URI.
+     - returns: The translated URI string or the specified name itself.
+     */
+    private func URIStringOrName(possibleQName : String) -> String {
+        let uri = graph!.createURIFromQualifiedName(possibleQName)
+        if uri != nil {
+            return uri!.stringValue
         }
-        
-        let statement = Statement(subject: subject!, predicate: predicate!, object: object!)
-        currentGraph!.add(statement)
+        return possibleQName
+    }
+    
+    /**
+     Tests if the specified attribute dictionary contains an attribute whose to a URI expanded name is a
+     key in the dictionary. The keys in the dictionary (the attribute names) are translated to URIs if
+     possible and then compared to the specified URI.
+     
+     - parameter attributes: The attribute dictionary.
+     - nameURI: The URI of the attribute name.
+     - returns: True if the attribute dictionary contains the URI as a name.
+     */
+    private func attributesContainsAttributeName(attributes : [String : String], nameURI : URI) -> Bool {
+        let uristr = nameURI.stringValue
+        for attributeName in attributes.keys {
+            if uristr == URIStringOrName(attributeName) {
+                return true
+            }
+        }
+        return false
+    }
+    
+    /**
+     Returns the value of the specified attribute (using the URI of the name) in the specified attribute dictionary.
+     The keys in the dictionary (the attribute names) are translated to URIs if
+     possible and then compared to the specified URI.
+     
+     - parameter attributes: The attribute dictionary.
+     - nameURI: The URI of the attribute name.
+     - returns: The attribute value.
+     */
+    private func attributeValue(attributes : [String : String], nameURI : URI) -> String? {
+        let uristr = nameURI.stringValue
+        for attributeName in attributes.keys {
+            if uristr == URIStringOrName(attributeName) {
+                return attributes[attributeName]
+            }
+        }
+        return nil
+    }
+    
+    /**
+     Tests whether the element with the specified qualified name or URI is an RDF Syntax element, e.g. rdf:Description.
+     
+     - parameter elementQNameOrURI: The qualified name of the element or the string value of an element URI.
+     - returns: True when the element with the specified name is an RDF syntax element.
+     */
+    private func elementIsRDFElement(var elementQNameOrURI : String) -> Bool {
+        elementQNameOrURI = URIStringOrName(elementQNameOrURI)
+        for rdfElement in XMLtoRDFParser.rdfElements {
+            if rdfElement == elementQNameOrURI {
+                return true
+            }
+        }
+        return false
+    }
+    
+    /**
+     Tests whether the attribute with the specified qualified name or URI is an RDF Syntax attribute, e.g. rdf:about.
+     
+     - parameter attributeQNameOrURI: The qualified name of the attribute or the string value of an attribute URI.
+     - returns: True when the attribute with the specified name is an RDF syntax attribute.
+     */
+    private func attributeIsRDFAttribute(var attributeQNameOrURI : String) -> Bool {
+        attributeQNameOrURI = URIStringOrName(attributeQNameOrURI)
+        for rdfAttribute in XMLtoRDFParser.rdfAttributes {
+            if rdfAttribute == attributeQNameOrURI {
+                return true
+            }
+        }
+        return false
     }
     
 }

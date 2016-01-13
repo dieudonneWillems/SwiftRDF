@@ -56,6 +56,7 @@ class RDFXMLParserTests : XCTestCase {
         let data = rdf.dataUsingEncoding(NSUTF8StringEncoding)
         let name = URI(string: "http://www.w3.org/TR/rdf-syntax-grammar/example-2")
         let parser = RDFXMLParser(data: data!, graphName: name)
+        parser.delegate = TestRDFParserDelegate()
         let graph = parser.parse()
         XCTAssertEqual(3, graph?.namespaces.count)
         printGraph(graph!)
@@ -99,6 +100,7 @@ class RDFXMLParserTests : XCTestCase {
         let data = rdf.dataUsingEncoding(NSUTF8StringEncoding)
         let name = URI(string: "http://www.w3.org/TR/rdf-syntax-grammar/example-3")
         let parser = RDFXMLParser(data: data!, graphName: name)
+        parser.delegate = TestRDFParserDelegate()
         let graph = parser.parse()
         XCTAssertEqual(3, graph?.namespaces.count)
         printGraph(graph!)
@@ -142,6 +144,7 @@ class RDFXMLParserTests : XCTestCase {
         let data = rdf.dataUsingEncoding(NSUTF8StringEncoding)
         let name = URI(string: "http://www.w3.org/TR/rdf-syntax-grammar/example-3")
         let parser = RDFXMLParser(data: data!, graphName: name)
+        parser.delegate = TestRDFParserDelegate()
         let graph = parser.parse()
         XCTAssertEqual(3, graph?.namespaces.count)
         printGraph(graph!)
@@ -182,6 +185,7 @@ class RDFXMLParserTests : XCTestCase {
         let data = rdf.dataUsingEncoding(NSUTF8StringEncoding)
         let name = URI(string: "http://www.w3.org/TR/rdf-syntax-grammar/example-5")
         let parser = RDFXMLParser(data: data!, graphName: name)
+        parser.delegate = TestRDFParserDelegate()
         let graph = parser.parse()
         XCTAssertEqual(3, graph?.namespaces.count)
         printGraph(graph!)
@@ -220,6 +224,7 @@ class RDFXMLParserTests : XCTestCase {
         let data = rdf.dataUsingEncoding(NSUTF8StringEncoding)
         let name = URI(string: "http://www.w3.org/TR/rdf-syntax-grammar/example-6")
         let parser = RDFXMLParser(data: data!, graphName: name)
+        parser.delegate = TestRDFParserDelegate()
         let graph = parser.parse()
         XCTAssertEqual(3, graph?.namespaces.count)
         printGraph(graph!)
@@ -260,6 +265,7 @@ class RDFXMLParserTests : XCTestCase {
         let data = rdf.dataUsingEncoding(NSUTF8StringEncoding)
         let name = URI(string: "http://www.w3.org/TR/rdf-syntax-grammar/example-8")
         let parser = RDFXMLParser(data: data!, graphName: name)
+        parser.delegate = TestRDFParserDelegate()
         let graph = parser.parse()
         XCTAssertEqual(2, graph?.namespaces.count)
         printGraph(graph!)
@@ -296,6 +302,7 @@ class RDFXMLParserTests : XCTestCase {
         let data = rdf.dataUsingEncoding(NSUTF8StringEncoding)
         let name = URI(string: "http://www.w3.org/TR/rdf-syntax-grammar/example-9")
         let parser = RDFXMLParser(data: data!, graphName: name)
+        parser.delegate = TestRDFParserDelegate()
         let graph = parser.parse()
         XCTAssertEqual(2, graph?.namespaces.count)
         printGraph(graph!)
@@ -357,5 +364,42 @@ class RDFXMLParserTests : XCTestCase {
             }
         }
         return strvalue
+    }
+}
+
+class TestRDFParserDelegate : RDFParserDelegate {
+    
+    func parserDidStartDocument(_parser : RDFParser) {
+        print("RDF Parser started")
+    }
+    
+    func parserDidEndDocument(_parser : RDFParser) {
+        print("RDF Parser finished")
+    }
+    
+    func parserErrorOccurred(_parser : RDFParser, error: RDFParserError) {
+        switch error {
+        case .couldNotCreateRDFParser(let message) :
+            print("Could not create RDF parser: \(message)")
+            break
+        case .couldNotRetrieveRDFFileFromURI(let message, let uri) :
+            print("Could not retrieve RDF file from URI '\(uri.stringValue)': \(message)")
+            break
+        case .couldNotRetrieveRDFFileFromURL(let message, let url) :
+            print("Could not retrieve RDF file from URL '\(url)': \(message)")
+            break
+        case .malformedRDFFormat(let message) :
+            print("Malformed RDF: \(message)")
+            break
+        }
+        XCTFail("RDF parser error occurred!")
+    }
+    
+    func namespaceAdded(_parser : RDFParser, graph : Graph, prefix : String, namespaceURI : String) {
+        print("RDF Parser: namespace with prefix \(prefix) and URI \(namespaceURI) was added.")
+    }
+    
+    func statementAdded(_parser : RDFParser, graph : Graph, statement : Statement) {
+        print("RDF Parser: the statement \(statement) was added.")
     }
 }
