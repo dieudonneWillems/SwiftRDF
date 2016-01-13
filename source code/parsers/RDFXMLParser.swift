@@ -83,6 +83,11 @@ public class RDFXMLParser : NSObject, RDFParser, NSXMLParserDelegate {
     
     private var intendedGraphName : Resource?
     
+    private var parseType : String? = nil
+    private var parseTypeElement : String? = nil
+    private var literalParseTypeContent : String? = nil
+    private var xmlLiteralElementString : String? = nil
+    
     /**
      Initialises a parser with the contents of the RDF file reference by the given
      URL.
@@ -195,6 +200,17 @@ public class RDFXMLParser : NSObject, RDFParser, NSXMLParserDelegate {
     public func parser(parser: NSXMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String]) {
         print("Started on element \(elementName) with attributes \(attributeDict).")
         
+        if parseType == "Literal" { // We are in a Literal parse type not RDF processing needed.
+            if xmlLiteralElementString != nil { // we are now in a subelement
+                literalParseTypeContent = literalParseTypeContent! + xmlLiteralElementString!+">"
+            }
+            xmlLiteralElementString = "<"+qName!
+            for attr in attributeDict.keys {
+                xmlLiteralElementString = xmlLiteralElementString! + " " + attr+"=\""+attributeDict[attr]!+"\""
+            }
+            return
+        }
+        
         var subject : Resource? = nil
         var property : URI? = nil
         var datatype : Datatype? = nil
@@ -299,6 +315,8 @@ public class RDFXMLParser : NSObject, RDFParser, NSXMLParserDelegate {
                     rdfxmlattr = true
                 } else if attribute == RDF.datatype.stringValue {
                     rdfxmlattr = true
+                } else if attribute == RDF.parseType.stringValue {
+                    rdfxmlattr = true
                 } else if attribute == "xml:lang" {
                     rdfxmlattr = true
                 } // TODO: other RDF XML attributes
@@ -320,6 +338,12 @@ public class RDFXMLParser : NSObject, RDFParser, NSXMLParserDelegate {
                     }
                 }
             }
+        }
+        
+        if attributes[RDF.parseType.stringValue] != nil {
+            parseType = attributes[RDF.parseType.stringValue]
+            parseTypeElement = qName
+            literalParseTypeContent = ""
         }
         
         if (expectedItem == 0 && subject == nil) {
@@ -353,6 +377,7 @@ public class RDFXMLParser : NSObject, RDFParser, NSXMLParserDelegate {
             let statement = Statement(subject: subject!, predicate: tempProperty!, object: tempObject!)
             currentGraph?.add(statement)
         }
+        
         
         print("current Subjects: \(currentSubject)")
         print("current Properties: \(currentProperty)")
@@ -393,10 +418,30 @@ public class RDFXMLParser : NSObject, RDFParser, NSXMLParserDelegate {
     public func parser(parser: NSXMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
         print("Finished on element \(elementName).")
         
+        if parseType == "Literal" && qName != parseTypeElement { // We are in a Literal parse Type, no RDF processing needed
+            if literalParseTypeContent?.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 0 {
+                xmlLiteralElementString = xmlLiteralElementString! + ">"
+                literalParseTypeContent = literalParseTypeContent! + xmlLiteralElementString! + currentText + "</"+qName!+">"
+            }else{
+                literalParseTypeContent = literalParseTypeContent! + xmlLiteralElementString! + "/>"
+            }
+            xmlLiteralElementString = nil
+            return
+        }
+        
+        
         let trimmed = currentText.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
         
         // Test if an object is expected, if so we create a literal object value using the text content of the XML node
-        let expectedItem = self.expectedItem()
+        var expectedItem = self.expectedItem()
+        
+        if parseType == "Literal" && qName == parseTypeElement { // End of Literal parse Type, literal content is object
+            parseTypeElement = nil
+            parseType = nil
+            currentObject = Literal(stringValue: literalParseTypeContent!)
+            literalParseTypeContent = nil
+            expectedItem = 2
+        }
         
         if expectedItem == 2 {
             let language = lastNonNillLanguage
@@ -405,10 +450,12 @@ public class RDFXMLParser : NSObject, RDFParser, NSXMLParserDelegate {
             if datatype != nil {
                 currentObject = Literal(stringValue: trimmed, dataType: datatype!)
                 createStatement()
-            }else if language != nil {
+            } else if language != nil {
                 currentObject = Literal(stringValue: trimmed, language: language!)
                 createStatement()
-            }else {
+            } else if currentObject != nil {
+                createStatement()
+            } else {
                 if trimmed.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 0 {
                     currentObject = Literal(stringValue: trimmed)
                     createStatement()
