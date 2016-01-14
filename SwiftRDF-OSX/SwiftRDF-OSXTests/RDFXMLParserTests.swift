@@ -318,6 +318,9 @@ class RDFXMLParserTests : XCTestCase {
             "        Test text with <b>bold</b> fragment.\n" +
             "    </a:shawn>\n" +
             "</a:Box>"
+        // TODO: Escaping of quotes in Literal
+        // TODO: rdf:XMLLiteral als datatype
+        // TODO: empty elements <a:widget size="10"/>
         XCTAssertEqual(xml, graph![0].object.stringValue)
     }
     

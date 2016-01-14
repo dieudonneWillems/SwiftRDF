@@ -115,6 +115,9 @@ internal class XMLtoRDFParser : NSObject, NSXMLParserDelegate {
     private var currentObjects = [Value?]()
     private var currentDatatype = [Datatype?]()
     private var currentLanguage = [String?]()
+    private var inXMLLiteral = false
+    private var XMLLiteralString : String? = nil
+    private var textNodeString : String = ""
     
     /**
      The last subject parsed from the RDF/XML file at the current parse position.
@@ -202,6 +205,7 @@ internal class XMLtoRDFParser : NSObject, NSXMLParserDelegate {
         currentObjects.removeAll()
         currentDatatype.removeAll()
         currentLanguage.removeAll()
+        inXMLLiteral = false
         
         graph = Graph(name: graphName)
         if rdfParser.delegate != nil {
@@ -226,113 +230,154 @@ internal class XMLtoRDFParser : NSObject, NSXMLParserDelegate {
     internal func parser(parser: NSXMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String]) {
         print("Started on element \(elementName) with attributes \(attributeDict).")
         currentElements.append((elementName,namespaceURI,qName,attributeDict,""))
-        //print("elements: \(currentElements)")
         
-        var subject : Resource? = nil
-        var predicate : URI? = nil
-        var object : Value? = nil
-        var datatype : Datatype? = nil
-        var language : String? = nil
-        
-        // Find language attribute
-        if attributeDict["xml:lang"] != nil {
-            language = attributeDict["xml:lang"]
-        }
-        currentLanguage.append(language)
-        
-        // Find datatype attribute
-        if attributesContainsAttributeName(attributeDict, nameURI: RDF.datatype) {
-            let datatypeval = attributeValue(attributeDict, nameURI: RDF.datatype)
-            if datatypeval != nil {
-                if datatypeval!.qualifiedNamePrefix == "xsd" {
-                    datatype = Datatype(namespace: XSD.namespace(), localName: datatypeval!.qualifiedNameLocalPart!, derivedFromDatatype: nil, isListDataType: false)
-                } else {
-                    let dturi = URIStringOrName(datatypeval!)
-                    datatype = Datatype(uri: dturi, derivedFromDatatype: nil, isListDataType: false)
+        if !inXMLLiteral { // if in XML literal, do not process elements as RDF elements.
+            
+            var subject : Resource? = nil
+            var predicate : URI? = nil
+            var object : Value? = nil
+            var datatype : Datatype? = nil
+            var language : String? = nil
+            
+            // Find language attribute
+            if attributeDict["xml:lang"] != nil {
+                language = attributeDict["xml:lang"]
+            }
+            currentLanguage.append(language)
+            
+            // Find datatype attribute
+            if attributesContainsAttributeName(attributeDict, nameURI: RDF.datatype) {
+                let datatypeval = attributeValue(attributeDict, nameURI: RDF.datatype)
+                if datatypeval != nil {
+                    if datatypeval!.qualifiedNamePrefix == "xsd" {
+                        datatype = Datatype(namespace: XSD.namespace(), localName: datatypeval!.qualifiedNameLocalPart!, derivedFromDatatype: nil, isListDataType: false)
+                    } else {
+                        let dturi = URIStringOrName(datatypeval!)
+                        datatype = Datatype(uri: dturi, derivedFromDatatype: nil, isListDataType: false)
+                    }
                 }
             }
-        }
-        currentDatatype.append(datatype)
-        
-        let elementURI = URIStringOrName(qName!)
-        
-        if elementURI != RDF.ROOT.stringValue { // ignore the rdf:RDF element
+            currentDatatype.append(datatype)
             
-            let lastElements = self.lastElements()
+            let elementURI = URIStringOrName(qName!)
             
-            var elementResource : Resource? = nil
-            
-            if elementURI == RDF.Description.stringValue { // Handle rdf:Description elements
-                elementResource = self.handleRDFDescriptionElement(attributeDict)
-            } else { // Type element
-                elementResource = URI(string: self.URIStringOrName(qName!)) // A predicate or the type of a subject
-            }
-            
-            if !lastElements.subject && !lastElements.predicate && !lastElements.object { // no resources defined yet, this needs to be a subject
-                subject = elementResource
-            } else if lastElements.predicate  { // needs to be an object
-                if elementResource != nil { // object is a resource ==> also a new subject
-                    object = elementResource
+            if elementURI != RDF.ROOT.stringValue { // ignore the rdf:RDF element
+                
+                let lastElements = self.lastElements()
+                
+                var elementResource : Resource? = nil
+                
+                if elementURI == RDF.Description.stringValue { // Handle rdf:Description elements
+                    elementResource = self.handleRDFDescriptionElement(attributeDict)
+                } else { // Type element
+                    elementResource = URI(string: self.URIStringOrName(qName!)) // A predicate or the type of a subject
+                }
+                
+                if !lastElements.subject && !lastElements.predicate && !lastElements.object { // no resources defined yet, this needs to be a subject
                     subject = elementResource
-                }
-            } else if lastElements.subject { // needs to be a predicate/property element
-                if ((elementResource as? URI) != nil) {
-                    predicate = elementResource as? URI
-                }else{  // A predicate should be a URI
-                    let error = RDFParserError.malformedRDFFormat(message: "The predicate at line:\(rdfParser.xmlParser?.lineNumber), column:\(rdfParser.xmlParser?.columnNumber) is not a valid URI.")
-                    rdfParser.delegate?.parserErrorOccurred(rdfParser, error: error)
-                    rdfParser.xmlParser?.abortParsing()
+                } else if lastElements.predicate  { // needs to be an object
+                    if elementResource != nil { // object is a resource ==> also a new subject
+                        object = elementResource
+                        subject = elementResource
+                    }
+                } else if lastElements.subject { // needs to be a predicate/property element
+                    if ((elementResource as? URI) != nil) {
+                        predicate = elementResource as? URI
+                    }else{  // A predicate should be a URI
+                        let error = RDFParserError.malformedRDFFormat(message: "The predicate at line:\(rdfParser.xmlParser?.lineNumber), column:\(rdfParser.xmlParser?.columnNumber) is not a valid URI.")
+                        rdfParser.delegate?.parserErrorOccurred(rdfParser, error: error)
+                        rdfParser.xmlParser?.abortParsing()
+                    }
                 }
             }
+            
+            currentObjects.append(object)
+            
+            if object != nil {
+                self.createStatement()
+            }
+            
+            currentSubjects.append(subject)
+            currentPredicates.append(predicate)
+            
+            // empty property elements
+            self.handleEmptyPropertyElement(subject, predicate: predicate)
+            
+            // property attributes
+            self.handlePropertyAttributes(subject)
+            
+        }else { // XML Literal
+            XMLLiteralString = XMLLiteralString! + textNodeString
+            XMLLiteralString = XMLLiteralString! + "<\(qName!)"
+            for attrname in attributeDict.keys {
+                let val = attributeDict[attrname]
+                XMLLiteralString = XMLLiteralString! + " \(attrname)=\"\(val!)\""
+            }
+            XMLLiteralString = XMLLiteralString! + ">"
         }
         
-        currentObjects.append(object)
-        
-        if object != nil {
-            self.createStatement()
+        textNodeString = ""
+        let parseType = attributeValue(attributeDict, nameURI: RDF.parseType)
+        if parseType == "Literal" { // next child nodes are not RDF nodes but XML literal nodes.
+            inXMLLiteral = true
+            XMLLiteralString = ""
+            print(" ** START XML Literal **")
         }
-        
-        currentSubjects.append(subject)
-        currentPredicates.append(predicate)
-        
-        // empty property elements
-        self.handleEmptyPropertyElement(subject, predicate: predicate)
-        
-        // property attributes
-        self.handlePropertyAttributes(subject)
     }
     
     internal func parser(parser: NSXMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
         print("Finished on element \(elementName).")
         //print("elements: \(currentElements)")
         
-        let lastElements = self.lastElements()
-        if lastElements.predicate && lastElements.literal {
-            var litstring = currentElements.last!.text
-            litstring = litstring.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
-            let datatype = self.lastDatatype
-            let language = self.lastLanguage
-            var literal : Literal? = nil
-            if language != nil && (datatype == nil || datatype! == XSD.string) {
-                literal = Literal(stringValue: litstring, language: language!)
-            } else if datatype != nil {
-                literal = Literal(stringValue: litstring, dataType: datatype!)
-            } else {
-                literal = Literal(stringValue: litstring)
-            }
+        let attributeDict = currentElements.last!.attributes
+        let parseType = attributeValue(attributeDict, nameURI: RDF.parseType)
+        if parseType == "Literal" { // previous child nodes were not RDF nodes but XML literal nodes.
+            inXMLLiteral = false
+            print(" ** END XML Literal **")
             let subject = lastSubject
             let predicate = lastPredicate
-            if subject != nil && predicate != nil && literal != nil {
-                self.createStatement(subject!, predicate: predicate!, object: literal!)
+            let literal = Literal(stringValue: XMLLiteralString!)
+            if subject != nil && predicate != nil {
+                self.createStatement(subject!, predicate: predicate!, object: literal)
             }
+            XMLLiteralString = nil
+        }
+        
+        if !inXMLLiteral { // currently not in XML literal, elements are RDF elements
+            
+            let lastElements = self.lastElements()
+            if lastElements.predicate && lastElements.literal {
+                var litstring = currentElements.last!.text
+                litstring = litstring.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+                let datatype = self.lastDatatype
+                let language = self.lastLanguage
+                var literal : Literal? = nil
+                if language != nil && (datatype == nil || datatype! == XSD.string) {
+                    literal = Literal(stringValue: litstring, language: language!)
+                } else if datatype != nil {
+                    literal = Literal(stringValue: litstring, dataType: datatype!)
+                } else {
+                    literal = Literal(stringValue: litstring)
+                }
+                let subject = lastSubject
+                let predicate = lastPredicate
+                if subject != nil && predicate != nil && literal != nil {
+                    self.createStatement(subject!, predicate: predicate!, object: literal!)
+                }
+            }
+            
+            currentSubjects.removeLast()
+            currentPredicates.removeLast()
+            currentObjects.removeLast()
+            currentDatatype.removeLast()
+            currentLanguage.removeLast()
+        } else { // currently in XML literal, elements are not RDF elements
+            XMLLiteralString = XMLLiteralString! + textNodeString
+            XMLLiteralString = XMLLiteralString! + "</\(qName!)>"
         }
         
         currentElements.removeLast()
-        currentSubjects.removeLast()
-        currentPredicates.removeLast()
-        currentObjects.removeLast()
-        currentDatatype.removeLast()
-        currentLanguage.removeLast()
+        textNodeString = ""
     }
     
     internal func parser(parser: NSXMLParser, didStartMappingPrefix prefix: String, toURI namespaceURI: String) {
@@ -363,10 +408,12 @@ internal class XMLtoRDFParser : NSObject, NSXMLParserDelegate {
             currentElements.removeLast()
             currentElements.append(lastelement)
         }
+        textNodeString = textNodeString + string
     }
     
     internal func parser(parser: NSXMLParser, foundIgnorableWhitespace whitespaceString: String){
         print("Found ignorable whitespace '\(whitespaceString)'.")
+        textNodeString = textNodeString + whitespaceString
     }
     
     internal func parser(parser: NSXMLParser, foundCDATA CDATABlock: NSData) {
