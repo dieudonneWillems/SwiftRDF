@@ -506,6 +506,26 @@ class RDFXMLParserTests : XCTestCase {
         XCTAssertEqual(4, graph!.count)
     }
     
+    func testExample13() {
+        let rdf = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" +
+            "<rdf:RDF xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\"\n" +
+            "   xmlns:ex=\"http://example.org/stuff/1.0/\" \n" +
+            "   xmlns:dc=\"http://purl.org/dc/elements/1.1/\">\n\n" +
+            "   <rdf:Description rdf:about=\"http://www.w3.org/TR/rdf-syntax-grammar\"\n" +
+            "       dc:title=\"RDF 1.1 XML Syntax\">\n" +
+            "       <ex:editor ex:fullName=\"Dave Beckett\" /> \n" +
+            "   </rdf:Description>\n" +
+            "</rdf:RDF>";
+        let data = rdf.dataUsingEncoding(NSUTF8StringEncoding)
+        let name = URI(string: "http://www.w3.org/TR/rdf-syntax-grammar/example-13")
+        let parser = RDFXMLParser(data: data!, graphName: name)
+        parser.delegate = TestRDFParserDelegate()
+        let graph = parser.parse()
+        XCTAssertEqual(3, graph?.namespaces.count)
+        printGraph(graph!)
+        XCTAssertEqual(3, graph!.count)
+    }
+    
     
     
     func printGraph(graph : Graph){

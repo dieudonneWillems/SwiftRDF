@@ -316,7 +316,7 @@ internal class XMLtoRDFParser : NSObject, NSXMLParserDelegate {
             currentPredicates.append(predicate)
             
             // empty property elements
-            self.handleEmptyPropertyElement(subject, predicate: predicate)
+            self.handleEmptyPropertyElement(predicate)
             
             // property attributes
             self.handlePropertyAttributes(subject)
@@ -538,8 +538,10 @@ internal class XMLtoRDFParser : NSObject, NSXMLParserDelegate {
      Tests if the current element contains property attributes and if so adds statements with the specified subject.
      
      - parameter subject: The subject of the statement if the element contains property attributes.
+     - returns: The number of property attributes.
      */
-    private func handlePropertyAttributes(subject: Resource?){
+    private func handlePropertyAttributes(subject: Resource?) -> Int{
+        var count = 0
         if subject != nil {
             let attributeDict = currentElements.last!.attributes
             for attribute in attributeDict.keys {
@@ -559,6 +561,7 @@ internal class XMLtoRDFParser : NSObject, NSXMLParserDelegate {
                             object = Literal(stringValue: stringValue!)
                         }
                         self.createStatement(subject!, predicate: predicate!, object: object!)
+                        count++
                     } else {
                         if parseType == "Resource" {
                             let error = RDFParserError.malformedRDFFormat(message: "Property attributes are not allowed in property-node elements (line:\(rdfParser.xmlParser?.lineNumber), column:\(rdfParser.xmlParser?.columnNumber)).")
@@ -573,6 +576,7 @@ internal class XMLtoRDFParser : NSObject, NSXMLParserDelegate {
                 }
             }
         }
+        return count
     }
     
     /**
@@ -581,7 +585,7 @@ internal class XMLtoRDFParser : NSObject, NSXMLParserDelegate {
      - parameter subject: The subject of the statement if the element is an empty property element.
      - parameter predicate: The predicate of the statement if the element is an empty property element.
      */
-    private func handleEmptyPropertyElement(subject: Resource?, predicate: URI?){
+    private func handleEmptyPropertyElement(predicate: URI?){
         let attributeDict = currentElements.last!.attributes
         if predicate != nil && self.attributesContainsAttributeName(attributeDict, nameURI: RDF.resource) {
             let subject = lastSubject
@@ -602,6 +606,13 @@ internal class XMLtoRDFParser : NSObject, NSXMLParserDelegate {
             let attrvalue = self.attributeValue(attributeDict, nameURI: RDF.nodeID)!
             let object = BlankNode(identifier: attrvalue)
             self.createStatement(subject!, predicate: predicate!, object: object)
+        } else if predicate != nil { // possible property elements on an empty property
+            let blanknode = BlankNode()
+            let count = self.handlePropertyAttributes(blanknode)
+            let subject = lastSubject
+            if count > 0 {
+                self.createStatement(subject!, predicate: predicate!, object: blanknode)
+            }
         }
     }
     
