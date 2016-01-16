@@ -107,7 +107,7 @@ internal class XMLtoRDFParser : NSObject, NSXMLParserDelegate {
     internal var graphName : Resource
     
     private static let rdfElements = [RDF.Description.stringValue,RDF.ROOT.stringValue]
-    private static let rdfAttributes = [RDF.about.stringValue,RDF.datatype.stringValue,RDF.resource.stringValue,RDF.parseType.stringValue,"xml:lang"]
+    private static let rdfAttributes = [RDF.about.stringValue,RDF.datatype.stringValue,RDF.resource.stringValue,RDF.parseType.stringValue,RDF.nodeID.stringValue,"xml:lang"]
     
     private var currentElements = [(elementName: String, namespaceURI : String?, qualifiedName : String?, attributes : [String: String], text: String)]()
     private var currentSubjects = [Resource?]()
@@ -580,6 +580,12 @@ internal class XMLtoRDFParser : NSObject, NSXMLParserDelegate {
                 rdfParser.delegate?.parserErrorOccurred(rdfParser, error: error)
                 rdfParser.xmlParser?.abortParsing()
             }
+        } else if predicate != nil && self.attributesContainsAttributeName(attributeDict, nameURI: RDF.nodeID) {
+            let subject = lastSubject
+            let predicate = lastPredicate
+            let attrvalue = self.attributeValue(attributeDict, nameURI: RDF.nodeID)!
+            let object = BlankNode(identifier: attrvalue)
+            self.createStatement(subject!, predicate: predicate!, object: object)
         }
     }
     

@@ -342,7 +342,7 @@ class RDFXMLParserTests : XCTestCase {
             "   </rdf:Description>\n" +
         "</rdf:RDF>";
         let data = rdf.dataUsingEncoding(NSUTF8StringEncoding)
-        let name = URI(string: "http://www.w3.org/TR/rdf-syntax-grammar/example-9")
+        let name = URI(string: "http://www.w3.org/TR/rdf-syntax-grammar/example-9a")
         let parser = RDFXMLParser(data: data!, graphName: name)
         parser.delegate = TestRDFParserDelegate()
         let graph = parser.parse()
@@ -385,7 +385,7 @@ class RDFXMLParserTests : XCTestCase {
             "   </rdf:Description>\n" +
         "</rdf:RDF>";
         let data = rdf.dataUsingEncoding(NSUTF8StringEncoding)
-        let name = URI(string: "http://www.w3.org/TR/rdf-syntax-grammar/example-9")
+        let name = URI(string: "http://www.w3.org/TR/rdf-syntax-grammar/example-9b")
         let parser = RDFXMLParser(data: data!, graphName: name)
         parser.delegate = TestRDFParserDelegate()
         let graph = parser.parse()
@@ -428,12 +428,83 @@ class RDFXMLParserTests : XCTestCase {
             "   </rdf:Description>\n" +
         "</rdf:RDF>";
         let data = rdf.dataUsingEncoding(NSUTF8StringEncoding)
-        let name = URI(string: "http://www.w3.org/TR/rdf-syntax-grammar/example-9")
+        let name = URI(string: "http://www.w3.org/TR/rdf-syntax-grammar/example-9c")
         let parser = RDFXMLParser(data: data!, graphName: name)
         parser.delegate = TestRDFParserDelegate()
         let graph = parser.parse()
         XCTAssertTrue(graph == nil)
     }
+    
+    func testExample10() {
+        let rdf = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" +
+            "<rdf:RDF xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\"\n" +
+            "   xmlns:ex=\"http://example.org/stuff/1.0/\" \n" +
+            "   xmlns:dc=\"http://purl.org/dc/elements/1.1/\">\n\n" +
+            "   <rdf:Description rdf:about=\"http://example.org/item01\">\n" +
+            "       <ex:size rdf:datatype=\"http://www.w3.org/2001/XMLSchema#int\">123</ex:size>\n" +
+            "   </rdf:Description>" +
+            "</rdf:RDF>";
+        let data = rdf.dataUsingEncoding(NSUTF8StringEncoding)
+        let name = URI(string: "http://www.w3.org/TR/rdf-syntax-grammar/example-10")
+        let parser = RDFXMLParser(data: data!, graphName: name)
+        parser.delegate = TestRDFParserDelegate()
+        let graph = parser.parse()
+        XCTAssertEqual(3, graph?.namespaces.count)
+        printGraph(graph!)
+        XCTAssertEqual(1, graph!.count)
+        let item01 = URI(string: "http://example.org/item01")
+        let exsize = URI(string: "http://example.org/stuff/1.0/size")
+        let subgraph =  graph!.subGraph(item01, predicate: exsize, object: nil)
+        XCTAssertEqual(1,subgraph.count)
+        XCTAssertTrue(XSD.int == (subgraph[0].object as! Literal).dataType!)
+        XCTAssertTrue(123 == (subgraph[0].object as! Literal).intValue!)
+    }
+    
+    func testExample11() {
+        let rdf = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" +
+            "<rdf:RDF xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\"\n" +
+            "   xmlns:ex=\"http://example.org/stuff/1.0/\" \n" +
+            "   xmlns:dc=\"http://purl.org/dc/elements/1.1/\">\n\n" +
+            "   <rdf:Description rdf:about=\"http://www.w3.org/TR/rdf-syntax-grammar\"\n" +
+            "       dc:title=\"RDF 1.1 XML Syntax\">\n" +
+            "       <ex:editor rdf:nodeID=\"abc\"/>\n" +
+            "   </rdf:Description>\n\n" +
+            "   <rdf:Description rdf:nodeID=\"abc\" ex:fullName=\"Dave Beckett\">\n" +
+            "       <ex:homePage rdf:resource=\"http://purl.org/net/dajobe/\"/>\n " +
+            "   </rdf:Description>\n" +
+            "</rdf:RDF>";
+        let data = rdf.dataUsingEncoding(NSUTF8StringEncoding)
+        let name = URI(string: "http://www.w3.org/TR/rdf-syntax-grammar/example-11")
+        let parser = RDFXMLParser(data: data!, graphName: name)
+        parser.delegate = TestRDFParserDelegate()
+        let graph = parser.parse()
+        XCTAssertEqual(3, graph?.namespaces.count)
+        printGraph(graph!)
+        XCTAssertEqual(4, graph!.count)
+    }
+    /*
+    func testExample12() {
+        let rdf = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" +
+            "<rdf:RDF xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\"\n" +
+            "   xmlns:ex=\"http://example.org/stuff/1.0/\" \n" +
+            "   xmlns:dc=\"http://purl.org/dc/elements/1.1/\">\n\n" +
+            "   <rdf:Description rdf:about=\"http://www.w3.org/TR/rdf-syntax-grammar\"\n" +
+            "       dc:title=\"RDF 1.1 XML Syntax\">\n" +
+            "       <ex:editor rdf:nodeID=\"abc\"/>\n" +
+            "   </rdf:Description>\n\n" +
+            "   <rdf:Description rdf:nodeID=\"abc\" ex:fullName=\"Dave Beckett\">\n" +
+            "       <ex:homePage rdf:resource=\"http://purl.org/net/dajobe/\"/>\n " +
+            "   </rdf:Description>\n" +
+        "</rdf:RDF>";
+        let data = rdf.dataUsingEncoding(NSUTF8StringEncoding)
+        let name = URI(string: "http://www.w3.org/TR/rdf-syntax-grammar/example-12")
+        let parser = RDFXMLParser(data: data!, graphName: name)
+        parser.delegate = TestRDFParserDelegate()
+        let graph = parser.parse()
+        XCTAssertEqual(3, graph?.namespaces.count)
+        printGraph(graph!)
+        XCTAssertEqual(4, graph!.count)
+    }*/
     
     
     
