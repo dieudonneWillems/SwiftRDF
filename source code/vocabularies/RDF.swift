@@ -22,8 +22,8 @@ public class RDF : Vocabulary {
     
     // MARK: RDF Classes
     
-    /// Represents the class of XML literals.
-    public static let XMLLiteral = Vocabulary.createURI(RDF.NAMESPACE, localName: "XMLLiteral")
+    /// Represents the class of XML literals, i.e. a datatype.
+    public static let XMLLiteral = Datatype(namespace: RDF.NAMESPACE, localName: "XMLLiteral", derivedFromDatatype: nil, isListDataType: false)!
     
     /// Represents the class of properties.
     public static let Property = Vocabulary.createURI( RDF.NAMESPACE, localName: "Property")

@@ -118,6 +118,7 @@ internal class XMLtoRDFParser : NSObject, NSXMLParserDelegate {
     private var inXMLLiteral = false
     private var XMLLiteralString : String? = nil
     private var textNodeString : String = ""
+    private var XMLLiteralElementIsUnclosed = false
     
     /**
      The last subject parsed from the RDF/XML file at the current parse position.
@@ -182,6 +183,9 @@ internal class XMLtoRDFParser : NSObject, NSXMLParserDelegate {
     // MARK: Namespace Properties
     private var currentNamespaces = [String : String]()
     private var namespaceMapping = [String : String]()
+    private var prefixMapping = [String : String]()
+    private var prefixesDefinedInXMLLiteral = [[String]?]()
+    private var namespacePrefixesAddedBeforeElement = [String]()
     
     /**
      Creates a new XML to RDF parser which is an implementation of the `NSXMLParserDelegate` protocol.
@@ -225,6 +229,7 @@ internal class XMLtoRDFParser : NSObject, NSXMLParserDelegate {
         if rdfParser.delegate != nil && parseError.code != 512 {
             rdfParser.delegate!.parserErrorOccurred(rdfParser, error: RDFParserError.couldNotCreateRDFParser(message: parseError.description))
         }
+        graph = nil
     }
     
     internal func parser(parser: NSXMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String]) {
@@ -232,7 +237,7 @@ internal class XMLtoRDFParser : NSObject, NSXMLParserDelegate {
         currentElements.append((elementName,namespaceURI,qName,attributeDict,""))
         
         if !inXMLLiteral { // if in XML literal, do not process elements as RDF elements.
-            
+            prefixesDefinedInXMLLiteral.removeAll()
             var subject : Resource? = nil
             var predicate : URI? = nil
             var object : Value? = nil
@@ -307,13 +312,61 @@ internal class XMLtoRDFParser : NSObject, NSXMLParserDelegate {
             self.handlePropertyAttributes(subject)
             
         }else { // XML Literal
+            for prefixadded in namespacePrefixesAddedBeforeElement {
+                // remove namespaces from graph that were added in the element containing the literal and are thus only valid for the XML literal
+                graph!.deleteNamespace(prefixadded)
+            }
+            var qualifiedName = qName!
+            var prefixDef = ""
+            let nspf = qName?.qualifiedNamePrefix
+            var definedPrefixesInElement : [String]?
+            if nspf != nil {            // Add namespaces to XML literal when needed because used for the XML element
+                let realprefix = prefixMapping[nspf!]
+                if realprefix != nil {
+                    if !prefixHasBeenDefinedInSuperElementOfXMLLiteral(realprefix!) {
+                        prefixDef = prefixDef + " xmlns:\(realprefix!)=\"\(currentNamespaces[realprefix!]!)\""
+                        if definedPrefixesInElement == nil {
+                            definedPrefixesInElement = [String]()
+                        }
+                        definedPrefixesInElement!.append(realprefix!)
+                    }
+                    qualifiedName = "\(realprefix!):\(elementName)"
+                }else{
+                    let error = RDFParserError.malformedRDFFormat(message: "The XML literal element at line:\(rdfParser.xmlParser?.lineNumber), column:\(rdfParser.xmlParser?.columnNumber) uses a namespace prefix ('\(nspf!)') that has not (yet) been defined.")
+                    rdfParser.delegate?.parserErrorOccurred(rdfParser, error: error)
+                    rdfParser.xmlParser?.abortParsing()
+                }
+            }
+            for attribute in attributeDict.keys {
+                let anspf = attribute.qualifiedNamePrefix
+                if anspf != nil {
+                    let realprefix = prefixMapping[anspf!]
+                    if realprefix != nil && !prefixHasBeenDefinedInSuperElementOfXMLLiteral(realprefix!) {
+                        prefixDef = prefixDef + " xmlns:\(realprefix!)=\"\(currentNamespaces[realprefix!]!)\""
+                        if definedPrefixesInElement == nil {
+                            definedPrefixesInElement = [String]()
+                        }
+                        definedPrefixesInElement!.append(realprefix!)
+                    }else{
+                        let error = RDFParserError.malformedRDFFormat(message: "The XML property at line:\(rdfParser.xmlParser?.lineNumber), column:\(rdfParser.xmlParser?.columnNumber) uses a namespace prefix ('\(anspf!)') that has not (yet) been defined.")
+                        rdfParser.delegate?.parserErrorOccurred(rdfParser, error: error)
+                        rdfParser.xmlParser?.abortParsing()
+                    }
+                }
+            }
+            
+            if XMLLiteralElementIsUnclosed {
+                XMLLiteralString = XMLLiteralString! + "/>"
+            }
             XMLLiteralString = XMLLiteralString! + textNodeString
-            XMLLiteralString = XMLLiteralString! + "<\(qName!)"
+            XMLLiteralString = XMLLiteralString! + "<\(qualifiedName)"
             for attrname in attributeDict.keys {
                 let val = attributeDict[attrname]
                 XMLLiteralString = XMLLiteralString! + " \(attrname)=\"\(val!)\""
             }
-            XMLLiteralString = XMLLiteralString! + ">"
+            XMLLiteralString = XMLLiteralString! + prefixDef
+            XMLLiteralElementIsUnclosed = true
+            prefixesDefinedInXMLLiteral.append(definedPrefixesInElement)
         }
         
         textNodeString = ""
@@ -322,7 +375,12 @@ internal class XMLtoRDFParser : NSObject, NSXMLParserDelegate {
             inXMLLiteral = true
             XMLLiteralString = ""
             print(" ** START XML Literal **")
+            for prefixadded in namespacePrefixesAddedBeforeElement {
+                // remove namespaces from graph that were added in the element containing the literal and are thus only valid for the XML literal
+                graph!.deleteNamespace(prefixadded)
+            }
         }
+        namespacePrefixesAddedBeforeElement.removeAll()
     }
     
     internal func parser(parser: NSXMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
@@ -336,9 +394,9 @@ internal class XMLtoRDFParser : NSObject, NSXMLParserDelegate {
             print(" ** END XML Literal **")
             let subject = lastSubject
             let predicate = lastPredicate
-            let literal = Literal(stringValue: XMLLiteralString!)
+            let literal = Literal(stringValue: XMLLiteralString!, dataType: RDF.XMLLiteral)
             if subject != nil && predicate != nil {
-                self.createStatement(subject!, predicate: predicate!, object: literal)
+                self.createStatement(subject!, predicate: predicate!, object: literal!)
             }
             XMLLiteralString = nil
         }
@@ -372,8 +430,23 @@ internal class XMLtoRDFParser : NSObject, NSXMLParserDelegate {
             currentDatatype.removeLast()
             currentLanguage.removeLast()
         } else { // currently in XML literal, elements are not RDF elements
-            XMLLiteralString = XMLLiteralString! + textNodeString
-            XMLLiteralString = XMLLiteralString! + "</\(qName!)>"
+            var qualifiedName = qName!
+            let nspf = qName?.qualifiedNamePrefix
+            if nspf != nil {
+                let realprefix = prefixMapping[nspf!]
+                if realprefix != nil {
+                    qualifiedName = "\(realprefix!):\(elementName)"
+                }
+            }
+            if XMLLiteralElementIsUnclosed {
+                XMLLiteralString = XMLLiteralString! + "/>"
+                XMLLiteralElementIsUnclosed = false
+            }else{
+                XMLLiteralString = XMLLiteralString! + textNodeString
+                XMLLiteralString = XMLLiteralString! + "</\(qualifiedName)>"
+                XMLLiteralElementIsUnclosed = false
+            }
+            prefixesDefinedInXMLLiteral.removeLast()
         }
         
         currentElements.removeLast()
@@ -386,16 +459,20 @@ internal class XMLtoRDFParser : NSObject, NSXMLParserDelegate {
             if rdfParser.delegate != nil {
                 rdfParser.delegate!.namespaceAdded(rdfParser, graph: graph!, prefix: prefix, namespaceURI: namespaceURI)
             }
-            namespaceMapping[prefix] = realprefix!
+            prefixMapping[prefix] = realprefix!
+            namespaceMapping[namespaceURI] = realprefix
             currentNamespaces[realprefix!] = namespaceURI
+            namespacePrefixesAddedBeforeElement.append(realprefix!)
         }
     }
     
     internal func parser(parser: NSXMLParser, didEndMappingPrefix prefix: String) {
         print("Finished mapping prefix \(prefix).")
-        let realprefix = namespaceMapping[prefix]
+        let realprefix = prefixMapping[prefix]
         if realprefix != nil {
-            namespaceMapping.removeValueForKey(realprefix!)
+            let ns = currentNamespaces[realprefix!]
+            prefixMapping.removeValueForKey(realprefix!)
+            namespaceMapping.removeValueForKey(ns!)
             currentNamespaces.removeValueForKey(realprefix!)
         }
     }
@@ -409,15 +486,42 @@ internal class XMLtoRDFParser : NSObject, NSXMLParserDelegate {
             currentElements.append(lastelement)
         }
         textNodeString = textNodeString + string
+        if XMLLiteralElementIsUnclosed {
+            XMLLiteralString = XMLLiteralString! + ">"
+        }
+        XMLLiteralElementIsUnclosed = false
     }
     
     internal func parser(parser: NSXMLParser, foundIgnorableWhitespace whitespaceString: String){
         print("Found ignorable whitespace '\(whitespaceString)'.")
         textNodeString = textNodeString + whitespaceString
+        if XMLLiteralElementIsUnclosed {
+            XMLLiteralString = XMLLiteralString! + ">"
+        }
+        XMLLiteralElementIsUnclosed = false
     }
     
     internal func parser(parser: NSXMLParser, foundCDATA CDATABlock: NSData) {
         print("Found CDATA block '\(CDATABlock)'.")
+    }
+    
+    /**
+     Tests if a specific prefix has been defined in a super element of the current element in an XMLLiteral.
+     
+     - parameter prefix: The prefix to be tested.
+     - returns: True when the prefix has been defined in the XML literal.
+     */
+    private func prefixHasBeenDefinedInSuperElementOfXMLLiteral(prefix : String) -> Bool {
+        for prefixesdef in prefixesDefinedInXMLLiteral {
+            if prefixesdef != nil {
+                for prefixdef in prefixesdef! {
+                    if prefix == prefixdef {
+                        return true
+                    }
+                }
+            }
+        }
+        return false
     }
     
     

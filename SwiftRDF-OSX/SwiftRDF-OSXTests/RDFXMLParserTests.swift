@@ -290,8 +290,8 @@ class RDFXMLParserTests : XCTestCase {
             "   <rdf:Description rdf:about=\"http://example.org/item01\">\n" +
             "       <ex:prop rdf:parseType=\"Literal\" xmlns:a=\"http://example.org/a#\">\n" +
             "           <a:Box required=\"true\">\n" +
-            "               <a:widget size=\"10\" />\n" +
-            "               <a:grommit id=\"23\" />\n" +
+            "               <a:widget size=\"10\"/>\n" +
+            "               <a:grommit id=\"23\"/>\n" +
             "               <a:shawn>\n" +
             "                   Test text with <b>bold</b> fragment.\n" +
             "               </a:shawn>\n" +
@@ -307,22 +307,135 @@ class RDFXMLParserTests : XCTestCase {
         XCTAssertEqual(2, graph?.namespaces.count)
         printGraph(graph!)
         XCTAssertEqual(1, graph!.count)
-        let rdfxml = URI(string: "http://www.w3.org/TR/rdf-syntax-grammar")
+        let item01 = URI(string: "http://example.org/item01")
         let exprop = URI(string: "http://example.org/stuff/1.0/prop")
-        XCTAssertTrue(rdfxml! == graph![0].subject)
+        XCTAssertTrue(item01! == graph![0].subject)
         XCTAssertTrue(exprop! == graph![0].predicate)
-        let xml = "<a:Box required=\"true\">\n" +
-            "   <a:widget size=\"10\" />\n" +
-            "   <a:grommit id=\"23\" />\n" +
-            "   <a:shawn>\n" +
-            "        Test text with <b>bold</b> fragment.\n" +
-            "    </a:shawn>\n" +
-            "</a:Box>"
-        // TODO: Escaping of quotes in Literal
-        // TODO: rdf:XMLLiteral als datatype
-        // TODO: empty elements <a:widget size="10"/>
+        let xml = "\n" +
+            "           <a:Box required=\"true\" xmlns:a=\"http://example.org/a#\">\n" +
+            "               <a:widget size=\"10\"/>\n" +
+            "               <a:grommit id=\"23\"/>\n" +
+            "               <a:shawn>\n" +
+            "                   Test text with <b>bold</b> fragment.\n" +
+            "               </a:shawn>\n" +
+            "           </a:Box>"
+        print(xml)
+        print(graph![0].object.stringValue)
         XCTAssertEqual(xml, graph![0].object.stringValue)
     }
+    
+    
+    func testExample9a() {
+        let rdf = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" +
+            "<rdf:RDF xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\"\n" +
+            "   xmlns:ex=\"http://example.org/stuff/1.0/\">\n" +
+            "   <rdf:Description rdf:about=\"http://example.org/item01\">\n" +
+            "       <ex:prop rdf:parseType=\"Literal\" xmlns:a=\"http://example.org/a#\">\n" +
+            "           <a:Box required=\"true\">\n" +
+            "               <a:widget size=\"10\"/>\n" +
+            "               <a:grommit id=\"23\"/>\n" +
+            "               <b:shawn c:width=\"5\" xmlns:b=\"http://example.org/b#\" xmlns:c=\"http://example.org/c#\">\n" +
+            "                   Test text with <b>bold</b> fragment.\n" +
+            "               </b:shawn>\n" +
+            "           </a:Box>\n" +
+            "       </ex:prop>\n" +
+            "   </rdf:Description>\n" +
+        "</rdf:RDF>";
+        let data = rdf.dataUsingEncoding(NSUTF8StringEncoding)
+        let name = URI(string: "http://www.w3.org/TR/rdf-syntax-grammar/example-9")
+        let parser = RDFXMLParser(data: data!, graphName: name)
+        parser.delegate = TestRDFParserDelegate()
+        let graph = parser.parse()
+        XCTAssertEqual(2, graph?.namespaces.count)
+        printGraph(graph!)
+        XCTAssertEqual(1, graph!.count)
+        let item01 = URI(string: "http://example.org/item01")
+        let exprop = URI(string: "http://example.org/stuff/1.0/prop")
+        XCTAssertTrue(item01! == graph![0].subject)
+        XCTAssertTrue(exprop! == graph![0].predicate)
+        let xml = "\n" +
+            "           <a:Box required=\"true\" xmlns:a=\"http://example.org/a#\">\n" +
+            "               <a:widget size=\"10\"/>\n" +
+            "               <a:grommit id=\"23\"/>\n" +
+            "               <b:shawn c:width=\"5\" xmlns:b=\"http://example.org/b#\" xmlns:c=\"http://example.org/c#\">\n" +
+            "                   Test text with <b>bold</b> fragment.\n" +
+            "               </b:shawn>\n" +
+            "           </a:Box>"
+        print(xml)
+        print(graph![0].object.stringValue)
+        XCTAssertEqual(xml, graph![0].object.stringValue)
+    }
+    
+    
+    
+    func testExample9b() {
+        let rdf = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" +
+            "<rdf:RDF xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\"\n" +
+            "   xmlns:ex=\"http://example.org/stuff/1.0/\">\n" +
+            "   <rdf:Description rdf:about=\"http://example.org/item01\">\n" +
+            "       <ex:prop rdf:parseType=\"Literal\" xmlns:a=\"http://example.org/a#\" xmlns:b=\"http://example.org/b#\" xmlns:c=\"http://example.org/c#\">\n" +
+            "           <a:Box required=\"true\">\n" +
+            "               <a:widget size=\"10\"/>\n" +
+            "               <a:grommit id=\"23\"/>\n" +
+            "               <b:shawn c:width=\"5\">\n" +
+            "                   Test text with <b>bold</b> fragment.\n" +
+            "               </b:shawn>\n" +
+            "           </a:Box>\n" +
+            "       </ex:prop>\n" +
+            "   </rdf:Description>\n" +
+        "</rdf:RDF>";
+        let data = rdf.dataUsingEncoding(NSUTF8StringEncoding)
+        let name = URI(string: "http://www.w3.org/TR/rdf-syntax-grammar/example-9")
+        let parser = RDFXMLParser(data: data!, graphName: name)
+        parser.delegate = TestRDFParserDelegate()
+        let graph = parser.parse()
+        XCTAssertEqual(2, graph?.namespaces.count)
+        printGraph(graph!)
+        XCTAssertEqual(1, graph!.count)
+        let item01 = URI(string: "http://example.org/item01")
+        let exprop = URI(string: "http://example.org/stuff/1.0/prop")
+        XCTAssertTrue(item01! == graph![0].subject)
+        XCTAssertTrue(exprop! == graph![0].predicate)
+        let xml = "\n" +
+            "           <a:Box required=\"true\" xmlns:a=\"http://example.org/a#\">\n" +
+            "               <a:widget size=\"10\"/>\n" +
+            "               <a:grommit id=\"23\"/>\n" +
+            "               <b:shawn c:width=\"5\" xmlns:b=\"http://example.org/b#\" xmlns:c=\"http://example.org/c#\">\n" +
+            "                   Test text with <b>bold</b> fragment.\n" +
+            "               </b:shawn>\n" +
+        "           </a:Box>"
+        print(xml)
+        print(graph![0].object.stringValue)
+        XCTAssertEqual(xml, graph![0].object.stringValue)
+    }
+    
+    
+    
+    func testExample9c() {
+        let rdf = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" +
+            "<rdf:RDF xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\"\n" +
+            "   xmlns:ex=\"http://example.org/stuff/1.0/\">\n" +
+            "   <rdf:Description rdf:about=\"http://example.org/item01\">\n" +
+            "       <ex:prop rdf:parseType=\"Literal\" xmlns:a=\"http://example.org/a#\">\n" +
+            "           <a:Box required=\"true\">\n" +
+            "               <a:widget size=\"10\"/>\n" +
+            "               <a:grommit id=\"23\"/>\n" +
+            "               <b:shawn>\n" +
+            "                   Test text with <b>bold</b> fragment.\n" +
+            "               </b:shawn>\n" +
+            "           </a:Box>\n" +
+            "       </ex:prop>\n" +
+            "   </rdf:Description>\n" +
+        "</rdf:RDF>";
+        let data = rdf.dataUsingEncoding(NSUTF8StringEncoding)
+        let name = URI(string: "http://www.w3.org/TR/rdf-syntax-grammar/example-9")
+        let parser = RDFXMLParser(data: data!, graphName: name)
+        parser.delegate = TestRDFParserDelegate()
+        let graph = parser.parse()
+        XCTAssertTrue(graph == nil)
+    }
+    
+    
     
     func printGraph(graph : Graph){
         if graph.name == nil {
@@ -395,7 +508,6 @@ class TestRDFParserDelegate : RDFParserDelegate {
             print("Malformed RDF: \(message)")
             break
         }
-        XCTFail("RDF parser error occurred!")
     }
     
     func namespaceAdded(_parser : RDFParser, graph : Graph, prefix : String, namespaceURI : String) {

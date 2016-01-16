@@ -246,4 +246,24 @@ extension String {
         let decodedData = NSData(base64EncodedString: self, options: NSDataBase64DecodingOptions(rawValue: 0))
         return decodedData
     }
+    
+    /**
+     Creates a new string in which all quotes (" and ') are escaped, i.e. (\" and \').
+     
+     - returns: The string with escaped quotes.
+     */
+    func stringByEscapingQuotes() -> String {
+        let newstr = self.stringByReplacingOccurrencesOfString("\"", withString: "\\\"").stringByReplacingOccurrencesOfString("'", withString: "\\'")
+        return newstr
+    }
+    
+    /**
+     Creates a new string in which all escaped quotes (\" and \') are replaced by their unescaped form (" and ').
+     
+     - returns: The string with non-escaped quotes.
+     */
+    func stringByUnescapingQuotes() -> String {
+        let newstr = self.stringByReplacingOccurrencesOfString("\\\"", withString: "\"").stringByReplacingOccurrencesOfString("\\'", withString: "'")
+        return newstr
+    }
 }
