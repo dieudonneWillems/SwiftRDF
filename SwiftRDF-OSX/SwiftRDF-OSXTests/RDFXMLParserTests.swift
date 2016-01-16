@@ -482,7 +482,7 @@ class RDFXMLParserTests : XCTestCase {
         printGraph(graph!)
         XCTAssertEqual(4, graph!.count)
     }
-    /*
+    
     func testExample12() {
         let rdf = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" +
             "<rdf:RDF xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\"\n" +
@@ -490,12 +490,12 @@ class RDFXMLParserTests : XCTestCase {
             "   xmlns:dc=\"http://purl.org/dc/elements/1.1/\">\n\n" +
             "   <rdf:Description rdf:about=\"http://www.w3.org/TR/rdf-syntax-grammar\"\n" +
             "       dc:title=\"RDF 1.1 XML Syntax\">\n" +
-            "       <ex:editor rdf:nodeID=\"abc\"/>\n" +
-            "   </rdf:Description>\n\n" +
-            "   <rdf:Description rdf:nodeID=\"abc\" ex:fullName=\"Dave Beckett\">\n" +
-            "       <ex:homePage rdf:resource=\"http://purl.org/net/dajobe/\"/>\n " +
+            "       <ex:editor rdf:parseType=\"Resource\">\n" +
+            "           <ex:fullName>Dave Beckett</ex:fullName>\n" +
+            "           <ex:homePage rdf:resource=\"http://purl.org/net/dajobe/\"/>\n" +
+            "       </ex:editor>\n" +
             "   </rdf:Description>\n" +
-        "</rdf:RDF>";
+            "</rdf:RDF>";
         let data = rdf.dataUsingEncoding(NSUTF8StringEncoding)
         let name = URI(string: "http://www.w3.org/TR/rdf-syntax-grammar/example-12")
         let parser = RDFXMLParser(data: data!, graphName: name)
@@ -504,7 +504,7 @@ class RDFXMLParserTests : XCTestCase {
         XCTAssertEqual(3, graph?.namespaces.count)
         printGraph(graph!)
         XCTAssertEqual(4, graph!.count)
-    }*/
+    }
     
     
     

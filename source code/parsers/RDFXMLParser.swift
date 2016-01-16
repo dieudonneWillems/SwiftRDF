@@ -24,6 +24,7 @@ public class RDFXMLParser : NSObject, RDFParser, NSXMLParserDelegate {
     public var delegate : RDFParserDelegate?
     internal let xmlParser : NSXMLParser?
     private var xmlParserDelegate : NSXMLParserDelegate?
+    private var running = false
     
     /**
      Initialises a parser with the contents of the RDF file reference by the given
@@ -87,13 +88,14 @@ public class RDFXMLParser : NSObject, RDFParser, NSXMLParserDelegate {
      - returns: The graph containing all statements parsed from the RDF file.
      */
     public func parse() -> Graph? {
-        var success = false
+        while running {
+            NSThread.sleepForTimeInterval(0.1)
+        }
+        running = true
         if xmlParser != nil {
-            success = xmlParser!.parse()
+            xmlParser!.parse()
         }
-        if !success {
-            // TODO: when the parser failed.
-        }
+        running = false
         print("** FINISHED PARSING RDF/XML **")
         return (xmlParserDelegate as! XMLtoRDFParser).graph
     }
@@ -236,6 +238,8 @@ internal class XMLtoRDFParser : NSObject, NSXMLParserDelegate {
         print("Started on element \(elementName) with attributes \(attributeDict).")
         currentElements.append((elementName,namespaceURI,qName,attributeDict,""))
         
+        let parseType = attributeValue(attributeDict, nameURI: RDF.parseType)
+        
         if !inXMLLiteral { // if in XML literal, do not process elements as RDF elements.
             prefixesDefinedInXMLLiteral.removeAll()
             var subject : Resource? = nil
@@ -288,6 +292,12 @@ internal class XMLtoRDFParser : NSObject, NSXMLParserDelegate {
                 } else if lastElements.subject { // needs to be a predicate/property element
                     if ((elementResource as? URI) != nil) {
                         predicate = elementResource as? URI
+                        if parseType == "Resource" { //Omiting Blank nodes (property-and-node element)
+                            let tempobject = BlankNode()
+                            self.createStatement(lastSubject!, predicate: predicate!, object: tempobject)
+                            subject = tempobject
+                            predicate = nil
+                        }
                     }else{  // A predicate should be a URI
                         let error = RDFParserError.malformedRDFFormat(message: "The predicate at line:\(rdfParser.xmlParser?.lineNumber), column:\(rdfParser.xmlParser?.columnNumber) is not a valid URI.")
                         rdfParser.delegate?.parserErrorOccurred(rdfParser, error: error)
@@ -370,7 +380,6 @@ internal class XMLtoRDFParser : NSObject, NSXMLParserDelegate {
         }
         
         textNodeString = ""
-        let parseType = attributeValue(attributeDict, nameURI: RDF.parseType)
         if parseType == "Literal" { // next child nodes are not RDF nodes but XML literal nodes.
             inXMLLiteral = true
             XMLLiteralString = ""
@@ -536,7 +545,8 @@ internal class XMLtoRDFParser : NSObject, NSXMLParserDelegate {
             for attribute in attributeDict.keys {
                 if !self.attributeIsRDFAttribute(attribute) {
                     let predicate = graph!.createURIFromQualifiedName(attribute)
-                    if predicate != nil {
+                    let parseType = attributeValue(attributeDict, nameURI: RDF.parseType)
+                    if predicate != nil && parseType != "Resource" { // property attributes are not allowed in property-and-node elements
                         let stringValue = attributeDict[attribute]
                         var object : Literal? = nil
                         let datatype = self.lastDatatype
@@ -550,9 +560,15 @@ internal class XMLtoRDFParser : NSObject, NSXMLParserDelegate {
                         }
                         self.createStatement(subject!, predicate: predicate!, object: object!)
                     } else {
-                        let error = RDFParserError.malformedRDFFormat(message: "The property attribute at line:\(rdfParser.xmlParser?.lineNumber), column:\(rdfParser.xmlParser?.columnNumber) is not a valid URI.")
-                        rdfParser.delegate?.parserErrorOccurred(rdfParser, error: error)
-                        rdfParser.xmlParser?.abortParsing()
+                        if parseType == "Resource" {
+                            let error = RDFParserError.malformedRDFFormat(message: "Property attributes are not allowed in property-node elements (line:\(rdfParser.xmlParser?.lineNumber), column:\(rdfParser.xmlParser?.columnNumber)).")
+                            rdfParser.delegate?.parserErrorOccurred(rdfParser, error: error)
+                            rdfParser.xmlParser?.abortParsing()
+                        }else{
+                            let error = RDFParserError.malformedRDFFormat(message: "The property attribute at line:\(rdfParser.xmlParser?.lineNumber), column:\(rdfParser.xmlParser?.columnNumber) is not a valid URI.")
+                            rdfParser.delegate?.parserErrorOccurred(rdfParser, error: error)
+                            rdfParser.xmlParser?.abortParsing()
+                        }
                     }
                 }
             }
@@ -659,11 +675,11 @@ internal class XMLtoRDFParser : NSObject, NSXMLParserDelegate {
         }else{
             if rdfParser.delegate != nil {
                 var error : RDFParserError? = nil
-                if subject != nil {
+                if subject == nil {
                     error = RDFParserError.malformedRDFFormat(message: "Could not create a statement as no subject could be parsed (at line:\(rdfParser.xmlParser?.lineNumber), column:\(rdfParser.xmlParser?.columnNumber)).")
-                }else if predicate != nil {
+                }else if predicate == nil {
                     error = RDFParserError.malformedRDFFormat(message: "Could not create a statement as no predicate could be parsed (at line:\(rdfParser.xmlParser?.lineNumber), column:\(rdfParser.xmlParser?.columnNumber)).")
-                } else if object != nil {
+                } else if object == nil {
                     error = RDFParserError.malformedRDFFormat(message: "Could not create a statement as no object could be parsed (at line:\(rdfParser.xmlParser?.lineNumber), column:\(rdfParser.xmlParser?.columnNumber)).")
                 }
                 rdfParser.delegate!.parserErrorOccurred(rdfParser, error: error!)
