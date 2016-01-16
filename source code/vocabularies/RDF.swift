@@ -84,6 +84,9 @@ public class RDF : Vocabulary {
     /// The RDF Syntax attribute specifying an identifier for a blank node element.
     public static let nodeID = Vocabulary.createURI( RDF.NAMESPACE, localName: "nodeID")
     
+    /// The RDF Syntax attribute specifying an identifier for a node element.
+    public static let ID = Vocabulary.createURI( RDF.NAMESPACE, localName: "ID")
+    
     /// The RDF Syntax attribute specifying the datatype for values.
     public static let datatype = Vocabulary.createURI( RDF.NAMESPACE, localName: "datatype")
     

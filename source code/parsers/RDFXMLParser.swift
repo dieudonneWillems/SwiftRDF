@@ -35,10 +35,10 @@ public class RDFXMLParser : NSObject, RDFParser, NSXMLParserDelegate {
      */
     public required init(url : NSURL) {
         xmlParser = NSXMLParser(contentsOfURL: url)
-        let intendedGraphName = URI(string: url.absoluteString)
+        let baseURI = URI(string: url.absoluteString)
         super.init()
-        if xmlParser != nil && intendedGraphName != nil {
-            xmlParserDelegate = XMLtoRDFParser(parser: self, name: intendedGraphName!)
+        if xmlParser != nil && baseURI != nil {
+            xmlParserDelegate = XMLtoRDFParser(parser: self, baseURI: baseURI!)
             xmlParser!.delegate = xmlParserDelegate
             xmlParser!.shouldProcessNamespaces = true
             xmlParser!.shouldReportNamespacePrefixes = true
@@ -65,15 +65,15 @@ public class RDFXMLParser : NSObject, RDFParser, NSXMLParserDelegate {
      Initialises a parser with the RDF contents encapsulated in the `NSData` object.
      
      - parameter data: The RDF data.
-     - parameter graphName: The name of the named graph, can be nil.
+     - parameter baseURI: The base URI of the document (often the URL of the document), 
+     will be overridden when a base URI is defined in the RDF/XML file.
      - returns: An initialised RDF parser.
      */
-    public required init(data : NSData, graphName : Resource?) {
-        let intendedGraphName = graphName
+    public required init(data : NSData, baseURI : URI) {
         xmlParser = NSXMLParser(data: data)
         super.init()
-        if xmlParser != nil && intendedGraphName != nil {
-            xmlParserDelegate = XMLtoRDFParser(parser: self, name: intendedGraphName!)
+        if xmlParser != nil {
+            xmlParserDelegate = XMLtoRDFParser(parser: self, baseURI: baseURI)
             xmlParser!.delegate = xmlParserDelegate
             xmlParser!.shouldProcessNamespaces = true
             xmlParser!.shouldReportNamespacePrefixes = true
@@ -106,10 +106,10 @@ internal class XMLtoRDFParser : NSObject, NSXMLParserDelegate {
     
     internal var rdfParser : RDFXMLParser;
     internal var graph : Graph?
-    internal var graphName : Resource
+    internal var baseURI : URI
     
     private static let rdfElements = [RDF.Description.stringValue,RDF.ROOT.stringValue]
-    private static let rdfAttributes = [RDF.about.stringValue,RDF.datatype.stringValue,RDF.resource.stringValue,RDF.parseType.stringValue,RDF.nodeID.stringValue,"xml:lang"]
+    private static let rdfAttributes = [RDF.about.stringValue,RDF.datatype.stringValue,RDF.resource.stringValue,RDF.parseType.stringValue,RDF.nodeID.stringValue,RDF.ID.stringValue,"xml:lang"]
     
     private var currentElements = [(elementName: String, namespaceURI : String?, qualifiedName : String?, attributes : [String: String], text: String)]()
     private var currentSubjects = [Resource?]()
@@ -188,6 +188,7 @@ internal class XMLtoRDFParser : NSObject, NSXMLParserDelegate {
     private var prefixMapping = [String : String]()
     private var prefixesDefinedInXMLLiteral = [[String]?]()
     private var namespacePrefixesAddedBeforeElement = [String]()
+    private var IDs = [String]()
     
     /**
      Creates a new XML to RDF parser which is an implementation of the `NSXMLParserDelegate` protocol.
@@ -196,9 +197,9 @@ internal class XMLtoRDFParser : NSObject, NSXMLParserDelegate {
      - parameter parser: The RDF/XML parser.
      - parameter name: The name of the graph to be created.
      */
-    internal init(parser : RDFXMLParser, name : Resource) {
+    internal init(parser : RDFXMLParser, baseURI : URI) {
         rdfParser = parser
-        graphName = name
+        self.baseURI = baseURI
     }
     
     // MARK: XML parser delegate functions
@@ -213,7 +214,7 @@ internal class XMLtoRDFParser : NSObject, NSXMLParserDelegate {
         currentLanguage.removeAll()
         inXMLLiteral = false
         
-        graph = Graph(name: graphName)
+        graph = Graph(name: baseURI)
         if rdfParser.delegate != nil {
             rdfParser.delegate!.parserDidStartDocument(rdfParser)
         }
@@ -319,6 +320,14 @@ internal class XMLtoRDFParser : NSObject, NSXMLParserDelegate {
                         let error = RDFParserError.malformedRDFFormat(message: "The predicate at line:\(rdfParser.xmlParser?.lineNumber), column:\(rdfParser.xmlParser?.columnNumber) is not a valid URI.")
                         rdfParser.delegate?.parserErrorOccurred(rdfParser, error: error)
                         rdfParser.xmlParser?.abortParsing()
+                    }
+                }
+            }else { // in rdf:RDF root element -> test for base uri
+                let buri = attributeDict["xml:base"]
+                if buri != nil {
+                    let bURI = URI(string: buri!)
+                    if bURI != nil {
+                        baseURI = bURI!
                     }
                 }
             }
@@ -666,6 +675,23 @@ internal class XMLtoRDFParser : NSObject, NSXMLParserDelegate {
      */
     private func handleSubjectElement(attributes : [String : String]) -> Resource {
         var rdfabout = self.attributeValue(attributes, nameURI: RDF.about)
+        let rdfID = self.attributeValue(attributes, nameURI: RDF.ID)
+        if rdfID != nil && IDs.contains(rdfID!) { // test if the ID is unique, if not -> error
+            let error = RDFParserError.malformedRDFFormat(message: "Encountered an rdf:ID value at line:\(rdfParser.xmlParser?.lineNumber), column:\(rdfParser.xmlParser?.columnNumber) that has been used previously in the file, which is not allowed. An ID has to be unique.")
+            rdfParser.delegate!.parserErrorOccurred(rdfParser, error: error)
+            rdfParser.xmlParser?.abortParsing()
+        }
+        if rdfID != nil {
+            IDs.append(rdfID!)
+        }
+        if rdfID != nil && rdfabout != nil {
+            let error = RDFParserError.malformedRDFFormat(message: "Only one of the rdf:about or rdf:ID attributes is allowed for a rdf:Description node (at line:\(rdfParser.xmlParser?.lineNumber), column:\(rdfParser.xmlParser?.columnNumber)).")
+            rdfParser.delegate!.parserErrorOccurred(rdfParser, error: error)
+            rdfParser.xmlParser?.abortParsing()
+        }
+        if rdfID != nil {
+            rdfabout = "#\(rdfID!)"
+        }
         let rdfnodeID = self.attributeValue(attributes, nameURI: RDF.nodeID)
         if rdfnodeID != nil && rdfabout != nil {
             let error = RDFParserError.malformedRDFFormat(message: "Only one of the rdf:about or rdf:nodeID attributes is allowed for a rdf:Description node (at line:\(rdfParser.xmlParser?.lineNumber), column:\(rdfParser.xmlParser?.columnNumber)).")
@@ -733,13 +759,22 @@ internal class XMLtoRDFParser : NSObject, NSXMLParserDelegate {
     
     /**
      Tests if the specfied name is a qualified name and if so returns the full URI for the qualified name.
-     If the possible qualified name cannot be translated to a URI, this method returns the specifid name.
+     
+     If the possible qualified name cannot be translated to a URI, this method returns the specified name.
      
      - parameter possibleQName: The name that may be translated to a URI.
      - returns: The translated URI string or the specified name itself.
      */
     private func URIStringOrName(possibleQName : String) -> String {
-        let uri = graph!.createURIFromQualifiedName(possibleQName)
+        var uri = graph!.createURIFromQualifiedName(possibleQName)
+        if uri != nil {
+            return uri!.stringValue
+        }
+        uri = URI(string: possibleQName)
+        if uri != nil {
+            return uri!.stringValue
+        }
+        uri = URI(namespace: baseURI.stringValue, localName: possibleQName)
         if uri != nil {
             return uri!.stringValue
         }
