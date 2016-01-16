@@ -247,6 +247,7 @@ internal class XMLtoRDFParser : NSObject, NSXMLParserDelegate {
             var object : Value? = nil
             var datatype : Datatype? = nil
             var language : String? = nil
+            var typedNode = false
             
             // Find language attribute
             if attributeDict["xml:lang"] != nil {
@@ -277,17 +278,33 @@ internal class XMLtoRDFParser : NSObject, NSXMLParserDelegate {
                 var elementResource : Resource? = nil
                 
                 if elementURI == RDF.Description.stringValue { // Handle rdf:Description elements
-                    elementResource = self.handleRDFDescriptionElement(attributeDict)
+                    elementResource = self.handleSubjectElement(attributeDict)
                 } else { // Type element
                     elementResource = URI(string: self.URIStringOrName(qName!)) // A predicate or the type of a subject
+                    typedNode = true
                 }
                 
                 if !lastElements.subject && !lastElements.predicate && !lastElements.object { // no resources defined yet, this needs to be a subject
-                    subject = elementResource
+                    if !typedNode {
+                        subject = elementResource
+                    } else {
+                        subject = self.handleSubjectElement(attributeDict)
+                        if subject != nil && elementResource != nil {
+                            self.createStatement(subject!, predicate: RDF.type, object: elementResource!) // type statement
+                        }
+                    }
                 } else if lastElements.predicate  { // needs to be an object
                     if elementResource != nil { // object is a resource ==> also a new subject
-                        object = elementResource
-                        subject = elementResource
+                        if !typedNode {
+                            object = elementResource
+                            subject = elementResource
+                        } else {
+                            subject = self.handleSubjectElement(attributeDict)
+                            object = subject
+                            if subject != nil && elementResource != nil {
+                                self.createStatement(subject!, predicate: RDF.type, object: elementResource!) // type statement
+                            }
+                        }
                     }
                 } else if lastElements.subject { // needs to be a predicate/property element
                     if ((elementResource as? URI) != nil) {
@@ -642,12 +659,12 @@ internal class XMLtoRDFParser : NSObject, NSXMLParserDelegate {
     }
     
     /**
-     Handles `rdf:Description` elements that are translated into a new resource.
+     Handles subject elements that are translated into a new resource.
      
-     - parameters attributes: The XML attributes of a rdf:Description element.
-     - returns: The resource defined by the rdf:Description element.
+     - parameters attributes: The XML attributes of a rdf:Description or a typed resource element.
+     - returns: The resource defined by the element.
      */
-    private func handleRDFDescriptionElement(attributes : [String : String]) -> Resource {
+    private func handleSubjectElement(attributes : [String : String]) -> Resource {
         var rdfabout = self.attributeValue(attributes, nameURI: RDF.about)
         let rdfnodeID = self.attributeValue(attributes, nameURI: RDF.nodeID)
         if rdfnodeID != nil && rdfabout != nil {

@@ -526,6 +526,55 @@ class RDFXMLParserTests : XCTestCase {
         XCTAssertEqual(3, graph!.count)
     }
     
+    func testExample15() {
+        let rdf = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" +
+            "<rdf:RDF xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\"\n" +
+            "   xmlns:ex=\"http://example.org/stuff/1.0/\" \n" +
+            "   xmlns:dc=\"http://purl.org/dc/elements/1.1/\">\n\n" +
+            "   <ex:Document rdf:about=\"http://example.org/thing\">\n" +
+            "       <dc:title>A marvelous thing</dc:title>\n" +
+            "   </ex:Document>\n" +
+            "</rdf:RDF>";
+        let data = rdf.dataUsingEncoding(NSUTF8StringEncoding)
+        let name = URI(string: "http://www.w3.org/TR/rdf-syntax-grammar/example-15")
+        let parser = RDFXMLParser(data: data!, graphName: name)
+        parser.delegate = TestRDFParserDelegate()
+        let graph = parser.parse()
+        XCTAssertEqual(3, graph?.namespaces.count)
+        printGraph(graph!)
+        XCTAssertEqual(2, graph!.count)
+        let subgraph =  graph!.subGraph(nil, predicate: RDF.type, object: nil)
+        XCTAssertEqual(1,subgraph.count)
+        XCTAssertEqual("http://example.org/thing",(subgraph[0].subject as! URI).stringValue)
+        XCTAssertEqual("http://example.org/stuff/1.0/Document",(subgraph[0].object as! URI).stringValue)
+    }
+    
+    func testExample15a() {
+        let rdf = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" +
+            "<rdf:RDF xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\"\n" +
+            "   xmlns:ex=\"http://example.org/stuff/1.0/\" \n" +
+            "   xmlns:dc=\"http://purl.org/dc/elements/1.1/\">\n\n" +
+            "   <ex:Document rdf:about=\"http://example.org/thing\">\n" +
+            "       <ex:author>\n" +
+            "           <ex:Person ex:fullName=\"Arthur Dent\"/> \n" +
+            "       </ex:author>\n" +
+            "   </ex:Document>\n" +
+        "</rdf:RDF>";
+        let data = rdf.dataUsingEncoding(NSUTF8StringEncoding)
+        let name = URI(string: "http://www.w3.org/TR/rdf-syntax-grammar/example-15a")
+        let parser = RDFXMLParser(data: data!, graphName: name)
+        parser.delegate = TestRDFParserDelegate()
+        let graph = parser.parse()
+        XCTAssertEqual(3, graph?.namespaces.count)
+        printGraph(graph!)
+        XCTAssertEqual(4, graph!.count)
+        let subgraph =  graph!.subGraph(nil, predicate: RDF.type, object: nil)
+        XCTAssertEqual(2,subgraph.count)
+        XCTAssertEqual("http://example.org/thing",(subgraph[0].subject as! URI).stringValue)
+        XCTAssertEqual("http://example.org/stuff/1.0/Document",(subgraph[0].object as! URI).stringValue)
+        XCTAssertEqual("http://example.org/stuff/1.0/Person",(subgraph[1].object as! URI).stringValue)
+    }
+    
     
     
     func printGraph(graph : Graph){
