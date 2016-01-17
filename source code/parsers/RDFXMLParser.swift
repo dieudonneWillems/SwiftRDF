@@ -189,6 +189,7 @@ internal class XMLtoRDFParser : NSObject, NSXMLParserDelegate {
     private var prefixesDefinedInXMLLiteral = [[String]?]()
     private var namespacePrefixesAddedBeforeElement = [String]()
     private var IDs = [String]()
+    private var liCounter = [Int]()
     
     /**
      Creates a new XML to RDF parser which is an implementation of the `NSXMLParserDelegate` protocol.
@@ -308,7 +309,21 @@ internal class XMLtoRDFParser : NSObject, NSXMLParserDelegate {
                         }
                     }
                 } else if lastElements.subject { // needs to be a predicate/property element
-                    if ((elementResource as? URI) != nil) {
+                    if elementResource?.stringValue == RDF.li.stringValue { // li property in a collection type
+                        var currentCount = 0
+                        if liCounter.count > 0 {
+                            currentCount = liCounter.last! + 1
+                            liCounter.removeLast()
+                            liCounter.append(currentCount)
+                        }
+                        predicate = URI(namespace: RDF.NAMESPACE, localName: "_\(currentCount)")
+                        if parseType == "Resource" { //Omiting Blank nodes (property-and-node element)
+                            let tempobject = BlankNode()
+                            self.createStatement(lastSubject!, predicate: predicate!, object: tempobject)
+                            subject = tempobject
+                            predicate = nil
+                        }
+                    } else if ((elementResource as? URI) != nil) {
                         predicate = elementResource as? URI
                         if parseType == "Resource" { //Omiting Blank nodes (property-and-node element)
                             let tempobject = BlankNode()
@@ -316,7 +331,7 @@ internal class XMLtoRDFParser : NSObject, NSXMLParserDelegate {
                             subject = tempobject
                             predicate = nil
                         }
-                    }else{  // A predicate should be a URI
+                    } else {  // A predicate should be a URI
                         let error = RDFParserError.malformedRDFFormat(message: "The predicate at line:\(rdfParser.xmlParser?.lineNumber), column:\(rdfParser.xmlParser?.columnNumber) is not a valid URI.")
                         rdfParser.delegate?.parserErrorOccurred(rdfParser, error: error)
                         rdfParser.xmlParser?.abortParsing()
@@ -340,6 +355,7 @@ internal class XMLtoRDFParser : NSObject, NSXMLParserDelegate {
             
             currentSubjects.append(subject)
             currentPredicates.append(predicate)
+            liCounter.append(0)
             
             // empty property elements
             self.handleEmptyPropertyElement(predicate)
@@ -421,6 +437,7 @@ internal class XMLtoRDFParser : NSObject, NSXMLParserDelegate {
     internal func parser(parser: NSXMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
         print("Finished on element \(elementName).")
         //print("elements: \(currentElements)")
+        liCounter.removeLast()
         
         let attributeDict = currentElements.last!.attributes
         let parseType = attributeValue(attributeDict, nameURI: RDF.parseType)

@@ -96,4 +96,7 @@ public class RDF : Vocabulary {
     /// The RDF Syntax attribute specifying the resource as a value for a specific property.
     public static let parseType = Vocabulary.createURI( RDF.NAMESPACE, localName: "parseType")
     
+    /// The RDF Syntax attribute specifying an item in a collection type (i.e. `rdf:Seq`, `rdf:Alt` or  `rdf:Bag`).
+    public static let li = Vocabulary.createURI( RDF.NAMESPACE, localName: "li")
+    
 }
