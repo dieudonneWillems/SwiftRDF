@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:Ontologist/Ontologist.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:SwiftRDF-Tutorial.playground">
    </FileRef>
    <FileRef
