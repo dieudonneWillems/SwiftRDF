@@ -437,7 +437,9 @@ internal class XMLtoRDFParser : NSObject, NSXMLParserDelegate {
     internal func parser(parser: NSXMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
         print("Finished on element \(elementName).")
         //print("elements: \(currentElements)")
-        liCounter.removeLast()
+        if liCounter.count > 0 {
+            liCounter.removeLast()
+        }
         
         let attributeDict = currentElements.last!.attributes
         let parseType = attributeValue(attributeDict, nameURI: RDF.parseType)

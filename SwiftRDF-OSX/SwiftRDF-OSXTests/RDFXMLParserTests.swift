@@ -24,18 +24,16 @@ class RDFXMLParserTests : XCTestCase {
         super.tearDown()
     }
     
+    /*
     func testRDFXMLParserOnGeonames() {
-        /*
-        do{
-            let uri = URI(string: "http://sws.geonames.org/6058560/about.rdf")!
-            let parser = RDFXMLParser(uri: uri)
-            
-            var graph = parser?.parse()
-        }catch {
-            
-        }
-        */
-    }
+        
+        let uri = URI(string: "http://sws.geonames.org/6058560/about.rdf")!
+        let parser = RDFXMLParser(uri: uri)
+        
+        var graph = parser?.parse()
+        printGraph(graph!)
+
+    }*/
     
     func testExample2() {
         let rdf = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" +
@@ -694,6 +692,67 @@ class RDFXMLParserTests : XCTestCase {
         XCTAssertEqual(URI(namespace: RDF.NAMESPACE, localName: "_1")!.stringValue,graph![1].predicate.stringValue)
         XCTAssertEqual(URI(namespace: RDF.NAMESPACE, localName: "_2")!.stringValue,graph![2].predicate.stringValue)
         XCTAssertEqual(URI(namespace: RDF.NAMESPACE, localName: "_3")!.stringValue,graph![4].predicate.stringValue)
+    }
+    
+    func testExample19() {
+        let rdf = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" +
+            "<rdf:RDF xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\"\n" +
+            "   xmlns:ex=\"http://example.org/stuff/1.0/\" \n" +
+            "   xml:base=\"http://example.org/here/\">\n" +
+            "   <rdf:Description rdf:about=\"http://example.org/basket\">\n" +
+            "       <ex:hasFruit rdf:parseType=\"Collection\">\n" +
+            "           <rdf:Description rdf:about=\"http://example.org/banana\"/>\n" +
+            "           <rdf:Description rdf:about=\"http://example.org/apple\"/>\n" +
+            "           <rdf:Description rdf:about=\"http://example.org/pear\"/>\n" +
+            "       </ex:hasFruit>\n" +
+            "   </rdf:Description>\n" +
+            "</rdf:RDF>";
+        let data = rdf.dataUsingEncoding(NSUTF8StringEncoding)
+        let name = URI(string: "http://www.w3.org/TR/rdf-syntax-grammar/example-19")
+        let parser = RDFXMLParser(data: data!, baseURI: name!)
+        parser.delegate = TestRDFParserDelegate()
+        let graph = parser.parse()
+        XCTAssertEqual(2, graph?.namespaces.count)
+        printGraph(graph!)
+        XCTAssertEqual(7, graph!.count)
+        let subgraphFirst = graph!.subGraph(nil, predicate: RDF.first, object: nil)
+        XCTAssertEqual(3, subgraphFirst.count)
+        let subgraphRest = graph!.subGraph(nil, predicate: RDF.rest, object: nil)
+        XCTAssertEqual(3, subgraphRest.count)
+    }
+    
+    func testExample20() {
+        let rdf = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" +
+            "<rdf:RDF xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\"\n" +
+            "   xmlns:ex=\"http://example.org/stuff/1.0/\" \n" +
+            "   xml:base=\"http://example.org/here/\">\n" +
+            "   <rdf:Description rdf:about=\"http://example.org/\">\n" +
+            "       <ex:prop rdf:ID=\"triple1\">blah</ex:prop>\n " +
+            "   </rdf:Description>\n" +
+            "</rdf:RDF>";
+        let data = rdf.dataUsingEncoding(NSUTF8StringEncoding)
+        let name = URI(string: "http://www.w3.org/TR/rdf-syntax-grammar/example-20")
+        let parser = RDFXMLParser(data: data!, baseURI: name!)
+        parser.delegate = TestRDFParserDelegate()
+        let graph = parser.parse()
+        XCTAssertEqual(2, graph?.namespaces.count)
+        printGraph(graph!)
+        XCTAssertEqual(5, graph!.count)
+        let exprop = URI(string: "http://example.org/stuff/1.0/prop")
+        let triple1 = URI(string: "http://example.org/triples/#triple1")
+        XCTAssertEqual("http://example.org/",(graph![0].subject as! URI).stringValue)
+        XCTAssertEqual(exprop?.stringValue,graph![0].predicate.stringValue)
+        XCTAssertEqual(triple1?.stringValue,(graph![1].subject as! URI).stringValue)
+        XCTAssertEqual(RDF.type.stringValue,graph![1].predicate.stringValue)
+        XCTAssertEqual(RDF.Statement.stringValue,(graph![1].object as! URI).stringValue)
+        XCTAssertEqual(triple1?.stringValue,(graph![2].subject as! URI).stringValue)
+        XCTAssertEqual(RDF.subject.stringValue,graph![2].predicate.stringValue)
+        XCTAssertEqual("http://example.org/",(graph![2].object as! URI).stringValue)
+        XCTAssertEqual(triple1?.stringValue,(graph![3].subject as! URI).stringValue)
+        XCTAssertEqual(RDF.predicate.stringValue,graph![3].predicate.stringValue)
+        XCTAssertEqual(exprop!.stringValue,(graph![3].object as! URI).stringValue)
+        XCTAssertEqual(triple1?.stringValue,(graph![4].subject as! URI).stringValue)
+        XCTAssertEqual(RDF.object.stringValue,graph![4].predicate.stringValue)
     }
     
     
