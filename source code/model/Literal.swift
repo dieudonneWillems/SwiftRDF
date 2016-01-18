@@ -21,8 +21,8 @@ import Foundation
  */
 public class Literal: Value{
     
-    // regular expression: ^((("(.*)")|('([\w\s]*)'))((@(\w*(-\w*)?))(\^\^xsd:(string))?|\^\^(xsd:(\w*)|<(.*)>))?|([+-]?[\d]*)|([+-]?[\d\.]*)|([+-]?[\d\.]*[eE][+-]?\d*)|(true|false))$
-    private static let literalPattern = "^(((\"(.*)\")|('([\\w\\s]*)'))((@(\\w*(-\\w*)?))(\\^\\^xsd:(string))?|\\^\\^(xsd:(\\w*)|<(.*)>))?|([+-]?[\\d]*)|([+-]?[\\d\\.]*)|([+-]?[\\d\\.]*[eE][+-]?\\d*)|(true|false))$"
+    // regular expression: ^((("(.*)")|('([\w\s]*)'))((@(\w*(-\w*)?))(\^\^xsd:(string))?|\^\^(\w+:(\w*)|<(.*)>))?|([+-]?[\d]*)|([+-]?[\d\.]*)|([+-]?[\d\.]*[eE][+-]?\d*)|(true|false))$
+    private static let literalPattern = "^(((\"(.*)\")|('([\\w\\s]*)'))((@(\\w*(-\\w*)?))(\\^\\^xsd:(string))?|\\^\\^(\\w+:(\\w*)|<(.*)>))?|([+-]?[\\d]*)|([+-]?[\\d\\.]*)|([+-]?[\\d\\.]*[eE][+-]?\\d*)|(true|false))$"
     
     private static let maxIntValueFromDouble = Int64(pow(2,53.0))
     
@@ -364,9 +364,9 @@ public class Literal: Value{
             if dataType != nil {
                 if dataType! == XSD.string {
                     if language == nil {
-                        return "\"\(self.stringValue)\"^^xsd:string"
+                        return "\"\(self.stringValue.stringByEscapingQuotes())\"^^xsd:string"
                     } else {
-                        return "\"\(self.stringValue)\"@\(language!)"
+                        return "\"\(self.stringValue.stringByEscapingQuotes())\"@\(language!)"
                     }
                 } else if dataType! == XSD.boolean {
                     if booleanValue != nil {
@@ -376,7 +376,7 @@ public class Literal: Value{
                             return "false"
                         }
                     }
-                    return "\(stringValue)";
+                    return "\(stringValue.stringByEscapingQuotes())";
                 } else if dataType! == XSD.duration {
                     return "\"\(durationValue!.description)\"^^xsd:duration";
                 } else if dataType! == XSD.decimal {
@@ -448,9 +448,9 @@ public class Literal: Value{
                 } else if dataType! == XSD.hexBinary {
                     return "\"\(stringValue)\"^^xsd:hexBinary";
                 } else if dataType! == XSD.normalizedString {
-                    return "\"\(stringValue)\"^^xsd:normalizedString";
+                    return "\"\(stringValue.stringByEscapingQuotes())\"^^xsd:normalizedString";
                 } else if dataType! == XSD.token {
-                    return "\"\(stringValue)\"^^xsd:token";
+                    return "\"\(stringValue.stringByEscapingQuotes())\"^^xsd:token";
                 } else if dataType! == XSD.language {
                     return "\"\(stringValue)\"^^xsd:language";
                 } else if dataType! == XSD.Name {
@@ -469,6 +469,8 @@ public class Literal: Value{
                     return "\"\(stringValue)\"^^xsd:NMTOKENS";
                 } else if dataType! == XSD.QName {
                     return "\"\(stringValue)\"^^xsd:QName";
+                } else if dataType! == RDF.XMLLiteral {
+                    return "\"\(stringValue.stringByEscapingQuotes())\"^^rdf:XMLLiteral";
                 }
             }
             return "\"\(self.stringValue)\""
@@ -532,8 +534,8 @@ public class Literal: Value{
                     dtypeStr = nsstring.substringWithRange(match.rangeAtIndex(12)) as String
                 } else if match.rangeAtIndex(15).location != NSNotFound {
                     dtypeURI = nsstring.substringWithRange(match.rangeAtIndex(15)) as String
-                } else if match.rangeAtIndex(14).location != NSNotFound {
-                    dtypeStr = nsstring.substringWithRange(match.rangeAtIndex(14)) as String
+                } else if match.rangeAtIndex(13).location != NSNotFound {
+                    dtypeStr = nsstring.substringWithRange(match.rangeAtIndex(13)) as String
                 }
                 if match.rangeAtIndex(9).location != NSNotFound {
                     langStr = nsstring.substringWithRange(match.rangeAtIndex(9)) as String
@@ -543,8 +545,9 @@ public class Literal: Value{
                 if dtypeURI != nil {
                     datatypeFS = Datatype(uri: dtypeURI!, derivedFromDatatype: nil, isListDataType: false)
                 }else if dtypeStr != nil {
-                    if dtypeStr! == "string" {
+                    if dtypeStr! == "xsd:string" {
                         datatypeFS = XSD.string
+                        varStr = varStr.stringByUnescapingQuotes()
                     } else if dtypeStr! == "xsd:duration" {
                         datatypeFS = XSD.duration
                     } else if dtypeStr! == "xsd:decimal" {
@@ -605,14 +608,19 @@ public class Literal: Value{
                         datatypeFS = XSD.hexBinary
                     } else if dtypeStr! == "xsd:token" {
                         datatypeFS = XSD.token
+                        varStr = varStr.stringByUnescapingQuotes()
                     } else if dtypeStr! == "xsd:normalizedString" || dtypeStr! == "normalizedString" {
                         datatypeFS = XSD.normalizedString
+                        varStr = varStr.stringByUnescapingQuotes()
                     } else if dtypeStr! == "xsd:language" || dtypeStr! == "language" {
                         datatypeFS = XSD.language
+                        varStr = varStr.stringByUnescapingQuotes()
                     } else if dtypeStr! == "xsd:Name" || dtypeStr! == "Name" {
                         datatypeFS = XSD.Name
+                        varStr = varStr.stringByUnescapingQuotes()
                     } else if dtypeStr! == "xsd:NCName" || dtypeStr! == "NCName" {
                         datatypeFS = XSD.NCName
+                        varStr = varStr.stringByUnescapingQuotes()
                     } else if dtypeStr! == "xsd:ID" || dtypeStr! == "ID" {
                         datatypeFS = XSD.ID
                     } else if dtypeStr! == "xsd:IDREF" || dtypeStr! == "IDREF" {
@@ -625,6 +633,9 @@ public class Literal: Value{
                         datatypeFS = XSD.NMTOKENS
                     } else if dtypeStr! == "xsd:QName" || dtypeStr! == "QName" {
                         datatypeFS = XSD.QName
+                    } else if dtypeStr! == "rdf:XMLLiteral" {
+                        datatypeFS = RDF.XMLLiteral
+                        varStr = varStr.stringByUnescapingQuotes()
                     } else {
                         datatypeFS = Datatype(namespace: XSD.namespace(), localName: dtypeStr!, derivedFromDatatype: nil, isListDataType: false)
                     }

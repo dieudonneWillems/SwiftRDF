@@ -23,6 +23,15 @@ class StringLiteralTests: XCTestCase {
         super.tearDown()
     }
     
+    func testStringLiteralWithQuotes(){
+        var string = "\"Hello \\\"World\\\"\"^^xsd:string"
+        var lit = Literal(sparqlString: string)
+        XCTAssertEqual(string, lit!.sparql)
+        string = "\"<a:aa a:at=\\\"val\\\">tes</a>\"^^rdf:XMLLiteral"
+        lit = Literal(sparqlString: string)
+        XCTAssertEqual(string, lit!.sparql)
+    }
+    
     
     func testStringLiteral() {
         var lit = Literal(stringValue: "Hello World")

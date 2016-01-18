@@ -29,4 +29,9 @@ public enum RDFParserError : ErrorType {
      */
     case couldNotCreateRDFParser(message : String)
     
+    /**
+     Could not parse the RDF document because it was malformed.
+     */
+    case malformedRDFFormat(message : String)
+    
 }

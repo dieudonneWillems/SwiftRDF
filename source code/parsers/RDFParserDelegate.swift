@@ -15,4 +15,8 @@ public protocol RDFParserDelegate {
     func parserDidEndDocument(_parser : RDFParser)
     
     func parserErrorOccurred(_parser : RDFParser, error: RDFParserError)
+    
+    func namespaceAdded(_parser : RDFParser, graph : Graph, prefix : String, namespaceURI : String)
+    
+    func statementAdded(_parser : RDFParser, graph : Graph, statement : Statement)
 }

@@ -35,6 +35,11 @@ public class Statement : NSObject, SPARQLValue {
     public let object: Value
     
     /**
+     The identifier of the statement, which is used for reification.
+     */
+    public let ID: Resource?
+    
+    /**
      The set of named graphs to which the statement belongs.
      */
     public var namedGraphs: [Resource] = []
@@ -72,10 +77,8 @@ public class Statement : NSObject, SPARQLValue {
      - parameter predicate: The predicate of the statement.
      - parameter object: The object of the statement.
      */
-    public init(subject: Resource, predicate: URI, object: Value){
-        self.subject = subject
-        self.predicate = predicate
-        self.object = object
+    public convenience init(subject: Resource, predicate: URI, object: Value){
+        self.init(subject: subject, predicate: predicate, object: object, ID: nil)
     }
     
     /**
@@ -87,11 +90,43 @@ public class Statement : NSObject, SPARQLValue {
      - parameter object: The object of the statement.
      - parameter namedGraph: A list of named graph to which this statement belongs.
      */
-    public init(subject: Resource, predicate: URI, object: Value, namedGraph: Resource...){
+    public convenience init(subject: Resource, predicate: URI, object: Value, namedGraph: Resource...){
+        self.init(subject: subject,predicate : predicate, object: object, ID: nil)
+        self.namedGraphs.appendContentsOf(namedGraph)
+    }
+    
+    /**
+     Initialises a new `Statement` with the specified subject, predicate, and object.
+     No named graphs are added for this statement.
+     
+     - parameter subject: The subject of the statement.
+     - parameter predicate: The predicate of the statement.
+     - parameter object: The object of the statement.
+     - parameter ID: The identifier of the statement used for reification.
+     */
+    public init(subject: Resource, predicate: URI, object: Value, ID: Resource?){
+        self.subject = subject
+        self.predicate = predicate
+        self.object = object
+        self.ID = ID
+    }
+    
+    /**
+     Initialises a new `Statement` with the specified subject, predicate, object, and in the
+     specified named graphs.
+     
+     - parameter subject: The subject of the statement.
+     - parameter predicate: The predicate of the statement.
+     - parameter object: The object of the statement.
+     - parameter ID: The identifier of the statement used for reification.
+     - parameter namedGraph: A list of named graph to which this statement belongs.
+     */
+    public init(subject: Resource, predicate: URI, object: Value, ID: Resource?, namedGraph: Resource...){
         self.subject = subject
         self.predicate = predicate
         self.object = object
         self.namedGraphs.appendContentsOf(namedGraph)
+        self.ID = ID
     }
     
     /**

@@ -291,6 +291,15 @@ public class Graph {
     }
     
     /**
+     Removes the specified namespace from the graph.
+     
+     - parameter prefix: The prefix of the namespace to be removed.
+     */
+    public func deleteNamespace(prefix : String) {
+        namespaces.removeValueForKey(prefix)
+    }
+    
+    /**
      Returns the qualified name for the specified URI, using the namespaces that were added
      to this `Graph`, or `nil` if the no namespace was defined that can qualify the URI.
      

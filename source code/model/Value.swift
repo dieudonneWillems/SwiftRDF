@@ -57,6 +57,21 @@ public class Value : SPARQLValue, CustomStringConvertible  {
  - returns: True when the values are equal, false otherwise.
  */
 public func == (left: Value, right: Value) -> Bool {
+    if let leftURI = left as? URI {
+        if let rightURI = right as? URI {
+            return leftURI == rightURI
+        }
+    }
+    if let leftBN = left as? BlankNode {
+        if let rightBN = right as? BlankNode {
+            return leftBN == rightBN
+        }
+    }
+    if let leftLiteral = left as? BlankNode {
+        if let rightLiteral = right as? Literal {
+            return leftLiteral == rightLiteral
+        }
+    }
     return left === right
 }
 
