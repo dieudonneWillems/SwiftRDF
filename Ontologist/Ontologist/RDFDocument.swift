@@ -7,8 +7,11 @@
 //
 
 import Cocoa
+import SwiftRDFOSX
 
-class Document: NSDocument {
+class RDFDocument: NSDocument {
+    
+    internal private(set) var graph : Graph? = Graph()
 
     override init() {
         super.init()
@@ -27,7 +30,7 @@ class Document: NSDocument {
     override func makeWindowControllers() {
         // Returns the Storyboard that contains your Document window.
         let storyboard = NSStoryboard(name: "Main", bundle: nil)
-        let windowController = storyboard.instantiateControllerWithIdentifier("Document Window Controller") as! NSWindowController
+        let windowController = storyboard.instantiateControllerWithIdentifier("Document Window Controller") as! RDFDocumentWindowController
         self.addWindowController(windowController)
     }
 
@@ -41,9 +44,15 @@ class Document: NSDocument {
         // Insert code here to read your document from the given data of the specified type. If outError != nil, ensure that you create and set an appropriate error when returning false.
         // You can also choose to override readFromFileWrapper:ofType:error: or readFromURL:ofType:error: instead.
         // If you override either of these, you should also override -isEntireFileLoaded to return false if the contents are lazily loaded.
-        throw NSError(domain: NSOSStatusErrorDomain, code: unimpErr, userInfo: nil)
+        print("URL: \(self.fileURL)")
+        let urlstr = self.fileURL?.absoluteString
+        let uri = URI(string: urlstr!)
+        let parser = RDFXMLParser(data: data, baseURI: uri!)
+        graph = parser.parse()
+        if graph == nil {
+            throw NSError(domain: NSOSStatusErrorDomain, code: unimpErr, userInfo: nil)
+        }
     }
-
 
 }
 

@@ -8,12 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		0266B5E01C4D563400CA2FE0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0266B5DF1C4D563400CA2FE0 /* AppDelegate.swift */; };
-		0266B5E21C4D563400CA2FE0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0266B5E11C4D563400CA2FE0 /* ViewController.swift */; };
-		0266B5E41C4D563400CA2FE0 /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0266B5E31C4D563400CA2FE0 /* Document.swift */; };
+		0266B5E21C4D563400CA2FE0 /* MainSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0266B5E11C4D563400CA2FE0 /* MainSplitViewController.swift */; };
+		0266B5E41C4D563400CA2FE0 /* RDFDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0266B5E31C4D563400CA2FE0 /* RDFDocument.swift */; };
 		0266B5E61C4D563400CA2FE0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0266B5E51C4D563400CA2FE0 /* Assets.xcassets */; };
 		0266B5E91C4D563400CA2FE0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0266B5E71C4D563400CA2FE0 /* Main.storyboard */; };
 		0266B5F41C4D563400CA2FE0 /* OntologistTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0266B5F31C4D563400CA2FE0 /* OntologistTests.swift */; };
 		0266B5FF1C4D563400CA2FE0 /* OntologistUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0266B5FE1C4D563400CA2FE0 /* OntologistUITests.swift */; };
+		0266B60D1C4D57A800CA2FE0 /* SwiftRDFOSX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0266B60C1C4D57A800CA2FE0 /* SwiftRDFOSX.framework */; };
+		0266B60F1C4EE90100CA2FE0 /* RDFDocumentWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0266B60E1C4EE90100CA2FE0 /* RDFDocumentWindowController.swift */; };
+		0266B6121C4EEB5900CA2FE0 /* RDFGraphNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0266B6111C4EEB5900CA2FE0 /* RDFGraphNavigationController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,8 +39,8 @@
 /* Begin PBXFileReference section */
 		0266B5DC1C4D563400CA2FE0 /* Ontologist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ontologist.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0266B5DF1C4D563400CA2FE0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		0266B5E11C4D563400CA2FE0 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		0266B5E31C4D563400CA2FE0 /* Document.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Document.swift; sourceTree = "<group>"; };
+		0266B5E11C4D563400CA2FE0 /* MainSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSplitViewController.swift; sourceTree = "<group>"; };
+		0266B5E31C4D563400CA2FE0 /* RDFDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RDFDocument.swift; sourceTree = "<group>"; };
 		0266B5E51C4D563400CA2FE0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0266B5E81C4D563400CA2FE0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		0266B5EA1C4D563400CA2FE0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -47,6 +50,9 @@
 		0266B5FA1C4D563400CA2FE0 /* OntologistUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OntologistUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0266B5FE1C4D563400CA2FE0 /* OntologistUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OntologistUITests.swift; sourceTree = "<group>"; };
 		0266B6001C4D563400CA2FE0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0266B60C1C4D57A800CA2FE0 /* SwiftRDFOSX.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftRDFOSX.framework; path = ../Build/Products/Debug/SwiftRDFOSX.framework; sourceTree = "<group>"; };
+		0266B60E1C4EE90100CA2FE0 /* RDFDocumentWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RDFDocumentWindowController.swift; sourceTree = "<group>"; };
+		0266B6111C4EEB5900CA2FE0 /* RDFGraphNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RDFGraphNavigationController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +60,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0266B60D1C4D57A800CA2FE0 /* SwiftRDFOSX.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -77,6 +84,7 @@
 		0266B5D31C4D563400CA2FE0 = {
 			isa = PBXGroup;
 			children = (
+				0266B60C1C4D57A800CA2FE0 /* SwiftRDFOSX.framework */,
 				0266B5DE1C4D563400CA2FE0 /* Ontologist */,
 				0266B5F21C4D563400CA2FE0 /* OntologistTests */,
 				0266B5FD1C4D563400CA2FE0 /* OntologistUITests */,
@@ -97,9 +105,9 @@
 		0266B5DE1C4D563400CA2FE0 /* Ontologist */ = {
 			isa = PBXGroup;
 			children = (
+				0266B6101C4EE90800CA2FE0 /* Controllers */,
 				0266B5DF1C4D563400CA2FE0 /* AppDelegate.swift */,
-				0266B5E11C4D563400CA2FE0 /* ViewController.swift */,
-				0266B5E31C4D563400CA2FE0 /* Document.swift */,
+				0266B5E31C4D563400CA2FE0 /* RDFDocument.swift */,
 				0266B5E51C4D563400CA2FE0 /* Assets.xcassets */,
 				0266B5E71C4D563400CA2FE0 /* Main.storyboard */,
 				0266B5EA1C4D563400CA2FE0 /* Info.plist */,
@@ -123,6 +131,16 @@
 				0266B6001C4D563400CA2FE0 /* Info.plist */,
 			);
 			path = OntologistUITests;
+			sourceTree = "<group>";
+		};
+		0266B6101C4EE90800CA2FE0 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				0266B60E1C4EE90100CA2FE0 /* RDFDocumentWindowController.swift */,
+				0266B5E11C4D563400CA2FE0 /* MainSplitViewController.swift */,
+				0266B6111C4EEB5900CA2FE0 /* RDFGraphNavigationController.swift */,
+			);
+			name = Controllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -255,9 +273,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0266B5E21C4D563400CA2FE0 /* ViewController.swift in Sources */,
+				0266B5E21C4D563400CA2FE0 /* MainSplitViewController.swift in Sources */,
+				0266B60F1C4EE90100CA2FE0 /* RDFDocumentWindowController.swift in Sources */,
+				0266B6121C4EEB5900CA2FE0 /* RDFGraphNavigationController.swift in Sources */,
 				0266B5E01C4D563400CA2FE0 /* AppDelegate.swift in Sources */,
-				0266B5E41C4D563400CA2FE0 /* Document.swift in Sources */,
+				0266B5E41C4D563400CA2FE0 /* RDFDocument.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -479,6 +499,7 @@
 				0266B6051C4D563400CA2FE0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		0266B6061C4D563400CA2FE0 /* Build configuration list for PBXNativeTarget "OntologistTests" */ = {
 			isa = XCConfigurationList;
@@ -487,6 +508,7 @@
 				0266B6081C4D563400CA2FE0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		0266B6091C4D563400CA2FE0 /* Build configuration list for PBXNativeTarget "OntologistUITests" */ = {
 			isa = XCConfigurationList;
@@ -495,6 +517,7 @@
 				0266B60B1C4D563400CA2FE0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
