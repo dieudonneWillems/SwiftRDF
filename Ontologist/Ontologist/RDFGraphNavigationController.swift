@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import SwiftRDFOSX
 
 class RDFGraphNavigationController: NSViewController {
 
@@ -15,11 +16,24 @@ class RDFGraphNavigationController: NSViewController {
         // Do view setup here.
     }
     
-    override var representedObject: AnyObject? {
-        didSet {
-            // Update the view, if already loaded.
-            print("set represented graph: \(representedObject)")
-        }
+    var graph : Graph?
+    
+    // MARK: Outline Datasource functions
+    
+    optional func outlineView(_ outlineView: NSOutlineView,
+        child index: Int,
+        ofItem item: AnyObject?) -> AnyObject {
+        
     }
     
+    optional func outlineView(_ outlineView: NSOutlineView,
+        isItemExpandable item: AnyObject) -> Bool {
+            
+    }
+    
+    optional func outlineView(_ outlineView: NSOutlineView,
+        objectValueForTableColumn tableColumn: NSTableColumn?,
+        byItem item: AnyObject?) -> AnyObject? {
+            
+    }
 }
