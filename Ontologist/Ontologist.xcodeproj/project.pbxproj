@@ -17,6 +17,7 @@
 		021DE22A1C5307C10031FAC8 /* IconTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 021DE2291C5307C10031FAC8 /* IconTextView.swift */; };
 		021DE2311C530BFD0031FAC8 /* IconTextView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 021DE2301C530BFD0031FAC8 /* IconTextView.xib */; };
 		021DE2331C530FBE0031FAC8 /* namedgraph-sidebar.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 021DE2321C530FBE0031FAC8 /* namedgraph-sidebar.pdf */; };
+		021DE2351C5316CC0031FAC8 /* SwiftRDFOSX.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0266B60C1C4D57A800CA2FE0 /* SwiftRDFOSX.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0266B5E01C4D563400CA2FE0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0266B5DF1C4D563400CA2FE0 /* AppDelegate.swift */; };
 		0266B5E21C4D563400CA2FE0 /* MainSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0266B5E11C4D563400CA2FE0 /* MainSplitViewController.swift */; };
 		0266B5E41C4D563400CA2FE0 /* RDFDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0266B5E31C4D563400CA2FE0 /* RDFDocument.swift */; };
@@ -45,6 +46,19 @@
 			remoteInfo = Ontologist;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		021DE2341C5316BE0031FAC8 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				021DE2351C5316CC0031FAC8 /* SwiftRDFOSX.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		021DE2171C503B1C0031FAC8 /* RDFNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RDFNavigationController.swift; sourceTree = "<group>"; };
@@ -199,6 +213,7 @@
 				0266B5D81C4D563400CA2FE0 /* Sources */,
 				0266B5D91C4D563400CA2FE0 /* Frameworks */,
 				0266B5DA1C4D563400CA2FE0 /* Resources */,
+				021DE2341C5316BE0031FAC8 /* CopyFiles */,
 			);
 			buildRules = (
 			);

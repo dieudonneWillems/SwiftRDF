@@ -86,12 +86,15 @@ class RDFNavigation: NSObject, NSOutlineViewDelegate, NSOutlineViewDataSource {
                 let cell = outlineView.makeViewWithIdentifier("IconTextView", owner: self) as? IconTextView
                 if cell != nil {
                     var title = "named graph"
+                    var tooltip : String? = nil
                     if (resource as? URI) != nil {
                         title = (resource as! URI).localName
+                        tooltip = (resource as! URI).stringValue
                     } else if (resource as? BlankNode) != nil {
                         title = (resource as! BlankNode).identifier
                     }
                     cell!.textField!.stringValue = title
+                    cell?.toolTip = tooltip
                 }
                 return cell
             }
