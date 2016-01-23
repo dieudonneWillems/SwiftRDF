@@ -55,6 +55,8 @@ public class Graph {
         return Array(namespaces.keys)
     }
     
+    
+    
     // MARK: Access to resources in the `Graph`
     
     /**
@@ -66,6 +68,11 @@ public class Graph {
      The different properties used in the `Graph`.
      */
     public private(set) var properties = [URI]()
+    
+    /**
+     The named graphs that are part of this graph.
+     */
+    public private(set) var namedGraphs = [Resource]()
     
     
     
@@ -173,6 +180,7 @@ public class Graph {
         }
         resources.removeAll()
         properties.removeAll()
+        namedGraphs.removeAll()
         for var index = 0; index < self.count; index++ {
             extractDistinctResourcesAndProperties(self[index])
         }
@@ -193,6 +201,11 @@ public class Graph {
         }
         if !properties.contains({$0 == statement.predicate}){
             properties.append(statement.predicate)
+        }
+        for ng in statement.namedGraphs {
+            if !namedGraphs.contains({$0 == ng}){
+                namedGraphs.append(ng)
+            }
         }
     }
     

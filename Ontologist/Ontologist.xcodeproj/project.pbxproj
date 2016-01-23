@@ -7,6 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		021DE2181C503B1C0031FAC8 /* RDFNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 021DE2171C503B1C0031FAC8 /* RDFNavigationController.swift */; };
+		021DE21A1C503B640031FAC8 /* RDFFileNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 021DE2191C503B640031FAC8 /* RDFFileNavigationController.swift */; };
+		021DE21C1C503C790031FAC8 /* StatementTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 021DE21B1C503C790031FAC8 /* StatementTableViewController.swift */; };
+		021DE2211C518A840031FAC8 /* RDFNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 021DE2201C518A840031FAC8 /* RDFNavigation.swift */; };
+		021DE2241C5192800031FAC8 /* FileView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 021DE2231C5192800031FAC8 /* FileView.xib */; };
+		021DE2261C5193960031FAC8 /* FileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 021DE2251C5193960031FAC8 /* FileView.swift */; };
+		021DE2281C52EE810031FAC8 /* rdffile-sidebar.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 021DE2271C52EE810031FAC8 /* rdffile-sidebar.pdf */; };
+		021DE22A1C5307C10031FAC8 /* IconTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 021DE2291C5307C10031FAC8 /* IconTextView.swift */; };
+		021DE2311C530BFD0031FAC8 /* IconTextView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 021DE2301C530BFD0031FAC8 /* IconTextView.xib */; };
+		021DE2331C530FBE0031FAC8 /* namedgraph-sidebar.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 021DE2321C530FBE0031FAC8 /* namedgraph-sidebar.pdf */; };
 		0266B5E01C4D563400CA2FE0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0266B5DF1C4D563400CA2FE0 /* AppDelegate.swift */; };
 		0266B5E21C4D563400CA2FE0 /* MainSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0266B5E11C4D563400CA2FE0 /* MainSplitViewController.swift */; };
 		0266B5E41C4D563400CA2FE0 /* RDFDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0266B5E31C4D563400CA2FE0 /* RDFDocument.swift */; };
@@ -37,6 +47,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		021DE2171C503B1C0031FAC8 /* RDFNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RDFNavigationController.swift; sourceTree = "<group>"; };
+		021DE2191C503B640031FAC8 /* RDFFileNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RDFFileNavigationController.swift; sourceTree = "<group>"; };
+		021DE21B1C503C790031FAC8 /* StatementTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatementTableViewController.swift; sourceTree = "<group>"; };
+		021DE2201C518A840031FAC8 /* RDFNavigation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RDFNavigation.swift; sourceTree = "<group>"; };
+		021DE2231C5192800031FAC8 /* FileView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FileView.xib; sourceTree = "<group>"; };
+		021DE2251C5193960031FAC8 /* FileView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileView.swift; sourceTree = "<group>"; };
+		021DE2271C52EE810031FAC8 /* rdffile-sidebar.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "rdffile-sidebar.pdf"; sourceTree = "<group>"; };
+		021DE2291C5307C10031FAC8 /* IconTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IconTextView.swift; sourceTree = "<group>"; };
+		021DE2301C530BFD0031FAC8 /* IconTextView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IconTextView.xib; sourceTree = "<group>"; };
+		021DE2321C530FBE0031FAC8 /* namedgraph-sidebar.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "namedgraph-sidebar.pdf"; sourceTree = "<group>"; };
 		0266B5DC1C4D563400CA2FE0 /* Ontologist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ontologist.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0266B5DF1C4D563400CA2FE0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0266B5E11C4D563400CA2FE0 /* MainSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSplitViewController.swift; sourceTree = "<group>"; };
@@ -81,6 +101,26 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		021DE21D1C503D850031FAC8 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				0266B5E31C4D563400CA2FE0 /* RDFDocument.swift */,
+				021DE2201C518A840031FAC8 /* RDFNavigation.swift */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		021DE2221C51924A0031FAC8 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				021DE2231C5192800031FAC8 /* FileView.xib */,
+				021DE2251C5193960031FAC8 /* FileView.swift */,
+				021DE2301C530BFD0031FAC8 /* IconTextView.xib */,
+				021DE2291C5307C10031FAC8 /* IconTextView.swift */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
 		0266B5D31C4D563400CA2FE0 = {
 			isa = PBXGroup;
 			children = (
@@ -105,10 +145,13 @@
 		0266B5DE1C4D563400CA2FE0 /* Ontologist */ = {
 			isa = PBXGroup;
 			children = (
+				021DE2321C530FBE0031FAC8 /* namedgraph-sidebar.pdf */,
+				021DE21D1C503D850031FAC8 /* Model */,
+				021DE2221C51924A0031FAC8 /* Views */,
 				0266B6101C4EE90800CA2FE0 /* Controllers */,
 				0266B5DF1C4D563400CA2FE0 /* AppDelegate.swift */,
-				0266B5E31C4D563400CA2FE0 /* RDFDocument.swift */,
 				0266B5E51C4D563400CA2FE0 /* Assets.xcassets */,
+				021DE2271C52EE810031FAC8 /* rdffile-sidebar.pdf */,
 				0266B5E71C4D563400CA2FE0 /* Main.storyboard */,
 				0266B5EA1C4D563400CA2FE0 /* Info.plist */,
 			);
@@ -139,6 +182,9 @@
 				0266B60E1C4EE90100CA2FE0 /* RDFDocumentWindowController.swift */,
 				0266B5E11C4D563400CA2FE0 /* MainSplitViewController.swift */,
 				0266B6111C4EEB5900CA2FE0 /* RDFGraphNavigationController.swift */,
+				021DE2171C503B1C0031FAC8 /* RDFNavigationController.swift */,
+				021DE2191C503B640031FAC8 /* RDFFileNavigationController.swift */,
+				021DE21B1C503C790031FAC8 /* StatementTableViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -248,6 +294,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				0266B5E61C4D563400CA2FE0 /* Assets.xcassets in Resources */,
+				021DE2311C530BFD0031FAC8 /* IconTextView.xib in Resources */,
+				021DE2241C5192800031FAC8 /* FileView.xib in Resources */,
+				021DE2281C52EE810031FAC8 /* rdffile-sidebar.pdf in Resources */,
+				021DE2331C530FBE0031FAC8 /* namedgraph-sidebar.pdf in Resources */,
 				0266B5E91C4D563400CA2FE0 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -275,9 +325,15 @@
 			files = (
 				0266B5E21C4D563400CA2FE0 /* MainSplitViewController.swift in Sources */,
 				0266B60F1C4EE90100CA2FE0 /* RDFDocumentWindowController.swift in Sources */,
+				021DE2181C503B1C0031FAC8 /* RDFNavigationController.swift in Sources */,
 				0266B6121C4EEB5900CA2FE0 /* RDFGraphNavigationController.swift in Sources */,
+				021DE21A1C503B640031FAC8 /* RDFFileNavigationController.swift in Sources */,
+				021DE21C1C503C790031FAC8 /* StatementTableViewController.swift in Sources */,
+				021DE2211C518A840031FAC8 /* RDFNavigation.swift in Sources */,
 				0266B5E01C4D563400CA2FE0 /* AppDelegate.swift in Sources */,
+				021DE2261C5193960031FAC8 /* FileView.swift in Sources */,
 				0266B5E41C4D563400CA2FE0 /* RDFDocument.swift in Sources */,
+				021DE22A1C5307C10031FAC8 /* IconTextView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

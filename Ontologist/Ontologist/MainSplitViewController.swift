@@ -23,8 +23,8 @@ class MainSplitViewController: NSSplitViewController {
             if (representedObject as? RDFDocument) != nil {
                 let viewControllers = self.childViewControllers
                 for viewController in viewControllers {
-                    if (viewController as? RDFGraphNavigationController) != nil {
-                        (viewController as! RDFGraphNavigationController).graph = (representedObject as! RDFDocument).graph
+                    if (viewController as? RDFNavigationController) != nil {
+                        (viewController as! RDFNavigationController).representedObject = representedObject
                     }
                 }
             }

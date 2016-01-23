@@ -16,24 +16,13 @@ class RDFGraphNavigationController: NSViewController {
         // Do view setup here.
     }
     
-    var graph : Graph?
     
-    // MARK: Outline Datasource functions
-    
-    optional func outlineView(_ outlineView: NSOutlineView,
-        child index: Int,
-        ofItem item: AnyObject?) -> AnyObject {
-        
-    }
-    
-    optional func outlineView(_ outlineView: NSOutlineView,
-        isItemExpandable item: AnyObject) -> Bool {
-            
-    }
-    
-    optional func outlineView(_ outlineView: NSOutlineView,
-        objectValueForTableColumn tableColumn: NSTableColumn?,
-        byItem item: AnyObject?) -> AnyObject? {
-            
+    override var representedObject: AnyObject? {
+        didSet {
+            // Update the view, if already loaded.
+            print("represented object: \(representedObject)")
+            if representedObject != nil && (representedObject as? Graph) != nil {
+            }
+        }
     }
 }
