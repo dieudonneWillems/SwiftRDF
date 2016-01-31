@@ -20,12 +20,8 @@ class RDFNavigationController: NSSplitViewController {
     
     override var representedObject: AnyObject? {
         didSet {
-            // Update the view, if already loaded.
-            print("represented object: \(representedObject)")
-            if representedObject != nil && (representedObject as? RDFDocument) != nil {
-                var docs = [RDFDocument]()
-                docs.append((representedObject as! RDFDocument))
-                navigation.documents = docs
+            if representedObject != nil && (representedObject as? RDFNavigation) != nil {
+                navigation = representedObject as! RDFNavigation
                 for itemView in self.childViewControllers {
                     itemView.representedObject = navigation
                 }

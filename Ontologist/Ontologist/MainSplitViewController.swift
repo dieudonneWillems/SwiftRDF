@@ -9,6 +9,8 @@
 import Cocoa
 
 class MainSplitViewController: NSSplitViewController {
+    
+    var navigation = RDFNavigation()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,14 +20,12 @@ class MainSplitViewController: NSSplitViewController {
 
     override var representedObject: AnyObject? {
         didSet {
-        // Update the view, if already loaded.
-            print("represented object: \(representedObject)")
-            if (representedObject as? RDFDocument) != nil {
-                let viewControllers = self.childViewControllers
-                for viewController in viewControllers {
-                    if (viewController as? RDFNavigationController) != nil {
-                        (viewController as! RDFNavigationController).representedObject = representedObject
-                    }
+            if representedObject != nil && (representedObject as? RDFDocument) != nil {
+                var docs = [RDFDocument]()
+                docs.append((representedObject as! RDFDocument))
+                navigation.documents = docs
+                for itemView in self.childViewControllers {
+                    itemView.representedObject = navigation
                 }
             }
         }

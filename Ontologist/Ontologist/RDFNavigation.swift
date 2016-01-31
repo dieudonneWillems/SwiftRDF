@@ -9,11 +9,53 @@
 import Cocoa
 import SwiftRDFOSX
 
-class RDFNavigation: NSObject, NSOutlineViewDelegate, NSOutlineViewDataSource {
+class RDFNavigation: NSObject, NSOutlineViewDelegate, NSOutlineViewDataSource, NSTableViewDelegate,NSTableViewDataSource {
     
     var documents = [RDFDocument]()
     
     var fileNavigationView : NSOutlineView?
+    var statementsTable : NSTableView?
+    var visibleGraph : Graph?
+    
+    func setVisibleGraphFromSelection() {
+        visibleGraph = selectedGraph()
+    }
+    
+    func selectedGraph() -> Graph? {
+        let selectedRows = fileNavigationView?.selectedRowIndexes
+        if selectedRows?.count > 1 {
+            let graph = Graph()
+            for row in selectedRows! {
+                let rowGraph = graphAtRowInFileNavigationView(row)
+                if rowGraph != nil {
+                    graph.add(rowGraph!)
+                }
+            }
+            return graph
+        } else {
+            if selectedRows?.count > 0 {
+                return graphAtRowInFileNavigationView((selectedRows?.firstIndex)!)
+            }
+        }
+        return nil
+    }
+    
+    func graphAtRowInFileNavigationView(row : Int) -> Graph? {
+        let item = fileNavigationView?.itemAtRow(row)
+        if item != nil {
+            if (item as? RDFDocument) != nil {
+                return (item as! RDFDocument).graph!
+            }else if (item as? Resource) != nil {
+                let parentItem = fileNavigationView?.parentForItem(item)
+                if parentItem != nil && (parentItem as? RDFDocument) != nil {
+                    let parentGraph = (parentItem as! RDFDocument).graph!
+                    let namedGraph = parentGraph.subGraph(nil, predicate: nil, object: nil, namedGraph: (item as! Resource))
+                    return namedGraph
+                }
+            }
+        }
+        return nil
+    }
     
     
     // MARK: Outline Datasource functions
@@ -56,7 +98,7 @@ class RDFNavigation: NSObject, NSOutlineViewDelegate, NSOutlineViewDataSource {
     }
     
     
-    /// MARK: Delegate methods
+    // MARK: Outline view delegate functions
     
     func outlineView(outlineView: NSOutlineView, heightOfRowByItem item: AnyObject) -> CGFloat {
         if outlineView == fileNavigationView {
@@ -96,6 +138,77 @@ class RDFNavigation: NSObject, NSOutlineViewDelegate, NSOutlineViewDataSource {
                     cell!.textField!.stringValue = title
                     cell?.toolTip = tooltip
                 }
+                return cell
+            }
+        }
+        return nil
+    }
+    
+    func outlineViewSelectionDidChange(notification: NSNotification) {
+        print("Navigation view selection changed")
+        setVisibleGraphFromSelection()
+        statementsTable?.reloadData()
+    }
+    
+    
+    // MARK: Table Datasource functions
+    
+    func numberOfRowsInTableView(tableView: NSTableView) -> Int {
+        if visibleGraph != nil {
+            return visibleGraph!.count
+        }
+        return 0
+    }
+    
+    func tableView(tableView: NSTableView, objectValueForTableColumn tableColumn: NSTableColumn?, row: Int) -> AnyObject? {
+        if visibleGraph != nil {
+            let graph = visibleGraph!
+            let statement = graph[row]
+            if tableColumn?.title == "Subject" {
+                return statement.subject
+            } else if tableColumn?.title == "Predicate" {
+                return statement.predicate
+            } else if tableColumn?.title == "Object" {
+                return statement.object
+            }
+        }
+        return "NO ITEM"
+    }
+    
+    // MARK: Table Delegate functions 
+    
+    func tableView(tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
+        return 16
+    }
+    
+    func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
+        if tableView == statementsTable {
+            let item = self.tableView(tableView, objectValueForTableColumn: tableColumn, row: row)
+            if (item as? Resource) != nil {
+                var title = "No title"
+                var tooltip : String? = nil
+                if (item as? URI) != nil {
+                    let uri = (item as! URI)
+                    let qname = visibleGraph?.qualifiedName(uri)
+                    if qname != nil {
+                        title = qname!
+                    }else {
+                        title = uri.stringValue
+                    }
+                    tooltip = uri.stringValue
+                } else if (item as? BlankNode) != nil {
+                    let bnode = (item as! BlankNode)
+                    title = bnode.stringValue
+                }
+                let cell = statementsTable!.makeViewWithIdentifier("ResourceCellView", owner: self) as? ResourceCellView
+                if cell != nil {
+                    cell!.textField!.stringValue = title
+                    cell?.toolTip = tooltip
+                }
+                return cell
+            } else if (item as? Literal) != nil {
+                let cell = statementsTable!.makeViewWithIdentifier("LiteralCellView", owner: self) as? LiteralCellView
+                cell?.literal = (item as! Literal)
                 return cell
             }
         }

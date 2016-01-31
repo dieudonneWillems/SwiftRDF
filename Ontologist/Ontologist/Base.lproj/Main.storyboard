@@ -702,7 +702,7 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="sourceList" multipleSelection="NO" autosaveColumns="NO" rowHeight="20" rowSizeStyle="automatic" viewBased="YES" indentationPerLevel="14" outlineTableColumn="GlB-gr-d7z" id="3sT-BY-WMl">
-                                            <rect key="frame" x="0.0" y="0.0" width="150" height="400"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="150" height="0.0"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="0.0"/>
                                             <color key="backgroundColor" name="_sourceListBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -825,7 +825,7 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="sourceList" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" indentationPerLevel="14" outlineTableColumn="q3j-UM-NCv" id="mQ4-AK-wiO">
-                                            <rect key="frame" x="0.0" y="0.0" width="150" height="400"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="150" height="0.0"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="0.0"/>
                                             <color key="backgroundColor" name="_sourceListBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -1037,7 +1037,7 @@
                                     </subviews>
                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </clipView>
-                                <scroller key="horizontalScroller" verticalHuggingPriority="750" doubleValue="0.25" horizontal="YES" id="N4w-Ry-BOy">
+                                <scroller key="horizontalScroller" verticalHuggingPriority="750" horizontal="YES" id="N4w-Ry-BOy">
                                     <rect key="frame" x="0.0" y="385" width="689" height="15"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
@@ -1058,6 +1058,9 @@
                             <constraint firstAttribute="trailing" secondItem="1H1-9Q-MIB" secondAttribute="trailing" id="y4b-DW-UIT"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="statementsTable" destination="K0x-oH-VHO" id="FWn-Gg-ytQ"/>
+                    </connections>
                 </viewController>
                 <customObject id="w71-2a-QF2" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>

@@ -29,7 +29,7 @@ public class Graph {
      The subscript of the graph returns the statement at the specified index in the list of statements 
      contained by the `Graph`.
      */
-    subscript(index : Int) -> Statement {
+    public subscript(index : Int) -> Statement {
         get {
             assert( index >= 0 && index < statements.count, "Index \(index) is out of bounds [0,\(statements.count)).")
             return statements[index]
