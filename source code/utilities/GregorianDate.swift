@@ -31,6 +31,80 @@ public class GregorianDate : CustomStringConvertible {
     private static let gMonthPattern = "^--((?:0[1-9])|(?:1[0-2]))(Z|(?:([+-](?:(?:0[0-9])|(?:1[0-2]))):((?:00)|(?:30))))?$"
     private static let gDayPattern = "^---((?:0[1-9])|(?:[1-2][0-9])|(?:3[0-1]))(Z|(?:([+-](?:(?:0[0-9])|(?:1[0-2]))):((?:00)|(?:30))))?$"
     
+    private static var _dateTimeRegularExpression : NSRegularExpression?
+    private static var _dateRegularExpression : NSRegularExpression?
+    private static var _gYearMonthRegularExpression : NSRegularExpression?
+    private static var _gYearRegularExpression : NSRegularExpression?
+    private static var _timeRegularExpression : NSRegularExpression?
+    private static var _gMonthDayRegularExpression : NSRegularExpression?
+    private static var _gMonthRegularExpression : NSRegularExpression?
+    private static var _gDayRegularExpression : NSRegularExpression?
+    
+    private static var dateTimeRegularExpression : NSRegularExpression {
+        if _dateTimeRegularExpression == nil {
+            GregorianDate.createRegularExpression()
+        }
+        return _dateTimeRegularExpression!
+    }
+    private static var dateRegularExpression : NSRegularExpression {
+        if _dateRegularExpression == nil {
+            GregorianDate.createRegularExpression()
+        }
+        return _dateRegularExpression!
+    }
+    private static var gYearMonthRegularExpression : NSRegularExpression {
+        if _gYearMonthRegularExpression == nil {
+            GregorianDate.createRegularExpression()
+        }
+        return _gYearMonthRegularExpression!
+    }
+    private static var gYearRegularExpression : NSRegularExpression {
+        if _gYearRegularExpression == nil {
+            GregorianDate.createRegularExpression()
+        }
+        return _gYearRegularExpression!
+    }
+    private static var timeRegularExpression : NSRegularExpression {
+        if _timeRegularExpression == nil {
+            GregorianDate.createRegularExpression()
+        }
+        return _timeRegularExpression!
+    }
+    private static var gMonthDayRegularExpression : NSRegularExpression {
+        if _gMonthDayRegularExpression == nil {
+            GregorianDate.createRegularExpression()
+        }
+        return _gMonthDayRegularExpression!
+    }
+    private static var gMonthRegularExpression : NSRegularExpression {
+        if _gMonthRegularExpression == nil {
+            GregorianDate.createRegularExpression()
+        }
+        return _gMonthRegularExpression!
+    }
+    private static var gDayRegularExpression : NSRegularExpression {
+        if _gDayRegularExpression == nil {
+            GregorianDate.createRegularExpression()
+        }
+        return _gDayRegularExpression!
+    }
+    
+    private static func createRegularExpression() {
+        do {
+            _dateTimeRegularExpression = try NSRegularExpression(pattern: dateTimePattern, options: [.CaseInsensitive])
+            _dateRegularExpression = try NSRegularExpression(pattern: datePattern, options: [.CaseInsensitive])
+            _gYearMonthRegularExpression = try NSRegularExpression(pattern: gYearMonthPattern, options: [.CaseInsensitive])
+            _gYearRegularExpression = try NSRegularExpression(pattern: gYearPattern, options: [.CaseInsensitive])
+            _timeRegularExpression = try NSRegularExpression(pattern: timePattern, options: [.CaseInsensitive])
+            _gMonthDayRegularExpression = try NSRegularExpression(pattern: gMonthDayPattern, options: [.CaseInsensitive])
+            _gMonthRegularExpression = try NSRegularExpression(pattern: gMonthPattern, options: [.CaseInsensitive])
+            _gDayRegularExpression = try NSRegularExpression(pattern: gDayPattern, options: [.CaseInsensitive])
+        } catch {
+            //should never happen.
+        }
+    }
+
+    
     private static let calendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)!
     
     /**
@@ -903,7 +977,7 @@ public class GregorianDate : CustomStringConvertible {
      string could not be parsed.
      */
     public init?(dateTime: String) {
-        let parsed = parseDateString(dateTime, pattern: GregorianDate.dateTimePattern)
+        let parsed = parseDateString(dateTime, regex: GregorianDate.dateTimeRegularExpression)
         if !parsed {
             return nil
         }
@@ -936,7 +1010,7 @@ public class GregorianDate : CustomStringConvertible {
      string could not be parsed.
      */
     public init?(date: String) {
-        let parsed = parseDateString(date, pattern: GregorianDate.datePattern)
+        let parsed = parseDateString(date, regex: GregorianDate.dateRegularExpression)
         if !parsed {
             return nil
         }
@@ -967,7 +1041,7 @@ public class GregorianDate : CustomStringConvertible {
      string could not be parsed.
      */
     public init?(gYearMonth: String) {
-        let parsed = parseDateString(gYearMonth, pattern: GregorianDate.gYearMonthPattern)
+        let parsed = parseDateString(gYearMonth, regex: GregorianDate.gYearMonthRegularExpression)
         if !parsed {
             return nil
         }
@@ -997,7 +1071,7 @@ public class GregorianDate : CustomStringConvertible {
      string could not be parsed.
      */
     public init?(gYear: String) {
-        let parsed = parseDateString(gYear, pattern: GregorianDate.gYearPattern)
+        let parsed = parseDateString(gYear, regex: GregorianDate.gYearRegularExpression)
         if !parsed {
             return nil
         }
@@ -1710,65 +1784,59 @@ public class GregorianDate : CustomStringConvertible {
     }
 
     
-    private func parseDateString(stringValue: String, pattern : String) -> Bool {
-        do {
-            let regex = try NSRegularExpression(pattern: pattern, options: [])
-            let matches = regex.matchesInString(stringValue, options: [], range: NSMakeRange(0, stringValue.characters.count)) as Array<NSTextCheckingResult>
-            if matches.count == 0 {
-                return false
-            }else{
-                let match = matches[0]
-                let nsstring = stringValue as NSString
-                if match.rangeAtIndex(match.numberOfRanges-3).location != NSNotFound {
-                    var tzhrs = 0;
-                    var tzmins = 0;
-                    var sign = 1
-                    if match.rangeAtIndex(match.numberOfRanges-2).location != NSNotFound {
-                        let tzhrsStr = nsstring.substringWithRange(match.rangeAtIndex(match.numberOfRanges-2)) as String
-                        if nsstring.characterAtIndex(match.rangeAtIndex(match.numberOfRanges-2).location) == 45 {
-                            sign = -1
-                        }
-                        tzhrs = Int(tzhrsStr)!
+    private func parseDateString(stringValue: String, regex : NSRegularExpression) -> Bool {
+        let matches = regex.matchesInString(stringValue, options: [], range: NSMakeRange(0, stringValue.characters.count)) as Array<NSTextCheckingResult>
+        if matches.count == 0 {
+            return false
+        }else{
+            let match = matches[0]
+            let nsstring = stringValue as NSString
+            if match.rangeAtIndex(match.numberOfRanges-3).location != NSNotFound {
+                var tzhrs = 0;
+                var tzmins = 0;
+                var sign = 1
+                if match.rangeAtIndex(match.numberOfRanges-2).location != NSNotFound {
+                    let tzhrsStr = nsstring.substringWithRange(match.rangeAtIndex(match.numberOfRanges-2)) as String
+                    if nsstring.characterAtIndex(match.rangeAtIndex(match.numberOfRanges-2).location) == 45 {
+                        sign = -1
                     }
-                    if match.rangeAtIndex(match.numberOfRanges-1).location != NSNotFound {
-                        let tzminsStr = nsstring.substringWithRange(match.rangeAtIndex(match.numberOfRanges-1)) as String
-                        tzmins = Int(tzminsStr)!
-                    }
-                    if tzhrs < 0 || sign < 0 {
-                        tzmins = -tzmins
-                    }
-                    timezone = NSTimeZone.init(forSecondsFromGMT: tzhrs*3600+tzmins*60)
+                    tzhrs = Int(tzhrsStr)!
                 }
-                if match.rangeAtIndex(1).location != NSNotFound {
-                    let str = nsstring.substringWithRange(match.rangeAtIndex(1)) as String
-                    year = Int(str)!
+                if match.rangeAtIndex(match.numberOfRanges-1).location != NSNotFound {
+                    let tzminsStr = nsstring.substringWithRange(match.rangeAtIndex(match.numberOfRanges-1)) as String
+                    tzmins = Int(tzminsStr)!
                 }
-                if match.numberOfRanges >= 6 && match.rangeAtIndex(2).location != NSNotFound {
-                    let str = nsstring.substringWithRange(match.rangeAtIndex(2)) as String
-                    month = Int(str)!
+                if tzhrs < 0 || sign < 0 {
+                    tzmins = -tzmins
                 }
-                if match.numberOfRanges >= 7 && match.rangeAtIndex(3).location != NSNotFound {
-                    let str = nsstring.substringWithRange(match.rangeAtIndex(3)) as String
-                    day = Int(str)!
-                }
-                if match.numberOfRanges >= 8 && match.rangeAtIndex(4).location != NSNotFound {
-                    let str = nsstring.substringWithRange(match.rangeAtIndex(4)) as String
-                    hour = Int(str)!
-                }
-                if match.numberOfRanges >= 9 && match.rangeAtIndex(5).location != NSNotFound {
-                    let str = nsstring.substringWithRange(match.rangeAtIndex(5)) as String
-                    minute = Int(str)!
-                }
-                if match.numberOfRanges >= 10 && match.rangeAtIndex(6).location != NSNotFound {
-                    let str = nsstring.substringWithRange(match.rangeAtIndex(6)) as String
-                    second = Double(str)!
-                }
-                return true
+                timezone = NSTimeZone.init(forSecondsFromGMT: tzhrs*3600+tzmins*60)
             }
-        } catch {
-            
+            if match.rangeAtIndex(1).location != NSNotFound {
+                let str = nsstring.substringWithRange(match.rangeAtIndex(1)) as String
+                year = Int(str)!
+            }
+            if match.numberOfRanges >= 6 && match.rangeAtIndex(2).location != NSNotFound {
+                let str = nsstring.substringWithRange(match.rangeAtIndex(2)) as String
+                month = Int(str)!
+            }
+            if match.numberOfRanges >= 7 && match.rangeAtIndex(3).location != NSNotFound {
+                let str = nsstring.substringWithRange(match.rangeAtIndex(3)) as String
+                day = Int(str)!
+            }
+            if match.numberOfRanges >= 8 && match.rangeAtIndex(4).location != NSNotFound {
+                let str = nsstring.substringWithRange(match.rangeAtIndex(4)) as String
+                hour = Int(str)!
+            }
+            if match.numberOfRanges >= 9 && match.rangeAtIndex(5).location != NSNotFound {
+                let str = nsstring.substringWithRange(match.rangeAtIndex(5)) as String
+                minute = Int(str)!
+            }
+            if match.numberOfRanges >= 10 && match.rangeAtIndex(6).location != NSNotFound {
+                let str = nsstring.substringWithRange(match.rangeAtIndex(6)) as String
+                second = Double(str)!
+            }
+            return true
         }
-        return false
     }
     
     private func parseTimeString(stringValue: String, pattern : String) -> Bool {

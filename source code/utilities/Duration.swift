@@ -18,6 +18,22 @@ public struct Duration {
     
     // regular expression: ^([+-]?)P(?:([0-9]+)Y)?(?:([0-9]+)M)?(?:([0-9]+)D)?(?:T(?:([0-9]+)H)?(?:([0-9]+)M)?(?:([0-9]+(?:\.[0-9]+)?)S)?)?$
     private static let literalPattern = "^([+-]?)P(?:([0-9]+)Y)?(?:([0-9]+)M)?(?:([0-9]+)D)?(?:T(?:([0-9]+)H)?(?:([0-9]+)M)?(?:([0-9]+(?:\\.[0-9]+)?)S)?)?$"
+    private static var _literalRegularExpression : NSRegularExpression?
+    
+    private static var regularExpression : NSRegularExpression {
+        if _literalRegularExpression == nil {
+            Duration.createRegularExpression()
+        }
+        return _literalRegularExpression!
+    }
+    
+    private static func createRegularExpression() {
+        do {
+            _literalRegularExpression = try NSRegularExpression(pattern: literalPattern, options: [.CaseInsensitive])
+        } catch {
+            //should never happen.
+        }
+    }
     
     
     // MARK: Properties
@@ -154,91 +170,87 @@ public struct Duration {
      - returns: The duration represented by the string, or nil if the lexical representation string is not allowed.
      */
     public init?(stringValue: String){
-        do {
-            let regex = try NSRegularExpression(pattern: Duration.literalPattern, options: [.CaseInsensitive])
-            let matches = regex.matchesInString(stringValue, options: [], range: NSMakeRange(0, stringValue.characters.count)) as Array<NSTextCheckingResult>
-            if matches.count == 0 {
-                return nil
-            }else{
-                let match = matches[0]
-                let nsstring = stringValue as NSString
-                var isPos : Bool = true
-                if match.rangeAtIndex(1).location != NSNotFound {
-                    let signstr = nsstring.substringWithRange(match.rangeAtIndex(1)) as String
-                    if signstr == "-" {
-                        isPos = false
-                    }
+        let regex = Duration.regularExpression
+        let matches = regex.matchesInString(stringValue, options: [], range: NSMakeRange(0, stringValue.characters.count)) as Array<NSTextCheckingResult>
+        if matches.count == 0 {
+            return nil
+        }else{
+            let match = matches[0]
+            let nsstring = stringValue as NSString
+            var isPos : Bool = true
+            if match.rangeAtIndex(1).location != NSNotFound {
+                let signstr = nsstring.substringWithRange(match.rangeAtIndex(1)) as String
+                if signstr == "-" {
+                    isPos = false
                 }
-                self.isPositive = isPos
-                if match.rangeAtIndex(2).location != NSNotFound {
-                    let yearstr = nsstring.substringWithRange(match.rangeAtIndex(2)) as String
-                    let yrs = UInt(yearstr)
-                    if yrs != nil {
-                        self.years = yrs!
-                    } else {
-                        self.years = 0
-                    }
+            }
+            self.isPositive = isPos
+            if match.rangeAtIndex(2).location != NSNotFound {
+                let yearstr = nsstring.substringWithRange(match.rangeAtIndex(2)) as String
+                let yrs = UInt(yearstr)
+                if yrs != nil {
+                    self.years = yrs!
                 } else {
                     self.years = 0
                 }
-                if match.rangeAtIndex(3).location != NSNotFound {
-                    let monthstr = nsstring.substringWithRange(match.rangeAtIndex(3)) as String
-                    let mns = UInt(monthstr)
-                    if mns != nil {
-                        self.months = mns!
-                    } else {
-                        self.months = 0
-                    }
+            } else {
+                self.years = 0
+            }
+            if match.rangeAtIndex(3).location != NSNotFound {
+                let monthstr = nsstring.substringWithRange(match.rangeAtIndex(3)) as String
+                let mns = UInt(monthstr)
+                if mns != nil {
+                    self.months = mns!
                 } else {
                     self.months = 0
                 }
-                if match.rangeAtIndex(4).location != NSNotFound {
-                    let daystr = nsstring.substringWithRange(match.rangeAtIndex(4)) as String
-                    let dss = UInt(daystr)
-                    if dss != nil {
-                        self.days = dss!
-                    } else {
-                        self.days = 0
-                    }
+            } else {
+                self.months = 0
+            }
+            if match.rangeAtIndex(4).location != NSNotFound {
+                let daystr = nsstring.substringWithRange(match.rangeAtIndex(4)) as String
+                let dss = UInt(daystr)
+                if dss != nil {
+                    self.days = dss!
                 } else {
                     self.days = 0
                 }
-                if match.rangeAtIndex(5).location != NSNotFound {
-                    let hourstr = nsstring.substringWithRange(match.rangeAtIndex(5)) as String
-                    let hrs = UInt(hourstr)
-                    if hrs != nil {
-                        self.hours = hrs!
-                    } else {
-                        self.hours = 0
-                    }
+            } else {
+                self.days = 0
+            }
+            if match.rangeAtIndex(5).location != NSNotFound {
+                let hourstr = nsstring.substringWithRange(match.rangeAtIndex(5)) as String
+                let hrs = UInt(hourstr)
+                if hrs != nil {
+                    self.hours = hrs!
                 } else {
                     self.hours = 0
                 }
-                if match.rangeAtIndex(6).location != NSNotFound {
-                    let minutestr = nsstring.substringWithRange(match.rangeAtIndex(6)) as String
-                    let mins = UInt(minutestr)
-                    if mins != nil {
-                        self.minutes = mins!
-                    } else {
-                        self.minutes = 0
-                    }
+            } else {
+                self.hours = 0
+            }
+            if match.rangeAtIndex(6).location != NSNotFound {
+                let minutestr = nsstring.substringWithRange(match.rangeAtIndex(6)) as String
+                let mins = UInt(minutestr)
+                if mins != nil {
+                    self.minutes = mins!
                 } else {
                     self.minutes = 0
                 }
-                if match.rangeAtIndex(7).location != NSNotFound {
-                    let secondstr = nsstring.substringWithRange(match.rangeAtIndex(7)) as String
-                    let secs = Double(secondstr)
-                    if secs != nil {
-                        self.seconds = secs!
-                    } else {
-                        self.seconds = 0
-                    }
+            } else {
+                self.minutes = 0
+            }
+            if match.rangeAtIndex(7).location != NSNotFound {
+                let secondstr = nsstring.substringWithRange(match.rangeAtIndex(7)) as String
+                let secs = Double(secondstr)
+                if secs != nil {
+                    self.seconds = secs!
                 } else {
                     self.seconds = 0
                 }
+            } else {
+                self.seconds = 0
             }
-        } catch {
-            return nil
         }
     }
     

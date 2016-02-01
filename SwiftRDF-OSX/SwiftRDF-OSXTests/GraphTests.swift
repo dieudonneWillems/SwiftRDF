@@ -39,9 +39,10 @@ class GraphTests : XCTestCase {
         graph.addStatement(apple, predicate: RDFS.label, object: Literal(stringValue: "apple", language: "en")!)
         XCTAssertTrue(graph.count == 4)
         
-        XCTAssertTrue(graph.resources.count == 2)
+        XCTAssertTrue(graph.resources.count == 3)
         XCTAssertTrue(graph.resources.contains({ $0 == apple}))
         XCTAssertTrue(graph.resources.contains({ $0 == pear}))
+        XCTAssertTrue(graph.resources.contains({ $0 == OWL.Class}))
         XCTAssertTrue(graph.properties.count == 2)
         XCTAssertTrue(graph.properties.contains({ $0 == RDFS.label}))
         XCTAssertTrue(graph.properties.contains({ $0 == RDF.type}))

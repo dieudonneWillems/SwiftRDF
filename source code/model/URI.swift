@@ -40,7 +40,33 @@ import Foundation
  */
 public class URI : Resource {
     
-    private let pattern = "^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\\?([^#]*))?(#(.*))?"
+    private static let pattern = "^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\\?([^#]*))?(#(.*))?"
+    private static let authorityPattern = "^(([\\w\\.]+)(:([\\S\\.]+))?@)?([-\\w\\.]*)(:([\\d]*))?$"
+    
+    private static var _regularExpression : NSRegularExpression?
+    private static var _authorityRegularExpression : NSRegularExpression?
+    
+    private static var regularExpression : NSRegularExpression {
+        if _regularExpression == nil {
+            URI.createRegularExpression()
+        }
+        return _regularExpression!
+    }
+    private static var authorityRegularExpression : NSRegularExpression {
+        if _authorityRegularExpression == nil {
+            URI.createRegularExpression()
+        }
+        return _authorityRegularExpression!
+    }
+    
+    private static func createRegularExpression() {
+        do {
+            _regularExpression = try NSRegularExpression(pattern: pattern, options: [.CaseInsensitive])
+            _authorityRegularExpression = try NSRegularExpression(pattern: authorityPattern, options: [.CaseInsensitive])
+        } catch {
+            //should never happen.
+        }
+    }
     
     // MARK: Properties
     
@@ -198,104 +224,95 @@ public class URI : Resource {
     private func parseAuthorityPart(authorityPart : String) -> Bool{
         // TODO: Determine what to do when passwords include characters like @
         // TODO: Determine if the pattern works with IP addresses IPv4 and IPv6 (between brackets)
-        let pattern = "^(([\\w\\.]+)(:([\\S\\.]+))?@)?([-\\w\\.]*)(:([\\d]*))?$"
-        do {
-            let regex = try NSRegularExpression(pattern: pattern, options: [.CaseInsensitive])
-            let matches = regex.matchesInString(authorityPart, options: [], range: NSMakeRange(0, authorityPart.characters.count)) as Array<NSTextCheckingResult>
-            if matches.count <= 0 {
-                return false
-            }
-            let nsstring = authorityPart as NSString
-            for match in matches as [NSTextCheckingResult] {
-                
-                /*
-                for index in 1...match.numberOfRanges-1 {
-                    let range = match.rangeAtIndex(index)
-                    if range.location != NSNotFound {
-                        let substring = nsstring.substringWithRange(match.rangeAtIndex(index))
-                        print("authoritypart: \(index): \(substring)")
-                    }
-                }
-                */
-                
-                if match.rangeAtIndex(5).location != NSNotFound {
-                    host = nsstring.substringWithRange(match.rangeAtIndex(5)) as String
-                } else {
-                    return false
-                }
-                if match.rangeAtIndex(7).location != NSNotFound {
-                    let portstr = nsstring.substringWithRange(match.rangeAtIndex(7)) as String
-                    port = Int(portstr)
-                }
-                if match.rangeAtIndex(2).location != NSNotFound {
-                    userName = nsstring.substringWithRange(match.rangeAtIndex(2)) as String
-                }
-                if match.rangeAtIndex(4).location != NSNotFound {
-                    password = nsstring.substringWithRange(match.rangeAtIndex(4)) as String
-                }
-                return true
-            }
-            return false
-        } catch {
+        let regex = URI.authorityRegularExpression
+        let matches = regex.matchesInString(authorityPart, options: [], range: NSMakeRange(0, authorityPart.characters.count)) as Array<NSTextCheckingResult>
+        if matches.count <= 0 {
             return false
         }
+        let nsstring = authorityPart as NSString
+        for match in matches as [NSTextCheckingResult] {
+            
+            /*
+            for index in 1...match.numberOfRanges-1 {
+            let range = match.rangeAtIndex(index)
+            if range.location != NSNotFound {
+            let substring = nsstring.substringWithRange(match.rangeAtIndex(index))
+            print("authoritypart: \(index): \(substring)")
+            }
+            }
+            */
+            
+            if match.rangeAtIndex(5).location != NSNotFound {
+                host = nsstring.substringWithRange(match.rangeAtIndex(5)) as String
+            } else {
+                return false
+            }
+            if match.rangeAtIndex(7).location != NSNotFound {
+                let portstr = nsstring.substringWithRange(match.rangeAtIndex(7)) as String
+                port = Int(portstr)
+            }
+            if match.rangeAtIndex(2).location != NSNotFound {
+                userName = nsstring.substringWithRange(match.rangeAtIndex(2)) as String
+            }
+            if match.rangeAtIndex(4).location != NSNotFound {
+                password = nsstring.substringWithRange(match.rangeAtIndex(4)) as String
+            }
+            return true
+        }
+        return false
     }
     
     private func parseURI(uri : String) -> Bool {
-        do {
-            let regex = try NSRegularExpression(pattern: pattern, options: [.CaseInsensitive])
-            let matches = regex.matchesInString(uri, options: [], range: NSMakeRange(0, uri.characters.count)) as Array<NSTextCheckingResult>
-            if matches.count <= 0 {
-                return false
-            }
-            let nsstring = uri as NSString
-            for match in matches as [NSTextCheckingResult] {
-                
-                /*
-                for index in 1...match.numberOfRanges-1 {
-                    let range = match.rangeAtIndex(index)
-                    if range.location != NSNotFound {
-                        let substring = nsstring.substringWithRange(match.rangeAtIndex(index))
-                    }
-                }
-                */
-                
-                if match.rangeAtIndex(2).location != NSNotFound {
-                    scheme = nsstring.substringWithRange(match.rangeAtIndex(2)) as String
-                } else {
-                    return false
-                }
-                if match.rangeAtIndex(4).location != NSNotFound {
-                    authorityPart = nsstring.substringWithRange(match.rangeAtIndex(4)) as String
-                }
-                if match.rangeAtIndex(5).location != NSNotFound {
-                    path = nsstring.substringWithRange(match.rangeAtIndex(5)) as String
-                }
-                if match.rangeAtIndex(7).location != NSNotFound {
-                    query = nsstring.substringWithRange(match.rangeAtIndex(7)) as String
-                }
-                if match.rangeAtIndex(9).location != NSNotFound {
-                    fragment = nsstring.substringWithRange(match.rangeAtIndex(9)) as String
-                }
-                if authorityPart != nil && path != nil {
-                    hierarchicalPart = "\(authorityPart!)\(path!)"
-                } else if authorityPart != nil {
-                    hierarchicalPart = authorityPart!
-                } else if path != nil {
-                    hierarchicalPart = path!
-                }
-                if authorityPart != nil {
-                    let sucAuth = parseAuthorityPart(authorityPart!)
-                    if !sucAuth {
-                        return false
-                    }
-                }
-                return true
-            }
-            return false
-        } catch {
+        let regex = URI.regularExpression
+        let matches = regex.matchesInString(uri, options: [], range: NSMakeRange(0, uri.characters.count)) as Array<NSTextCheckingResult>
+        if matches.count <= 0 {
             return false
         }
+        let nsstring = uri as NSString
+        for match in matches as [NSTextCheckingResult] {
+            
+            /*
+            for index in 1...match.numberOfRanges-1 {
+            let range = match.rangeAtIndex(index)
+            if range.location != NSNotFound {
+            let substring = nsstring.substringWithRange(match.rangeAtIndex(index))
+            }
+            }
+            */
+            
+            if match.rangeAtIndex(2).location != NSNotFound {
+                scheme = nsstring.substringWithRange(match.rangeAtIndex(2)) as String
+            } else {
+                return false
+            }
+            if match.rangeAtIndex(4).location != NSNotFound {
+                authorityPart = nsstring.substringWithRange(match.rangeAtIndex(4)) as String
+            }
+            if match.rangeAtIndex(5).location != NSNotFound {
+                path = nsstring.substringWithRange(match.rangeAtIndex(5)) as String
+            }
+            if match.rangeAtIndex(7).location != NSNotFound {
+                query = nsstring.substringWithRange(match.rangeAtIndex(7)) as String
+            }
+            if match.rangeAtIndex(9).location != NSNotFound {
+                fragment = nsstring.substringWithRange(match.rangeAtIndex(9)) as String
+            }
+            if authorityPart != nil && path != nil {
+                hierarchicalPart = "\(authorityPart!)\(path!)"
+            } else if authorityPart != nil {
+                hierarchicalPart = authorityPart!
+            } else if path != nil {
+                hierarchicalPart = path!
+            }
+            if authorityPart != nil {
+                let sucAuth = parseAuthorityPart(authorityPart!)
+                if !sucAuth {
+                    return false
+                }
+            }
+            return true
+        }
+        return false
     }
 }
 
@@ -304,7 +321,7 @@ public class URI : Resource {
 /**
  This operator returns `true` when both URI identify the same object, i.e. when
  their `stringValue`s are the same.
- 
+
  - parameter left: The left URI in the comparison.
  - parameter right: The right URI in the comparison.
  - returns: True when the URIs are equal, false otherwise.

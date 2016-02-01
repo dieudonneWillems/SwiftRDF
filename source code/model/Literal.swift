@@ -23,6 +23,22 @@ public class Literal: Value{
     
     // regular expression: ^((("(.*)")|('([\w\s]*)'))((@(\w*(-\w*)?))(\^\^xsd:(string))?|\^\^(\w+:(\w*)|<(.*)>))?|([+-]?[\d]*)|([+-]?[\d\.]*)|([+-]?[\d\.]*[eE][+-]?\d*)|(true|false))$
     private static let literalPattern = "^(((\"(.*)\")|('([\\w\\s]*)'))((@(\\w*(-\\w*)?))(\\^\\^xsd:(string))?|\\^\\^(\\w+:(\\w*)|<(.*)>))?|([+-]?[\\d]*)|([+-]?[\\d\\.]*)|([+-]?[\\d\\.]*[eE][+-]?\\d*)|(true|false))$"
+    private static var _literalRegularExpression : NSRegularExpression?
+    
+    private static var regularExpression : NSRegularExpression {
+        if _literalRegularExpression == nil {
+            Literal.createRegularExpression()
+        }
+        return _literalRegularExpression!
+    }
+    
+    private static func createRegularExpression() {
+        do {
+            _literalRegularExpression = try NSRegularExpression(pattern: literalPattern, options: [.CaseInsensitive])
+        } catch {
+            //should never happen.
+        }
+    }
     
     private static let maxIntValueFromDouble = Int64(pow(2,53.0))
     
