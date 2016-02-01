@@ -13,16 +13,18 @@ class RDFNavigation: NSObject, NSOutlineViewDelegate, NSOutlineViewDataSource, N
     
     var documents = [RDFDocument]()
     
-    var fileNavigationView : NSOutlineView?
-    var statementsTable : NSTableView?
+    var fileNavigationViewController : RDFFileNavigationController?
+    var graphNavigationViewController : RDFGraphNavigationController?
+    var statementsTableController : StatementTableViewController?
     var visibleGraph : Graph?
+    var visibleGraphForSelectedFile : Graph?
     
     func setVisibleGraphFromSelection() {
-        visibleGraph = selectedGraph()
+        visibleGraph = selectedGraph
     }
     
-    func selectedGraph() -> Graph? {
-        let selectedRows = fileNavigationView?.selectedRowIndexes
+    var selectedGraph : Graph? {
+        let selectedRows = fileNavigationViewController?.fileNavigationView!.selectedRowIndexes
         if selectedRows?.count > 1 {
             let graph = Graph()
             for row in selectedRows! {
@@ -34,19 +36,30 @@ class RDFNavigation: NSObject, NSOutlineViewDelegate, NSOutlineViewDataSource, N
             return graph
         } else {
             if selectedRows?.count > 0 {
-                return graphAtRowInFileNavigationView((selectedRows?.firstIndex)!)
+                visibleGraphForSelectedFile = graphAtRowInFileNavigationView((selectedRows?.firstIndex)!)
             }
         }
-        return nil
+        let selectedRowsGraphs = graphNavigationViewController?.graphNavigationView?.selectedRowIndexes
+        if selectedRowsGraphs?.count > 0 {
+            visibleGraph = Graph()
+            for row in selectedRowsGraphs! {
+                let rowGraph = graphAtRowInGraphNavigationView(row)
+                if rowGraph != nil {
+                    visibleGraph!.add(rowGraph!)
+                }
+            }
+            return visibleGraph
+        }
+        return visibleGraphForSelectedFile
     }
     
     func graphAtRowInFileNavigationView(row : Int) -> Graph? {
-        let item = fileNavigationView?.itemAtRow(row)
+        let item = fileNavigationViewController?.fileNavigationView!.itemAtRow(row)
         if item != nil {
             if (item as? RDFDocument) != nil {
                 return (item as! RDFDocument).graph!
             }else if (item as? Resource) != nil {
-                let parentItem = fileNavigationView?.parentForItem(item)
+                let parentItem = fileNavigationViewController?.fileNavigationView!.parentForItem(item)
                 if parentItem != nil && (parentItem as? RDFDocument) != nil {
                     let parentGraph = (parentItem as! RDFDocument).graph!
                     let namedGraph = parentGraph.subGraph(nil, predicate: nil, object: nil, namedGraph: (item as! Resource))
@@ -57,15 +70,40 @@ class RDFNavigation: NSObject, NSOutlineViewDelegate, NSOutlineViewDataSource, N
         return nil
     }
     
+    func graphAtRowInGraphNavigationView(row : Int) -> Graph? {
+        let item = graphNavigationViewController?.graphNavigationView!.itemAtRow(row)
+        if item != nil {
+            if (item as? Resource) != nil {
+                let resource = (item as! Resource)
+                let graph = Graph()
+                let subjgraph = visibleGraphForSelectedFile?.subGraph(resource, predicate: nil, object: nil)
+                if subjgraph != nil {
+                    graph.add(subjgraph!)
+                }
+                let objgraph = visibleGraphForSelectedFile?.subGraph(nil, predicate: nil, object: resource)
+                if objgraph != nil {
+                    graph.add(objgraph!)
+                }
+                return graph
+            }
+        }
+        return nil
+    }
+    
     
     // MARK: Outline Datasource functions
     
     func outlineView(outlineView: NSOutlineView, numberOfChildrenOfItem item: AnyObject?) -> Int {
-        if outlineView == fileNavigationView {
+        if outlineView == fileNavigationViewController?.fileNavigationView {
             if item == nil {
                 return documents.count
             } else if (item as? RDFDocument) != nil {
                 return ((item as! RDFDocument).graph?.namedGraphs.count)!
+            }
+        } else if outlineView == graphNavigationViewController?.graphNavigationView {
+            let visibleGraphView = graphNavigationViewController!.visibleGraphView
+            if visibleGraphView == VisibleGraphView.InstancesView {
+                return (visibleGraphForSelectedFile?.resources.count)!
             }
         } else {
             
@@ -74,11 +112,18 @@ class RDFNavigation: NSObject, NSOutlineViewDelegate, NSOutlineViewDataSource, N
     }
     
     func outlineView(outlineView: NSOutlineView, child index: Int, ofItem item: AnyObject?) -> AnyObject {
-        if outlineView == fileNavigationView {
+        if outlineView == fileNavigationViewController?.fileNavigationView {
             if item == nil {
                 return documents[index]
             } else if (item as? RDFDocument) != nil {
                 return ((item as! RDFDocument).graph?.namedGraphs[index])!
+            }
+        } else if outlineView == graphNavigationViewController?.graphNavigationView {
+            let visibleGraphView = graphNavigationViewController!.visibleGraphView
+            if visibleGraphView == VisibleGraphView.InstancesView {
+                if item == nil {
+                    return (visibleGraphForSelectedFile?.resources[index])!
+                }
             }
         } else {
             
@@ -87,9 +132,14 @@ class RDFNavigation: NSObject, NSOutlineViewDelegate, NSOutlineViewDataSource, N
     }
     
     func outlineView(outlineView: NSOutlineView, isItemExpandable item: AnyObject) -> Bool {
-        if outlineView == fileNavigationView {
+        if outlineView == fileNavigationViewController?.fileNavigationView {
             if (item as? RDFDocument) != nil {
                 return ((item as! RDFDocument).graph?.namedGraphs.count > 0)
+            }
+        } else if outlineView == graphNavigationViewController?.graphNavigationView {
+            let visibleGraphView = graphNavigationViewController!.visibleGraphView
+            if visibleGraphView == VisibleGraphView.InstancesView {
+                return false
             }
         } else {
             
@@ -101,19 +151,16 @@ class RDFNavigation: NSObject, NSOutlineViewDelegate, NSOutlineViewDataSource, N
     // MARK: Outline view delegate functions
     
     func outlineView(outlineView: NSOutlineView, heightOfRowByItem item: AnyObject) -> CGFloat {
-        if outlineView == fileNavigationView {
+        if outlineView == fileNavigationViewController?.fileNavigationView {
             if (item as? RDFDocument) != nil {
                 return 30
             }
-            if (item as? Resource) != nil {
-                return 20
-            }
         }
-        return 22
+        return 20
     }
 
     func outlineView(outlineView: NSOutlineView, viewForTableColumn tableColumn: NSTableColumn?, item: AnyObject) -> NSView? {
-        if outlineView == fileNavigationView {
+        if outlineView == fileNavigationViewController?.fileNavigationView {
             if (item as? RDFDocument) != nil {
                 let document = item as! RDFDocument
                 let cell = outlineView.makeViewWithIdentifier("FileView", owner: self) as? FileView
@@ -140,6 +187,32 @@ class RDFNavigation: NSObject, NSOutlineViewDelegate, NSOutlineViewDataSource, N
                 }
                 return cell
             }
+        } else if outlineView == graphNavigationViewController?.graphNavigationView {
+            let visibleGraphView = graphNavigationViewController!.visibleGraphView
+            if visibleGraphView == VisibleGraphView.InstancesView {
+                let resource = item as! Resource
+                let cell = outlineView.makeViewWithIdentifier("IconTextView", owner: self) as? IconTextView
+                if cell != nil {
+                    var title = "resource"
+                    var tooltip : String? = nil
+                    cell?.icon?.image = NSImage(named: "instance")
+                    if (resource as? URI) != nil {
+                        title = (resource as! URI).stringValue
+                        if visibleGraphForSelectedFile != nil {
+                            let qname = visibleGraphForSelectedFile?.qualifiedName((resource as! URI))
+                            if qname != nil {
+                                title = qname!
+                            }
+                        }
+                        tooltip = (resource as! URI).stringValue
+                    } else if (resource as? BlankNode) != nil {
+                        title = (resource as! BlankNode).identifier
+                    }
+                    cell!.textField!.stringValue = title
+                    cell?.toolTip = tooltip
+                }
+                return cell
+            }
         }
         return nil
     }
@@ -147,7 +220,7 @@ class RDFNavigation: NSObject, NSOutlineViewDelegate, NSOutlineViewDataSource, N
     func outlineViewSelectionDidChange(notification: NSNotification) {
         print("Navigation view selection changed")
         setVisibleGraphFromSelection()
-        statementsTable?.reloadData()
+        statementsTableController?.statementsTable!.reloadData()
     }
     
     
@@ -182,7 +255,7 @@ class RDFNavigation: NSObject, NSOutlineViewDelegate, NSOutlineViewDataSource, N
     }
     
     func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
-        if tableView == statementsTable {
+        if tableView == statementsTableController?.statementsTable {
             let item = self.tableView(tableView, objectValueForTableColumn: tableColumn, row: row)
             if (item as? Resource) != nil {
                 var title = "No title"
@@ -200,14 +273,14 @@ class RDFNavigation: NSObject, NSOutlineViewDelegate, NSOutlineViewDataSource, N
                     let bnode = (item as! BlankNode)
                     title = bnode.stringValue
                 }
-                let cell = statementsTable!.makeViewWithIdentifier("ResourceCellView", owner: self) as? ResourceCellView
+                let cell = statementsTableController?.statementsTable!.makeViewWithIdentifier("ResourceCellView", owner: self) as? ResourceCellView
                 if cell != nil {
                     cell!.textField!.stringValue = title
                     cell?.toolTip = tooltip
                 }
                 return cell
             } else if (item as? Literal) != nil {
-                let cell = statementsTable!.makeViewWithIdentifier("LiteralCellView", owner: self) as? LiteralCellView
+                let cell = statementsTableController?.statementsTable!.makeViewWithIdentifier("LiteralCellView", owner: self) as? LiteralCellView
                 cell?.literal = (item as! Literal)
                 return cell
             }

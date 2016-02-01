@@ -7,15 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		020729A41C5ADA8F00B22285 /* date.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 020729A01C5ADA8F00B22285 /* date.pdf */; };
-		020729A51C5ADA8F00B22285 /* literal.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 020729A11C5ADA8F00B22285 /* literal.pdf */; };
-		020729A61C5ADA8F00B22285 /* number.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 020729A21C5ADA8F00B22285 /* number.pdf */; };
-		020729A71C5ADA8F00B22285 /* string.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 020729A31C5ADA8F00B22285 /* string.pdf */; };
-		020729AA1C5ADB0900B22285 /* uri.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 020729A91C5ADB0900B22285 /* uri.pdf */; };
 		020729AC1C5CCD8300B22285 /* ResourceCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 020729AB1C5CCD8300B22285 /* ResourceCellView.xib */; };
 		020729AE1C5CCD9C00B22285 /* ResourceCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 020729AD1C5CCD9C00B22285 /* ResourceCellView.swift */; };
 		020729B01C5D75DE00B22285 /* LiteralCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 020729AF1C5D75DE00B22285 /* LiteralCellView.swift */; };
 		020729B21C5D75FF00B22285 /* LiteralCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 020729B11C5D75FF00B22285 /* LiteralCellView.xib */; };
+		020729B61C5E656000B22285 /* hierarchy.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 020729B51C5E656000B22285 /* hierarchy.pdf */; };
 		021DE2181C503B1C0031FAC8 /* RDFNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 021DE2171C503B1C0031FAC8 /* RDFNavigationController.swift */; };
 		021DE21A1C503B640031FAC8 /* RDFFileNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 021DE2191C503B640031FAC8 /* RDFFileNavigationController.swift */; };
 		021DE21C1C503C790031FAC8 /* StatementTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 021DE21B1C503C790031FAC8 /* StatementTableViewController.swift */; };
@@ -37,6 +33,14 @@
 		0266B60D1C4D57A800CA2FE0 /* SwiftRDFOSX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0266B60C1C4D57A800CA2FE0 /* SwiftRDFOSX.framework */; };
 		0266B60F1C4EE90100CA2FE0 /* RDFDocumentWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0266B60E1C4EE90100CA2FE0 /* RDFDocumentWindowController.swift */; };
 		0266B6121C4EEB5900CA2FE0 /* RDFGraphNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0266B6111C4EEB5900CA2FE0 /* RDFGraphNavigationController.swift */; };
+		02C84CF51C5E6A39001AE84F /* instances-on.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 02C84CF31C5E6A39001AE84F /* instances-on.pdf */; };
+		02C84CF61C5E6A39001AE84F /* instances.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 02C84CF41C5E6A39001AE84F /* instances.pdf */; };
+		02C84CF91C5E6E67001AE84F /* properties-on.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 02C84CF71C5E6E67001AE84F /* properties-on.pdf */; };
+		02C84CFA1C5E6E67001AE84F /* properties.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 02C84CF81C5E6E67001AE84F /* properties.pdf */; };
+		02C84CFE1C5E9782001AE84F /* search-on.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 02C84CFD1C5E9782001AE84F /* search-on.pdf */; };
+		02C84D021C5E9872001AE84F /* search.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 02C84D011C5E9872001AE84F /* search.pdf */; };
+		02C84D041C5EBCAF001AE84F /* instance.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 02C84D031C5EBCAF001AE84F /* instance.pdf */; };
+		02F4B73D1C5E663D0025151A /* hierarchy-on.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 02F4B73C1C5E663D0025151A /* hierarchy-on.pdf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,15 +74,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		020729A01C5ADA8F00B22285 /* date.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = date.pdf; path = Ontologist/date.pdf; sourceTree = "<group>"; };
-		020729A11C5ADA8F00B22285 /* literal.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = literal.pdf; path = Ontologist/literal.pdf; sourceTree = "<group>"; };
-		020729A21C5ADA8F00B22285 /* number.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = number.pdf; path = Ontologist/number.pdf; sourceTree = "<group>"; };
-		020729A31C5ADA8F00B22285 /* string.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = string.pdf; path = Ontologist/string.pdf; sourceTree = "<group>"; };
-		020729A91C5ADB0900B22285 /* uri.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = uri.pdf; path = Ontologist/uri.pdf; sourceTree = "<group>"; };
 		020729AB1C5CCD8300B22285 /* ResourceCellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ResourceCellView.xib; sourceTree = "<group>"; };
 		020729AD1C5CCD9C00B22285 /* ResourceCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceCellView.swift; sourceTree = "<group>"; };
 		020729AF1C5D75DE00B22285 /* LiteralCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LiteralCellView.swift; sourceTree = "<group>"; };
 		020729B11C5D75FF00B22285 /* LiteralCellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LiteralCellView.xib; sourceTree = "<group>"; };
+		020729B51C5E656000B22285 /* hierarchy.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = hierarchy.pdf; path = Ontologist/hierarchy.pdf; sourceTree = "<group>"; };
 		021DE2171C503B1C0031FAC8 /* RDFNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RDFNavigationController.swift; sourceTree = "<group>"; };
 		021DE2191C503B640031FAC8 /* RDFFileNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RDFFileNavigationController.swift; sourceTree = "<group>"; };
 		021DE21B1C503C790031FAC8 /* StatementTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatementTableViewController.swift; sourceTree = "<group>"; };
@@ -105,6 +105,14 @@
 		0266B60C1C4D57A800CA2FE0 /* SwiftRDFOSX.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftRDFOSX.framework; path = ../Build/Products/Debug/SwiftRDFOSX.framework; sourceTree = "<group>"; };
 		0266B60E1C4EE90100CA2FE0 /* RDFDocumentWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RDFDocumentWindowController.swift; sourceTree = "<group>"; };
 		0266B6111C4EEB5900CA2FE0 /* RDFGraphNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RDFGraphNavigationController.swift; sourceTree = "<group>"; };
+		02C84CF31C5E6A39001AE84F /* instances-on.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = "instances-on.pdf"; path = "Ontologist/instances-on.pdf"; sourceTree = "<group>"; };
+		02C84CF41C5E6A39001AE84F /* instances.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = instances.pdf; path = Ontologist/instances.pdf; sourceTree = "<group>"; };
+		02C84CF71C5E6E67001AE84F /* properties-on.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = "properties-on.pdf"; path = "Ontologist/properties-on.pdf"; sourceTree = "<group>"; };
+		02C84CF81C5E6E67001AE84F /* properties.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = properties.pdf; path = Ontologist/properties.pdf; sourceTree = "<group>"; };
+		02C84CFD1C5E9782001AE84F /* search-on.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = "search-on.pdf"; path = "Ontologist/search-on.pdf"; sourceTree = "<group>"; };
+		02C84D011C5E9872001AE84F /* search.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = search.pdf; path = Ontologist/search.pdf; sourceTree = "<group>"; };
+		02C84D031C5EBCAF001AE84F /* instance.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = instance.pdf; path = Ontologist/instance.pdf; sourceTree = "<group>"; };
+		02F4B73C1C5E663D0025151A /* hierarchy-on.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = "hierarchy-on.pdf"; path = "Ontologist/hierarchy-on.pdf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -136,13 +144,17 @@
 		020729A81C5ADA9D00B22285 /* icons */ = {
 			isa = PBXGroup;
 			children = (
+				02C84D031C5EBCAF001AE84F /* instance.pdf */,
+				02C84D011C5E9872001AE84F /* search.pdf */,
+				02C84CFD1C5E9782001AE84F /* search-on.pdf */,
+				02C84CF71C5E6E67001AE84F /* properties-on.pdf */,
+				02C84CF81C5E6E67001AE84F /* properties.pdf */,
+				02C84CF31C5E6A39001AE84F /* instances-on.pdf */,
+				02C84CF41C5E6A39001AE84F /* instances.pdf */,
+				02F4B73C1C5E663D0025151A /* hierarchy-on.pdf */,
+				020729B51C5E656000B22285 /* hierarchy.pdf */,
 				021DE2321C530FBE0031FAC8 /* namedgraph-sidebar.pdf */,
-				020729A91C5ADB0900B22285 /* uri.pdf */,
 				021DE2271C52EE810031FAC8 /* rdffile-sidebar.pdf */,
-				020729A01C5ADA8F00B22285 /* date.pdf */,
-				020729A11C5ADA8F00B22285 /* literal.pdf */,
-				020729A21C5ADA8F00B22285 /* number.pdf */,
-				020729A31C5ADA8F00B22285 /* string.pdf */,
 			);
 			name = icons;
 			path = ..;
@@ -344,19 +356,23 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				020729AA1C5ADB0900B22285 /* uri.pdf in Resources */,
-				020729A51C5ADA8F00B22285 /* literal.pdf in Resources */,
 				020729AC1C5CCD8300B22285 /* ResourceCellView.xib in Resources */,
+				02C84CF91C5E6E67001AE84F /* properties-on.pdf in Resources */,
+				02C84CF51C5E6A39001AE84F /* instances-on.pdf in Resources */,
+				02C84CFA1C5E6E67001AE84F /* properties.pdf in Resources */,
+				02F4B73D1C5E663D0025151A /* hierarchy-on.pdf in Resources */,
+				02C84CFE1C5E9782001AE84F /* search-on.pdf in Resources */,
 				0266B5E61C4D563400CA2FE0 /* Assets.xcassets in Resources */,
-				020729A41C5ADA8F00B22285 /* date.pdf in Resources */,
-				020729A71C5ADA8F00B22285 /* string.pdf in Resources */,
 				021DE2311C530BFD0031FAC8 /* IconTextView.xib in Resources */,
+				02C84D021C5E9872001AE84F /* search.pdf in Resources */,
+				02C84CF61C5E6A39001AE84F /* instances.pdf in Resources */,
 				020729B21C5D75FF00B22285 /* LiteralCellView.xib in Resources */,
 				021DE2241C5192800031FAC8 /* FileView.xib in Resources */,
 				021DE2281C52EE810031FAC8 /* rdffile-sidebar.pdf in Resources */,
 				021DE2331C530FBE0031FAC8 /* namedgraph-sidebar.pdf in Resources */,
+				020729B61C5E656000B22285 /* hierarchy.pdf in Resources */,
 				0266B5E91C4D563400CA2FE0 /* Main.storyboard in Resources */,
-				020729A61C5ADA8F00B22285 /* number.pdf in Resources */,
+				02C84D041C5EBCAF001AE84F /* instance.pdf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

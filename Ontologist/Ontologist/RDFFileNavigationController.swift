@@ -28,11 +28,9 @@ class RDFFileNavigationController: NSViewController {
     
     override var representedObject: AnyObject? {
         didSet {
-            // Update the view, if already loaded.
-            print("represented object: \(representedObject)")
             if representedObject != nil && (representedObject as? RDFNavigation) != nil {
                 navigation = (representedObject as! RDFNavigation)
-                navigation.fileNavigationView = fileNavigationView
+                navigation.fileNavigationViewController = self
                 fileNavigationView?.setDelegate(navigation)
                 fileNavigationView?.setDataSource(navigation)
                 fileNavigationView?.reloadData()

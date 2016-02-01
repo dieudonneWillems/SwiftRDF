@@ -692,23 +692,23 @@
             <objects>
                 <viewController storyboardIdentifier="RDFGraphNavigation" id="Zcf-bJ-oOk" customClass="RDFGraphNavigationController" customModule="Ontologist" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="cd2-mA-2fU">
-                        <rect key="frame" x="0.0" y="0.0" width="150" height="400"/>
+                        <rect key="frame" x="0.0" y="0.0" width="200" height="400"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="20" horizontalPageScroll="10" verticalLineScroll="20" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XjH-Ad-dAD">
-                                <rect key="frame" x="0.0" y="0.0" width="150" height="400"/>
-                                <clipView key="contentView" drawsBackground="NO" id="Fqa-Xm-bcU">
-                                    <rect key="frame" x="0.0" y="0.0" width="150" height="400"/>
+                            <scrollView horizontalHuggingPriority="245" borderType="none" autohidesScrollers="YES" horizontalLineScroll="20" horizontalPageScroll="10" verticalLineScroll="20" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XjH-Ad-dAD">
+                                <rect key="frame" x="0.0" y="0.0" width="200" height="377"/>
+                                <clipView key="contentView" horizontalHuggingPriority="243" drawsBackground="NO" id="Fqa-Xm-bcU">
+                                    <rect key="frame" x="0.0" y="0.0" width="200" height="377"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="sourceList" multipleSelection="NO" autosaveColumns="NO" rowHeight="20" rowSizeStyle="automatic" viewBased="YES" indentationPerLevel="14" outlineTableColumn="GlB-gr-d7z" id="3sT-BY-WMl">
-                                            <rect key="frame" x="0.0" y="0.0" width="150" height="0.0"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="200" height="0.0"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="0.0"/>
                                             <color key="backgroundColor" name="_sourceListBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                             <tableColumns>
-                                                <tableColumn width="147.0107109359063" minWidth="16" maxWidth="1000" id="GlB-gr-d7z">
+                                                <tableColumn width="197.0107109359063" minWidth="16" maxWidth="1000" id="GlB-gr-d7z">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -722,10 +722,10 @@
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
                                                         <tableCellView identifier="HeaderCell" id="eFt-jN-e9v">
-                                                            <rect key="frame" x="1" y="0.0" width="147.47190562338463" height="17"/>
+                                                            <rect key="frame" x="1" y="0.0" width="197" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
-                                                                <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NoW-aj-pe7">
+                                                                <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="NoW-aj-pe7">
                                                                     <rect key="frame" x="0.0" y="1" width="145" height="14"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="HEADER CELL" id="r3q-sk-dxv">
                                                                         <font key="font" metaFont="smallSystemBold"/>
@@ -734,19 +734,27 @@
                                                                     </textFieldCell>
                                                                 </textField>
                                                             </subviews>
+                                                            <constraints>
+                                                                <constraint firstItem="NoW-aj-pe7" firstAttribute="leading" secondItem="eFt-jN-e9v" secondAttribute="leading" constant="2" id="ioh-0D-7rh"/>
+                                                                <constraint firstItem="NoW-aj-pe7" firstAttribute="centerY" secondItem="eFt-jN-e9v" secondAttribute="centerY" id="nu9-bQ-Nhm"/>
+                                                                <constraint firstAttribute="trailing" secondItem="NoW-aj-pe7" secondAttribute="trailing" constant="54" id="rUn-58-KGA"/>
+                                                            </constraints>
                                                             <connections>
                                                                 <outlet property="textField" destination="NoW-aj-pe7" id="jox-Zn-3IR"/>
                                                             </connections>
                                                         </tableCellView>
                                                         <tableCellView identifier="DataCell" id="BhJ-VB-DN3">
-                                                            <rect key="frame" x="1" y="17" width="147.47190562338463" height="20"/>
+                                                            <rect key="frame" x="1" y="17" width="197" height="20"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
-                                                                <imageView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="L47-sw-wfw">
+                                                                <imageView translatesAutoresizingMaskIntoConstraints="NO" id="L47-sw-wfw">
                                                                     <rect key="frame" x="3" y="3" width="17" height="17"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="width" constant="17" id="fRu-rT-R3U"/>
+                                                                    </constraints>
                                                                     <imageCell key="cell" refusesFirstResponder="YES" imageScaling="proportionallyDown" image="NSActionTemplate" id="ziv-Au-HY1"/>
                                                                 </imageView>
-                                                                <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FKF-rn-e6O">
+                                                                <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="FKF-rn-e6O">
                                                                     <rect key="frame" x="25" y="3" width="120" height="17"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="vNH-dw-O9L">
                                                                         <font key="font" metaFont="system"/>
@@ -755,6 +763,14 @@
                                                                     </textFieldCell>
                                                                 </textField>
                                                             </subviews>
+                                                            <constraints>
+                                                                <constraint firstItem="FKF-rn-e6O" firstAttribute="top" secondItem="L47-sw-wfw" secondAttribute="top" id="4cg-5s-J05"/>
+                                                                <constraint firstAttribute="bottom" secondItem="L47-sw-wfw" secondAttribute="bottom" constant="3" id="OZn-oq-cOc"/>
+                                                                <constraint firstItem="L47-sw-wfw" firstAttribute="leading" secondItem="BhJ-VB-DN3" secondAttribute="leading" constant="3" id="anH-Y4-MSF"/>
+                                                                <constraint firstAttribute="trailing" secondItem="FKF-rn-e6O" secondAttribute="trailing" constant="54" id="bVd-I8-dtL"/>
+                                                                <constraint firstItem="FKF-rn-e6O" firstAttribute="leading" secondItem="L47-sw-wfw" secondAttribute="trailing" constant="7" id="fwg-Hc-yFz"/>
+                                                                <constraint firstItem="FKF-rn-e6O" firstAttribute="bottom" secondItem="L47-sw-wfw" secondAttribute="bottom" id="zdN-rb-HRR"/>
+                                                            </constraints>
                                                             <connections>
                                                                 <outlet property="imageView" destination="L47-sw-wfw" id="JzB-CY-eIY"/>
                                                                 <outlet property="textField" destination="FKF-rn-e6O" id="yoL-PN-VHk"/>
@@ -776,18 +792,88 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
+                            <box verticalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="dxS-5X-Ydy">
+                                <rect key="frame" x="0.0" y="374" width="200" height="5"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="1" id="KEM-bq-wUo"/>
+                                </constraints>
+                                <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
+                                <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <font key="titleFont" metaFont="system"/>
+                            </box>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="yUc-W8-hye">
+                                <rect key="frame" x="28" y="377" width="145" height="23"/>
+                                <subviews>
+                                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qUA-gn-jxD">
+                                        <rect key="frame" x="76" y="0.0" width="23" height="23"/>
+                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="properties" imagePosition="overlaps" alignment="center" alternateImage="properties-on" controlSize="small" imageScaling="proportionallyDown" inset="2" id="Vqe-ef-yfb">
+                                            <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
+                                            <font key="font" metaFont="smallSystem"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="graphNavigationViewSelected:" target="Zcf-bJ-oOk" id="s8h-PW-mpx"/>
+                                        </connections>
+                                    </button>
+                                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iMm-aV-aB3">
+                                        <rect key="frame" x="15" y="0.0" width="23" height="23"/>
+                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="hierarchy" imagePosition="overlaps" alignment="center" alternateImage="hierarchy-on" controlSize="small" imageScaling="proportionallyDown" inset="2" id="mYf-U9-t0a">
+                                            <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
+                                            <font key="font" metaFont="smallSystem"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="graphNavigationViewSelected:" target="Zcf-bJ-oOk" id="vI3-ih-nqK"/>
+                                        </connections>
+                                    </button>
+                                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jPE-gY-NVs">
+                                        <rect key="frame" x="107" y="0.0" width="23" height="23"/>
+                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="search" imagePosition="overlaps" alignment="center" alternateImage="search-on" controlSize="small" imageScaling="proportionallyDown" inset="2" id="OCM-6r-TwG">
+                                            <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
+                                            <font key="font" metaFont="smallSystem"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="graphNavigationViewSelected:" target="Zcf-bJ-oOk" id="VMU-qn-4A1"/>
+                                        </connections>
+                                    </button>
+                                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="v4Q-Ve-UIZ">
+                                        <rect key="frame" x="46" y="0.0" width="23" height="23"/>
+                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="instances" imagePosition="overlaps" alignment="center" alternateImage="instances-on" controlSize="small" imageScaling="proportionallyDown" inset="2" id="jfY-Co-mbJ">
+                                            <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
+                                            <font key="font" metaFont="smallSystem"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="graphNavigationViewSelected:" target="Zcf-bJ-oOk" id="rBC-Vv-1yW"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="145" id="rGx-bD-ncP"/>
+                                </constraints>
+                            </customView>
                         </subviews>
                         <constraints>
-                            <constraint firstAttribute="bottom" secondItem="XjH-Ad-dAD" secondAttribute="bottom" id="4x8-DS-g7d"/>
-                            <constraint firstAttribute="trailing" secondItem="XjH-Ad-dAD" secondAttribute="trailing" id="ATx-US-5L5"/>
-                            <constraint firstItem="XjH-Ad-dAD" firstAttribute="top" secondItem="cd2-mA-2fU" secondAttribute="top" id="v22-Cr-1Me"/>
-                            <constraint firstItem="XjH-Ad-dAD" firstAttribute="leading" secondItem="cd2-mA-2fU" secondAttribute="leading" id="z6S-N5-oHt"/>
+                            <constraint firstItem="XjH-Ad-dAD" firstAttribute="top" secondItem="dxS-5X-Ydy" secondAttribute="top" id="28t-pn-rf0"/>
+                            <constraint firstItem="XjH-Ad-dAD" firstAttribute="leading" secondItem="cd2-mA-2fU" secondAttribute="leading" id="2Us-ti-CoE"/>
+                            <constraint firstAttribute="bottom" secondItem="XjH-Ad-dAD" secondAttribute="bottom" id="Gx8-84-myr"/>
+                            <constraint firstItem="dxS-5X-Ydy" firstAttribute="top" secondItem="yUc-W8-hye" secondAttribute="bottom" id="PpS-ln-SEn"/>
+                            <constraint firstItem="XjH-Ad-dAD" firstAttribute="top" secondItem="cd2-mA-2fU" secondAttribute="top" constant="23" id="Qyk-Yv-xCQ"/>
+                            <constraint firstItem="XjH-Ad-dAD" firstAttribute="trailing" secondItem="dxS-5X-Ydy" secondAttribute="trailing" id="SYm-Bd-E9S"/>
+                            <constraint firstItem="yUc-W8-hye" firstAttribute="centerX" secondItem="cd2-mA-2fU" secondAttribute="centerX" id="f2M-d7-GQn"/>
+                            <constraint firstItem="XjH-Ad-dAD" firstAttribute="leading" secondItem="dxS-5X-Ydy" secondAttribute="leading" id="hVU-0e-tXM"/>
+                            <constraint firstAttribute="trailing" secondItem="dxS-5X-Ydy" secondAttribute="trailing" id="inW-Nq-TUM"/>
+                            <constraint firstItem="yUc-W8-hye" firstAttribute="top" secondItem="cd2-mA-2fU" secondAttribute="top" id="z5m-TT-8tD"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="graphNavigationView" destination="3sT-BY-WMl" id="eCL-a9-1zW"/>
+                        <outlet property="hierarchyViewButton" destination="iMm-aV-aB3" id="7pW-un-INI"/>
+                        <outlet property="instancesViewButton" destination="v4Q-Ve-UIZ" id="645-SZ-qI4"/>
+                        <outlet property="propertiesViewButton" destination="qUA-gn-jxD" id="gQ7-EJ-YYg"/>
+                        <outlet property="searchViewButton" destination="jPE-gY-NVs" id="DmM-YR-WK0"/>
+                    </connections>
                 </viewController>
                 <customObject id="m9C-aE-pq4" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1502" y="882"/>
+            <point key="canvasLocation" x="1527" y="882"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="2Mg-KB-hg5">
@@ -1069,5 +1155,13 @@
     </scenes>
     <resources>
         <image name="NSActionTemplate" width="14" height="14"/>
+        <image name="hierarchy" width="48" height="48"/>
+        <image name="hierarchy-on" width="48" height="48"/>
+        <image name="instances" width="48" height="48"/>
+        <image name="instances-on" width="48" height="48"/>
+        <image name="properties" width="48" height="48"/>
+        <image name="properties-on" width="48" height="48"/>
+        <image name="search" width="48" height="48"/>
+        <image name="search-on" width="48" height="48"/>
     </resources>
 </document>

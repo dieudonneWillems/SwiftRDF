@@ -196,7 +196,7 @@ public class Graph {
         if !resources.contains({$0 == statement.subject}){
             resources.append(statement.subject)
         }
-        if (statement.object as? Resource) != nil && resources.contains({$0 == statement.object}){
+        if (statement.object as? Resource) != nil && !resources.contains({$0 == statement.object}){
             resources.append((statement.object as! Resource))
         }
         if !properties.contains({$0 == statement.predicate}){

@@ -28,7 +28,7 @@ class StatementTableViewController: NSViewController {
         didSet {
             if representedObject != nil && (representedObject as? RDFNavigation) != nil {
                 navigation = (representedObject as! RDFNavigation)
-                navigation.statementsTable = statementsTable
+                navigation.statementsTableController = self
                 statementsTable?.setDelegate(navigation)
                 statementsTable?.setDataSource(navigation)
                 statementsTable?.reloadData()
