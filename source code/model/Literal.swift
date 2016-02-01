@@ -23,8 +23,6 @@ public class Literal: Value{
     
     // regular expression: ^((("(.*)")|('([\w\s]*)'))((@(\w*(-\w*)?))(\^\^xsd:(string))?|\^\^(\w+:(\w*)|<(.*)>))?|([+-]?[\d]*)|([+-]?[\d\.]*)|([+-]?[\d\.]*[eE][+-]?\d*)|(true|false))$
     private static let literalPattern = "^(((\"(.*)\")|('([\\w\\s]*)'))((@(\\w*(-\\w*)?))(\\^\\^xsd:(string))?|\\^\\^(\\w+:(\\w*)|<(.*)>))?|([+-]?[\\d]*)|([+-]?[\\d\\.]*)|([+-]?[\\d\\.]*[eE][+-]?\\d*)|(true|false))$"
-    // regular expression: ^((("(.*)")|('([\w\s]*)'))((@(\w*(-\w*)?))(\^\^xsd:(string))?|\^\^(xsd:(\w*)|<(.*)>))?|([+-]?[\d]*)|([+-]?[\d\.]*)|([+-]?[\d\.]*[eE][+-]?\d*)|(true|false))$
-    private static let literalPattern = "^(((\"(.*)\")|('([\\w\\s]*)'))((@(\\w*(-\\w*)?))(\\^\\^xsd:(string))?|\\^\\^(xsd:(\\w*)|<(.*)>))?|([+-]?[\\d]*)|([+-]?[\\d\\.]*)|([+-]?[\\d\\.]*[eE][+-]?\\d*)|(true|false))$"
     private static var _literalRegularExpression : NSRegularExpression?
     
     private static var regularExpression : NSRegularExpression {
