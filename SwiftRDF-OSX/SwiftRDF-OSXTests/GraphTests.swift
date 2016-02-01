@@ -38,6 +38,15 @@ class GraphTests : XCTestCase {
         graph.addStatement(apple, predicate: RDFS.label, object: Literal(stringValue: "apple", language: "nl")!)
         graph.addStatement(apple, predicate: RDFS.label, object: Literal(stringValue: "apple", language: "en")!)
         XCTAssertTrue(graph.count == 4)
+        
+        XCTAssertTrue(graph.resources.count == 3)
+        XCTAssertTrue(graph.resources.contains({ $0 == apple}))
+        XCTAssertTrue(graph.resources.contains({ $0 == pear}))
+        XCTAssertTrue(graph.resources.contains({ $0 == OWL.Class}))
+        XCTAssertTrue(graph.properties.count == 2)
+        XCTAssertTrue(graph.properties.contains({ $0 == RDFS.label}))
+        XCTAssertTrue(graph.properties.contains({ $0 == RDF.type}))
+        
         var subgraph = graph.subGraph(apple, predicate: nil, object: nil)
         XCTAssertTrue(subgraph.count == 3)
         subgraph = graph.subGraph(nil, predicate: RDFS.label, object: nil)
@@ -133,6 +142,19 @@ class GraphTests : XCTestCase {
         pears.addStatement(conference, predicate: RDFS.label, object: Literal(stringValue: "Conference", dataType: XSD.string)!)
         
         let merged = Graph.merge(fruits,apples,pears)
+        
+        XCTAssertTrue(merged.resources.count == 7)
+        XCTAssertTrue(merged.resources.contains({ $0 == fruit}))
+        XCTAssertTrue(merged.resources.contains({ $0 == apple}))
+        XCTAssertTrue(merged.resources.contains({ $0 == goldenDelicious}))
+        XCTAssertTrue(merged.resources.contains({ $0 == elstar}))
+        XCTAssertTrue(merged.resources.contains({ $0 == pear}))
+        XCTAssertTrue(merged.resources.contains({ $0 == conference}))
+        XCTAssertTrue(merged.resources.contains({ $0 == OWL.Class}))
+        XCTAssertTrue(merged.properties.count == 3)
+        XCTAssertTrue(merged.properties.contains({ $0 == RDFS.label}))
+        XCTAssertTrue(merged.properties.contains({ $0 == RDFS.subClassOf}))
+        XCTAssertTrue(merged.properties.contains({ $0 == RDF.type}))
         
         XCTAssertTrue(merged.count == 20)
         

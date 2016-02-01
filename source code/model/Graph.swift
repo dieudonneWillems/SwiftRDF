@@ -48,13 +48,26 @@ public class Graph {
      */
     public private(set) var namespaces = [String : String]()
     
-    
     /**
      An array containing all namespace prefixes defined in this graph.
      */
     public var namespacePrefixes : [String] {
         return Array(namespaces.keys)
     }
+    
+    // MARK: Access to resources in the `Graph`
+    
+    /**
+     The resources used in this `Graph` excluding properties (predicates).
+     */
+    public private(set) var resources = [Resource]()
+    
+    /**
+     The different properties used in the `Graph`.
+     */
+    public private(set) var properties = [URI]()
+    
+    
     
     // MARK: Initialisers
     
@@ -87,6 +100,7 @@ public class Graph {
             statement.addToNamedGraph(name!)
         }
         statements.append(statement)
+        extractDistinctResourcesAndProperties(statement)
     }
     
     /**
@@ -156,6 +170,29 @@ public class Graph {
         for var index = 0; index < count; index++ {
             let mindex = statements.indexOf(graph[index])
             statements.removeAtIndex(mindex!)
+        }
+        resources.removeAll()
+        properties.removeAll()
+        for var index = 0; index < self.count; index++ {
+            extractDistinctResourcesAndProperties(self[index])
+        }
+    }
+    
+    /**
+     Checks the statement for resources (in subject or object) and properties that have not been defined before and
+     if so puts these in the `resources` or `properties` array.
+     
+     - parameter statement: The statement to be checked for distinct resources or properties.
+     */
+    private func extractDistinctResourcesAndProperties(statement : Statement) {
+        if !resources.contains({$0 == statement.subject}){
+            resources.append(statement.subject)
+        }
+        if (statement.object as? Resource) != nil && !resources.contains({$0 == statement.object}){
+            resources.append((statement.object as! Resource))
+        }
+        if !properties.contains({$0 == statement.predicate}){
+            properties.append(statement.predicate)
         }
     }
     

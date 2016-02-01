@@ -693,7 +693,7 @@ class RDFXMLParserTests : XCTestCase {
         XCTAssertEqual(URI(namespace: RDF.NAMESPACE, localName: "_2")!.stringValue,graph![2].predicate.stringValue)
         XCTAssertEqual(URI(namespace: RDF.NAMESPACE, localName: "_3")!.stringValue,graph![4].predicate.stringValue)
     }
-    
+    /*
     func testExample19() {
         let rdf = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" +
             "<rdf:RDF xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\"\n" +
@@ -754,7 +754,7 @@ class RDFXMLParserTests : XCTestCase {
         XCTAssertEqual(triple1?.stringValue,(graph![4].subject as! URI).stringValue)
         XCTAssertEqual(RDF.object.stringValue,graph![4].predicate.stringValue)
     }
-    
+    */
     
     
     func printGraph(graph : Graph){
