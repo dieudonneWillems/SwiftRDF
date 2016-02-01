@@ -75,6 +75,17 @@ public class Graph {
     public private(set) var namedGraphs = [Resource]()
     
     
+    // MARK: Indexes
+    
+    private var subjectIndex = [String : [Statement]]()
+    
+    private var predicateIndex = [String : [Statement]]()
+    
+    // Only for objects that are a resource.
+    private var objectIndex = [String : [Statement]]()
+    
+    private var namedGraphIndex = [String : [Statement]]()
+    
     
     // MARK: Initialisers
     
@@ -108,6 +119,7 @@ public class Graph {
         }
         statements.append(statement)
         extractDistinctResourcesAndProperties(statement)
+        indexStatement(statement)
     }
     
     /**
@@ -176,6 +188,7 @@ public class Graph {
         let count = graph.count
         for var index = 0; index < count; index++ {
             let mindex = statements.indexOf(graph[index])
+            removeStatementFromIndexes(graph[index])
             statements.removeAtIndex(mindex!)
         }
         resources.removeAll()
@@ -210,6 +223,95 @@ public class Graph {
     }
     
     /**
+     Adds a statement to the indexes. All three elements of a triple (subject, predicate, and object)
+     are indexed.
+     
+     - parameter statement: The statement to be added to the indexes.
+     */
+    private func indexStatement(statement : Statement){
+        let subjectStr = statement.subject.stringValue
+        var statementsForSubject = subjectIndex[subjectStr]
+        if statementsForSubject == nil {
+            statementsForSubject = [Statement]()
+        }
+        statementsForSubject?.append(statement)
+        subjectIndex[subjectStr] = statementsForSubject
+        
+        let predicateStr = statement.predicate.stringValue
+        var statementsForPredicate = predicateIndex[predicateStr]
+        if statementsForPredicate == nil {
+            statementsForPredicate = [Statement]()
+        }
+        statementsForPredicate?.append(statement)
+        predicateIndex[predicateStr] = statementsForPredicate
+        
+        if (statement.object as? Resource) != nil {
+            let objectStr = statement.object.stringValue
+            var statementsForObject = objectIndex[objectStr]
+            if statementsForObject == nil {
+                statementsForObject = [Statement]()
+            }
+            statementsForObject?.append(statement)
+            objectIndex[objectStr] = statementsForObject
+        }
+        
+        let namedgraphs = statement.namedGraphs
+        for namedGraph in namedgraphs {
+            let namedGraphStr = namedGraph.stringValue
+            var statementsForNamedGraph = namedGraphIndex[namedGraphStr]
+            if statementsForNamedGraph == nil {
+                statementsForNamedGraph = [Statement]()
+            }
+            statementsForNamedGraph?.append(statement)
+            namedGraphIndex[namedGraphStr] = statementsForNamedGraph
+        }
+    }
+    
+    /**
+     Removes the specified statement from the indexes.
+     
+     - parameter statement: The statement to be removed.
+     */
+    private func removeStatementFromIndexes(statement : Statement) {
+        let subjectStr = statement.subject.stringValue
+        var statementsForSubject = subjectIndex[subjectStr]
+        var index = statementsForSubject?.indexOf(statement)
+        if index != nil {
+            statementsForSubject?.removeAtIndex(index!)
+            subjectIndex[subjectStr] = statementsForSubject
+        }
+        
+        let predicateStr = statement.predicate.stringValue
+        var statementsForPredicate = predicateIndex[predicateStr]
+        index = statementsForPredicate?.indexOf(statement)
+        if index != nil {
+            statementsForPredicate?.removeAtIndex(index!)
+            predicateIndex[predicateStr] = statementsForPredicate
+        }
+        
+        if (statement.object as? Resource) != nil {
+            let objectStr = statement.object.stringValue
+            var statementsForObject = objectIndex[objectStr]
+            index = statementsForObject?.indexOf(statement)
+            if index != nil {
+                statementsForObject?.removeAtIndex(index!)
+                objectIndex[objectStr] = statementsForObject
+            }
+        }
+        
+        let namedgraphs = statement.namedGraphs
+        for namedGraph in namedgraphs {
+            let namedGraphStr = namedGraph.stringValue
+            var statementsForNamedGraph = namedGraphIndex[namedGraphStr]
+            index = statementsForNamedGraph?.indexOf(statement)
+            if index != nil {
+                statementsForNamedGraph?.removeAtIndex(index!)
+                namedGraphIndex[namedGraphStr] = statementsForNamedGraph
+            }
+        }
+    }
+    
+    /**
      Returns a subgraph containing all statements that match the conditions specified by the parameters.
      Statements are added to the subgraph when the subject of the statement matches the subject parameter,
      when the predicate of the statement matches the predicate parameter, when the object of the statement
@@ -234,7 +336,63 @@ public class Graph {
      */
     public func subGraph(subject: Resource?, predicate: Resource?, object: Value?, namedGraph: Resource...) -> Graph {
         let graph = Graph()
-        for statement in statements {
+        var selectedStatements = statements
+        if subject != nil {
+            let statementsForSubject = subjectIndex[subject!.stringValue]
+            if statementsForSubject == nil {
+                return graph
+            }
+            if predicate == nil && object == nil && namedGraph.count <= 0 {
+                graph.add(statementsForSubject!)
+                return graph
+            }
+            selectedStatements = statementsForSubject!
+        }
+        if predicate != nil {
+            let statementsForPredicate = predicateIndex[predicate!.stringValue]
+            if statementsForPredicate == nil {
+                return graph
+            }
+            if subject == nil && object == nil && namedGraph.count <= 0 {
+                graph.add(statementsForPredicate!)
+                return graph
+            }
+            if statementsForPredicate!.count < selectedStatements.count {
+                selectedStatements = statementsForPredicate!
+            }
+        }
+        if object != nil && (object as? Resource) != nil {
+            let statementsForObject = objectIndex[object!.stringValue]
+            if statementsForObject == nil {
+                return graph
+            }
+            if subject == nil && predicate == nil && namedGraph.count <= 0 {
+                graph.add(statementsForObject!)
+                return graph
+            }
+            if statementsForObject!.count < selectedStatements.count {
+                selectedStatements = statementsForObject!
+            }
+        }
+        
+        if namedGraph.count > 0 {
+            var statsng = [Statement]()
+            for ng in namedGraph {
+                let statementsForNamedGraph = namedGraphIndex[ng.stringValue]
+                if statementsForNamedGraph != nil {
+                    statsng.appendContentsOf(statementsForNamedGraph!)
+                }
+            }
+            if subject == nil && predicate == nil && object == nil {
+                graph.add(statsng)
+                return graph
+            }
+            if statsng.count < selectedStatements.count {
+                selectedStatements = statsng
+            }
+        }
+        
+        for statement in selectedStatements {
             if (subject == nil || subject! == statement.subject) && (predicate == nil || predicate! == statement.predicate) && (object == nil || object! == statement.object) {
                 if namedGraph.count > 0 {
                     for ng in namedGraph {

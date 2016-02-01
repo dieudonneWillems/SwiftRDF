@@ -671,10 +671,10 @@
             <objects>
                 <splitViewController id="81w-Yo-fck" customClass="MainSplitViewController" customModule="Ontologist" customModuleProvider="target" sceneMemberID="viewController">
                     <splitViewItems>
-                        <splitViewItem id="IJC-MX-CeN"/>
-                        <splitViewItem id="K0j-Ci-mLo"/>
+                        <splitViewItem canCollapse="YES" holdingPriority="260" behavior="sidebar" id="IJC-MX-CeN"/>
+                        <splitViewItem holdingPriority="255" behavior="contentList" id="K0j-Ci-mLo"/>
                     </splitViewItems>
-                    <splitView key="splitView" dividerStyle="thin" vertical="YES" id="d59-qO-EVJ">
+                    <splitView key="splitView" focusRingType="none" dividerStyle="thin" vertical="YES" id="d59-qO-EVJ">
                         <rect key="frame" x="0.0" y="0.0" width="697" height="474"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </splitView>
@@ -701,7 +701,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="200" height="377"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="sourceList" multipleSelection="NO" autosaveColumns="NO" rowHeight="20" rowSizeStyle="automatic" viewBased="YES" indentationPerLevel="14" outlineTableColumn="GlB-gr-d7z" id="3sT-BY-WMl">
+                                        <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="sourceList" autosaveColumns="NO" rowHeight="20" rowSizeStyle="automatic" viewBased="YES" indentationPerLevel="14" outlineTableColumn="GlB-gr-d7z" id="3sT-BY-WMl">
                                             <rect key="frame" x="0.0" y="0.0" width="200" height="0.0"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="0.0"/>
@@ -1009,7 +1009,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="689" height="400"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1H1-9Q-MIB">
+                            <scrollView focusRingType="none" borderType="none" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1H1-9Q-MIB">
                                 <rect key="frame" x="0.0" y="0.0" width="689" height="400"/>
                                 <clipView key="contentView" id="a3p-lm-fY2">
                                     <rect key="frame" x="0.0" y="0.0" width="689" height="385"/>
@@ -1068,7 +1068,7 @@
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
                                                         <tableCellView id="YUB-z0-FNm">
-                                                            <rect key="frame" x="208.5" y="1" width="216" height="17"/>
+                                                            <rect key="frame" x="209" y="1" width="216" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="g3d-ng-ILZ">
@@ -1100,7 +1100,7 @@
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
                                                         <tableCellView id="WSg-cd-KnA">
-                                                            <rect key="frame" x="427.5" y="1" width="262" height="17"/>
+                                                            <rect key="frame" x="428" y="1" width="262" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="r4Z-hR-E9Y">

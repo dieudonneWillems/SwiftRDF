@@ -11,11 +11,23 @@ import SwiftRDFOSX
 
 class RDFNavigation: NSObject, NSOutlineViewDelegate, NSOutlineViewDataSource, NSTableViewDelegate,NSTableViewDataSource {
     
-    var documents = [RDFDocument]()
+    var documents : [RDFDocument] = [RDFDocument]() {
+        didSet {
+            fullGraph = Graph()
+            for document in documents {
+                if document.graph != nil {
+                    fullGraph?.add(document.graph!)
+                }
+            }
+            visibleGraphForSelectedFile = fullGraph
+            visibleGraph = fullGraph
+        }
+    }
     
     var fileNavigationViewController : RDFFileNavigationController?
     var graphNavigationViewController : RDFGraphNavigationController?
     var statementsTableController : StatementTableViewController?
+    var fullGraph : Graph?
     var visibleGraph : Graph?
     var visibleGraphForSelectedFile : Graph?
     
@@ -24,36 +36,31 @@ class RDFNavigation: NSObject, NSOutlineViewDelegate, NSOutlineViewDataSource, N
     }
     
     var selectedGraph : Graph? {
-        let selectedRows = fileNavigationViewController?.fileNavigationView!.selectedRowIndexes
-        if selectedRows?.count > 1 {
-            let graph = Graph()
-            for row in selectedRows! {
-                let rowGraph = graphAtRowInFileNavigationView(row)
-                if rowGraph != nil {
-                    graph.add(rowGraph!)
-                }
-            }
-            return graph
-        } else {
-            if selectedRows?.count > 0 {
-                visibleGraphForSelectedFile = graphAtRowInFileNavigationView((selectedRows?.firstIndex)!)
-            }
+        let selectedRow = fileNavigationViewController?.fileNavigationView!.selectedRow
+        var namedGraph : Resource?
+        visibleGraphForSelectedFile = fullGraph
+        if selectedRow >= 0  {
+            visibleGraphForSelectedFile = self.fileGraphAtRowInFileNavigationView(selectedRow!)
+            namedGraph = self.namedGraphAtRowInFileNavigationView(selectedRow!)
         }
         let selectedRowsGraphs = graphNavigationViewController?.graphNavigationView?.selectedRowIndexes
         if selectedRowsGraphs?.count > 0 {
             visibleGraph = Graph()
             for row in selectedRowsGraphs! {
-                let rowGraph = graphAtRowInGraphNavigationView(row)
+                let rowGraph = graphAtRowInGraphNavigationView(row, namedGraph: namedGraph)
                 if rowGraph != nil {
                     visibleGraph!.add(rowGraph!)
                 }
             }
             return visibleGraph
+        } else if namedGraph != nil {
+            visibleGraph = visibleGraphForSelectedFile?.subGraph(nil, predicate: nil, object: nil, namedGraph: namedGraph!)
+            return visibleGraph
         }
         return visibleGraphForSelectedFile
     }
     
-    func graphAtRowInFileNavigationView(row : Int) -> Graph? {
+    func fileGraphAtRowInFileNavigationView(row : Int) -> Graph? {
         let item = fileNavigationViewController?.fileNavigationView!.itemAtRow(row)
         if item != nil {
             if (item as? RDFDocument) != nil {
@@ -62,25 +69,44 @@ class RDFNavigation: NSObject, NSOutlineViewDelegate, NSOutlineViewDataSource, N
                 let parentItem = fileNavigationViewController?.fileNavigationView!.parentForItem(item)
                 if parentItem != nil && (parentItem as? RDFDocument) != nil {
                     let parentGraph = (parentItem as! RDFDocument).graph!
-                    let namedGraph = parentGraph.subGraph(nil, predicate: nil, object: nil, namedGraph: (item as! Resource))
-                    return namedGraph
+                    return parentGraph
                 }
             }
         }
         return nil
     }
     
-    func graphAtRowInGraphNavigationView(row : Int) -> Graph? {
+    func namedGraphAtRowInFileNavigationView(row : Int) -> Resource? {
+        let item = fileNavigationViewController?.fileNavigationView!.itemAtRow(row)
+        if item != nil {
+            if (item as? Resource) != nil {
+                return (item as? Resource)
+            }
+        }
+        return nil
+    }
+    
+    func graphAtRowInGraphNavigationView(row : Int, namedGraph : Resource?) -> Graph? {
         let item = graphNavigationViewController?.graphNavigationView!.itemAtRow(row)
         if item != nil {
             if (item as? Resource) != nil {
                 let resource = (item as! Resource)
                 let graph = Graph()
-                let subjgraph = visibleGraphForSelectedFile?.subGraph(resource, predicate: nil, object: nil)
+                var subjgraph : Graph?
+                if namedGraph == nil {
+                    subjgraph = visibleGraphForSelectedFile?.subGraph(resource, predicate: nil, object: nil)
+                }else {
+                    subjgraph = visibleGraphForSelectedFile?.subGraph(resource, predicate: nil, object: nil, namedGraph: namedGraph!)
+                }
                 if subjgraph != nil {
                     graph.add(subjgraph!)
                 }
-                let objgraph = visibleGraphForSelectedFile?.subGraph(nil, predicate: nil, object: resource)
+                var objgraph : Graph?
+                if namedGraph == nil {
+                    objgraph = visibleGraphForSelectedFile?.subGraph(nil, predicate: nil, object: resource)
+                } else {
+                    objgraph = visibleGraphForSelectedFile?.subGraph(nil, predicate: nil, object: resource, namedGraph: namedGraph!)
+                }
                 if objgraph != nil {
                     graph.add(objgraph!)
                 }
