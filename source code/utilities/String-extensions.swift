@@ -29,6 +29,55 @@ extension String {
     // Regex pattern for qualified name: ^(?:([\p{L}\p{M}_][\p{L}\p{M}[0-9]\.\-_]*):)?([\p{L}\p{M}_][\p{L}\p{M}[0-9]\.\-_]*)$
     private static let QNAMEPattern = "^(?:([\\p{L}\\p{M}_][\\p{L}\\p{M}[0-9]\\.\\-_]*):)?([\\p{L}\\p{M}_][\\p{L}\\p{M}[0-9]\\.\\-_]*)$"
     
+    private static var _languageRegularExpression : NSRegularExpression?
+    private static var _nameRegularExpression : NSRegularExpression?
+    private static var _QNAMERegularExpression : NSRegularExpression?
+    private static var _NCNameRegularExpression : NSRegularExpression?
+    private static var _NMTokenRegularExpression : NSRegularExpression?
+    
+    private static var languageRegularExpression : NSRegularExpression {
+        if _languageRegularExpression == nil {
+            String.createRegularExpression()
+        }
+        return _languageRegularExpression!
+    }
+    private static var nameRegularExpression : NSRegularExpression {
+        if _nameRegularExpression == nil {
+            String.createRegularExpression()
+        }
+        return _nameRegularExpression!
+    }
+    private static var NCNameRegularExpression : NSRegularExpression {
+        if _NCNameRegularExpression == nil {
+            String.createRegularExpression()
+        }
+        return _NCNameRegularExpression!
+    }
+    private static var NMTokenRegularExpression : NSRegularExpression {
+        if _NMTokenRegularExpression == nil {
+            String.createRegularExpression()
+        }
+        return _NMTokenRegularExpression!
+    }
+    private static var QNAMERegularExpression : NSRegularExpression {
+        if _QNAMERegularExpression == nil {
+            String.createRegularExpression()
+        }
+        return _QNAMERegularExpression!
+    }
+    
+    private static func createRegularExpression() {
+        do {
+            _languageRegularExpression = try NSRegularExpression(pattern: String.languagePattern, options: [.CaseInsensitive])
+            _nameRegularExpression = try NSRegularExpression(pattern: String.namePattern, options: [.CaseInsensitive])
+            _NCNameRegularExpression = try NSRegularExpression(pattern: String.NCNamePattern, options: [.CaseInsensitive])
+            _NMTokenRegularExpression = try NSRegularExpression(pattern: String.NMTokenPattern, options: [.CaseInsensitive])
+            _QNAMERegularExpression = try NSRegularExpression(pattern: String.QNAMEPattern, options: [.CaseInsensitive])
+        } catch {
+            //should never happen.
+        }
+    }
+    
     /**
      Is true when the string is a normalised string, i.e. without newline, carriage return or tab characters.
      */
@@ -59,16 +108,12 @@ extension String {
      It is not checked whether the string identifies an actual language.
      */
     var validLanguageIdentifier : Bool {
-        do {
-            let regex = try NSRegularExpression(pattern: String.languagePattern, options: [])
-            let matches = regex.matchesInString(self, options: [], range: NSMakeRange(0, self.characters.count)) as Array<NSTextCheckingResult>
-            if matches.count == 0 {
-                return false
-            }else{
-                return true
-            }
-        } catch {
+        let regex = String.languageRegularExpression
+        let matches = regex.matchesInString(self, options: [], range: NSMakeRange(0, self.characters.count)) as Array<NSTextCheckingResult>
+        if matches.count == 0 {
             return false
+        }else{
+            return true
         }
     }
     
@@ -76,51 +121,39 @@ extension String {
      Is true when the string is a valid name as defined in [Extensible Markup Language (XML) 1.0](http://www.w3.org/TR/2000/WD-xml-2e-20000814#NT-Name).
      */
     var validName : Bool {
-        do {
-            let regex = try NSRegularExpression(pattern: String.namePattern, options: [])
-            let matches = regex.matchesInString(self, options: [], range: NSMakeRange(0, self.characters.count)) as Array<NSTextCheckingResult>
-            if matches.count == 0 {
-                return false
-            }else{
-                return true
-            }
-        } catch {
+        let regex = String.nameRegularExpression
+        let matches = regex.matchesInString(self, options: [], range: NSMakeRange(0, self.characters.count)) as Array<NSTextCheckingResult>
+        if matches.count == 0 {
             return false
+        }else{
+            return true
         }
     }
     
     /**
-     Is true when the string is a valid NMToken as defined in 
+     Is true when the string is a valid NMToken as defined in
      [Extensible Markup Language (XML) 1.0](http://www.w3.org/TR/2000/WD-xml-2e-20000814#NT-Nmtoken).
      */
     var validNMToken : Bool {
-        do {
-            let regex = try NSRegularExpression(pattern: String.NMTokenPattern, options: [])
-            let matches = regex.matchesInString(self, options: [], range: NSMakeRange(0, self.characters.count)) as Array<NSTextCheckingResult>
-            if matches.count == 0 {
-                return false
-            }else{
-                return true
-            }
-        } catch {
+        let regex = String.NMTokenRegularExpression
+        let matches = regex.matchesInString(self, options: [], range: NSMakeRange(0, self.characters.count)) as Array<NSTextCheckingResult>
+        if matches.count == 0 {
             return false
+        }else{
+            return true
         }
     }
     
     /**
      Is true when the string is a valid 'non-colonized' name as defined in [Namespaces in XML](http://www.w3.org/TR/1999/REC-xml-names-19990114/#NT-NCName).
      */
-    var validNCName : Bool {    
-        do {
-            let regex = try NSRegularExpression(pattern: String.NCNamePattern, options: [])
-            let matches = regex.matchesInString(self, options: [], range: NSMakeRange(0, self.characters.count)) as Array<NSTextCheckingResult>
-            if matches.count == 0 {
-                return false
-            }else{
-                return true
-            }
-        } catch {
+    var validNCName : Bool {
+        let regex = String.NCNameRegularExpression
+        let matches = regex.matchesInString(self, options: [], range: NSMakeRange(0, self.characters.count)) as Array<NSTextCheckingResult>
+        if matches.count == 0 {
             return false
+        }else{
+            return true
         }
     }
     
@@ -128,16 +161,12 @@ extension String {
      Is true when the string is a valid qualified name as defined in [Namespaces in XML](http://www.w3.org/TR/1999/REC-xml-names-19990114/#dt-qname).
      */
     var isQualifiedName : Bool {
-        do {
-            let regex = try NSRegularExpression(pattern: String.QNAMEPattern, options: [])
-            let matches = regex.matchesInString(self, options: [], range: NSMakeRange(0, self.characters.count)) as Array<NSTextCheckingResult>
-            if matches.count == 0 {
-                return false
-            }else{
-                return true
-            }
-        } catch {
+        let regex = String.QNAMERegularExpression
+        let matches = regex.matchesInString(self, options: [], range: NSMakeRange(0, self.characters.count)) as Array<NSTextCheckingResult>
+        if matches.count == 0 {
             return false
+        }else{
+            return true
         }
     }
     
@@ -146,20 +175,17 @@ extension String {
      or the qualified name does not contains a prefix part, this property will be `nil`.
      */
     var qualifiedNamePrefix : String? {
-        do {
-            let regex = try NSRegularExpression(pattern: String.QNAMEPattern, options: [])
-            let matches = regex.matchesInString(self, options: [], range: NSMakeRange(0, self.characters.count)) as Array<NSTextCheckingResult>
-            if matches.count == 0 {
-                return nil
-            }else{
-                let match = matches[0]
-                let nsstring = self as NSString
-                if match.rangeAtIndex(1).location != NSNotFound {
-                    let str = nsstring.substringWithRange(match.rangeAtIndex(1)) as String
-                    return str
-                }
+        let regex = String.QNAMERegularExpression
+        let matches = regex.matchesInString(self, options: [], range: NSMakeRange(0, self.characters.count)) as Array<NSTextCheckingResult>
+        if matches.count == 0 {
+            return nil
+        }else{
+            let match = matches[0]
+            let nsstring = self as NSString
+            if match.rangeAtIndex(1).location != NSNotFound {
+                let str = nsstring.substringWithRange(match.rangeAtIndex(1)) as String
+                return str
             }
-        } catch {
         }
         return nil
     }
@@ -169,20 +195,17 @@ extension String {
      this property will be `nil`.
      */
     var qualifiedNameLocalPart : String? {
-        do {
-            let regex = try NSRegularExpression(pattern: String.QNAMEPattern, options: [])
-            let matches = regex.matchesInString(self, options: [], range: NSMakeRange(0, self.characters.count)) as Array<NSTextCheckingResult>
-            if matches.count == 0 {
-                return nil
-            }else{
-                let match = matches[0]
-                let nsstring = self as NSString
-                if match.rangeAtIndex(2).location != NSNotFound {
-                    let str = nsstring.substringWithRange(match.rangeAtIndex(2)) as String
-                    return str
-                }
+        let regex = String.QNAMERegularExpression
+        let matches = regex.matchesInString(self, options: [], range: NSMakeRange(0, self.characters.count)) as Array<NSTextCheckingResult>
+        if matches.count == 0 {
+            return nil
+        }else{
+            let match = matches[0]
+            let nsstring = self as NSString
+            if match.rangeAtIndex(2).location != NSNotFound {
+                let str = nsstring.substringWithRange(match.rangeAtIndex(2)) as String
+                return str
             }
-        } catch {
         }
         return nil
     }
