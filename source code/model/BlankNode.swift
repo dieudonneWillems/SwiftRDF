@@ -21,6 +21,8 @@ import Foundation
  */
 public class BlankNode: Resource {
     
+    private static var counter = 1
+    
     // MARK: Properties
     
     /**
@@ -47,8 +49,9 @@ public class BlankNode: Resource {
      initialisation and is of the form `bn[UUID]` where `[UUID]` is generated.
     */
     public init() {
-        self.identifier = "bn\(NSUUID().UUIDString)"
+        self.identifier = "bn\(BlankNode.counter)"
         super.init(stringValue: identifier)
+        BlankNode.counter++
     }
     
     /**

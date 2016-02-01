@@ -22,8 +22,8 @@ public class RDF : Vocabulary {
     
     // MARK: RDF Classes
     
-    /// Represents the class of XML literals.
-    public static let XMLLiteral = Vocabulary.createURI(RDF.NAMESPACE, localName: "XMLLiteral")
+    /// Represents the class of XML literals, i.e. a datatype.
+    public static let XMLLiteral = Datatype(namespace: RDF.NAMESPACE, localName: "XMLLiteral", derivedFromDatatype: nil, isListDataType: false)!
     
     /// Represents the class of properties.
     public static let Property = Vocabulary.createURI( RDF.NAMESPACE, localName: "Property")
@@ -68,4 +68,35 @@ public class RDF : Vocabulary {
     
     /// Represents the property to assgin the object of a statement.
     public static let object = Vocabulary.createURI( RDF.NAMESPACE, localName: "object")
+    
+    
+    // MARK: RDF Syntax
+    
+    /// Represents the root element in RDF Syntax.
+    public static let ROOT = Vocabulary.createURI( RDF.NAMESPACE, localName: "RDF")
+    
+    /// Represents the basic node element in RDF Syntax.
+    public static let Description = Vocabulary.createURI( RDF.NAMESPACE, localName: "Description")
+    
+    /// The RDF Syntax attribute specifying the IRI for a node element.
+    public static let about = Vocabulary.createURI( RDF.NAMESPACE, localName: "about")
+    
+    /// The RDF Syntax attribute specifying an identifier for a blank node element.
+    public static let nodeID = Vocabulary.createURI( RDF.NAMESPACE, localName: "nodeID")
+    
+    /// The RDF Syntax attribute specifying an identifier for a node element.
+    public static let ID = Vocabulary.createURI( RDF.NAMESPACE, localName: "ID")
+    
+    /// The RDF Syntax attribute specifying the datatype for values.
+    public static let datatype = Vocabulary.createURI( RDF.NAMESPACE, localName: "datatype")
+    
+    /// The RDF Syntax attribute specifying the resource as a value for a specific property.
+    public static let resource = Vocabulary.createURI( RDF.NAMESPACE, localName: "resource")
+    
+    /// The RDF Syntax attribute specifying the resource as a value for a specific property.
+    public static let parseType = Vocabulary.createURI( RDF.NAMESPACE, localName: "parseType")
+    
+    /// The RDF Syntax attribute specifying an item in a collection type (i.e. `rdf:Seq`, `rdf:Alt` or  `rdf:Bag`).
+    public static let li = Vocabulary.createURI( RDF.NAMESPACE, localName: "li")
+    
 }

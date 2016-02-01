@@ -1,0 +1,579 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<rdf:RDF xmlns:cc="http://creativecommons.org/ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:gn="http://www.geonames.org/ontology#" xmlns:owl="http://www.w3.org/2002/07/owl#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:wgs84_pos="http://www.w3.org/2003/01/geo/wgs84_pos#">
+    <gn:Feature rdf:about="http://sws.geonames.org/2643743/">
+        <rdfs:isDefinedBy rdf:resource="http://sws.geonames.org/2643743/about.rdf"/>
+        <gn:name>Londres</gn:name>
+        <gn:alternateName xml:lang="ab">Лондан</gn:alternateName>
+        <gn:alternateName xml:lang="af">Londen</gn:alternateName>
+        <gn:alternateName xml:lang="als">London</gn:alternateName>
+        <gn:alternateName xml:lang="am">ለንደን</gn:alternateName>
+        <gn:alternateName xml:lang="an">Londres</gn:alternateName>
+        <gn:alternateName xml:lang="ang">Lunden</gn:alternateName>
+        <gn:alternateName xml:lang="ar">لندن</gn:alternateName>
+        <gn:alternateName xml:lang="arc">ܠܘܢܕܘܢ</gn:alternateName>
+        <gn:alternateName xml:lang="arz">لندن</gn:alternateName>
+        <gn:alternateName xml:lang="ast">Londres</gn:alternateName>
+        <gn:alternateName xml:lang="az">London</gn:alternateName>
+        <gn:alternateName xml:lang="ba">Лондон</gn:alternateName>
+        <gn:alternateName xml:lang="bcl">Londres</gn:alternateName>
+        <gn:alternateName xml:lang="be">Лёндан</gn:alternateName>
+        <gn:alternateName xml:lang="bg">Лондон</gn:alternateName>
+        <gn:alternateName xml:lang="bn">লন্ডন</gn:alternateName>
+        <gn:alternateName xml:lang="bo">ལོན་ཊོན།</gn:alternateName>
+        <gn:alternateName xml:lang="br">Londrez</gn:alternateName>
+        <gn:alternateName xml:lang="bs">London</gn:alternateName>
+        <gn:alternateName xml:lang="ca">Londres</gn:alternateName>
+        <gn:alternateName xml:lang="cdo">Lùng-dŭng</gn:alternateName>
+        <gn:alternateName xml:lang="chr">ᎫᎴ ᏗᏍᎪᏂᎯᏱ</gn:alternateName>
+        <gn:alternateName xml:lang="ckb">لەندەن</gn:alternateName>
+        <gn:alternateName xml:lang="co">Londra</gn:alternateName>
+        <gn:alternateName xml:lang="cs">Londýn</gn:alternateName>
+        <gn:alternateName xml:lang="cu">Лондонъ</gn:alternateName>
+        <gn:alternateName xml:lang="cv">Лондон</gn:alternateName>
+        <gn:alternateName xml:lang="cy">Llundain</gn:alternateName>
+        <gn:alternateName xml:lang="da">London</gn:alternateName>
+        <gn:alternateName xml:lang="de">London</gn:alternateName>
+        <gn:alternateName xml:lang="diq">Londra</gn:alternateName>
+        <gn:alternateName xml:lang="el">Λονδίνο</gn:alternateName>
+        <gn:alternateName xml:lang="en">London</gn:alternateName>
+        <gn:alternateName xml:lang="eo">Londono</gn:alternateName>
+        <gn:alternateName xml:lang="es">Londres</gn:alternateName>
+        <gn:alternateName xml:lang="et">London</gn:alternateName>
+        <gn:alternateName xml:lang="eu">Londres</gn:alternateName>
+        <gn:alternateName xml:lang="ext">Londri</gn:alternateName>
+        <gn:alternateName xml:lang="fa">لندن</gn:alternateName>
+        <gn:alternateName xml:lang="fi">Lontoo</gn:alternateName>
+        <gn:alternateName xml:lang="fr">Londres</gn:alternateName>
+        <gn:alternateName xml:lang="frp">Londres</gn:alternateName>
+        <gn:alternateName xml:lang="fy">Londen</gn:alternateName>
+        <gn:alternateName xml:lang="ga">Londain</gn:alternateName>
+        <gn:alternateName xml:lang="gan">倫敦</gn:alternateName>
+        <gn:alternateName xml:lang="gd">Lunnainn</gn:alternateName>
+        <gn:alternateName xml:lang="gl">Londres</gn:alternateName>
+        <gn:alternateName xml:lang="gn">Londye</gn:alternateName>
+        <gn:alternateName xml:lang="gu">લંડન</gn:alternateName>
+        <gn:alternateName xml:lang="gv">Lunnin</gn:alternateName>
+        <gn:alternateName xml:lang="haw">Lākana</gn:alternateName>
+        <gn:alternateName xml:lang="hbs">London</gn:alternateName>
+        <gn:alternateName xml:lang="he">לונדון</gn:alternateName>
+        <gn:alternateName xml:lang="hi">लंदन</gn:alternateName>
+        <gn:alternateName xml:lang="hr">London</gn:alternateName>
+        <gn:alternateName xml:lang="ht">Lonn</gn:alternateName>
+        <gn:alternateName xml:lang="hu">London</gn:alternateName>
+        <gn:alternateName xml:lang="hy">Լոնդոն</gn:alternateName>
+        <gn:alternateName xml:lang="ia">London</gn:alternateName>
+        <gn:alternateName xml:lang="id">London</gn:alternateName>
+        <gn:alternateName xml:lang="ilo">Londres</gn:alternateName>
+        <gn:alternateName xml:lang="io">London</gn:alternateName>
+        <gn:alternateName xml:lang="is">Lundúnir</gn:alternateName>
+        <gn:alternateName xml:lang="it">Londra</gn:alternateName>
+        <gn:alternateName xml:lang="ja">ロンドン</gn:alternateName>
+        <gn:alternateName xml:lang="jbo">london</gn:alternateName>
+        <gn:alternateName xml:lang="ka">ლონდონი</gn:alternateName>
+        <gn:alternateName xml:lang="kk">Лондон</gn:alternateName>
+        <gn:alternateName xml:lang="kn">ಲಂಡನ್</gn:alternateName>
+        <gn:alternateName xml:lang="ko">런던</gn:alternateName>
+        <gn:alternateName xml:lang="koi">Лондон</gn:alternateName>
+        <gn:alternateName xml:lang="krc">Лондон</gn:alternateName>
+        <gn:alternateName xml:lang="ku">London</gn:alternateName>
+        <gn:alternateName xml:lang="kv">Лондон</gn:alternateName>
+        <gn:alternateName xml:lang="kw">Loundres</gn:alternateName>
+        <gn:alternateName xml:lang="ky">Лондон</gn:alternateName>
+        <gn:alternateName xml:lang="la">Londinium</gn:alternateName>
+        <gn:alternateName xml:lang="lad">Londra</gn:alternateName>
+        <gn:alternateName xml:lang="lb">London</gn:alternateName>
+        <gn:alternateName xml:lang="lbe">Лондон</gn:alternateName>
+        <gn:alternateName xml:lang="lez">Лондон</gn:alternateName>
+        <gn:alternateName xml:lang="li">Londe</gn:alternateName>
+        <gn:alternateName xml:lang="lij">Londra</gn:alternateName>
+        <gn:alternateName xml:lang="lmo">Lundra</gn:alternateName>
+        <gn:alternateName xml:lang="ln">Londoni</gn:alternateName>
+        <gn:alternateName xml:lang="lo">ລອນດອນ</gn:alternateName>
+        <gn:alternateName xml:lang="lt">Londonas</gn:alternateName>
+        <gn:alternateName xml:lang="lv">Londona</gn:alternateName>
+        <gn:alternateName xml:lang="mhr">Лондон</gn:alternateName>
+        <gn:alternateName xml:lang="mi">Rānana</gn:alternateName>
+        <gn:alternateName xml:lang="mk">Лондон</gn:alternateName>
+        <gn:alternateName xml:lang="ml">ലണ്ടൻ</gn:alternateName>
+        <gn:alternateName xml:lang="mn">Лондон</gn:alternateName>
+        <gn:alternateName xml:lang="mr">लंडन</gn:alternateName>
+        <gn:alternateName xml:lang="mrj">Лондон</gn:alternateName>
+        <gn:alternateName xml:lang="ms">London</gn:alternateName>
+        <gn:alternateName xml:lang="mt">Londra</gn:alternateName>
+        <gn:alternateName xml:lang="mwl">Londres</gn:alternateName>
+        <gn:alternateName xml:lang="my">လန်ဒန်မြို့</gn:alternateName>
+        <gn:alternateName xml:lang="mzn">لندن</gn:alternateName>
+        <gn:alternateName xml:lang="nah">Londres</gn:alternateName>
+        <gn:alternateName xml:lang="nap">Londra</gn:alternateName>
+        <gn:alternateName xml:lang="nds">London</gn:alternateName>
+        <gn:alternateName xml:lang="ne">लण्डन</gn:alternateName>
+        <gn:alternateName xml:lang="new">लण्डन</gn:alternateName>
+        <gn:alternateName xml:lang="nl">Londen</gn:alternateName>
+        <gn:alternateName xml:lang="nn">London</gn:alternateName>
+        <gn:alternateName xml:lang="no">London</gn:alternateName>
+        <gn:alternateName xml:lang="nrm">Londres</gn:alternateName>
+        <gn:alternateName xml:lang="oc">Londres</gn:alternateName>
+        <gn:alternateName xml:lang="or">ଲଣ୍ଡନ</gn:alternateName>
+        <gn:alternateName xml:lang="os">Лондон</gn:alternateName>
+        <gn:alternateName xml:lang="pcd">Londe</gn:alternateName>
+        <gn:alternateName xml:lang="pl">Londyn</gn:alternateName>
+        <gn:alternateName xml:lang="pms">Londra</gn:alternateName>
+        <gn:alternateName xml:lang="pnb">لندن</gn:alternateName>
+        <gn:alternateName xml:lang="pnt">Λονδίνο</gn:alternateName>
+        <gn:alternateName xml:lang="ps">لندن</gn:alternateName>
+        <gn:alternateName xml:lang="pt">Londres</gn:alternateName>
+        <gn:alternateName xml:lang="qu">London</gn:alternateName>
+        <gn:alternateName xml:lang="rm">Londra</gn:alternateName>
+        <gn:alternateName xml:lang="ro">Londra</gn:alternateName>
+        <gn:alternateName xml:lang="ru">Лондон</gn:alternateName>
+        <gn:alternateName xml:lang="rue">Лондон</gn:alternateName>
+        <gn:alternateName xml:lang="sa">लन्डन्</gn:alternateName>
+        <gn:alternateName xml:lang="sah">Лондон</gn:alternateName>
+        <gn:alternateName xml:lang="sc">Londra</gn:alternateName>
+        <gn:alternateName xml:lang="scn">Londra</gn:alternateName>
+        <gn:alternateName xml:lang="sco">Lunnon</gn:alternateName>
+        <gn:alternateName xml:lang="si">ලන්ඩන්</gn:alternateName>
+        <gn:alternateName xml:lang="sk">Londýn</gn:alternateName>
+        <gn:alternateName xml:lang="sl">London</gn:alternateName>
+        <gn:alternateName xml:lang="sq">Londra</gn:alternateName>
+        <gn:alternateName xml:lang="sr">Лондон</gn:alternateName>
+        <gn:alternateName xml:lang="sv">London</gn:alternateName>
+        <gn:alternateName xml:lang="szl">Lůndůn</gn:alternateName>
+        <gn:alternateName xml:lang="ta">இலண்டன்</gn:alternateName>
+        <gn:alternateName xml:lang="te">లండన్</gn:alternateName>
+        <gn:alternateName xml:lang="tet">Londres</gn:alternateName>
+        <gn:alternateName xml:lang="tg">Лондон</gn:alternateName>
+        <gn:alternateName xml:lang="th">ลอนดอน</gn:alternateName>
+        <gn:alternateName xml:lang="tl">Londres</gn:alternateName>
+        <gn:alternateName xml:lang="tpi">Landen</gn:alternateName>
+        <gn:alternateName xml:lang="tr">Londra</gn:alternateName>
+        <gn:alternateName xml:lang="tt">Лондон</gn:alternateName>
+        <gn:alternateName xml:lang="udm">Лондон</gn:alternateName>
+        <gn:alternateName xml:lang="ug">لوندون</gn:alternateName>
+        <gn:alternateName xml:lang="uk">Лондон</gn:alternateName>
+        <gn:alternateName xml:lang="ur">لندن</gn:alternateName>
+        <gn:alternateName xml:lang="vec">Łondra</gn:alternateName>
+        <gn:alternateName xml:lang="vi">Luân Đôn</gn:alternateName>
+        <gn:alternateName xml:lang="vls">Londn</gn:alternateName>
+        <gn:alternateName xml:lang="vo">London</gn:alternateName>
+        <gn:alternateName xml:lang="wo">Londar</gn:alternateName>
+        <gn:alternateName xml:lang="wuu">伦敦</gn:alternateName>
+        <gn:alternateName xml:lang="xmf">ლონდონი</gn:alternateName>
+        <gn:alternateName xml:lang="yi">לאנדאן</gn:alternateName>
+        <gn:alternateName xml:lang="yo">Lọndọnu</gn:alternateName>
+        <gn:alternateName xml:lang="zea">Londen</gn:alternateName>
+        <gn:alternateName xml:lang="zh">伦敦</gn:alternateName>
+        <gn:alternateName xml:lang="zu">ILondon</gn:alternateName>
+        <gn:featureClass rdf:resource="http://www.geonames.org/ontology#P"/>
+        <gn:featureCode rdf:resource="http://www.geonames.org/ontology#P.PPLC"/>
+        <gn:countryCode>GB</gn:countryCode>
+        <gn:population>7556900</gn:population>
+        <wgs84_pos:lat>51.50853</wgs84_pos:lat>
+        <wgs84_pos:long>-0.12574</wgs84_pos:long>
+        <gn:parentCountry rdf:resource="http://sws.geonames.org/2635167/"/>
+        <gn:nearbyFeatures rdf:resource="http://sws.geonames.org/2643743/nearby.rdf"/>
+        <gn:locationMap rdf:resource="http://www.geonames.org/2643743/london.html"/>
+        <gn:wikipediaArticle rdf:resource="http://en.wikipedia.org/wiki/London"/>
+        <rdfs:seeAlso rdf:resource="http://dbpedia.org/resource/London"/>
+    </gn:Feature>
+    <gn:Feature rdf:about="http://sws.geonames.org/1006984/">
+        <rdfs:isDefinedBy rdf:resource="http://sws.geonames.org/1006984/about.rdf"/>
+        <gn:name>East London</gn:name>
+        <gn:alternateName xml:lang="af">Oos Londen</gn:alternateName>
+        <gn:alternateName xml:lang="be">Горад Іст-Лондан</gn:alternateName>
+        <gn:alternateName xml:lang="bg">Източен Лондон</gn:alternateName>
+        <gn:alternateName xml:lang="da">East London</gn:alternateName>
+        <gn:alternateName xml:lang="en">East London</gn:alternateName>
+        <gn:alternateName xml:lang="eo">Orient-Londono</gn:alternateName>
+        <gn:alternateName xml:lang="fi">East London</gn:alternateName>
+        <gn:alternateName xml:lang="fr">East London</gn:alternateName>
+        <gn:alternateName xml:lang="hak">Tûng Lùn-tûn</gn:alternateName>
+        <gn:alternateName xml:lang="he">איסט לונדון</gn:alternateName>
+        <gn:alternateName xml:lang="id">East London</gn:alternateName>
+        <gn:alternateName xml:lang="ja">イースト・ロンドン</gn:alternateName>
+        <gn:alternateName xml:lang="ko">이스트런던</gn:alternateName>
+        <gn:alternateName xml:lang="la">Londinium Orientale</gn:alternateName>
+        <gn:alternateName xml:lang="lt">Yst Londonas</gn:alternateName>
+        <gn:alternateName xml:lang="mr">ईस्ट लंडन</gn:alternateName>
+        <gn:alternateName xml:lang="nl">Oost-Londen</gn:alternateName>
+        <gn:alternateName xml:lang="pl">East London</gn:alternateName>
+        <gn:alternateName xml:lang="pnb">ایسٹ لندن</gn:alternateName>
+        <gn:alternateName xml:lang="ru">Ист-Лондон</gn:alternateName>
+        <gn:alternateName xml:lang="sr">Источни Лондон</gn:alternateName>
+        <gn:alternateName xml:lang="uk">Іст-Лондон</gn:alternateName>
+        <gn:alternateName xml:lang="zh">東倫敦</gn:alternateName>
+        <gn:featureClass rdf:resource="http://www.geonames.org/ontology#P"/>
+        <gn:featureCode rdf:resource="http://www.geonames.org/ontology#P.PPLA2"/>
+        <gn:countryCode>ZA</gn:countryCode>
+        <gn:population>478676</gn:population>
+        <wgs84_pos:lat>-33.01529</wgs84_pos:lat>
+        <wgs84_pos:long>27.91162</wgs84_pos:long>
+        <gn:parentCountry rdf:resource="http://sws.geonames.org/953987/"/>
+        <gn:nearbyFeatures rdf:resource="http://sws.geonames.org/1006984/nearby.rdf"/>
+        <gn:locationMap rdf:resource="http://www.geonames.org/1006984/east-london.html"/>
+        <gn:wikipediaArticle rdf:resource="http://en.wikipedia.org/wiki/East_London%2C_Eastern_Cape"/>
+        <rdfs:seeAlso rdf:resource="http://dbpedia.org/resource/East_London%2C_Eastern_Cape"/>
+    </gn:Feature>
+    <gn:Feature rdf:about="http://sws.geonames.org/2643741/">
+        <rdfs:isDefinedBy rdf:resource="http://sws.geonames.org/2643741/about.rdf"/>
+        <gn:name>City de Londres</gn:name>
+        <gn:alternateName xml:lang="ang">Lundenceaster</gn:alternateName>
+        <gn:alternateName xml:lang="ar">مدينة لندن</gn:alternateName>
+        <gn:alternateName xml:lang="be">Сіці</gn:alternateName>
+        <gn:alternateName xml:lang="bg">Сити</gn:alternateName>
+        <gn:alternateName xml:lang="br">Kêr Londrez</gn:alternateName>
+        <gn:alternateName xml:lang="ca">La City</gn:alternateName>
+        <gn:alternateName xml:lang="ceb">Dakbayan sa Londres</gn:alternateName>
+        <gn:alternateName xml:lang="cs">City</gn:alternateName>
+        <gn:alternateName xml:lang="cy">Dinas Llundain</gn:alternateName>
+        <gn:alternateName xml:lang="el">Σίτι του Λονδίνου</gn:alternateName>
+        <gn:alternateName xml:lang="eo">City</gn:alternateName>
+        <gn:alternateName xml:lang="es">City de Londres</gn:alternateName>
+        <gn:alternateName xml:lang="fa">سیتی لندن</gn:alternateName>
+        <gn:alternateName xml:lang="fi">Lontoon City</gn:alternateName>
+        <gn:alternateName xml:lang="fr">Cité de Londres</gn:alternateName>
+        <gn:alternateName xml:lang="ga">Cathair Londan</gn:alternateName>
+        <gn:alternateName xml:lang="gl">Cidade de Londres</gn:alternateName>
+        <gn:alternateName xml:lang="he">הסיטי של לונדון</gn:alternateName>
+        <gn:alternateName xml:lang="hi">सिटी ऑफ़ लंदन</gn:alternateName>
+        <gn:alternateName xml:lang="hy">Լոնդոնյան Սիթի</gn:alternateName>
+        <gn:alternateName xml:lang="is">Lundúnaborg</gn:alternateName>
+        <gn:alternateName xml:lang="it">Città di Londra</gn:alternateName>
+        <gn:alternateName xml:lang="ja">シティ・オブ・ロンドン</gn:alternateName>
+        <gn:alternateName xml:lang="ko">시티오브런던</gn:alternateName>
+        <gn:alternateName xml:lang="la">Urbs Londiniensis</gn:alternateName>
+        <gn:alternateName xml:lang="lt">Londono Sitis</gn:alternateName>
+        <gn:alternateName xml:lang="lv">Londonas Sitija</gn:alternateName>
+        <gn:alternateName xml:lang="mr">सिटी ऑफ लंडन</gn:alternateName>
+        <gn:alternateName xml:lang="ms">Bandaraya London</gn:alternateName>
+        <gn:alternateName xml:lang="mwl">Cidade de Londres</gn:alternateName>
+        <gn:alternateName xml:lang="nan">Lûn-tun Chhī</gn:alternateName>
+        <gn:alternateName xml:lang="pnb">لندن شہر</gn:alternateName>
+        <gn:alternateName xml:lang="pt">Cidade de Londres</gn:alternateName>
+        <gn:alternateName xml:lang="ru">Сити</gn:alternateName>
+        <gn:alternateName xml:lang="sco">Ceety o Lunnon</gn:alternateName>
+        <gn:alternateName xml:lang="sr">Сити</gn:alternateName>
+        <gn:alternateName xml:lang="th">นครลอนดอน</gn:alternateName>
+        <gn:alternateName xml:lang="tl">Lungsod ng Londres</gn:alternateName>
+        <gn:alternateName xml:lang="tr">Londra Şehri</gn:alternateName>
+        <gn:alternateName xml:lang="uk">Лондонське Сіті</gn:alternateName>
+        <gn:alternateName xml:lang="vi">Thành phố Luân Đôn</gn:alternateName>
+        <gn:alternateName xml:lang="war">London</gn:alternateName>
+        <gn:alternateName xml:lang="yi">סיטי פון לאנדאן</gn:alternateName>
+        <gn:alternateName xml:lang="zh">倫敦市</gn:alternateName>
+        <gn:alternateName xml:lang="zu">Idolobha weLondon</gn:alternateName>
+        <gn:featureClass rdf:resource="http://www.geonames.org/ontology#P"/>
+        <gn:featureCode rdf:resource="http://www.geonames.org/ontology#P.PPLA3"/>
+        <gn:countryCode>GB</gn:countryCode>
+        <gn:population>7556900</gn:population>
+        <wgs84_pos:lat>51.51279</wgs84_pos:lat>
+        <wgs84_pos:long>-0.09184</wgs84_pos:long>
+        <gn:parentCountry rdf:resource="http://sws.geonames.org/2635167/"/>
+        <gn:nearbyFeatures rdf:resource="http://sws.geonames.org/2643741/nearby.rdf"/>
+        <gn:locationMap rdf:resource="http://www.geonames.org/2643741/city-of-london.html"/>
+        <gn:wikipediaArticle rdf:resource="http://en.wikipedia.org/wiki/City_of_London"/>
+        <rdfs:seeAlso rdf:resource="http://dbpedia.org/resource/City_of_London"/>
+    </gn:Feature>
+    <gn:Feature rdf:about="http://sws.geonames.org/6058560/">
+        <rdfs:isDefinedBy rdf:resource="http://sws.geonames.org/6058560/about.rdf"/>
+        <gn:name>London</gn:name>
+        <gn:alternateName xml:lang="ar">لندن، أونتاريو</gn:alternateName>
+        <gn:alternateName xml:lang="bg">Лондон</gn:alternateName>
+        <gn:alternateName xml:lang="de">London</gn:alternateName>
+        <gn:alternateName xml:lang="en">London</gn:alternateName>
+        <gn:alternateName xml:lang="eo">Londono</gn:alternateName>
+        <gn:alternateName xml:lang="es">London</gn:alternateName>
+        <gn:alternateName xml:lang="et">London</gn:alternateName>
+        <gn:alternateName xml:lang="fa">لندن، انتاریو</gn:alternateName>
+        <gn:alternateName xml:lang="fi">London</gn:alternateName>
+        <gn:alternateName xml:lang="fr">London</gn:alternateName>
+        <gn:alternateName xml:lang="he">לונדון</gn:alternateName>
+        <gn:alternateName xml:lang="ja">ロンドン</gn:alternateName>
+        <gn:alternateName xml:lang="ka">ლონდონი</gn:alternateName>
+        <gn:alternateName xml:lang="ko">런던</gn:alternateName>
+        <gn:alternateName xml:lang="lt">Londonas</gn:alternateName>
+        <gn:alternateName xml:lang="nl">London</gn:alternateName>
+        <gn:alternateName xml:lang="os">Лондон</gn:alternateName>
+        <gn:alternateName xml:lang="pl">London</gn:alternateName>
+        <gn:alternateName xml:lang="pnb">لندن</gn:alternateName>
+        <gn:alternateName xml:lang="pt">London</gn:alternateName>
+        <gn:alternateName xml:lang="ru">Лондон</gn:alternateName>
+        <gn:alternateName xml:lang="sr">Лондон</gn:alternateName>
+        <gn:alternateName xml:lang="uk">Лондон</gn:alternateName>
+        <gn:alternateName xml:lang="ur">لندن، اونٹاریو</gn:alternateName>
+        <gn:alternateName xml:lang="zh">伦敦</gn:alternateName>
+        <gn:featureClass rdf:resource="http://www.geonames.org/ontology#P"/>
+        <gn:featureCode rdf:resource="http://www.geonames.org/ontology#P.PPL"/>
+        <gn:countryCode>CA</gn:countryCode>
+        <gn:population>346765</gn:population>
+        <wgs84_pos:lat>42.98339</wgs84_pos:lat>
+        <wgs84_pos:long>-81.23304</wgs84_pos:long>
+        <gn:parentCountry rdf:resource="http://sws.geonames.org/6251999/"/>
+        <gn:nearbyFeatures rdf:resource="http://sws.geonames.org/6058560/nearby.rdf"/>
+        <gn:locationMap rdf:resource="http://www.geonames.org/6058560/london.html"/>
+        <gn:wikipediaArticle rdf:resource="http://en.wikipedia.org/wiki/London%2C_Ontario"/>
+        <rdfs:seeAlso rdf:resource="http://dbpedia.org/resource/London%2C_Ontario"/>
+    </gn:Feature>
+    <gn:Feature rdf:about="http://sws.geonames.org/4839416/">
+        <rdfs:isDefinedBy rdf:resource="http://sws.geonames.org/4839416/about.rdf"/>
+        <gn:name>New London</gn:name>
+        <gn:alternateName xml:lang="bg">Ню Лъндън</gn:alternateName>
+        <gn:alternateName xml:lang="ca">Nova Londres</gn:alternateName>
+        <gn:alternateName xml:lang="cy">Llundain Newydd</gn:alternateName>
+        <gn:alternateName xml:lang="ja">ニューロンドン</gn:alternateName>
+        <gn:alternateName xml:lang="kk">Нью Лондон</gn:alternateName>
+        <gn:alternateName xml:lang="ko">뉴런던</gn:alternateName>
+        <gn:alternateName xml:lang="mr">न्यू लंडन</gn:alternateName>
+        <gn:alternateName xml:lang="new">न्यु लंडन</gn:alternateName>
+        <gn:alternateName xml:lang="ru">Нью-Лондон</gn:alternateName>
+        <gn:alternateName xml:lang="sr">Њу Лондон</gn:alternateName>
+        <gn:alternateName xml:lang="uk">Нью-Лондон</gn:alternateName>
+        <gn:alternateName xml:lang="zh">新伦敦</gn:alternateName>
+        <gn:featureClass rdf:resource="http://www.geonames.org/ontology#P"/>
+        <gn:featureCode rdf:resource="http://www.geonames.org/ontology#P.PPL"/>
+        <gn:countryCode>US</gn:countryCode>
+        <gn:population>27620</gn:population>
+        <gn:postalCode>06320</gn:postalCode>
+        <wgs84_pos:lat>41.35565</wgs84_pos:lat>
+        <wgs84_pos:long>-72.09952</wgs84_pos:long>
+        <wgs84_pos:alt>17</wgs84_pos:alt>
+        <gn:parentCountry rdf:resource="http://sws.geonames.org/6252001/"/>
+        <gn:nearbyFeatures rdf:resource="http://sws.geonames.org/4839416/nearby.rdf"/>
+        <gn:locationMap rdf:resource="http://www.geonames.org/4839416/new-london.html"/>
+        <gn:wikipediaArticle rdf:resource="http://en.wikipedia.org/wiki/New_London%2C_Connecticut"/>
+        <rdfs:seeAlso rdf:resource="http://dbpedia.org/resource/New_London%2C_Connecticut"/>
+    </gn:Feature>
+    <gn:Feature rdf:about="http://sws.geonames.org/6296599/">
+        <rdfs:isDefinedBy rdf:resource="http://sws.geonames.org/6296599/about.rdf"/>
+        <gn:name>Aeropuerto de la Ciudad de Londres</gn:name>
+        <gn:alternateName xml:lang="br">Aerborzh Kêr Londrez</gn:alternateName>
+        <gn:alternateName xml:lang="ca">Aeroport de la Ciutat de Londres</gn:alternateName>
+        <gn:alternateName xml:lang="cs">Letiště London City</gn:alternateName>
+        <gn:alternateName xml:lang="de">Flughafen London City</gn:alternateName>
+        <gn:alternateName xml:lang="en">London City Airport</gn:alternateName>
+        <gn:alternateName xml:lang="es">Aeropuerto de la Ciudad de Londres</gn:alternateName>
+        <gn:alternateName xml:lang="eu">Londres Hiriko aireportua</gn:alternateName>
+        <gn:alternateName xml:lang="fa">فرودگاه لندن سی‌تی</gn:alternateName>
+        <gn:alternateName xml:lang="fr">Aéroport de Londres City</gn:alternateName>
+        <gn:alternateName xml:lang="hu">London-City repülőtér</gn:alternateName>
+        <gn:alternateName xml:lang="id">Bandar Udara London City</gn:alternateName>
+        <gn:alternateName xml:lang="it">Aeroporto di Londra-City</gn:alternateName>
+        <gn:alternateName xml:lang="ja">ロンドン・シティ空港</gn:alternateName>
+        <gn:alternateName xml:lang="ko">런던 시티 공항</gn:alternateName>
+        <gn:alternateName xml:lang="ms">Lapangan Terbang London City</gn:alternateName>
+        <gn:alternateName xml:lang="nl">Luchthaven Londen City</gn:alternateName>
+        <gn:alternateName xml:lang="nn">London lufthamn</gn:alternateName>
+        <gn:alternateName xml:lang="no">London City lufthavn</gn:alternateName>
+        <gn:alternateName xml:lang="pl">Port lotniczy Londyn-City</gn:alternateName>
+        <gn:alternateName xml:lang="pt">Aeroporto da Cidade de Londres</gn:alternateName>
+        <gn:alternateName xml:lang="ro">Aeroportul Londra City</gn:alternateName>
+        <gn:alternateName xml:lang="ru">Лондон-Сити</gn:alternateName>
+        <gn:alternateName xml:lang="tg">Фурудгоҳи лондан си‌тӣ</gn:alternateName>
+        <gn:alternateName xml:lang="th">ท่าอากาศยานลอนดอนซิตี</gn:alternateName>
+        <gn:alternateName xml:lang="vi">Sân bay London City</gn:alternateName>
+        <gn:alternateName xml:lang="zh">倫敦城市機場</gn:alternateName>
+        <gn:featureClass rdf:resource="http://www.geonames.org/ontology#S"/>
+        <gn:featureCode rdf:resource="http://www.geonames.org/ontology#S.AIRP"/>
+        <gn:countryCode>GB</gn:countryCode>
+        <wgs84_pos:lat>51.50528</wgs84_pos:lat>
+        <wgs84_pos:long>0.05528</wgs84_pos:long>
+        <wgs84_pos:alt>5</wgs84_pos:alt>
+        <gn:parentCountry rdf:resource="http://sws.geonames.org/2635167/"/>
+        <gn:nearbyFeatures rdf:resource="http://sws.geonames.org/6296599/nearby.rdf"/>
+        <gn:locationMap rdf:resource="http://www.geonames.org/6296599/london-city-airport.html"/>
+        <gn:wikipediaArticle rdf:resource="http://en.wikipedia.org/wiki/London_City_Airport"/>
+        <rdfs:seeAlso rdf:resource="http://dbpedia.org/resource/London_City_Airport"/>
+    </gn:Feature>
+    <gn:Feature rdf:about="http://sws.geonames.org/4839420/">
+        <rdfs:isDefinedBy rdf:resource="http://sws.geonames.org/4839420/about.rdf"/>
+        <gn:name>Condado de New London</gn:name>
+        <gn:alternateName xml:lang="bg">Ню Лъндън</gn:alternateName>
+        <gn:alternateName xml:lang="bpy">নিউ লন্ডন কাউন্টি</gn:alternateName>
+        <gn:alternateName xml:lang="es">Condado de New London</gn:alternateName>
+        <gn:alternateName xml:lang="fr">Comté de New London</gn:alternateName>
+        <gn:alternateName xml:lang="hy">Նյու Լոնդոն շրջան</gn:alternateName>
+        <gn:alternateName xml:lang="it">Contea di New London</gn:alternateName>
+        <gn:alternateName xml:lang="ja">ニューロンドン郡</gn:alternateName>
+        <gn:alternateName xml:lang="pl">Hrabstwo New London</gn:alternateName>
+        <gn:alternateName xml:lang="pnb">نیو لندن کاؤنٹی</gn:alternateName>
+        <gn:alternateName xml:lang="pt">Condado de New London</gn:alternateName>
+        <gn:alternateName xml:lang="ro">Comitatul New London</gn:alternateName>
+        <gn:alternateName xml:lang="ru">Нью-Лондон</gn:alternateName>
+        <gn:alternateName xml:lang="sr">Округ Њу Лондон</gn:alternateName>
+        <gn:alternateName xml:lang="uk">Нью-Лондон</gn:alternateName>
+        <gn:alternateName xml:lang="vi">Quận New London</gn:alternateName>
+        <gn:alternateName xml:lang="war">Condado han New London</gn:alternateName>
+        <gn:alternateName xml:lang="zh">新倫敦縣</gn:alternateName>
+        <gn:featureClass rdf:resource="http://www.geonames.org/ontology#A"/>
+        <gn:featureCode rdf:resource="http://www.geonames.org/ontology#A.ADM2"/>
+        <gn:countryCode>US</gn:countryCode>
+        <gn:population>274055</gn:population>
+        <wgs84_pos:lat>41.46678</wgs84_pos:lat>
+        <wgs84_pos:long>-72.1065</wgs84_pos:long>
+        <wgs84_pos:alt>60</wgs84_pos:alt>
+        <gn:parentCountry rdf:resource="http://sws.geonames.org/6252001/"/>
+        <gn:childrenFeatures rdf:resource="http://sws.geonames.org/4839420/contains.rdf"/>
+        <gn:locationMap rdf:resource="http://www.geonames.org/4839420/new-london-county.html"/>
+        <gn:wikipediaArticle rdf:resource="http://en.wikipedia.org/wiki/New_London_County%2C_Connecticut"/>
+        <rdfs:seeAlso rdf:resource="http://dbpedia.org/resource/New_London_County%2C_Connecticut"/>
+    </gn:Feature>
+    <gn:Feature rdf:about="http://sws.geonames.org/6296598/">
+        <rdfs:isDefinedBy rdf:resource="http://sws.geonames.org/6296598/about.rdf"/>
+        <gn:name>Aeropuerto de Londres-Gatwick</gn:name>
+        <gn:alternateName xml:lang="ar">مطار غاتويك</gn:alternateName>
+        <gn:alternateName xml:lang="arz">مطار جاتويك</gn:alternateName>
+        <gn:alternateName xml:lang="ca">Aeroport de Londres-Gatwick</gn:alternateName>
+        <gn:alternateName xml:lang="cs">Letiště London Gatwick</gn:alternateName>
+        <gn:alternateName xml:lang="cy">Maes Awyr Gatwick</gn:alternateName>
+        <gn:alternateName xml:lang="de">Flughafen London Gatwick</gn:alternateName>
+        <gn:alternateName xml:lang="el">Διεθνές Αεροδρόμιο Γκάτγουικ</gn:alternateName>
+        <gn:alternateName xml:lang="en">Gatwick Airport</gn:alternateName>
+        <gn:alternateName xml:lang="eo">Flughaveno London Gatwick</gn:alternateName>
+        <gn:alternateName xml:lang="es">Aeropuerto de Londres-Gatwick</gn:alternateName>
+        <gn:alternateName xml:lang="et">Londoni Gatwicki lennujaam</gn:alternateName>
+        <gn:alternateName xml:lang="eu">Londres-Gatwick aireportua</gn:alternateName>
+        <gn:alternateName xml:lang="fa">فرودگاه گاتویک</gn:alternateName>
+        <gn:alternateName xml:lang="fi">Gatwickin kansainvälinen lentoasema</gn:alternateName>
+        <gn:alternateName xml:lang="fr">Aéroport de Londres Gatwick</gn:alternateName>
+        <gn:alternateName xml:lang="ga">Aerfort Londain-Gatwick</gn:alternateName>
+        <gn:alternateName xml:lang="he">נמל התעופה לונדון גטוויק</gn:alternateName>
+        <gn:alternateName xml:lang="hu">London-Gatwick repülőtér</gn:alternateName>
+        <gn:alternateName xml:lang="hy">Գեթվիք օդանավակայան</gn:alternateName>
+        <gn:alternateName xml:lang="id">Bandar Udara London Gatwick</gn:alternateName>
+        <gn:alternateName xml:lang="is">London Gatwick-flugvöllur</gn:alternateName>
+        <gn:alternateName xml:lang="it">Aeroporto di Londra-Gatwick</gn:alternateName>
+        <gn:alternateName xml:lang="ja">ロンドン・ガトウィック空港</gn:alternateName>
+        <gn:alternateName xml:lang="ka">ლონდონის გატვიკის აეროპორტი</gn:alternateName>
+        <gn:alternateName xml:lang="ko">런던 개트윅 공항</gn:alternateName>
+        <gn:alternateName xml:lang="lt">Gatviko oro uostas</gn:alternateName>
+        <gn:alternateName xml:lang="ms">Lapangan Terbang Gatwick London</gn:alternateName>
+        <gn:alternateName xml:lang="nl">Luchthaven Londen Gatwick</gn:alternateName>
+        <gn:alternateName xml:lang="nn">London lufthamn</gn:alternateName>
+        <gn:alternateName xml:lang="no">London Gatwick lufthavn</gn:alternateName>
+        <gn:alternateName xml:lang="pl">Port lotniczy Londyn-Gatwick</gn:alternateName>
+        <gn:alternateName xml:lang="pt">Aeroporto de Londres Gatwick</gn:alternateName>
+        <gn:alternateName xml:lang="ru">Гатвик</gn:alternateName>
+        <gn:alternateName xml:lang="sk">Letisko Londýn Gatwick</gn:alternateName>
+        <gn:alternateName xml:lang="sr">Аеродром Гетвик</gn:alternateName>
+        <gn:alternateName xml:lang="sv">Gatwick flygplats</gn:alternateName>
+        <gn:alternateName xml:lang="tg">Фурудгоҳи готуик</gn:alternateName>
+        <gn:alternateName xml:lang="th">ท่าอากาศยานลอนดอนแกตวิค</gn:alternateName>
+        <gn:alternateName xml:lang="uk">Аеропорт Гатвік</gn:alternateName>
+        <gn:alternateName xml:lang="vi">Sân bay Gatwick</gn:alternateName>
+        <gn:alternateName xml:lang="zh">格域機場</gn:alternateName>
+        <gn:featureClass rdf:resource="http://www.geonames.org/ontology#S"/>
+        <gn:featureCode rdf:resource="http://www.geonames.org/ontology#S.AIRP"/>
+        <gn:countryCode>GB</gn:countryCode>
+        <wgs84_pos:lat>51.15609</wgs84_pos:lat>
+        <wgs84_pos:long>-0.17818</wgs84_pos:long>
+        <wgs84_pos:alt>61</wgs84_pos:alt>
+        <gn:parentCountry rdf:resource="http://sws.geonames.org/2635167/"/>
+        <gn:nearbyFeatures rdf:resource="http://sws.geonames.org/6296598/nearby.rdf"/>
+        <gn:locationMap rdf:resource="http://www.geonames.org/6296598/london-gatwick-airport.html"/>
+        <gn:wikipediaArticle rdf:resource="http://en.wikipedia.org/wiki/Gatwick_Airport"/>
+        <rdfs:seeAlso rdf:resource="http://dbpedia.org/resource/Gatwick_Airport"/>
+    </gn:Feature>
+    <gn:Feature rdf:about="http://sws.geonames.org/2647216/">
+        <rdfs:isDefinedBy rdf:resource="http://sws.geonames.org/2647216/about.rdf"/>
+        <gn:name>Heathrow</gn:name>
+        <gn:alternateName xml:lang="af">Lughawe Londen-Heathrow</gn:alternateName>
+        <gn:alternateName xml:lang="ar">مطار لندن هيثرو</gn:alternateName>
+        <gn:alternateName xml:lang="arz">مطار هيثرو</gn:alternateName>
+        <gn:alternateName xml:lang="az">Hitrou hava limanı</gn:alternateName>
+        <gn:alternateName xml:lang="be">Аэрапорт Хітроў</gn:alternateName>
+        <gn:alternateName xml:lang="bg">Летище Хийтроу</gn:alternateName>
+        <gn:alternateName xml:lang="bn">লন্ডন হিথ্রো বিমানবন্দর</gn:alternateName>
+        <gn:alternateName xml:lang="ca">Aeroport de Londres-Heathrow</gn:alternateName>
+        <gn:alternateName xml:lang="cs">Letiště London Heathrow</gn:alternateName>
+        <gn:alternateName xml:lang="cy">Maes Awyr Heathrow</gn:alternateName>
+        <gn:alternateName xml:lang="de">Flughafen London Heathrow</gn:alternateName>
+        <gn:alternateName xml:lang="el">Διεθνές Αεροδρόμιο Χίθροου</gn:alternateName>
+        <gn:alternateName xml:lang="en">Heathrow</gn:alternateName>
+        <gn:alternateName xml:lang="eo">Flughaveno London Heathrow</gn:alternateName>
+        <gn:alternateName xml:lang="es">Heathrow</gn:alternateName>
+        <gn:alternateName xml:lang="et">Londoni Heathrow lennujaam</gn:alternateName>
+        <gn:alternateName xml:lang="eu">Londres-Heathrow aireportua</gn:alternateName>
+        <gn:alternateName xml:lang="fa">فرودگاه هیترو لندن</gn:alternateName>
+        <gn:alternateName xml:lang="fi">Heathrow’n lentoasema</gn:alternateName>
+        <gn:alternateName xml:lang="fr">Aéroport de Londres Heathrow</gn:alternateName>
+        <gn:alternateName xml:lang="ga">Aerfort Londain-Heathrow</gn:alternateName>
+        <gn:alternateName xml:lang="gl">Aeroporto de Heathrow</gn:alternateName>
+        <gn:alternateName xml:lang="he">נמל התעופה לונדון היתרו</gn:alternateName>
+        <gn:alternateName xml:lang="hi">लंदन हीथ्रो विमानक्षेत्र</gn:alternateName>
+        <gn:alternateName xml:lang="hr">Zračna luka London Heathrow</gn:alternateName>
+        <gn:alternateName xml:lang="hu">London-Heathrow-i repülőtér</gn:alternateName>
+        <gn:alternateName xml:lang="id">Bandar Udara Internasional London Heathrow</gn:alternateName>
+        <gn:alternateName xml:lang="is">London Heathrow-flugvöllur</gn:alternateName>
+        <gn:alternateName xml:lang="it">Aeroporto di Londra-Heathrow</gn:alternateName>
+        <gn:alternateName xml:lang="ja">ロンドン・ヒースロー空港</gn:alternateName>
+        <gn:alternateName xml:lang="ka">ლონდონის ჰითროუს აეროპორტი</gn:alternateName>
+        <gn:alternateName xml:lang="ko">런던 히드로 공항</gn:alternateName>
+        <gn:alternateName xml:lang="kv">Хитроу</gn:alternateName>
+        <gn:alternateName xml:lang="lt">Londono Hitrou oro uostas</gn:alternateName>
+        <gn:alternateName xml:lang="lv">Hītrovas lidosta</gn:alternateName>
+        <gn:alternateName xml:lang="mg">Seranam-piaramanidini London Heathrow</gn:alternateName>
+        <gn:alternateName xml:lang="mr">लंडन हीथ्रो विमानतळ</gn:alternateName>
+        <gn:alternateName xml:lang="ms">Lapangan Terbang Heathrow London</gn:alternateName>
+        <gn:alternateName xml:lang="my">လန်ဒန် ဟိသ်ရိုး လေဆိပ်</gn:alternateName>
+        <gn:alternateName xml:lang="nl">Luchthaven Londen Heathrow</gn:alternateName>
+        <gn:alternateName xml:lang="nn">London lufthamn</gn:alternateName>
+        <gn:alternateName xml:lang="no">London Heathrow lufthavn</gn:alternateName>
+        <gn:alternateName xml:lang="pap">Aeropuerto London Heathrow</gn:alternateName>
+        <gn:alternateName xml:lang="pl">Port lotniczy Londyn-Heathrow</gn:alternateName>
+        <gn:alternateName xml:lang="pnb">لندن ہیتھرو ہوائی اڈہ</gn:alternateName>
+        <gn:alternateName xml:lang="pt">Aeroporto de Londres Heathrow</gn:alternateName>
+        <gn:alternateName xml:lang="ro">Aeroportul Londra Heathrow</gn:alternateName>
+        <gn:alternateName xml:lang="ru">Хитроу</gn:alternateName>
+        <gn:alternateName xml:lang="sco">Lunnon Heathrow Airport</gn:alternateName>
+        <gn:alternateName xml:lang="sk">Letisko Londýn Heathrow</gn:alternateName>
+        <gn:alternateName xml:lang="sr">Аеродром Хитроу</gn:alternateName>
+        <gn:alternateName xml:lang="sv">London-Heathrow flygplats</gn:alternateName>
+        <gn:alternateName xml:lang="szl">Lotńiczo hawyna Lůndůn-Heathrow</gn:alternateName>
+        <gn:alternateName xml:lang="ta">இலண்டன் ஹீத்ரோ வானூர்தி நிலையம்</gn:alternateName>
+        <gn:alternateName xml:lang="te">హీత్రూ విమానాశ్రయం</gn:alternateName>
+        <gn:alternateName xml:lang="th">ท่าอากาศยานลอนดอนฮีทโธรว์</gn:alternateName>
+        <gn:alternateName xml:lang="tr">Heathrow Havalimanı</gn:alternateName>
+        <gn:alternateName xml:lang="tt">Һитроу Халыкара һава аланы</gn:alternateName>
+        <gn:alternateName xml:lang="uk">Хітроу</gn:alternateName>
+        <gn:alternateName xml:lang="vi">Sân bay London Heathrow</gn:alternateName>
+        <gn:alternateName xml:lang="wuu">伦敦 海斯楼 飞机场</gn:alternateName>
+        <gn:alternateName xml:lang="xmf">ლონდონიშ ჰითროუშ აეროპორტი</gn:alternateName>
+        <gn:alternateName xml:lang="yi">לאנדאן היטרוי ערפארט</gn:alternateName>
+        <gn:alternateName xml:lang="yue">倫敦希斯路機場</gn:alternateName>
+        <gn:alternateName xml:lang="zh">倫敦希斯路機場</gn:alternateName>
+        <gn:featureClass rdf:resource="http://www.geonames.org/ontology#S"/>
+        <gn:featureCode rdf:resource="http://www.geonames.org/ontology#S.AIRP"/>
+        <gn:countryCode>GB</gn:countryCode>
+        <wgs84_pos:lat>51.47115</wgs84_pos:lat>
+        <wgs84_pos:long>-0.45649</wgs84_pos:long>
+        <gn:parentCountry rdf:resource="http://sws.geonames.org/2635167/"/>
+        <gn:nearbyFeatures rdf:resource="http://sws.geonames.org/2647216/nearby.rdf"/>
+        <gn:locationMap rdf:resource="http://www.geonames.org/2647216/london-heathrow-airport.html"/>
+        <gn:wikipediaArticle rdf:resource="http://en.wikipedia.org/wiki/London_Heathrow_Airport"/>
+        <rdfs:seeAlso rdf:resource="http://dbpedia.org/resource/London_Heathrow_Airport"/>
+    </gn:Feature>
+    <gn:Feature rdf:about="http://sws.geonames.org/4839843/">
+        <rdfs:isDefinedBy rdf:resource="http://sws.geonames.org/4839843/about.rdf"/>
+        <gn:name>Norwich</gn:name>
+        <gn:alternateName xml:lang="kk">Норвич</gn:alternateName>
+        <gn:alternateName xml:lang="ko">노리치</gn:alternateName>
+        <gn:alternateName xml:lang="mr">नॉर्विक</gn:alternateName>
+        <gn:alternateName xml:lang="new">नरविच</gn:alternateName>
+        <gn:alternateName xml:lang="ru">Норидж</gn:alternateName>
+        <gn:alternateName xml:lang="sr">Норвич</gn:alternateName>
+        <gn:alternateName xml:lang="zh">诺威奇</gn:alternateName>
+        <gn:featureClass rdf:resource="http://www.geonames.org/ontology#P"/>
+        <gn:featureCode rdf:resource="http://www.geonames.org/ontology#P.PPL"/>
+        <gn:countryCode>US</gn:countryCode>
+        <gn:population>40493</gn:population>
+        <gn:postalCode>06360</gn:postalCode>
+        <wgs84_pos:lat>41.52426</wgs84_pos:lat>
+        <wgs84_pos:long>-72.07591</wgs84_pos:long>
+        <wgs84_pos:alt>17</wgs84_pos:alt>
+        <gn:parentCountry rdf:resource="http://sws.geonames.org/6252001/"/>
+        <gn:nearbyFeatures rdf:resource="http://sws.geonames.org/4839843/nearby.rdf"/>
+        <gn:locationMap rdf:resource="http://www.geonames.org/4839843/norwich.html"/>
+        <gn:wikipediaArticle rdf:resource="http://en.wikipedia.org/wiki/Norwich%2C_Connecticut"/>
+        <rdfs:seeAlso rdf:resource="http://dbpedia.org/resource/Norwich%2C_Connecticut"/>
+    </gn:Feature>
+</rdf:RDF>
