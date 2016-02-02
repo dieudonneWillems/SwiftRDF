@@ -674,7 +674,7 @@
                         <splitViewItem canCollapse="YES" holdingPriority="260" behavior="sidebar" id="IJC-MX-CeN"/>
                         <splitViewItem holdingPriority="255" behavior="contentList" id="K0j-Ci-mLo"/>
                     </splitViewItems>
-                    <splitView key="splitView" focusRingType="none" dividerStyle="thin" vertical="YES" id="d59-qO-EVJ">
+                    <splitView key="splitView" wantsLayer="YES" focusRingType="none" dividerStyle="thin" vertical="YES" id="d59-qO-EVJ">
                         <rect key="frame" x="0.0" y="0.0" width="697" height="474"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </splitView>
@@ -702,7 +702,7 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="sourceList" autosaveColumns="NO" rowHeight="20" rowSizeStyle="automatic" viewBased="YES" indentationPerLevel="14" outlineTableColumn="GlB-gr-d7z" id="3sT-BY-WMl">
-                                            <rect key="frame" x="0.0" y="0.0" width="200" height="0.0"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="200" height="377"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="0.0"/>
                                             <color key="backgroundColor" name="_sourceListBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -883,7 +883,7 @@
                         <splitViewItem id="6ZB-Pg-Mob"/>
                         <splitViewItem id="xne-2G-jRL"/>
                     </splitViewItems>
-                    <splitView key="splitView" dividerStyle="thin" id="UfB-i6-N4V">
+                    <splitView key="splitView" wantsLayer="YES" dividerStyle="thin" id="UfB-i6-N4V">
                         <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </splitView>
@@ -1016,7 +1016,7 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="uK9-3G-TYB" viewBased="YES" id="K0x-oH-VHO">
-                                            <rect key="frame" x="0.0" y="0.0" width="691" height="362"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="692" height="362"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -1132,7 +1132,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <tableHeaderView key="headerView" id="uK9-3G-TYB">
-                                    <rect key="frame" x="0.0" y="0.0" width="691" height="23"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="692" height="23"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableHeaderView>
                             </scrollView>

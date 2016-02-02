@@ -50,6 +50,7 @@
 		02C6407E1C4084AA00231345 /* geonames.london.rdf in Resources */ = {isa = PBXBuildFile; fileRef = 02C6407D1C4084AA00231345 /* geonames.london.rdf */; };
 		02C640801C4089CA00231345 /* geonames.london-ontario.rdf in Resources */ = {isa = PBXBuildFile; fileRef = 02C6407F1C4089CA00231345 /* geonames.london-ontario.rdf */; };
 		02C640861C412CAE00231345 /* RDFXMLParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C640851C412CAE00231345 /* RDFXMLParserTests.swift */; };
+		02C84D081C60D40E001AE84F /* IndexedGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C84D071C60D40E001AE84F /* IndexedGraph.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -109,6 +110,7 @@
 		02C6407D1C4084AA00231345 /* geonames.london.rdf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = geonames.london.rdf; sourceTree = "<group>"; };
 		02C6407F1C4089CA00231345 /* geonames.london-ontario.rdf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "geonames.london-ontario.rdf"; sourceTree = "<group>"; };
 		02C640851C412CAE00231345 /* RDFXMLParserTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RDFXMLParserTests.swift; sourceTree = "<group>"; };
+		02C84D071C60D40E001AE84F /* IndexedGraph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IndexedGraph.swift; path = "../source code/model/IndexedGraph.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -176,6 +178,7 @@
 		0222323E1C02108A00362D9B /* source */ = {
 			isa = PBXGroup;
 			children = (
+				02C84D071C60D40E001AE84F /* IndexedGraph.swift */,
 				02C640791C407DA900231345 /* RDFParserError.swift */,
 				02C640771C40797600231345 /* RDFParserDelegate.swift */,
 				02C640751C4071C900231345 /* RDFParser.swift */,
@@ -362,6 +365,7 @@
 				0211FF861C2AB6DB00A1B944 /* MathFunctions.swift in Sources */,
 				022232421C0702AC00362D9B /* RDF.swift in Sources */,
 				022D68351C21D64B00C4000D /* Decimal.swift in Sources */,
+				02C84D081C60D40E001AE84F /* IndexedGraph.swift in Sources */,
 				0262BB0F1C076606002E24A4 /* Datatype.swift in Sources */,
 				024E09711C15EFDF002EE84C /* Duration.swift in Sources */,
 				024E09651C11DEF2002EE84C /* LiteralFormattingError.swift in Sources */,

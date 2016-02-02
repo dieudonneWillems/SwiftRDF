@@ -40,6 +40,7 @@
 		02C84CFE1C5E9782001AE84F /* search-on.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 02C84CFD1C5E9782001AE84F /* search-on.pdf */; };
 		02C84D021C5E9872001AE84F /* search.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 02C84D011C5E9872001AE84F /* search.pdf */; };
 		02C84D041C5EBCAF001AE84F /* instance.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 02C84D031C5EBCAF001AE84F /* instance.pdf */; };
+		02C84D061C60CC32001AE84F /* OntologyGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C84D051C60CC32001AE84F /* OntologyGraph.swift */; };
 		02F4B73D1C5E663D0025151A /* hierarchy-on.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 02F4B73C1C5E663D0025151A /* hierarchy-on.pdf */; };
 /* End PBXBuildFile section */
 
@@ -112,6 +113,7 @@
 		02C84CFD1C5E9782001AE84F /* search-on.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = "search-on.pdf"; path = "Ontologist/search-on.pdf"; sourceTree = "<group>"; };
 		02C84D011C5E9872001AE84F /* search.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = search.pdf; path = Ontologist/search.pdf; sourceTree = "<group>"; };
 		02C84D031C5EBCAF001AE84F /* instance.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = instance.pdf; path = Ontologist/instance.pdf; sourceTree = "<group>"; };
+		02C84D051C60CC32001AE84F /* OntologyGraph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OntologyGraph.swift; sourceTree = "<group>"; };
 		02F4B73C1C5E663D0025151A /* hierarchy-on.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = "hierarchy-on.pdf"; path = "Ontologist/hierarchy-on.pdf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -164,6 +166,7 @@
 			isa = PBXGroup;
 			children = (
 				0266B5E31C4D563400CA2FE0 /* RDFDocument.swift */,
+				02C84D051C60CC32001AE84F /* OntologyGraph.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -402,6 +405,7 @@
 				020729B01C5D75DE00B22285 /* LiteralCellView.swift in Sources */,
 				021DE2181C503B1C0031FAC8 /* RDFNavigationController.swift in Sources */,
 				0266B6121C4EEB5900CA2FE0 /* RDFGraphNavigationController.swift in Sources */,
+				02C84D061C60CC32001AE84F /* OntologyGraph.swift in Sources */,
 				021DE21A1C503B640031FAC8 /* RDFFileNavigationController.swift in Sources */,
 				021DE21C1C503C790031FAC8 /* StatementTableViewController.swift in Sources */,
 				020729AE1C5CCD9C00B22285 /* ResourceCellView.swift in Sources */,

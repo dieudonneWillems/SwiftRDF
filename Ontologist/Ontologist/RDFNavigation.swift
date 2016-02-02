@@ -13,12 +13,13 @@ class RDFNavigation: NSObject, NSOutlineViewDelegate, NSOutlineViewDataSource, N
     
     var documents : [RDFDocument] = [RDFDocument]() {
         didSet {
-            fullGraph = Graph()
+            fullGraph = OntologyGraph()
             for document in documents {
                 if document.graph != nil {
                     fullGraph?.add(document.graph!)
                 }
             }
+            fullGraph?.index()
             visibleGraphForSelectedFile = fullGraph
             visibleGraph = fullGraph
         }
@@ -27,7 +28,7 @@ class RDFNavigation: NSObject, NSOutlineViewDelegate, NSOutlineViewDataSource, N
     var fileNavigationViewController : RDFFileNavigationController?
     var graphNavigationViewController : RDFGraphNavigationController?
     var statementsTableController : StatementTableViewController?
-    var fullGraph : Graph?
+    var fullGraph : OntologyGraph?
     var visibleGraph : Graph?
     var visibleGraphForSelectedFile : Graph?
     
@@ -129,7 +130,7 @@ class RDFNavigation: NSObject, NSOutlineViewDelegate, NSOutlineViewDataSource, N
         } else if outlineView == graphNavigationViewController?.graphNavigationView {
             let visibleGraphView = graphNavigationViewController!.visibleGraphView
             if visibleGraphView == VisibleGraphView.InstancesView {
-                return (visibleGraphForSelectedFile?.resources.count)!
+                return (fullGraph?.resources.count)!
             }
         } else {
             
@@ -148,7 +149,7 @@ class RDFNavigation: NSObject, NSOutlineViewDelegate, NSOutlineViewDataSource, N
             let visibleGraphView = graphNavigationViewController!.visibleGraphView
             if visibleGraphView == VisibleGraphView.InstancesView {
                 if item == nil {
-                    return (visibleGraphForSelectedFile?.resources[index])!
+                    return (fullGraph?.resources[index])!
                 }
             }
         } else {
@@ -224,8 +225,8 @@ class RDFNavigation: NSObject, NSOutlineViewDelegate, NSOutlineViewDataSource, N
                     cell?.icon?.image = NSImage(named: "instance")
                     if (resource as? URI) != nil {
                         title = (resource as! URI).stringValue
-                        if visibleGraphForSelectedFile != nil {
-                            let qname = visibleGraphForSelectedFile?.qualifiedName((resource as! URI))
+                        if fullGraph != nil {
+                            let qname = fullGraph?.qualifiedName((resource as! URI))
                             if qname != nil {
                                 title = qname!
                             }

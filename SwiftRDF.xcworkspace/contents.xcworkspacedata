@@ -58,6 +58,9 @@
          <FileRef
             location = "group:source code/model/Graph.swift">
          </FileRef>
+         <FileRef
+            location = "group:source code/model/IndexedGraph.swift">
+         </FileRef>
       </Group>
       <Group
          location = "container:"

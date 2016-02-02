@@ -11,6 +11,16 @@ import SwiftRDFOSX
 
 class LiteralCellView: NSView {
     
+    var backgroundStyle: NSBackgroundStyle = .Light {
+        didSet {
+            if backgroundStyle == .Light {
+            } else if backgroundStyle == .Dark {
+            }
+            self.needsDisplay = true
+        }
+    }
+
+    
     var literal : Literal? {
         didSet {
             self.setNeedsDisplayInRect(self.frame)
@@ -29,7 +39,7 @@ class LiteralCellView: NSView {
                 attrs[NSForegroundColorAttributeName] = NSColor.lightGrayColor()
                 let strlangsize = nstrlang.sizeWithAttributes(attrs)
                 let strrect = NSMakeRect(self.frame.width-13.5-strlangsize.width/2, (self.frame.height-strlangsize.height)/2+1, strlangsize.width, strlangsize.height)
-                let cartrect = NSMakeRect(self.frame.width-27, (self.frame.height-strlangsize.height)/2-1, 26, strlangsize.height+2)
+                let cartrect = NSMakeRect(self.frame.width-27.5, (self.frame.height-strlangsize.height)/2-1.5, 26, strlangsize.height+2)
                 NSColor.lightGrayColor().set()
                 let cartouche = NSBezierPath(roundedRect: cartrect, xRadius: 4, yRadius: 4)
                 cartouche.stroke()
@@ -46,7 +56,7 @@ class LiteralCellView: NSView {
                 attrs[NSForegroundColorAttributeName] = NSColor.whiteColor()
                 let dtstrsize = nstrdt.sizeWithAttributes(attrs)
                 let strrect = NSMakeRect(self.frame.width-dtstrsize.width-4, (self.frame.height-dtstrsize.height)/2+1, dtstrsize.width, dtstrsize.height)
-                let cartrect = NSMakeRect(self.frame.width-dtstrsize.width-7, (self.frame.height-dtstrsize.height)/2-1, dtstrsize.width+6, dtstrsize.height+2)
+                let cartrect = NSMakeRect(self.frame.width-dtstrsize.width-7.5, (self.frame.height-dtstrsize.height)/2-1.5, dtstrsize.width+6, dtstrsize.height+2)
                 NSColor.lightGrayColor().set()
                 let cartouche = NSBezierPath(roundedRect: cartrect, xRadius: 4, yRadius: 4)
                 cartouche.fill()
