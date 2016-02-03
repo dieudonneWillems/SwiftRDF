@@ -34,6 +34,19 @@
       <Group
          location = "container:"
          name = "model">
+         <Group
+            location = "container:"
+            name = "indexes">
+            <FileRef
+               location = "group:source code/model/IndexedGraph.swift">
+            </FileRef>
+            <FileRef
+               location = "group:source code/model/indexes/Index.swift">
+            </FileRef>
+            <FileRef
+               location = "group:source code/model/indexes/HierarchyIndex.swift">
+            </FileRef>
+         </Group>
          <FileRef
             location = "group:source code/model/Resource.swift">
          </FileRef>
@@ -57,9 +70,6 @@
          </FileRef>
          <FileRef
             location = "group:source code/model/Graph.swift">
-         </FileRef>
-         <FileRef
-            location = "group:source code/model/IndexedGraph.swift">
          </FileRef>
       </Group>
       <Group

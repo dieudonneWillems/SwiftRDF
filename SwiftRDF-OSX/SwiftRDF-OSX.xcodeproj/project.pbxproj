@@ -51,6 +51,8 @@
 		02C640801C4089CA00231345 /* geonames.london-ontario.rdf in Resources */ = {isa = PBXBuildFile; fileRef = 02C6407F1C4089CA00231345 /* geonames.london-ontario.rdf */; };
 		02C640861C412CAE00231345 /* RDFXMLParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C640851C412CAE00231345 /* RDFXMLParserTests.swift */; };
 		02C84D081C60D40E001AE84F /* IndexedGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C84D071C60D40E001AE84F /* IndexedGraph.swift */; };
+		02C84D0A1C620139001AE84F /* Index.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C84D091C620139001AE84F /* Index.swift */; };
+		02C84D0C1C621BFB001AE84F /* HierarchyIndex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C84D0B1C621BFB001AE84F /* HierarchyIndex.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -111,6 +113,8 @@
 		02C6407F1C4089CA00231345 /* geonames.london-ontario.rdf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "geonames.london-ontario.rdf"; sourceTree = "<group>"; };
 		02C640851C412CAE00231345 /* RDFXMLParserTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RDFXMLParserTests.swift; sourceTree = "<group>"; };
 		02C84D071C60D40E001AE84F /* IndexedGraph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IndexedGraph.swift; path = "../source code/model/IndexedGraph.swift"; sourceTree = "<group>"; };
+		02C84D091C620139001AE84F /* Index.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Index.swift; path = "../source code/model/indexes/Index.swift"; sourceTree = "<group>"; };
+		02C84D0B1C621BFB001AE84F /* HierarchyIndex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HierarchyIndex.swift; path = "../source code/model/indexes/HierarchyIndex.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -178,6 +182,8 @@
 		0222323E1C02108A00362D9B /* source */ = {
 			isa = PBXGroup;
 			children = (
+				02C84D0B1C621BFB001AE84F /* HierarchyIndex.swift */,
+				02C84D091C620139001AE84F /* Index.swift */,
 				02C84D071C60D40E001AE84F /* IndexedGraph.swift */,
 				02C640791C407DA900231345 /* RDFParserError.swift */,
 				02C640771C40797600231345 /* RDFParserDelegate.swift */,
@@ -353,6 +359,7 @@
 			files = (
 				0222323B1BFF7ADF00362D9B /* Statement.swift in Sources */,
 				022232311BFF79C300362D9B /* Value.swift in Sources */,
+				02C84D0C1C621BFB001AE84F /* HierarchyIndex.swift in Sources */,
 				02943EB61C0C730000C42159 /* RDFS.swift in Sources */,
 				022232331BFF7A3600362D9B /* Resource.swift in Sources */,
 				022232401C061D8100362D9B /* SPARQLValue.swift in Sources */,
@@ -374,6 +381,7 @@
 				02C6407A1C407DA900231345 /* RDFParserError.swift in Sources */,
 				02C6406E1C3B024E00231345 /* Graph.swift in Sources */,
 				022D68361C21D64B00C4000D /* GregorianDate.swift in Sources */,
+				02C84D0A1C620139001AE84F /* Index.swift in Sources */,
 				02912C391C25A13D00F64580 /* String-extensions.swift in Sources */,
 				022232351BFF7A3D00362D9B /* Literal.swift in Sources */,
 				02C640741C40714800231345 /* RDFXMLParser.swift in Sources */,

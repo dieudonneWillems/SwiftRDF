@@ -131,6 +131,36 @@ class RDFNavigation: NSObject, NSOutlineViewDelegate, NSOutlineViewDataSource, N
             let visibleGraphView = graphNavigationViewController!.visibleGraphView
             if visibleGraphView == VisibleGraphView.InstancesView {
                 return (fullGraph?.resources.count)!
+            } else if visibleGraphView == VisibleGraphView.HierarchyView {
+                let gindex = fullGraph?.indexes[OntologyGraph.CLASS_HIERARCHY] as? HierarchyIndex
+                if gindex != nil {
+                    if item == nil {
+                        return gindex!.rootNodes.count
+                    } else {
+                        let resource = item as? Resource
+                        if resource != nil {
+                            let childnodes = gindex!.childNodes(resource!)
+                            if childnodes != nil {
+                                return childnodes!.count
+                            }
+                        }
+                    }
+                }
+            } else if visibleGraphView == VisibleGraphView.PropertiesView {
+                let gindex = fullGraph?.indexes[OntologyGraph.PROPERTY_HIERARCHY] as? HierarchyIndex
+                if gindex != nil {
+                    if item == nil {
+                        return gindex!.rootNodes.count
+                    } else {
+                        let resource = item as? Resource
+                        if resource != nil {
+                            let childnodes = gindex!.childNodes(resource!)
+                            if childnodes != nil {
+                                return childnodes!.count
+                            }
+                        }
+                    }
+                }
             }
         } else {
             
@@ -151,6 +181,36 @@ class RDFNavigation: NSObject, NSOutlineViewDelegate, NSOutlineViewDataSource, N
                 if item == nil {
                     return (fullGraph?.resources[index])!
                 }
+            } else if visibleGraphView == VisibleGraphView.HierarchyView {
+                let gindex = fullGraph?.indexes[OntologyGraph.CLASS_HIERARCHY] as? HierarchyIndex
+                if gindex != nil {
+                    if item == nil {
+                        return gindex!.rootNodes[index]
+                    } else {
+                        let resource = item as? Resource
+                        if resource != nil {
+                            let childnodes = gindex!.childNodes(resource!)
+                            if childnodes != nil {
+                                return childnodes![index]
+                            }
+                        }
+                    }
+                }
+            } else if visibleGraphView == VisibleGraphView.PropertiesView {
+                let gindex = fullGraph?.indexes[OntologyGraph.PROPERTY_HIERARCHY] as? HierarchyIndex
+                if gindex != nil {
+                    if item == nil {
+                        return gindex!.rootNodes[index]
+                    } else {
+                        let resource = item as? Resource
+                        if resource != nil {
+                            let childnodes = gindex!.childNodes(resource!)
+                            if childnodes != nil {
+                                return childnodes![index]
+                            }
+                        }
+                    }
+                }
             }
         } else {
             
@@ -167,6 +227,28 @@ class RDFNavigation: NSObject, NSOutlineViewDelegate, NSOutlineViewDataSource, N
             let visibleGraphView = graphNavigationViewController!.visibleGraphView
             if visibleGraphView == VisibleGraphView.InstancesView {
                 return false
+            } else if visibleGraphView == VisibleGraphView.HierarchyView {
+                let gindex = fullGraph?.indexes[OntologyGraph.CLASS_HIERARCHY] as? HierarchyIndex
+                if gindex != nil {
+                    let resource = item as? Resource
+                    if resource != nil {
+                        let childnodes = gindex!.childNodes(resource!)
+                        if childnodes != nil {
+                            return childnodes!.count > 0
+                        }
+                    }
+                }
+            } else if visibleGraphView == VisibleGraphView.PropertiesView {
+                let gindex = fullGraph?.indexes[OntologyGraph.PROPERTY_HIERARCHY] as? HierarchyIndex
+                if gindex != nil {
+                    let resource = item as? Resource
+                    if resource != nil {
+                        let childnodes = gindex!.childNodes(resource!)
+                        if childnodes != nil {
+                            return childnodes!.count > 0
+                        }
+                    }
+                }
             }
         } else {
             
@@ -216,7 +298,7 @@ class RDFNavigation: NSObject, NSOutlineViewDelegate, NSOutlineViewDataSource, N
             }
         } else if outlineView == graphNavigationViewController?.graphNavigationView {
             let visibleGraphView = graphNavigationViewController!.visibleGraphView
-            if visibleGraphView == VisibleGraphView.InstancesView {
+            if visibleGraphView == VisibleGraphView.InstancesView || visibleGraphView == VisibleGraphView.HierarchyView || visibleGraphView == VisibleGraphView.PropertiesView {
                 let resource = item as! Resource
                 let cell = outlineView.makeViewWithIdentifier("IconTextView", owner: self) as? IconTextView
                 if cell != nil {

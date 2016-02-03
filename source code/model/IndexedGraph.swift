@@ -39,8 +39,27 @@ public class IndexedGraph : Graph {
     
     private var unindexed = [Statement]()
     
+    /**
+     This parameter is `true` when the index is in a inconsistent state.
+     A call to `index()` is required to bring the index back to a consistent state.
+     */
     public private(set) var needsIndexing : Bool = false
     
+    /**
+     The set of indexes stored in a dictionary with as key the identifier to the index.
+     */
+    public private(set) var indexes = [String: Index]()
+    
+    
+    /**
+     Adds the index to the indexed graph.
+     
+     - parameter identifier: The identifier of the index.
+     - parameter index: The index to be added.
+     */
+    public func addIndex(identifier: String, index : Index){
+        indexes[identifier] = index
+    }
     
     /**
      Adds the specfied statement to the `Graph`. If the graph is a named graph, the URI identifier of
@@ -52,6 +71,10 @@ public class IndexedGraph : Graph {
         super.add(statement)
         needsIndexing = true
         unindexed.append(statement)
+        for indexID in indexes.keys {
+            let index = indexes[indexID]
+            index!.needsIndexing = true
+        }
     }
     
     /**
@@ -74,6 +97,10 @@ public class IndexedGraph : Graph {
         let deletedStatements = super.deleteStatements(subject, predicate: predicate, object: object)
         for statement in deletedStatements {
             self.deleteStatementFromIndex(statement)
+            for indexID in indexes.keys {
+                let index = indexes[indexID]
+                index!.deleteStatement(statement)
+            }
         }
         return deletedStatements
     }
@@ -87,6 +114,16 @@ public class IndexedGraph : Graph {
             let statement = unindexed[index]
             extractDistinctResourcesAndProperties(statement)
             indexStatement(statement)
+            for indexID in indexes.keys {
+                let index = indexes[indexID]
+                index!.index(statement)
+            }
+        }
+        for indexID in indexes.keys {
+            let index = indexes[indexID]
+            if index!.needsIndexing {
+                index!.index()
+            }
         }
         needsIndexing = false
     }
