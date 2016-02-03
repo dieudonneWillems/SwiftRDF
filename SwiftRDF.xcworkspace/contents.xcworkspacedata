@@ -123,6 +123,9 @@
             location = "group:source code/vocabularies/RDFS.swift">
          </FileRef>
          <FileRef
+            location = "group:source code/vocabularies/SKOS.swift">
+         </FileRef>
+         <FileRef
             location = "group:source code/vocabularies/XSD.swift">
          </FileRef>
          <FileRef
