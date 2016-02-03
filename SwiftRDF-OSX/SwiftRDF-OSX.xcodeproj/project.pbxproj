@@ -25,6 +25,7 @@
 		0262BB131C0C5E45002E24A4 /* DatatypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0262BB121C0C5E45002E24A4 /* DatatypeTests.swift */; };
 		02943EB61C0C730000C42159 /* RDFS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02943EB51C0C730000C42159 /* RDFS.swift */; };
 		029699F01C0EDA700067BB99 /* OWL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 029699EF1C0EDA700067BB99 /* OWL.swift */; };
+		02C84D0E1C629310001AE84F /* SKOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C84D0D1C629310001AE84F /* SKOS.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +60,7 @@
 		0262BB121C0C5E45002E24A4 /* DatatypeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatatypeTests.swift; sourceTree = "<group>"; };
 		02943EB51C0C730000C42159 /* RDFS.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RDFS.swift; path = "../source code/vocabularies/RDFS.swift"; sourceTree = "<group>"; };
 		029699EF1C0EDA700067BB99 /* OWL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OWL.swift; path = "../source code/vocabularies/OWL.swift"; sourceTree = "<group>"; };
+		02C84D0D1C629310001AE84F /* SKOS.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SKOS.swift; path = "../source code/vocabularies/SKOS.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,6 +123,7 @@
 		0222323E1C02108A00362D9B /* source */ = {
 			isa = PBXGroup;
 			children = (
+				02C84D0D1C629310001AE84F /* SKOS.swift */,
 				029699EF1C0EDA700067BB99 /* OWL.swift */,
 				0262BB0C1C076409002E24A4 /* Vocabulary.swift */,
 				0262BB0E1C076606002E24A4 /* Datatype.swift */,
@@ -247,6 +250,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				02C84D0E1C629310001AE84F /* SKOS.swift in Sources */,
 				0222323B1BFF7ADF00362D9B /* Statement.swift in Sources */,
 				022232311BFF79C300362D9B /* Value.swift in Sources */,
 				02943EB61C0C730000C42159 /* RDFS.swift in Sources */,
