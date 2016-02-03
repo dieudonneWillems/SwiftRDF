@@ -41,19 +41,27 @@
 		02912C391C25A13D00F64580 /* String-extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02912C381C25A13D00F64580 /* String-extensions.swift */; };
 		02943EB61C0C730000C42159 /* RDFS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02943EB51C0C730000C42159 /* RDFS.swift */; };
 		029699F01C0EDA700067BB99 /* OWL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 029699EF1C0EDA700067BB99 /* OWL.swift */; };
-		02C6406E1C3B024E00231345 /* Graph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C6406D1C3B024E00231345 /* Graph.swift */; };
-		02C640701C40283400231345 /* GraphTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C6406F1C40283400231345 /* GraphTests.swift */; };
-		02C640741C40714800231345 /* RDFXMLParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C640731C40714800231345 /* RDFXMLParser.swift */; };
-		02C640761C4071C900231345 /* RDFParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C640751C4071C900231345 /* RDFParser.swift */; };
-		02C640781C40797600231345 /* RDFParserDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C640771C40797600231345 /* RDFParserDelegate.swift */; };
-		02C6407A1C407DA900231345 /* RDFParserError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C640791C407DA900231345 /* RDFParserError.swift */; };
-		02C6407E1C4084AA00231345 /* geonames.london.rdf in Resources */ = {isa = PBXBuildFile; fileRef = 02C6407D1C4084AA00231345 /* geonames.london.rdf */; };
-		02C640801C4089CA00231345 /* geonames.london-ontario.rdf in Resources */ = {isa = PBXBuildFile; fileRef = 02C6407F1C4089CA00231345 /* geonames.london-ontario.rdf */; };
-		02C640861C412CAE00231345 /* RDFXMLParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C640851C412CAE00231345 /* RDFXMLParserTests.swift */; };
-		02C84D081C60D40E001AE84F /* IndexedGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C84D071C60D40E001AE84F /* IndexedGraph.swift */; };
-		02C84D0A1C620139001AE84F /* Index.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C84D091C620139001AE84F /* Index.swift */; };
-		02C84D0C1C621BFB001AE84F /* HierarchyIndex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C84D0B1C621BFB001AE84F /* HierarchyIndex.swift */; };
+		02C6406E1C3B024E00231345 /* (null) in Sources */ = {isa = PBXBuildFile; };
+		02C640701C40283400231345 /* (null) in Sources */ = {isa = PBXBuildFile; };
+		02C640741C40714800231345 /* (null) in Sources */ = {isa = PBXBuildFile; };
+		02C640761C4071C900231345 /* (null) in Sources */ = {isa = PBXBuildFile; };
+		02C640781C40797600231345 /* (null) in Sources */ = {isa = PBXBuildFile; };
+		02C6407A1C407DA900231345 /* (null) in Sources */ = {isa = PBXBuildFile; };
+		02C6407E1C4084AA00231345 /* (null) in Resources */ = {isa = PBXBuildFile; };
+		02C640801C4089CA00231345 /* (null) in Resources */ = {isa = PBXBuildFile; };
+		02C640861C412CAE00231345 /* (null) in Sources */ = {isa = PBXBuildFile; };
+		02C84D081C60D40E001AE84F /* (null) in Sources */ = {isa = PBXBuildFile; };
+		02C84D0A1C620139001AE84F /* (null) in Sources */ = {isa = PBXBuildFile; };
+		02C84D0C1C621BFB001AE84F /* (null) in Sources */ = {isa = PBXBuildFile; };
 		02C84D0E1C629310001AE84F /* SKOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C84D0D1C629310001AE84F /* SKOS.swift */; };
+		02C84D121C62B66A001AE84F /* IndexedGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C84D0F1C62B66A001AE84F /* IndexedGraph.swift */; };
+		02C84D131C62B66A001AE84F /* Index.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C84D101C62B66A001AE84F /* Index.swift */; };
+		02C84D141C62B66A001AE84F /* HierarchyIndex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C84D111C62B66A001AE84F /* HierarchyIndex.swift */; };
+		02C84D161C62B689001AE84F /* Graph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C84D151C62B689001AE84F /* Graph.swift */; };
+		02C84D1B1C62B6A4001AE84F /* RDFParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C84D191C62B6A4001AE84F /* RDFParser.swift */; };
+		02C84D1C1C62B6A4001AE84F /* RDFParserDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C84D1A1C62B6A4001AE84F /* RDFParserDelegate.swift */; };
+		02C84D1E1C62B6AA001AE84F /* RDFXMLParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C84D1D1C62B6AA001AE84F /* RDFXMLParser.swift */; };
+		02C84D301C62B789001AE84F /* RDFParserError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C84D2E1C62B789001AE84F /* RDFParserError.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -105,6 +113,14 @@
 		02943EB51C0C730000C42159 /* RDFS.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RDFS.swift; path = "../source code/vocabularies/RDFS.swift"; sourceTree = "<group>"; };
 		029699EF1C0EDA700067BB99 /* OWL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OWL.swift; path = "../source code/vocabularies/OWL.swift"; sourceTree = "<group>"; };
 		02C84D0D1C629310001AE84F /* SKOS.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SKOS.swift; path = "../source code/vocabularies/SKOS.swift"; sourceTree = "<group>"; };
+		02C84D0F1C62B66A001AE84F /* IndexedGraph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IndexedGraph.swift; path = "../source code/model/IndexedGraph.swift"; sourceTree = "<group>"; };
+		02C84D101C62B66A001AE84F /* Index.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Index.swift; path = "../source code/model/indexes/Index.swift"; sourceTree = "<group>"; };
+		02C84D111C62B66A001AE84F /* HierarchyIndex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HierarchyIndex.swift; path = "../source code/model/indexes/HierarchyIndex.swift"; sourceTree = "<group>"; };
+		02C84D151C62B689001AE84F /* Graph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Graph.swift; path = "../source code/model/Graph.swift"; sourceTree = "<group>"; };
+		02C84D191C62B6A4001AE84F /* RDFParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RDFParser.swift; path = "/Users/wonco/Development/SwiftRDF/source code/parsers/RDFParser.swift"; sourceTree = "<absolute>"; };
+		02C84D1A1C62B6A4001AE84F /* RDFParserDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RDFParserDelegate.swift; path = "../source code/parsers/RDFParserDelegate.swift"; sourceTree = "<group>"; };
+		02C84D1D1C62B6AA001AE84F /* RDFXMLParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RDFXMLParser.swift; path = "../source code/parsers/RDFXMLParser.swift"; sourceTree = "<group>"; };
+		02C84D2E1C62B789001AE84F /* RDFParserError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RDFParserError.swift; path = "../source code/errors/RDFParserError.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -160,11 +176,8 @@
 				02C640871C412CB400231345 /* Parser Tests */,
 				02C640821C4115E300231345 /* Datatype tests */,
 				02C640811C4115C200231345 /* Literal Tests */,
-				02C6406F1C40283400231345 /* GraphTests.swift */,
 				02912C361C25A04800F64580 /* StringExtensionsTests.swift */,
 				022232231BFF719D00362D9B /* Info.plist */,
-				02C6407D1C4084AA00231345 /* geonames.london.rdf */,
-				02C6407F1C4089CA00231345 /* geonames.london-ontario.rdf */,
 			);
 			path = "SwiftRDF-OSXTests";
 			sourceTree = "<group>";
@@ -172,24 +185,32 @@
 		0222323E1C02108A00362D9B /* source */ = {
 			isa = PBXGroup;
 			children = (
-				02C84D0D1C629310001AE84F /* SKOS.swift */,
-				029699EF1C0EDA700067BB99 /* OWL.swift */,
-				0262BB0C1C076409002E24A4 /* Vocabulary.swift */,
-				0262BB0E1C076606002E24A4 /* Datatype.swift */,
-				0262BB0A1C075F9E002E24A4 /* XSD.swift */,
-				022232411C0702AC00362D9B /* RDF.swift */,
-				02943EB51C0C730000C42159 /* RDFS.swift */,
-				0222323A1BFF7ADF00362D9B /* Statement.swift */,
 				022232381BFF7A4700362D9B /* BlankNode.swift */,
-				022232361BFF7A4200362D9B /* URI.swift */,
-				022232341BFF7A3D00362D9B /* Literal.swift */,
-				022232321BFF7A3600362D9B /* Resource.swift */,
-				022232301BFF79C300362D9B /* Value.swift */,
-				0222323F1C061D8100362D9B /* SPARQLValue.swift */,
+				0262BB0E1C076606002E24A4 /* Datatype.swift */,
 				022D68311C21D64B00C4000D /* Decimal.swift */,
+				02C84D151C62B689001AE84F /* Graph.swift */,
 				022D68321C21D64B00C4000D /* GregorianDate.swift */,
-				02912C381C25A13D00F64580 /* String-extensions.swift */,
+				02C84D111C62B66A001AE84F /* HierarchyIndex.swift */,
+				02C84D101C62B66A001AE84F /* Index.swift */,
+				02C84D0F1C62B66A001AE84F /* IndexedGraph.swift */,
+				022232341BFF7A3D00362D9B /* Literal.swift */,
 				022D68331C21D64B00C4000D /* NSData-extensions.swift */,
+				029699EF1C0EDA700067BB99 /* OWL.swift */,
+				022232411C0702AC00362D9B /* RDF.swift */,
+				02C84D191C62B6A4001AE84F /* RDFParser.swift */,
+				02C84D1A1C62B6A4001AE84F /* RDFParserDelegate.swift */,
+				02943EB51C0C730000C42159 /* RDFS.swift */,
+				02C84D1D1C62B6AA001AE84F /* RDFXMLParser.swift */,
+				022232321BFF7A3600362D9B /* Resource.swift */,
+				02C84D0D1C629310001AE84F /* SKOS.swift */,
+				0222323F1C061D8100362D9B /* SPARQLValue.swift */,
+				0222323A1BFF7ADF00362D9B /* Statement.swift */,
+				02912C381C25A13D00F64580 /* String-extensions.swift */,
+				022232361BFF7A4200362D9B /* URI.swift */,
+				02C84D2E1C62B789001AE84F /* RDFParserError.swift */,
+				022232301BFF79C300362D9B /* Value.swift */,
+				0262BB0C1C076409002E24A4 /* Vocabulary.swift */,
+				0262BB0A1C075F9E002E24A4 /* XSD.swift */,
 			);
 			name = source;
 			sourceTree = "<group>";
@@ -222,7 +243,6 @@
 		02C640871C412CB400231345 /* Parser Tests */ = {
 			isa = PBXGroup;
 			children = (
-				02C640851C412CAE00231345 /* RDFXMLParserTests.swift */,
 			);
 			name = "Parser Tests";
 			sourceTree = "<group>";
@@ -325,8 +345,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				02C640801C4089CA00231345 /* geonames.london-ontario.rdf in Resources */,
-				02C6407E1C4084AA00231345 /* geonames.london.rdf in Resources */,
+				02C640801C4089CA00231345 /* (null) in Resources */,
+				02C6407E1C4084AA00231345 /* (null) in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -340,32 +360,40 @@
 				02C84D0E1C629310001AE84F /* SKOS.swift in Sources */,
 				0222323B1BFF7ADF00362D9B /* Statement.swift in Sources */,
 				022232311BFF79C300362D9B /* Value.swift in Sources */,
-				02C84D0C1C621BFB001AE84F /* HierarchyIndex.swift in Sources */,
+				02C84D301C62B789001AE84F /* RDFParserError.swift in Sources */,
+				02C84D0C1C621BFB001AE84F /* (null) in Sources */,
 				02943EB61C0C730000C42159 /* RDFS.swift in Sources */,
 				022232331BFF7A3600362D9B /* Resource.swift in Sources */,
+				02C84D141C62B66A001AE84F /* HierarchyIndex.swift in Sources */,
 				022232401C061D8100362D9B /* SPARQLValue.swift in Sources */,
 				0262BB0D1C076409002E24A4 /* Vocabulary.swift in Sources */,
-				02C640761C4071C900231345 /* RDFParser.swift in Sources */,
+				02C640761C4071C900231345 /* (null) in Sources */,
 				0262BB0B1C075F9E002E24A4 /* XSD.swift in Sources */,
+				02C84D121C62B66A001AE84F /* IndexedGraph.swift in Sources */,
 				029699F01C0EDA700067BB99 /* OWL.swift in Sources */,
 				022D68371C21D64B00C4000D /* NSData-extensions.swift in Sources */,
 				022232371BFF7A4200362D9B /* URI.swift in Sources */,
 				0211FF861C2AB6DB00A1B944 /* MathFunctions.swift in Sources */,
 				022232421C0702AC00362D9B /* RDF.swift in Sources */,
 				022D68351C21D64B00C4000D /* Decimal.swift in Sources */,
-				02C84D081C60D40E001AE84F /* IndexedGraph.swift in Sources */,
+				02C84D161C62B689001AE84F /* Graph.swift in Sources */,
+				02C84D081C60D40E001AE84F /* (null) in Sources */,
 				0262BB0F1C076606002E24A4 /* Datatype.swift in Sources */,
 				024E09711C15EFDF002EE84C /* Duration.swift in Sources */,
+				02C84D1C1C62B6A4001AE84F /* RDFParserDelegate.swift in Sources */,
+				02C84D1B1C62B6A4001AE84F /* RDFParser.swift in Sources */,
 				024E09651C11DEF2002EE84C /* LiteralFormattingError.swift in Sources */,
-				02C640781C40797600231345 /* RDFParserDelegate.swift in Sources */,
+				02C84D131C62B66A001AE84F /* Index.swift in Sources */,
+				02C640781C40797600231345 /* (null) in Sources */,
 				022232391BFF7A4700362D9B /* BlankNode.swift in Sources */,
-				02C6407A1C407DA900231345 /* RDFParserError.swift in Sources */,
-				02C6406E1C3B024E00231345 /* Graph.swift in Sources */,
+				02C6407A1C407DA900231345 /* (null) in Sources */,
+				02C84D1E1C62B6AA001AE84F /* RDFXMLParser.swift in Sources */,
+				02C6406E1C3B024E00231345 /* (null) in Sources */,
 				022D68361C21D64B00C4000D /* GregorianDate.swift in Sources */,
-				02C84D0A1C620139001AE84F /* Index.swift in Sources */,
+				02C84D0A1C620139001AE84F /* (null) in Sources */,
 				02912C391C25A13D00F64580 /* String-extensions.swift in Sources */,
 				022232351BFF7A3D00362D9B /* Literal.swift in Sources */,
-				02C640741C40714800231345 /* RDFXMLParser.swift in Sources */,
+				02C640741C40714800231345 /* (null) in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -374,10 +402,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				02912C371C25A04800F64580 /* StringExtensionsTests.swift in Sources */,
-				02C640861C412CAE00231345 /* RDFXMLParserTests.swift in Sources */,
+				02C640861C412CAE00231345 /* (null) in Sources */,
 				024E09791C177240002EE84C /* DateTests.swift in Sources */,
 				024E09751C162E27002EE84C /* TimeLiteralTests.swift in Sources */,
-				02C640701C40283400231345 /* GraphTests.swift in Sources */,
+				02C640701C40283400231345 /* (null) in Sources */,
 				022D683C1C22265100C4000D /* MiscellaneousTypesLiteralTests.swift in Sources */,
 				022232221BFF719D00362D9B /* URITests.swift in Sources */,
 				0262BB131C0C5E45002E24A4 /* DatatypeTests.swift in Sources */,
