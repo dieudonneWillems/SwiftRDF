@@ -46,6 +46,9 @@
             <FileRef
                location = "group:source code/model/indexes/HierarchyIndex.swift">
             </FileRef>
+            <FileRef
+               location = "group:source code/model/indexes/InstanceIndex.swift">
+            </FileRef>
          </Group>
          <FileRef
             location = "group:source code/model/Resource.swift">

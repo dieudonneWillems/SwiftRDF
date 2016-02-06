@@ -14,12 +14,16 @@ class RDFGraphNavigationController: NSViewController {
     var navigation = RDFNavigation()
     
     private(set) var visibleGraphView = VisibleGraphView.HierarchyView
+    private(set) var visibleHierarchy = OntologyGraph.CLASS_HIERARCHY
     
     @IBOutlet weak var graphNavigationView: NSOutlineView?
     @IBOutlet weak var hierarchyViewButton: NSButton?
     @IBOutlet weak var instancesViewButton: NSButton?
     @IBOutlet weak var propertiesViewButton: NSButton?
     @IBOutlet weak var searchViewButton: NSButton?
+    
+    @IBOutlet weak var classHierarchyViewButton: NSButton?
+    @IBOutlet weak var skosHierarchyViewButton: NSButton?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -63,6 +67,21 @@ class RDFGraphNavigationController: NSViewController {
         }
     }
     
+    func setVisibleHierarchyView(visibleHierarchy : String){
+        let previousHierarchy = self.visibleHierarchy
+        self.visibleHierarchy = visibleHierarchy
+        classHierarchyViewButton?.state = NSOffState
+        skosHierarchyViewButton?.state = NSOffState
+        if visibleHierarchy == OntologyGraph.CLASS_HIERARCHY {
+            classHierarchyViewButton?.state = NSOnState
+        } else if visibleHierarchy == OntologyGraph.SKOS_HIERARCHY {
+            skosHierarchyViewButton?.state = NSOnState
+        }
+        if previousHierarchy != self.visibleHierarchy {
+            graphNavigationView?.reloadData()
+        }
+    }
+    
     @IBAction func graphNavigationViewSelected(sender: NSButton) {
         if sender == instancesViewButton {
             setVisibleGraphNavigationView(VisibleGraphView.InstancesView)
@@ -72,6 +91,14 @@ class RDFGraphNavigationController: NSViewController {
             setVisibleGraphNavigationView(VisibleGraphView.SearchView)
         } else if sender == hierarchyViewButton {
             setVisibleGraphNavigationView(VisibleGraphView.HierarchyView)
+        }
+    }
+    
+    @IBAction func hierarchyViewSelected(sender: NSButton) {
+        if sender == classHierarchyViewButton {
+            setVisibleHierarchyView(OntologyGraph.CLASS_HIERARCHY)
+        } else if sender == skosHierarchyViewButton {
+            setVisibleHierarchyView(OntologyGraph.SKOS_HIERARCHY)
         }
     }
 }

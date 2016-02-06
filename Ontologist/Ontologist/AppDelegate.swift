@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import OntologistPlugins
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
@@ -14,6 +15,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
 
     func applicationDidFinishLaunching(aNotification: NSNotification) {
+        let pluginsManager = PluginsManager.sharedPluginsManager
         // Insert code here to initialize your application
     }
 

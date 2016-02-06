@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import OntologistPlugins
 import SwiftRDFOSX
 
 class RDFNavigation: NSObject, NSOutlineViewDelegate, NSOutlineViewDataSource, NSTableViewDelegate,NSTableViewDataSource {
@@ -117,6 +118,18 @@ class RDFNavigation: NSObject, NSOutlineViewDelegate, NSOutlineViewDataSource, N
         return nil
     }
     
+    private func iconForResource(resource : Resource) -> NSImage {
+        let resourceicon = PluginsManager.sharedPluginsManager.iconForResource(resource)
+        if resourceicon != nil {
+            return resourceicon!
+        }
+        let typeicon = PluginsManager.sharedPluginsManager.iconForInstance((fullGraph?.types(resource))!)
+        if typeicon != nil {
+            return typeicon!
+        }
+        return NSImage(named: "instance")!
+    }
+    
     
     // MARK: Outline Datasource functions
     
@@ -132,7 +145,7 @@ class RDFNavigation: NSObject, NSOutlineViewDelegate, NSOutlineViewDataSource, N
             if visibleGraphView == VisibleGraphView.InstancesView {
                 return (fullGraph?.resources.count)!
             } else if visibleGraphView == VisibleGraphView.HierarchyView {
-                let gindex = fullGraph?.indexes[OntologyGraph.CLASS_HIERARCHY] as? HierarchyIndex
+                let gindex = self.visibleHierarchyIndex()
                 if gindex != nil {
                     if item == nil {
                         return gindex!.rootNodes.count
@@ -168,6 +181,16 @@ class RDFNavigation: NSObject, NSOutlineViewDelegate, NSOutlineViewDataSource, N
         return 0
     }
     
+    func visibleHierarchyIndex() -> HierarchyIndex? {
+        let visibleHierarchy = graphNavigationViewController?.visibleHierarchy
+        if visibleHierarchy == OntologyGraph.CLASS_HIERARCHY {
+            return fullGraph?.indexes[OntologyGraph.CLASS_HIERARCHY] as? HierarchyIndex
+        } else if visibleHierarchy == OntologyGraph.SKOS_HIERARCHY {
+            return fullGraph?.indexes[OntologyGraph.SKOS_HIERARCHY] as? HierarchyIndex
+        }
+        return nil
+    }
+    
     func outlineView(outlineView: NSOutlineView, child index: Int, ofItem item: AnyObject?) -> AnyObject {
         if outlineView == fileNavigationViewController?.fileNavigationView {
             if item == nil {
@@ -182,7 +205,7 @@ class RDFNavigation: NSObject, NSOutlineViewDelegate, NSOutlineViewDataSource, N
                     return (fullGraph?.resources[index])!
                 }
             } else if visibleGraphView == VisibleGraphView.HierarchyView {
-                let gindex = fullGraph?.indexes[OntologyGraph.CLASS_HIERARCHY] as? HierarchyIndex
+                let gindex = self.visibleHierarchyIndex()
                 if gindex != nil {
                     if item == nil {
                         return gindex!.rootNodes[index]
@@ -228,7 +251,7 @@ class RDFNavigation: NSObject, NSOutlineViewDelegate, NSOutlineViewDataSource, N
             if visibleGraphView == VisibleGraphView.InstancesView {
                 return false
             } else if visibleGraphView == VisibleGraphView.HierarchyView {
-                let gindex = fullGraph?.indexes[OntologyGraph.CLASS_HIERARCHY] as? HierarchyIndex
+                let gindex = self.visibleHierarchyIndex()
                 if gindex != nil {
                     let resource = item as? Resource
                     if resource != nil {
@@ -304,7 +327,7 @@ class RDFNavigation: NSObject, NSOutlineViewDelegate, NSOutlineViewDataSource, N
                 if cell != nil {
                     var title = "resource"
                     var tooltip : String? = nil
-                    cell?.icon?.image = NSImage(named: "instance")
+                    cell?.icon?.image = self.iconForResource(resource)
                     if (resource as? URI) != nil {
                         title = (resource as! URI).stringValue
                         if fullGraph != nil {

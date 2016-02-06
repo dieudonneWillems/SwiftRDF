@@ -62,6 +62,7 @@
 		02C84D1C1C62B6A4001AE84F /* RDFParserDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C84D1A1C62B6A4001AE84F /* RDFParserDelegate.swift */; };
 		02C84D1E1C62B6AA001AE84F /* RDFXMLParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C84D1D1C62B6AA001AE84F /* RDFXMLParser.swift */; };
 		02C84D301C62B789001AE84F /* RDFParserError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C84D2E1C62B789001AE84F /* RDFParserError.swift */; };
+		02C84D321C63BBF5001AE84F /* InstanceIndex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C84D311C63BBF5001AE84F /* InstanceIndex.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -121,6 +122,7 @@
 		02C84D1A1C62B6A4001AE84F /* RDFParserDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RDFParserDelegate.swift; path = "../source code/parsers/RDFParserDelegate.swift"; sourceTree = "<group>"; };
 		02C84D1D1C62B6AA001AE84F /* RDFXMLParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RDFXMLParser.swift; path = "../source code/parsers/RDFXMLParser.swift"; sourceTree = "<group>"; };
 		02C84D2E1C62B789001AE84F /* RDFParserError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RDFParserError.swift; path = "../source code/errors/RDFParserError.swift"; sourceTree = "<group>"; };
+		02C84D311C63BBF5001AE84F /* InstanceIndex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InstanceIndex.swift; path = "../source code/model/indexes/InstanceIndex.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -185,6 +187,7 @@
 		0222323E1C02108A00362D9B /* source */ = {
 			isa = PBXGroup;
 			children = (
+				02C84D311C63BBF5001AE84F /* InstanceIndex.swift */,
 				022232381BFF7A4700362D9B /* BlankNode.swift */,
 				0262BB0E1C076606002E24A4 /* Datatype.swift */,
 				022D68311C21D64B00C4000D /* Decimal.swift */,
@@ -366,6 +369,7 @@
 				022232331BFF7A3600362D9B /* Resource.swift in Sources */,
 				02C84D141C62B66A001AE84F /* HierarchyIndex.swift in Sources */,
 				022232401C061D8100362D9B /* SPARQLValue.swift in Sources */,
+				02C84D321C63BBF5001AE84F /* InstanceIndex.swift in Sources */,
 				0262BB0D1C076409002E24A4 /* Vocabulary.swift in Sources */,
 				02C640761C4071C900231345 /* (null) in Sources */,
 				0262BB0B1C075F9E002E24A4 /* XSD.swift in Sources */,

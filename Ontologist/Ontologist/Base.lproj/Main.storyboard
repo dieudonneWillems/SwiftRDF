@@ -702,7 +702,7 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="sourceList" autosaveColumns="NO" rowHeight="20" rowSizeStyle="automatic" viewBased="YES" indentationPerLevel="14" outlineTableColumn="GlB-gr-d7z" id="3sT-BY-WMl">
-                                            <rect key="frame" x="0.0" y="0.0" width="278" height="354"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="278" height="0.0"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="0.0"/>
                                             <color key="backgroundColor" name="_sourceListBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -853,25 +853,21 @@
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="4J7-mr-T1Y">
                                 <rect key="frame" x="0.0" y="382" width="278" height="29"/>
                                 <subviews>
-                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="D97-ur-8F4">
-                                        <rect key="frame" x="10" y="5" width="43" height="17"/>
-                                        <buttonCell key="cell" type="recessed" title="OWL" bezelStyle="recessed" alignment="center" controlSize="small" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="1iW-kc-HPf">
-                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
-                                            <font key="font" metaFont="systemBold" size="12"/>
-                                        </buttonCell>
-                                    </button>
-                                    <box verticalHuggingPriority="752" misplaced="YES" title="Box" boxType="separator" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="mtZ-ID-V7L">
-                                        <rect key="frame" x="0.0" y="-1" width="278" height="5"/>
+                                    <box verticalHuggingPriority="752" title="Box" boxType="separator" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="mtZ-ID-V7L">
+                                        <rect key="frame" x="0.0" y="0.0" width="278" height="5"/>
                                         <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
                                         <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <font key="titleFont" metaFont="system"/>
                                     </box>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="IXy-PV-9lg">
-                                        <rect key="frame" x="61" y="5" width="48" height="17"/>
+                                        <rect key="frame" x="73" y="6" width="48" height="17"/>
                                         <buttonCell key="cell" type="recessed" title="SKOS" bezelStyle="recessed" alignment="center" controlSize="small" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="YMu-kc-5Jb">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
                                             <font key="font" metaFont="systemBold" size="12"/>
                                         </buttonCell>
+                                        <connections>
+                                            <action selector="hierarchyViewSelected:" target="Zcf-bJ-oOk" id="Jtu-wy-phe"/>
+                                        </connections>
                                     </button>
                                     <button translatesAutoresizingMaskIntoConstraints="NO" id="y7i-rE-K9H">
                                         <rect key="frame" x="255" y="8" width="12" height="12"/>
@@ -884,15 +880,25 @@
                                             <font key="font" metaFont="smallSystem"/>
                                         </buttonCell>
                                     </button>
+                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="D97-ur-8F4">
+                                        <rect key="frame" x="9" y="6" width="56" height="17"/>
+                                        <buttonCell key="cell" type="recessed" title="CLASS" bezelStyle="recessed" alignment="center" controlSize="small" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="1iW-kc-HPf">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
+                                            <font key="font" metaFont="systemBold" size="12"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="hierarchyViewSelected:" target="Zcf-bJ-oOk" id="IiU-wk-sIw"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="y7i-rE-K9H" firstAttribute="top" secondItem="4J7-mr-T1Y" secondAttribute="top" constant="9" id="3Zn-jC-oU1"/>
                                     <constraint firstItem="IXy-PV-9lg" firstAttribute="baseline" secondItem="D97-ur-8F4" secondAttribute="baseline" id="4eG-DT-017"/>
                                     <constraint firstAttribute="trailing" secondItem="mtZ-ID-V7L" secondAttribute="trailing" id="5wI-Zc-P6J"/>
-                                    <constraint firstItem="mtZ-ID-V7L" firstAttribute="top" secondItem="y7i-rE-K9H" secondAttribute="bottom" constant="7" id="Cvi-m0-7MA"/>
-                                    <constraint firstAttribute="bottom" secondItem="mtZ-ID-V7L" secondAttribute="bottom" id="Hpv-Mb-nOv"/>
-                                    <constraint firstItem="IXy-PV-9lg" firstAttribute="leading" secondItem="4J7-mr-T1Y" secondAttribute="leading" constant="61" id="UOj-b5-ZKt"/>
-                                    <constraint firstItem="mtZ-ID-V7L" firstAttribute="top" secondItem="IXy-PV-9lg" secondAttribute="bottom" constant="5" id="VGw-Cs-cKW"/>
+                                    <constraint firstItem="mtZ-ID-V7L" firstAttribute="top" secondItem="y7i-rE-K9H" secondAttribute="bottom" constant="5" id="Cvi-m0-7MA"/>
+                                    <constraint firstAttribute="bottom" secondItem="mtZ-ID-V7L" secondAttribute="bottom" constant="2" id="Hpv-Mb-nOv"/>
+                                    <constraint firstItem="IXy-PV-9lg" firstAttribute="leading" secondItem="4J7-mr-T1Y" secondAttribute="leading" constant="73" id="UOj-b5-ZKt"/>
+                                    <constraint firstItem="mtZ-ID-V7L" firstAttribute="top" secondItem="IXy-PV-9lg" secondAttribute="bottom" constant="4" id="VGw-Cs-cKW"/>
                                     <constraint firstAttribute="trailing" secondItem="y7i-rE-K9H" secondAttribute="trailing" constant="11" id="ZaL-NB-kcr"/>
                                     <constraint firstAttribute="height" constant="29" id="hre-lo-WRe"/>
                                     <constraint firstItem="mtZ-ID-V7L" firstAttribute="leading" secondItem="4J7-mr-T1Y" secondAttribute="leading" id="jPL-ab-AmD"/>
@@ -954,11 +960,13 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="classHierarchyViewButton" destination="D97-ur-8F4" id="r8f-KM-UGo"/>
                         <outlet property="graphNavigationView" destination="3sT-BY-WMl" id="eCL-a9-1zW"/>
                         <outlet property="hierarchyViewButton" destination="iMm-aV-aB3" id="7pW-un-INI"/>
                         <outlet property="instancesViewButton" destination="v4Q-Ve-UIZ" id="645-SZ-qI4"/>
                         <outlet property="propertiesViewButton" destination="qUA-gn-jxD" id="gQ7-EJ-YYg"/>
                         <outlet property="searchViewButton" destination="jPE-gY-NVs" id="DmM-YR-WK0"/>
+                        <outlet property="skosHierarchyViewButton" destination="IXy-PV-9lg" id="B5K-iN-P2H"/>
                     </connections>
                 </viewController>
                 <customObject id="m9C-aE-pq4" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
@@ -1001,7 +1009,7 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="sourceList" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" indentationPerLevel="14" outlineTableColumn="q3j-UM-NCv" id="mQ4-AK-wiO">
-                                            <rect key="frame" x="0.0" y="0.0" width="243" height="400"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="243" height="0.0"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="0.0"/>
                                             <color key="backgroundColor" name="_sourceListBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -1106,7 +1114,7 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="uK9-3G-TYB" viewBased="YES" id="K0x-oH-VHO">
-                                            <rect key="frame" x="0.0" y="0.0" width="691" height="362"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="692" height="362"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -1223,7 +1231,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <tableHeaderView key="headerView" id="uK9-3G-TYB">
-                                    <rect key="frame" x="0.0" y="0.0" width="691" height="23"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="692" height="23"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableHeaderView>
                             </scrollView>
