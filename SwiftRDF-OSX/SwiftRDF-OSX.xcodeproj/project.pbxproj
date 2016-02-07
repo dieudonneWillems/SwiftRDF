@@ -24,6 +24,10 @@
 		022D68371C21D64B00C4000D /* NSData-extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022D68331C21D64B00C4000D /* NSData-extensions.swift */; };
 		022D683A1C22015E00C4000D /* BinaryDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022D68391C22015E00C4000D /* BinaryDataTests.swift */; };
 		022D683C1C22265100C4000D /* MiscellaneousTypesLiteralTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022D683B1C22265100C4000D /* MiscellaneousTypesLiteralTests.swift */; };
+		022F5D9B1C67906A00551287 /* TurtleParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022F5D9A1C67906A00551287 /* TurtleParser.swift */; };
+		022F5D9D1C679ABA00551287 /* RDFXMLParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022F5D9C1C679ABA00551287 /* RDFXMLParserTests.swift */; };
+		022F5D9F1C679AF000551287 /* TurtleParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022F5D9E1C679AF000551287 /* TurtleParserTests.swift */; };
+		022F5DA11C679BAB00551287 /* TestRDFParserDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022F5DA01C679BAB00551287 /* TestRDFParserDelegate.swift */; };
 		024E09651C11DEF2002EE84C /* LiteralFormattingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 024E09641C11DEF2002EE84C /* LiteralFormattingError.swift */; };
 		024E09671C124A9C002EE84C /* NumericLiteralTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 024E09661C124A9C002EE84C /* NumericLiteralTests.swift */; };
 		024E09691C12DE49002EE84C /* StringLiteralTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 024E09681C12DE49002EE84C /* StringLiteralTests.swift */; };
@@ -96,6 +100,10 @@
 		022D68331C21D64B00C4000D /* NSData-extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSData-extensions.swift"; path = "../source code/utilities/NSData-extensions.swift"; sourceTree = "<group>"; };
 		022D68391C22015E00C4000D /* BinaryDataTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BinaryDataTests.swift; sourceTree = "<group>"; };
 		022D683B1C22265100C4000D /* MiscellaneousTypesLiteralTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MiscellaneousTypesLiteralTests.swift; sourceTree = "<group>"; };
+		022F5D9A1C67906A00551287 /* TurtleParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TurtleParser.swift; path = "../source code/parsers/TurtleParser.swift"; sourceTree = "<group>"; };
+		022F5D9C1C679ABA00551287 /* RDFXMLParserTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RDFXMLParserTests.swift; sourceTree = "<group>"; };
+		022F5D9E1C679AF000551287 /* TurtleParserTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TurtleParserTests.swift; sourceTree = "<group>"; };
+		022F5DA01C679BAB00551287 /* TestRDFParserDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestRDFParserDelegate.swift; sourceTree = "<group>"; };
 		024E09641C11DEF2002EE84C /* LiteralFormattingError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LiteralFormattingError.swift; path = "/Users/wonco/Development/SwiftRDF/source code/errors/LiteralFormattingError.swift"; sourceTree = "<absolute>"; };
 		024E09661C124A9C002EE84C /* NumericLiteralTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NumericLiteralTests.swift; sourceTree = "<group>"; };
 		024E09681C12DE49002EE84C /* StringLiteralTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringLiteralTests.swift; sourceTree = "<group>"; };
@@ -187,6 +195,7 @@
 		0222323E1C02108A00362D9B /* source */ = {
 			isa = PBXGroup;
 			children = (
+				022F5D9A1C67906A00551287 /* TurtleParser.swift */,
 				02C84D311C63BBF5001AE84F /* InstanceIndex.swift */,
 				022232381BFF7A4700362D9B /* BlankNode.swift */,
 				0262BB0E1C076606002E24A4 /* Datatype.swift */,
@@ -246,6 +255,9 @@
 		02C640871C412CB400231345 /* Parser Tests */ = {
 			isa = PBXGroup;
 			children = (
+				022F5D9C1C679ABA00551287 /* RDFXMLParserTests.swift */,
+				022F5D9E1C679AF000551287 /* TurtleParserTests.swift */,
+				022F5DA01C679BAB00551287 /* TestRDFParserDelegate.swift */,
 			);
 			name = "Parser Tests";
 			sourceTree = "<group>";
@@ -389,6 +401,7 @@
 				024E09651C11DEF2002EE84C /* LiteralFormattingError.swift in Sources */,
 				02C84D131C62B66A001AE84F /* Index.swift in Sources */,
 				02C640781C40797600231345 /* (null) in Sources */,
+				022F5D9B1C67906A00551287 /* TurtleParser.swift in Sources */,
 				022232391BFF7A4700362D9B /* BlankNode.swift in Sources */,
 				02C6407A1C407DA900231345 /* (null) in Sources */,
 				02C84D1E1C62B6AA001AE84F /* RDFXMLParser.swift in Sources */,
@@ -407,13 +420,16 @@
 			files = (
 				02912C371C25A04800F64580 /* StringExtensionsTests.swift in Sources */,
 				02C640861C412CAE00231345 /* (null) in Sources */,
+				022F5D9F1C679AF000551287 /* TurtleParserTests.swift in Sources */,
 				024E09791C177240002EE84C /* DateTests.swift in Sources */,
 				024E09751C162E27002EE84C /* TimeLiteralTests.swift in Sources */,
 				02C640701C40283400231345 /* (null) in Sources */,
 				022D683C1C22265100C4000D /* MiscellaneousTypesLiteralTests.swift in Sources */,
+				022F5D9D1C679ABA00551287 /* RDFXMLParserTests.swift in Sources */,
 				022232221BFF719D00362D9B /* URITests.swift in Sources */,
 				0262BB131C0C5E45002E24A4 /* DatatypeTests.swift in Sources */,
 				024E09691C12DE49002EE84C /* StringLiteralTests.swift in Sources */,
+				022F5DA11C679BAB00551287 /* TestRDFParserDelegate.swift in Sources */,
 				024E096D1C1374C7002EE84C /* DecimalTests.swift in Sources */,
 				022D683A1C22015E00C4000D /* BinaryDataTests.swift in Sources */,
 				024E096F1C15B8F9002EE84C /* SPARQLLiteralTests.swift in Sources */,

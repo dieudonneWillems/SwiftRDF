@@ -28,9 +28,10 @@ public protocol RDFParser {
      URL.
      
      - parameter url: The URL of the RDF file to be parsed.
-     - returns: An initialised RDF parser.
+     - returns: An initialised RDF parser or nil if the parser could not
+     be initialised on the URL.
      */
-    init(url : NSURL)
+    init?(url : NSURL)
     
     /**
      Initialises a parser with the contents of the RDF file reference by the given

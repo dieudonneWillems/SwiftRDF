@@ -31,9 +31,10 @@ public class RDFXMLParser : NSObject, RDFParser, NSXMLParserDelegate {
      URL.
      
      - parameter url: The URL of the RDF file to be parsed.
-     - returns: An initialised RDF parser.
+     - returns: An initialised RDF parser or nil if the parser could not 
+     be initialised on the URL.
      */
-    public required init(url : NSURL) {
+    public required init?(url : NSURL) {
         xmlParser = NSXMLParser(contentsOfURL: url)
         let baseURI = URI(string: url.absoluteString)
         super.init()
