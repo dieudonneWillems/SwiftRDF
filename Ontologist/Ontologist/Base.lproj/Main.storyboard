@@ -912,6 +912,9 @@
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </searchFieldCell>
+                                <connections>
+                                    <action selector="search:" target="Zcf-bJ-oOk" id="rrq-ds-3Of"/>
+                                </connections>
                             </searchField>
                             <box verticalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="NHz-NO-DXq">
                                 <rect key="frame" x="0.0" y="27" width="278" height="5"/>
@@ -965,6 +968,7 @@
                         <outlet property="hierarchyViewButton" destination="iMm-aV-aB3" id="7pW-un-INI"/>
                         <outlet property="instancesViewButton" destination="v4Q-Ve-UIZ" id="645-SZ-qI4"/>
                         <outlet property="propertiesViewButton" destination="qUA-gn-jxD" id="gQ7-EJ-YYg"/>
+                        <outlet property="searchField" destination="csV-E1-Tr7" id="Onh-Ub-qFZ"/>
                         <outlet property="searchViewButton" destination="jPE-gY-NVs" id="DmM-YR-WK0"/>
                         <outlet property="skosHierarchyViewButton" destination="IXy-PV-9lg" id="B5K-iN-P2H"/>
                     </connections>
@@ -1114,7 +1118,7 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="uK9-3G-TYB" viewBased="YES" id="K0x-oH-VHO">
-                                            <rect key="frame" x="0.0" y="0.0" width="692" height="362"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="691" height="362"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>

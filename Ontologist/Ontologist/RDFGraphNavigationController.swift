@@ -14,6 +14,8 @@ class RDFGraphNavigationController: NSViewController {
     var navigation = RDFNavigation()
     
     private(set) var visibleGraphView = VisibleGraphView.HierarchyView
+    private var previousGraphView : VisibleGraphView? = VisibleGraphView.HierarchyView // only to be set when non-programaticaly switching
+    
     private(set) var visibleHierarchy = OntologyGraph.CLASS_HIERARCHY
     
     @IBOutlet weak var graphNavigationView: NSOutlineView?
@@ -24,6 +26,7 @@ class RDFGraphNavigationController: NSViewController {
     
     @IBOutlet weak var classHierarchyViewButton: NSButton?
     @IBOutlet weak var skosHierarchyViewButton: NSButton?
+    @IBOutlet weak var searchField: NSSearchField?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -63,6 +66,12 @@ class RDFGraphNavigationController: NSViewController {
             searchViewButton?.state = NSOnState
         }
         if previousGraphView != visibleGraphView {
+            if previousGraphView == VisibleGraphView.SearchView { // create history result set
+                let query = searchField?.stringValue
+                if query != nil {
+                    navigation.addSearchResultsToHistory(query!)
+                }
+            }
             graphNavigationView?.reloadData()
         }
     }
@@ -92,6 +101,7 @@ class RDFGraphNavigationController: NSViewController {
         } else if sender == hierarchyViewButton {
             setVisibleGraphNavigationView(VisibleGraphView.HierarchyView)
         }
+        previousGraphView = self.visibleGraphView // set by user because in action
     }
     
     @IBAction func hierarchyViewSelected(sender: NSButton) {
@@ -99,6 +109,19 @@ class RDFGraphNavigationController: NSViewController {
             setVisibleHierarchyView(OntologyGraph.CLASS_HIERARCHY)
         } else if sender == skosHierarchyViewButton {
             setVisibleHierarchyView(OntologyGraph.SKOS_HIERARCHY)
+        }
+    }
+    
+    @IBAction func search(sender: NSSearchField) {
+        if sender == searchField && sender.stringValue.characters.count > 0 {
+            navigation.searchOnLabel(sender.stringValue)
+            setVisibleGraphNavigationView(VisibleGraphView.SearchView)
+            graphNavigationView?.reloadData()
+        } else if sender == searchField && sender.stringValue.characters.count <= 0 { // empty search
+            if previousGraphView != nil {
+                setVisibleGraphNavigationView(previousGraphView!)
+                graphNavigationView?.reloadData()
+            }
         }
     }
 }

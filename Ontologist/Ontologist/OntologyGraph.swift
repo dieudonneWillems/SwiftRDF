@@ -38,4 +38,11 @@ public class OntologyGraph : IndexedGraph {
         }
         return [Resource]()
     }
+    
+    public func searchOnLabel(query : String) -> [Resource] {
+        if instanceIndex != nil {
+            return instanceIndex!.searchOnLabel(query)
+        }
+        return [Resource]()
+    }
 }

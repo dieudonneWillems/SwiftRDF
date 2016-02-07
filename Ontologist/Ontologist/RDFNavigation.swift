@@ -33,6 +33,9 @@ class RDFNavigation: NSObject, NSOutlineViewDelegate, NSOutlineViewDataSource, N
     var visibleGraph : Graph?
     var visibleGraphForSelectedFile : Graph?
     
+    var searchResults = [Resource]()
+    var searchHistory = [SearchResultSet]()
+    
     func setVisibleGraphFromSelection() {
         visibleGraph = selectedGraph
     }
@@ -131,6 +134,25 @@ class RDFNavigation: NSObject, NSOutlineViewDelegate, NSOutlineViewDataSource, N
     }
     
     
+    // MARK: Searching
+    
+    func searchOnLabel(query : String) -> [Resource] {
+        let results = (fullGraph?.searchOnLabel(query))
+        if results != nil {
+            searchResults = results!
+            return results!
+        }
+        return [Resource]()
+    }
+    
+    func addSearchResultsToHistory(query: String) {
+        if query.characters.count > 0 && searchResults.count > 0 {
+            let resultset = SearchResultSet(query: query, results: searchResults)
+            searchHistory.insert(resultset, atIndex: 0)
+        }
+    }
+    
+    
     // MARK: Outline Datasource functions
     
     func outlineView(outlineView: NSOutlineView, numberOfChildrenOfItem item: AnyObject?) -> Int {
@@ -173,6 +195,13 @@ class RDFNavigation: NSObject, NSOutlineViewDelegate, NSOutlineViewDataSource, N
                             }
                         }
                     }
+                }
+            } else if visibleGraphView == VisibleGraphView.SearchView {
+                if item == nil {
+                    return searchResults.count + searchHistory.count
+                } else if (item as? SearchResultSet) != nil {
+                    let srs = (item as! SearchResultSet)
+                    return srs.results.count
                 }
             }
         } else {
@@ -234,6 +263,18 @@ class RDFNavigation: NSObject, NSOutlineViewDelegate, NSOutlineViewDataSource, N
                         }
                     }
                 }
+            } else if visibleGraphView == VisibleGraphView.SearchView {
+                if item == nil {
+                    if index < searchResults.count {
+                        return searchResults[index]
+                    } else {
+                        let hindex = index - searchResults.count
+                        return searchHistory[hindex]
+                    }
+                } else if (item as? SearchResultSet) != nil {
+                    let srs = (item as! SearchResultSet)
+                    return srs.results[index]
+                }
             }
         } else {
             
@@ -272,6 +313,11 @@ class RDFNavigation: NSObject, NSOutlineViewDelegate, NSOutlineViewDataSource, N
                         }
                     }
                 }
+            } else if visibleGraphView == VisibleGraphView.SearchView {
+                if (item as? SearchResultSet) != nil {
+                    return true
+                }
+                return false
             }
         } else {
             
@@ -321,29 +367,40 @@ class RDFNavigation: NSObject, NSOutlineViewDelegate, NSOutlineViewDataSource, N
             }
         } else if outlineView == graphNavigationViewController?.graphNavigationView {
             let visibleGraphView = graphNavigationViewController!.visibleGraphView
-            if visibleGraphView == VisibleGraphView.InstancesView || visibleGraphView == VisibleGraphView.HierarchyView || visibleGraphView == VisibleGraphView.PropertiesView {
-                let resource = item as! Resource
-                let cell = outlineView.makeViewWithIdentifier("IconTextView", owner: self) as? IconTextView
-                if cell != nil {
-                    var title = "resource"
-                    var tooltip : String? = nil
-                    cell?.icon?.image = self.iconForResource(resource)
-                    if (resource as? URI) != nil {
-                        title = (resource as! URI).stringValue
-                        if fullGraph != nil {
-                            let qname = fullGraph?.qualifiedName((resource as! URI))
-                            if qname != nil {
-                                title = qname!
+            if visibleGraphView == VisibleGraphView.InstancesView || visibleGraphView == VisibleGraphView.HierarchyView || visibleGraphView == VisibleGraphView.PropertiesView || visibleGraphView == VisibleGraphView.SearchView {
+                if (item as? Resource) != nil {
+                    let resource = item as! Resource
+                    let cell = outlineView.makeViewWithIdentifier("IconTextView", owner: self) as? IconTextView
+                    if cell != nil {
+                        var title = "resource"
+                        var tooltip : String? = nil
+                        cell?.icon?.image = self.iconForResource(resource)
+                        if (resource as? URI) != nil {
+                            title = (resource as! URI).stringValue
+                            if fullGraph != nil {
+                                let qname = fullGraph?.qualifiedName((resource as! URI))
+                                if qname != nil {
+                                    title = qname!
+                                }
                             }
+                            tooltip = (resource as! URI).stringValue
+                        } else if (resource as? BlankNode) != nil {
+                            title = (resource as! BlankNode).identifier
                         }
-                        tooltip = (resource as! URI).stringValue
-                    } else if (resource as? BlankNode) != nil {
-                        title = (resource as! BlankNode).identifier
+                        cell!.textField!.stringValue = title
+                        cell?.toolTip = tooltip
                     }
-                    cell!.textField!.stringValue = title
-                    cell?.toolTip = tooltip
+                    return cell
+                }else if (item as? SearchResultSet) != nil {
+                    let srs = item as! SearchResultSet
+                    let cell = outlineView.makeViewWithIdentifier("IconTextView", owner: self) as? IconTextView
+                    if cell != nil {
+                        let title = "\"\(srs.query)\" at \(srs.date.description)"
+                        cell?.icon?.image = NSImage(named: "search")
+                        cell!.textField!.stringValue = title
+                    }
+                    return cell
                 }
-                return cell
             }
         }
         return nil
@@ -418,5 +475,16 @@ class RDFNavigation: NSObject, NSOutlineViewDelegate, NSOutlineViewDataSource, N
             }
         }
         return nil
+    }
+}
+
+class SearchResultSet {
+    let date = NSDate()
+    let query : String
+    let results : [Resource]
+    
+    init(query : String, results : [Resource]){
+        self.query = query
+        self.results = results
     }
 }

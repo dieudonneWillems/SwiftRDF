@@ -68,10 +68,29 @@ public class InstanceIndex : Index {
                 self.addResourceWithLabelToIndex(subject, label: (object as! Literal))
             }
         }
+        self.addResourceWithoutLabelToIndex(subject)
+        self.addResourceWithoutLabelToIndex(predicate)
+        if (object as? Resource) != nil {
+            self.addResourceWithoutLabelToIndex((object as! Resource))
+        }
     }
     
     private func addResourceWithLabelToIndex(resource: Resource, label : Literal){
         self.addResourceWithStringLabelToIndex(resource, label: label.stringValue)
+        let labelAr = label.stringValue.characters.split{$0 == " "}.map(String.init)
+        for var index = 1; index < labelAr.count; index++ {
+            var str = ""
+            for var i = index; i < labelAr.count; i++ {
+                if str.characters.count > 0 {
+                    str += " "
+                }
+                str += labelAr[i]
+            }
+            self.addResourceWithStringLabelToIndex(resource, label: str)
+        }
+    }
+    
+    private func addResourceWithoutLabelToIndex(resource: Resource){
         self.addResourceWithStringLabelToIndex(resource, label: resource.stringValue)
         if (resource as? URI) != nil {
             let localName = (resource as! URI).localName
@@ -123,6 +142,23 @@ public class InstanceIndex : Index {
             return self.indexForStringLabel(label,min: min, max: pos)
         }
         return self.indexForStringLabel(label,min: pos+1, max: max)
+    }
+    
+    public func searchOnLabel(query : String) -> [Resource] {
+        let lcquery = query.lowercaseString
+        let startIndex = indexForStringLabel(query, min: 0, max: labelsAndNamesIndex.count)
+        var index = startIndex
+        var resources = [Resource]()
+        while index < labelsAndNamesIndex.count {
+            let tuple : (label :String, resource : Resource) = labelsAndNamesIndex[index]
+            if tuple.label.lowercaseString.hasPrefix(lcquery) {
+                resources.append(tuple.resource)
+                index++
+            } else {
+                break
+            }
+        }
+        return resources
     }
     
     /**
