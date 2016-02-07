@@ -24,6 +24,16 @@
 		021DE2331C530FBE0031FAC8 /* namedgraph-sidebar.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 021DE2321C530FBE0031FAC8 /* namedgraph-sidebar.pdf */; };
 		021DE2351C5316CC0031FAC8 /* SwiftRDFOSX.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0266B60C1C4D57A800CA2FE0 /* SwiftRDFOSX.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		022F5D851C656CFE00551287 /* class-resource.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 022F5D841C656CFE00551287 /* class-resource.pdf */; };
+		022F5D871C66919800551287 /* dataTypeProperty.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 022F5D861C66919800551287 /* dataTypeProperty.pdf */; };
+		022F5D891C66939B00551287 /* annotationProperty.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 022F5D881C66939B00551287 /* annotationProperty.pdf */; };
+		022F5D8B1C66958400551287 /* objectProperty.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 022F5D8A1C66958400551287 /* objectProperty.pdf */; };
+		022F5D8E1C66999800551287 /* symmetricProperty.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 022F5D8C1C66999800551287 /* symmetricProperty.pdf */; };
+		022F5D8F1C66999800551287 /* transitiveProperty.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 022F5D8D1C66999800551287 /* transitiveProperty.pdf */; };
+		022F5D921C669D8100551287 /* functionalProperty.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 022F5D901C669D8100551287 /* functionalProperty.pdf */; };
+		022F5D931C669D8100551287 /* inverseFunctionalProperty.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 022F5D911C669D8100551287 /* inverseFunctionalProperty.pdf */; };
+		022F5D971C66A19500551287 /* list.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 022F5D941C66A19500551287 /* list.pdf */; };
+		022F5D981C66A19500551287 /* ontology-resource.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 022F5D951C66A19500551287 /* ontology-resource.pdf */; };
+		022F5D991C66A19500551287 /* ontology.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 022F5D961C66A19500551287 /* ontology.pdf */; };
 		0266B5E01C4D563400CA2FE0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0266B5DF1C4D563400CA2FE0 /* AppDelegate.swift */; };
 		0266B5E21C4D563400CA2FE0 /* MainSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0266B5E11C4D563400CA2FE0 /* MainSplitViewController.swift */; };
 		0266B5E41C4D563400CA2FE0 /* RDFDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0266B5E31C4D563400CA2FE0 /* RDFDocument.swift */; };
@@ -146,6 +156,16 @@
 		021DE2301C530BFD0031FAC8 /* IconTextView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IconTextView.xib; sourceTree = "<group>"; };
 		021DE2321C530FBE0031FAC8 /* namedgraph-sidebar.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = "namedgraph-sidebar.pdf"; path = "Ontologist/namedgraph-sidebar.pdf"; sourceTree = "<group>"; };
 		022F5D841C656CFE00551287 /* class-resource.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "class-resource.pdf"; sourceTree = "<group>"; };
+		022F5D861C66919800551287 /* dataTypeProperty.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = dataTypeProperty.pdf; sourceTree = "<group>"; };
+		022F5D881C66939B00551287 /* annotationProperty.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = annotationProperty.pdf; sourceTree = "<group>"; };
+		022F5D8A1C66958400551287 /* objectProperty.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = objectProperty.pdf; sourceTree = "<group>"; };
+		022F5D8C1C66999800551287 /* symmetricProperty.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = symmetricProperty.pdf; sourceTree = "<group>"; };
+		022F5D8D1C66999800551287 /* transitiveProperty.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = transitiveProperty.pdf; sourceTree = "<group>"; };
+		022F5D901C669D8100551287 /* functionalProperty.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = functionalProperty.pdf; sourceTree = "<group>"; };
+		022F5D911C669D8100551287 /* inverseFunctionalProperty.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = inverseFunctionalProperty.pdf; sourceTree = "<group>"; };
+		022F5D941C66A19500551287 /* list.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = list.pdf; sourceTree = "<group>"; };
+		022F5D951C66A19500551287 /* ontology-resource.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "ontology-resource.pdf"; sourceTree = "<group>"; };
+		022F5D961C66A19500551287 /* ontology.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = ontology.pdf; sourceTree = "<group>"; };
 		0266B5DC1C4D563400CA2FE0 /* Ontologist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ontologist.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0266B5DF1C4D563400CA2FE0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0266B5E11C4D563400CA2FE0 /* MainSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSplitViewController.swift; sourceTree = "<group>"; };
@@ -360,6 +380,16 @@
 		02C84D381C64EB0F001AE84F /* ClassType */ = {
 			isa = PBXGroup;
 			children = (
+				022F5D941C66A19500551287 /* list.pdf */,
+				022F5D951C66A19500551287 /* ontology-resource.pdf */,
+				022F5D961C66A19500551287 /* ontology.pdf */,
+				022F5D901C669D8100551287 /* functionalProperty.pdf */,
+				022F5D911C669D8100551287 /* inverseFunctionalProperty.pdf */,
+				022F5D8C1C66999800551287 /* symmetricProperty.pdf */,
+				022F5D8D1C66999800551287 /* transitiveProperty.pdf */,
+				022F5D8A1C66958400551287 /* objectProperty.pdf */,
+				022F5D881C66939B00551287 /* annotationProperty.pdf */,
+				022F5D861C66919800551287 /* dataTypeProperty.pdf */,
 				022F5D841C656CFE00551287 /* class-resource.pdf */,
 				02C84D7C1C653AAA001AE84F /* class.pdf */,
 				02C84D391C64EB0F001AE84F /* Info.plist */,
@@ -615,8 +645,18 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				022F5D871C66919800551287 /* dataTypeProperty.pdf in Resources */,
+				022F5D891C66939B00551287 /* annotationProperty.pdf in Resources */,
+				022F5D8B1C66958400551287 /* objectProperty.pdf in Resources */,
+				022F5D8E1C66999800551287 /* symmetricProperty.pdf in Resources */,
+				022F5D971C66A19500551287 /* list.pdf in Resources */,
+				022F5D981C66A19500551287 /* ontology-resource.pdf in Resources */,
 				02C84D7D1C653AAA001AE84F /* class.pdf in Resources */,
+				022F5D991C66A19500551287 /* ontology.pdf in Resources */,
 				022F5D851C656CFE00551287 /* class-resource.pdf in Resources */,
+				022F5D931C669D8100551287 /* inverseFunctionalProperty.pdf in Resources */,
+				022F5D921C669D8100551287 /* functionalProperty.pdf in Resources */,
+				022F5D8F1C66999800551287 /* transitiveProperty.pdf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
