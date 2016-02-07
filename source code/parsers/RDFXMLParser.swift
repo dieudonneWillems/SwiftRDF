@@ -96,7 +96,7 @@ public class RDFXMLParser : NSObject, RDFParser, NSXMLParserDelegate {
             xmlParser!.parse()
         }
         running = false
-        print("** FINISHED PARSING RDF/XML **")
+        //print("** FINISHED PARSING RDF/XML **")
         return (xmlParserDelegate as! XMLtoRDFParser).graph
     }
     
@@ -206,7 +206,7 @@ internal class XMLtoRDFParser : NSObject, NSXMLParserDelegate {
     // MARK: XML parser delegate functions
     
     internal func parserDidStartDocument(parser: NSXMLParser) {
-        print("Started XML document parsing.")
+        ////print("Started XML document parsing.")
         currentElements.removeAll()
         currentSubjects.removeAll()
         currentPredicates.removeAll()
@@ -222,7 +222,7 @@ internal class XMLtoRDFParser : NSObject, NSXMLParserDelegate {
     }
     
     internal func parserDidEndDocument(parser: NSXMLParser) {
-        print("Finished XML document parsing.")
+        //print("Finished XML document parsing.")
         currentElements.removeAll()
         if rdfParser.delegate != nil {
             rdfParser.delegate!.parserDidEndDocument(rdfParser)
@@ -237,7 +237,7 @@ internal class XMLtoRDFParser : NSObject, NSXMLParserDelegate {
     }
     
     internal func parser(parser: NSXMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String]) {
-        print("Started on element \(elementName) with attributes \(attributeDict).")
+        //print("Started on element \(elementName) with attributes \(attributeDict).")
         currentElements.append((elementName,namespaceURI,qName,attributeDict,""))
         
         let parseType = attributeValue(attributeDict, nameURI: RDF.parseType)
@@ -425,7 +425,7 @@ internal class XMLtoRDFParser : NSObject, NSXMLParserDelegate {
         if parseType == "Literal" { // next child nodes are not RDF nodes but XML literal nodes.
             inXMLLiteral = true
             XMLLiteralString = ""
-            print(" ** START XML Literal **")
+            //print(" ** START XML Literal **")
             for prefixadded in namespacePrefixesAddedBeforeElement {
                 // remove namespaces from graph that were added in the element containing the literal and are thus only valid for the XML literal
                 graph!.deleteNamespace(prefixadded)
@@ -435,8 +435,8 @@ internal class XMLtoRDFParser : NSObject, NSXMLParserDelegate {
     }
     
     internal func parser(parser: NSXMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
-        print("Finished on element \(elementName).")
-        //print("elements: \(currentElements)")
+        //print("Finished on element \(elementName).")
+        ////print("elements: \(currentElements)")
         if liCounter.count > 0 {
             liCounter.removeLast()
         }
@@ -445,7 +445,7 @@ internal class XMLtoRDFParser : NSObject, NSXMLParserDelegate {
         let parseType = attributeValue(attributeDict, nameURI: RDF.parseType)
         if parseType == "Literal" { // previous child nodes were not RDF nodes but XML literal nodes.
             inXMLLiteral = false
-            print(" ** END XML Literal **")
+            //print(" ** END XML Literal **")
             let subject = lastSubject
             let predicate = lastPredicate
             let literal = Literal(stringValue: XMLLiteralString!, dataType: RDF.XMLLiteral)
@@ -521,7 +521,7 @@ internal class XMLtoRDFParser : NSObject, NSXMLParserDelegate {
     }
     
     internal func parser(parser: NSXMLParser, didEndMappingPrefix prefix: String) {
-        print("Finished mapping prefix \(prefix).")
+        //print("Finished mapping prefix \(prefix).")
         let realprefix = prefixMapping[prefix]
         if realprefix != nil {
             let ns = currentNamespaces[realprefix!]
@@ -532,7 +532,7 @@ internal class XMLtoRDFParser : NSObject, NSXMLParserDelegate {
     }
     
     internal func parser(parser: NSXMLParser, foundCharacters string: String) {
-        print("Found characters '\(string)'.")
+        //print("Found characters '\(string)'.")
         if currentElements.count > 0 {
             var lastelement = currentElements.last!
             lastelement.text = lastelement.text + string
@@ -547,7 +547,7 @@ internal class XMLtoRDFParser : NSObject, NSXMLParserDelegate {
     }
     
     internal func parser(parser: NSXMLParser, foundIgnorableWhitespace whitespaceString: String){
-        print("Found ignorable whitespace '\(whitespaceString)'.")
+        //print("Found ignorable whitespace '\(whitespaceString)'.")
         textNodeString = textNodeString + whitespaceString
         if XMLLiteralElementIsUnclosed {
             XMLLiteralString = XMLLiteralString! + ">"
@@ -556,7 +556,7 @@ internal class XMLtoRDFParser : NSObject, NSXMLParserDelegate {
     }
     
     internal func parser(parser: NSXMLParser, foundCDATA CDATABlock: NSData) {
-        print("Found CDATA block '\(CDATABlock)'.")
+        //print("Found CDATA block '\(CDATABlock)'.")
     }
     
     /**

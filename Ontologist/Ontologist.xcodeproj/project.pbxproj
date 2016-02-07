@@ -1,0 +1,1117 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		020729AC1C5CCD8300B22285 /* ResourceCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 020729AB1C5CCD8300B22285 /* ResourceCellView.xib */; };
+		020729AE1C5CCD9C00B22285 /* ResourceCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 020729AD1C5CCD9C00B22285 /* ResourceCellView.swift */; };
+		020729B01C5D75DE00B22285 /* LiteralCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 020729AF1C5D75DE00B22285 /* LiteralCellView.swift */; };
+		020729B21C5D75FF00B22285 /* LiteralCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 020729B11C5D75FF00B22285 /* LiteralCellView.xib */; };
+		020729B61C5E656000B22285 /* hierarchy.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 020729B51C5E656000B22285 /* hierarchy.pdf */; };
+		021DE2181C503B1C0031FAC8 /* RDFNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 021DE2171C503B1C0031FAC8 /* RDFNavigationController.swift */; };
+		021DE21A1C503B640031FAC8 /* RDFFileNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 021DE2191C503B640031FAC8 /* RDFFileNavigationController.swift */; };
+		021DE21C1C503C790031FAC8 /* StatementTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 021DE21B1C503C790031FAC8 /* StatementTableViewController.swift */; };
+		021DE2211C518A840031FAC8 /* RDFNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 021DE2201C518A840031FAC8 /* RDFNavigation.swift */; };
+		021DE2241C5192800031FAC8 /* FileView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 021DE2231C5192800031FAC8 /* FileView.xib */; };
+		021DE2261C5193960031FAC8 /* FileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 021DE2251C5193960031FAC8 /* FileView.swift */; };
+		021DE2281C52EE810031FAC8 /* rdffile-sidebar.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 021DE2271C52EE810031FAC8 /* rdffile-sidebar.pdf */; };
+		021DE22A1C5307C10031FAC8 /* IconTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 021DE2291C5307C10031FAC8 /* IconTextView.swift */; };
+		021DE2311C530BFD0031FAC8 /* IconTextView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 021DE2301C530BFD0031FAC8 /* IconTextView.xib */; };
+		021DE2331C530FBE0031FAC8 /* namedgraph-sidebar.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 021DE2321C530FBE0031FAC8 /* namedgraph-sidebar.pdf */; };
+		021DE2351C5316CC0031FAC8 /* SwiftRDFOSX.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0266B60C1C4D57A800CA2FE0 /* SwiftRDFOSX.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		022F5D851C656CFE00551287 /* class-resource.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 022F5D841C656CFE00551287 /* class-resource.pdf */; };
+		022F5D871C66919800551287 /* dataTypeProperty.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 022F5D861C66919800551287 /* dataTypeProperty.pdf */; };
+		022F5D891C66939B00551287 /* annotationProperty.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 022F5D881C66939B00551287 /* annotationProperty.pdf */; };
+		022F5D8B1C66958400551287 /* objectProperty.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 022F5D8A1C66958400551287 /* objectProperty.pdf */; };
+		022F5D8E1C66999800551287 /* symmetricProperty.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 022F5D8C1C66999800551287 /* symmetricProperty.pdf */; };
+		022F5D8F1C66999800551287 /* transitiveProperty.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 022F5D8D1C66999800551287 /* transitiveProperty.pdf */; };
+		022F5D921C669D8100551287 /* functionalProperty.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 022F5D901C669D8100551287 /* functionalProperty.pdf */; };
+		022F5D931C669D8100551287 /* inverseFunctionalProperty.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 022F5D911C669D8100551287 /* inverseFunctionalProperty.pdf */; };
+		022F5D971C66A19500551287 /* list.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 022F5D941C66A19500551287 /* list.pdf */; };
+		022F5D981C66A19500551287 /* ontology-resource.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 022F5D951C66A19500551287 /* ontology-resource.pdf */; };
+		022F5D991C66A19500551287 /* ontology.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 022F5D961C66A19500551287 /* ontology.pdf */; };
+		0266B5E01C4D563400CA2FE0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0266B5DF1C4D563400CA2FE0 /* AppDelegate.swift */; };
+		0266B5E21C4D563400CA2FE0 /* MainSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0266B5E11C4D563400CA2FE0 /* MainSplitViewController.swift */; };
+		0266B5E41C4D563400CA2FE0 /* RDFDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0266B5E31C4D563400CA2FE0 /* RDFDocument.swift */; };
+		0266B5E61C4D563400CA2FE0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0266B5E51C4D563400CA2FE0 /* Assets.xcassets */; };
+		0266B5E91C4D563400CA2FE0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0266B5E71C4D563400CA2FE0 /* Main.storyboard */; };
+		0266B5F41C4D563400CA2FE0 /* OntologistTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0266B5F31C4D563400CA2FE0 /* OntologistTests.swift */; };
+		0266B5FF1C4D563400CA2FE0 /* OntologistUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0266B5FE1C4D563400CA2FE0 /* OntologistUITests.swift */; };
+		0266B60D1C4D57A800CA2FE0 /* SwiftRDFOSX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0266B60C1C4D57A800CA2FE0 /* SwiftRDFOSX.framework */; };
+		0266B60F1C4EE90100CA2FE0 /* RDFDocumentWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0266B60E1C4EE90100CA2FE0 /* RDFDocumentWindowController.swift */; };
+		0266B6121C4EEB5900CA2FE0 /* RDFGraphNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0266B6111C4EEB5900CA2FE0 /* RDFGraphNavigationController.swift */; };
+		02C84CF51C5E6A39001AE84F /* instances-on.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 02C84CF31C5E6A39001AE84F /* instances-on.pdf */; };
+		02C84CF61C5E6A39001AE84F /* instances.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 02C84CF41C5E6A39001AE84F /* instances.pdf */; };
+		02C84CF91C5E6E67001AE84F /* properties-on.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 02C84CF71C5E6E67001AE84F /* properties-on.pdf */; };
+		02C84CFA1C5E6E67001AE84F /* properties.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 02C84CF81C5E6E67001AE84F /* properties.pdf */; };
+		02C84CFE1C5E9782001AE84F /* search-on.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 02C84CFD1C5E9782001AE84F /* search-on.pdf */; };
+		02C84D021C5E9872001AE84F /* search.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 02C84D011C5E9872001AE84F /* search.pdf */; };
+		02C84D041C5EBCAF001AE84F /* instance.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 02C84D031C5EBCAF001AE84F /* instance.pdf */; };
+		02C84D061C60CC32001AE84F /* OntologyGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C84D051C60CC32001AE84F /* OntologyGraph.swift */; };
+		02C84D461C64EE2E001AE84F /* ClassTypeEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C84D451C64EE2E001AE84F /* ClassTypeEditor.swift */; };
+		02C84D4A1C64EF18001AE84F /* ClassType.plugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 02C84D371C64EB0F001AE84F /* ClassType.plugin */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		02C84D4D1C64F0D4001AE84F /* SwiftRDFOSX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0266B60C1C4D57A800CA2FE0 /* SwiftRDFOSX.framework */; };
+		02C84D581C64F1B8001AE84F /* OntologistPlugins.h in Headers */ = {isa = PBXBuildFile; fileRef = 02C84D571C64F1B8001AE84F /* OntologistPlugins.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		02C84D5F1C64F1B8001AE84F /* OntologistPlugins.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02C84D551C64F1B8001AE84F /* OntologistPlugins.framework */; };
+		02C84D661C64F1B8001AE84F /* OntologistPluginsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C84D651C64F1B8001AE84F /* OntologistPluginsTests.swift */; };
+		02C84D6A1C64F1B8001AE84F /* OntologistPlugins.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02C84D551C64F1B8001AE84F /* OntologistPlugins.framework */; };
+		02C84D6B1C64F1B8001AE84F /* OntologistPlugins.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 02C84D551C64F1B8001AE84F /* OntologistPlugins.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		02C84D721C64F1C6001AE84F /* TypeEditorPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C84D401C64EBA5001AE84F /* TypeEditorPlugin.swift */; };
+		02C84D731C64F1CA001AE84F /* TypeIconsPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C84D421C64ECE1001AE84F /* TypeIconsPlugin.swift */; };
+		02C84D741C64F1FA001AE84F /* SwiftRDFOSX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0266B60C1C4D57A800CA2FE0 /* SwiftRDFOSX.framework */; };
+		02C84D751C64F21E001AE84F /* OntologistPlugins.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02C84D551C64F1B8001AE84F /* OntologistPlugins.framework */; };
+		02C84D791C64F2FC001AE84F /* PluginsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C84D781C64F2FC001AE84F /* PluginsManager.swift */; };
+		02C84D7B1C653765001AE84F /* Plugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C84D7A1C653765001AE84F /* Plugin.swift */; };
+		02C84D7D1C653AAA001AE84F /* class.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 02C84D7C1C653AAA001AE84F /* class.pdf */; };
+		02F4B73D1C5E663D0025151A /* hierarchy-on.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 02F4B73C1C5E663D0025151A /* hierarchy-on.pdf */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		0266B5F01C4D563400CA2FE0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0266B5D41C4D563400CA2FE0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0266B5DB1C4D563400CA2FE0;
+			remoteInfo = Ontologist;
+		};
+		0266B5FB1C4D563400CA2FE0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0266B5D41C4D563400CA2FE0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0266B5DB1C4D563400CA2FE0;
+			remoteInfo = Ontologist;
+		};
+		02C84D601C64F1B8001AE84F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0266B5D41C4D563400CA2FE0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 02C84D541C64F1B8001AE84F;
+			remoteInfo = OntologistPlugins;
+		};
+		02C84D621C64F1B8001AE84F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0266B5D41C4D563400CA2FE0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0266B5DB1C4D563400CA2FE0;
+			remoteInfo = Ontologist;
+		};
+		02C84D681C64F1B8001AE84F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0266B5D41C4D563400CA2FE0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 02C84D541C64F1B8001AE84F;
+			remoteInfo = OntologistPlugins;
+		};
+		02C84D761C64F233001AE84F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0266B5D41C4D563400CA2FE0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 02C84D541C64F1B8001AE84F;
+			remoteInfo = OntologistPlugins;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		021DE2341C5316BE0031FAC8 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				021DE2351C5316CC0031FAC8 /* SwiftRDFOSX.framework in CopyFiles */,
+				02C84D6B1C64F1B8001AE84F /* OntologistPlugins.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		02C84D491C64EF07001AE84F /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				02C84D4A1C64EF18001AE84F /* ClassType.plugin in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		020729AB1C5CCD8300B22285 /* ResourceCellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ResourceCellView.xib; sourceTree = "<group>"; };
+		020729AD1C5CCD9C00B22285 /* ResourceCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceCellView.swift; sourceTree = "<group>"; };
+		020729AF1C5D75DE00B22285 /* LiteralCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LiteralCellView.swift; sourceTree = "<group>"; };
+		020729B11C5D75FF00B22285 /* LiteralCellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LiteralCellView.xib; sourceTree = "<group>"; };
+		020729B51C5E656000B22285 /* hierarchy.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = hierarchy.pdf; path = Ontologist/hierarchy.pdf; sourceTree = "<group>"; };
+		021DE2171C503B1C0031FAC8 /* RDFNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RDFNavigationController.swift; sourceTree = "<group>"; };
+		021DE2191C503B640031FAC8 /* RDFFileNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RDFFileNavigationController.swift; sourceTree = "<group>"; };
+		021DE21B1C503C790031FAC8 /* StatementTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatementTableViewController.swift; sourceTree = "<group>"; };
+		021DE2201C518A840031FAC8 /* RDFNavigation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RDFNavigation.swift; sourceTree = "<group>"; };
+		021DE2231C5192800031FAC8 /* FileView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FileView.xib; sourceTree = "<group>"; };
+		021DE2251C5193960031FAC8 /* FileView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileView.swift; sourceTree = "<group>"; };
+		021DE2271C52EE810031FAC8 /* rdffile-sidebar.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = "rdffile-sidebar.pdf"; path = "Ontologist/rdffile-sidebar.pdf"; sourceTree = "<group>"; };
+		021DE2291C5307C10031FAC8 /* IconTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IconTextView.swift; sourceTree = "<group>"; };
+		021DE2301C530BFD0031FAC8 /* IconTextView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IconTextView.xib; sourceTree = "<group>"; };
+		021DE2321C530FBE0031FAC8 /* namedgraph-sidebar.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = "namedgraph-sidebar.pdf"; path = "Ontologist/namedgraph-sidebar.pdf"; sourceTree = "<group>"; };
+		022F5D841C656CFE00551287 /* class-resource.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "class-resource.pdf"; sourceTree = "<group>"; };
+		022F5D861C66919800551287 /* dataTypeProperty.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = dataTypeProperty.pdf; sourceTree = "<group>"; };
+		022F5D881C66939B00551287 /* annotationProperty.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = annotationProperty.pdf; sourceTree = "<group>"; };
+		022F5D8A1C66958400551287 /* objectProperty.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = objectProperty.pdf; sourceTree = "<group>"; };
+		022F5D8C1C66999800551287 /* symmetricProperty.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = symmetricProperty.pdf; sourceTree = "<group>"; };
+		022F5D8D1C66999800551287 /* transitiveProperty.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = transitiveProperty.pdf; sourceTree = "<group>"; };
+		022F5D901C669D8100551287 /* functionalProperty.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = functionalProperty.pdf; sourceTree = "<group>"; };
+		022F5D911C669D8100551287 /* inverseFunctionalProperty.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = inverseFunctionalProperty.pdf; sourceTree = "<group>"; };
+		022F5D941C66A19500551287 /* list.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = list.pdf; sourceTree = "<group>"; };
+		022F5D951C66A19500551287 /* ontology-resource.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "ontology-resource.pdf"; sourceTree = "<group>"; };
+		022F5D961C66A19500551287 /* ontology.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = ontology.pdf; sourceTree = "<group>"; };
+		0266B5DC1C4D563400CA2FE0 /* Ontologist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ontologist.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0266B5DF1C4D563400CA2FE0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		0266B5E11C4D563400CA2FE0 /* MainSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSplitViewController.swift; sourceTree = "<group>"; };
+		0266B5E31C4D563400CA2FE0 /* RDFDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RDFDocument.swift; sourceTree = "<group>"; };
+		0266B5E51C4D563400CA2FE0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		0266B5E81C4D563400CA2FE0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		0266B5EA1C4D563400CA2FE0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0266B5EF1C4D563400CA2FE0 /* OntologistTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OntologistTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		0266B5F31C4D563400CA2FE0 /* OntologistTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OntologistTests.swift; sourceTree = "<group>"; };
+		0266B5F51C4D563400CA2FE0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0266B5FA1C4D563400CA2FE0 /* OntologistUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OntologistUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		0266B5FE1C4D563400CA2FE0 /* OntologistUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OntologistUITests.swift; sourceTree = "<group>"; };
+		0266B6001C4D563400CA2FE0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0266B60C1C4D57A800CA2FE0 /* SwiftRDFOSX.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftRDFOSX.framework; path = ../Build/Products/Debug/SwiftRDFOSX.framework; sourceTree = "<group>"; };
+		0266B60E1C4EE90100CA2FE0 /* RDFDocumentWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RDFDocumentWindowController.swift; sourceTree = "<group>"; };
+		0266B6111C4EEB5900CA2FE0 /* RDFGraphNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RDFGraphNavigationController.swift; sourceTree = "<group>"; };
+		02C84CF31C5E6A39001AE84F /* instances-on.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = "instances-on.pdf"; path = "Ontologist/instances-on.pdf"; sourceTree = "<group>"; };
+		02C84CF41C5E6A39001AE84F /* instances.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = instances.pdf; path = Ontologist/instances.pdf; sourceTree = "<group>"; };
+		02C84CF71C5E6E67001AE84F /* properties-on.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = "properties-on.pdf"; path = "Ontologist/properties-on.pdf"; sourceTree = "<group>"; };
+		02C84CF81C5E6E67001AE84F /* properties.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = properties.pdf; path = Ontologist/properties.pdf; sourceTree = "<group>"; };
+		02C84CFD1C5E9782001AE84F /* search-on.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = "search-on.pdf"; path = "Ontologist/search-on.pdf"; sourceTree = "<group>"; };
+		02C84D011C5E9872001AE84F /* search.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = search.pdf; path = Ontologist/search.pdf; sourceTree = "<group>"; };
+		02C84D031C5EBCAF001AE84F /* instance.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = instance.pdf; path = Ontologist/instance.pdf; sourceTree = "<group>"; };
+		02C84D051C60CC32001AE84F /* OntologyGraph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OntologyGraph.swift; sourceTree = "<group>"; };
+		02C84D371C64EB0F001AE84F /* ClassType.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ClassType.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
+		02C84D391C64EB0F001AE84F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		02C84D401C64EBA5001AE84F /* TypeEditorPlugin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TypeEditorPlugin.swift; path = ../Ontologist/TypeEditorPlugin.swift; sourceTree = "<group>"; };
+		02C84D421C64ECE1001AE84F /* TypeIconsPlugin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TypeIconsPlugin.swift; path = ../Ontologist/TypeIconsPlugin.swift; sourceTree = "<group>"; };
+		02C84D441C64EE2D001AE84F /* ClassType-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ClassType-Bridging-Header.h"; sourceTree = "<group>"; };
+		02C84D451C64EE2E001AE84F /* ClassTypeEditor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassTypeEditor.swift; sourceTree = "<group>"; };
+		02C84D551C64F1B8001AE84F /* OntologistPlugins.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OntologistPlugins.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		02C84D571C64F1B8001AE84F /* OntologistPlugins.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OntologistPlugins.h; sourceTree = "<group>"; };
+		02C84D591C64F1B8001AE84F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		02C84D5E1C64F1B8001AE84F /* OntologistPluginsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OntologistPluginsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		02C84D651C64F1B8001AE84F /* OntologistPluginsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OntologistPluginsTests.swift; sourceTree = "<group>"; };
+		02C84D671C64F1B8001AE84F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		02C84D781C64F2FC001AE84F /* PluginsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PluginsManager.swift; sourceTree = "<group>"; };
+		02C84D7A1C653765001AE84F /* Plugin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Plugin.swift; sourceTree = "<group>"; };
+		02C84D7C1C653AAA001AE84F /* class.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = class.pdf; sourceTree = "<group>"; };
+		02F4B73C1C5E663D0025151A /* hierarchy-on.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = "hierarchy-on.pdf"; path = "Ontologist/hierarchy-on.pdf"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		0266B5D91C4D563400CA2FE0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0266B60D1C4D57A800CA2FE0 /* SwiftRDFOSX.framework in Frameworks */,
+				02C84D6A1C64F1B8001AE84F /* OntologistPlugins.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0266B5EC1C4D563400CA2FE0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0266B5F71C4D563400CA2FE0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		02C84D341C64EB0F001AE84F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				02C84D751C64F21E001AE84F /* OntologistPlugins.framework in Frameworks */,
+				02C84D4D1C64F0D4001AE84F /* SwiftRDFOSX.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		02C84D511C64F1B8001AE84F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				02C84D741C64F1FA001AE84F /* SwiftRDFOSX.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		02C84D5B1C64F1B8001AE84F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				02C84D5F1C64F1B8001AE84F /* OntologistPlugins.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		020729A81C5ADA9D00B22285 /* icons */ = {
+			isa = PBXGroup;
+			children = (
+				02C84D031C5EBCAF001AE84F /* instance.pdf */,
+				02C84D011C5E9872001AE84F /* search.pdf */,
+				02C84CFD1C5E9782001AE84F /* search-on.pdf */,
+				02C84CF71C5E6E67001AE84F /* properties-on.pdf */,
+				02C84CF81C5E6E67001AE84F /* properties.pdf */,
+				02C84CF31C5E6A39001AE84F /* instances-on.pdf */,
+				02C84CF41C5E6A39001AE84F /* instances.pdf */,
+				02F4B73C1C5E663D0025151A /* hierarchy-on.pdf */,
+				020729B51C5E656000B22285 /* hierarchy.pdf */,
+				021DE2321C530FBE0031FAC8 /* namedgraph-sidebar.pdf */,
+				021DE2271C52EE810031FAC8 /* rdffile-sidebar.pdf */,
+			);
+			name = icons;
+			path = ..;
+			sourceTree = "<group>";
+		};
+		021DE21D1C503D850031FAC8 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				0266B5E31C4D563400CA2FE0 /* RDFDocument.swift */,
+				02C84D051C60CC32001AE84F /* OntologyGraph.swift */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		021DE2221C51924A0031FAC8 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				021DE2231C5192800031FAC8 /* FileView.xib */,
+				021DE2251C5193960031FAC8 /* FileView.swift */,
+				021DE2301C530BFD0031FAC8 /* IconTextView.xib */,
+				021DE2291C5307C10031FAC8 /* IconTextView.swift */,
+				020729AB1C5CCD8300B22285 /* ResourceCellView.xib */,
+				020729AD1C5CCD9C00B22285 /* ResourceCellView.swift */,
+				020729B11C5D75FF00B22285 /* LiteralCellView.xib */,
+				020729AF1C5D75DE00B22285 /* LiteralCellView.swift */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		0266B5D31C4D563400CA2FE0 = {
+			isa = PBXGroup;
+			children = (
+				0266B60C1C4D57A800CA2FE0 /* SwiftRDFOSX.framework */,
+				0266B5DE1C4D563400CA2FE0 /* Ontologist */,
+				0266B5F21C4D563400CA2FE0 /* OntologistTests */,
+				0266B5FD1C4D563400CA2FE0 /* OntologistUITests */,
+				02C84D381C64EB0F001AE84F /* ClassType */,
+				02C84D561C64F1B8001AE84F /* OntologistPlugins */,
+				02C84D641C64F1B8001AE84F /* OntologistPluginsTests */,
+				0266B5DD1C4D563400CA2FE0 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		0266B5DD1C4D563400CA2FE0 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0266B5DC1C4D563400CA2FE0 /* Ontologist.app */,
+				0266B5EF1C4D563400CA2FE0 /* OntologistTests.xctest */,
+				0266B5FA1C4D563400CA2FE0 /* OntologistUITests.xctest */,
+				02C84D371C64EB0F001AE84F /* ClassType.plugin */,
+				02C84D551C64F1B8001AE84F /* OntologistPlugins.framework */,
+				02C84D5E1C64F1B8001AE84F /* OntologistPluginsTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0266B5DE1C4D563400CA2FE0 /* Ontologist */ = {
+			isa = PBXGroup;
+			children = (
+				021DE21D1C503D850031FAC8 /* Model */,
+				021DE2221C51924A0031FAC8 /* Views */,
+				0266B6101C4EE90800CA2FE0 /* Controllers */,
+				0266B5DF1C4D563400CA2FE0 /* AppDelegate.swift */,
+				0266B5E51C4D563400CA2FE0 /* Assets.xcassets */,
+				0266B5E71C4D563400CA2FE0 /* Main.storyboard */,
+				0266B5EA1C4D563400CA2FE0 /* Info.plist */,
+				020729A81C5ADA9D00B22285 /* icons */,
+			);
+			path = Ontologist;
+			sourceTree = "<group>";
+		};
+		0266B5F21C4D563400CA2FE0 /* OntologistTests */ = {
+			isa = PBXGroup;
+			children = (
+				0266B5F31C4D563400CA2FE0 /* OntologistTests.swift */,
+				0266B5F51C4D563400CA2FE0 /* Info.plist */,
+			);
+			path = OntologistTests;
+			sourceTree = "<group>";
+		};
+		0266B5FD1C4D563400CA2FE0 /* OntologistUITests */ = {
+			isa = PBXGroup;
+			children = (
+				0266B5FE1C4D563400CA2FE0 /* OntologistUITests.swift */,
+				0266B6001C4D563400CA2FE0 /* Info.plist */,
+			);
+			path = OntologistUITests;
+			sourceTree = "<group>";
+		};
+		0266B6101C4EE90800CA2FE0 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				021DE2201C518A840031FAC8 /* RDFNavigation.swift */,
+				0266B60E1C4EE90100CA2FE0 /* RDFDocumentWindowController.swift */,
+				0266B5E11C4D563400CA2FE0 /* MainSplitViewController.swift */,
+				0266B6111C4EEB5900CA2FE0 /* RDFGraphNavigationController.swift */,
+				021DE2171C503B1C0031FAC8 /* RDFNavigationController.swift */,
+				021DE2191C503B640031FAC8 /* RDFFileNavigationController.swift */,
+				021DE21B1C503C790031FAC8 /* StatementTableViewController.swift */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		02C84D381C64EB0F001AE84F /* ClassType */ = {
+			isa = PBXGroup;
+			children = (
+				022F5D941C66A19500551287 /* list.pdf */,
+				022F5D951C66A19500551287 /* ontology-resource.pdf */,
+				022F5D961C66A19500551287 /* ontology.pdf */,
+				022F5D901C669D8100551287 /* functionalProperty.pdf */,
+				022F5D911C669D8100551287 /* inverseFunctionalProperty.pdf */,
+				022F5D8C1C66999800551287 /* symmetricProperty.pdf */,
+				022F5D8D1C66999800551287 /* transitiveProperty.pdf */,
+				022F5D8A1C66958400551287 /* objectProperty.pdf */,
+				022F5D881C66939B00551287 /* annotationProperty.pdf */,
+				022F5D861C66919800551287 /* dataTypeProperty.pdf */,
+				022F5D841C656CFE00551287 /* class-resource.pdf */,
+				02C84D7C1C653AAA001AE84F /* class.pdf */,
+				02C84D391C64EB0F001AE84F /* Info.plist */,
+				02C84D451C64EE2E001AE84F /* ClassTypeEditor.swift */,
+				02C84D441C64EE2D001AE84F /* ClassType-Bridging-Header.h */,
+			);
+			path = ClassType;
+			sourceTree = "<group>";
+		};
+		02C84D561C64F1B8001AE84F /* OntologistPlugins */ = {
+			isa = PBXGroup;
+			children = (
+				02C84D7A1C653765001AE84F /* Plugin.swift */,
+				02C84D781C64F2FC001AE84F /* PluginsManager.swift */,
+				02C84D401C64EBA5001AE84F /* TypeEditorPlugin.swift */,
+				02C84D421C64ECE1001AE84F /* TypeIconsPlugin.swift */,
+				02C84D571C64F1B8001AE84F /* OntologistPlugins.h */,
+				02C84D591C64F1B8001AE84F /* Info.plist */,
+			);
+			path = OntologistPlugins;
+			sourceTree = "<group>";
+		};
+		02C84D641C64F1B8001AE84F /* OntologistPluginsTests */ = {
+			isa = PBXGroup;
+			children = (
+				02C84D651C64F1B8001AE84F /* OntologistPluginsTests.swift */,
+				02C84D671C64F1B8001AE84F /* Info.plist */,
+			);
+			path = OntologistPluginsTests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		02C84D521C64F1B8001AE84F /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				02C84D581C64F1B8001AE84F /* OntologistPlugins.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		0266B5DB1C4D563400CA2FE0 /* Ontologist */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0266B6031C4D563400CA2FE0 /* Build configuration list for PBXNativeTarget "Ontologist" */;
+			buildPhases = (
+				0266B5D81C4D563400CA2FE0 /* Sources */,
+				0266B5D91C4D563400CA2FE0 /* Frameworks */,
+				0266B5DA1C4D563400CA2FE0 /* Resources */,
+				021DE2341C5316BE0031FAC8 /* CopyFiles */,
+				02C84D491C64EF07001AE84F /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				02C84D691C64F1B8001AE84F /* PBXTargetDependency */,
+			);
+			name = Ontologist;
+			productName = Ontologist;
+			productReference = 0266B5DC1C4D563400CA2FE0 /* Ontologist.app */;
+			productType = "com.apple.product-type.application";
+		};
+		0266B5EE1C4D563400CA2FE0 /* OntologistTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0266B6061C4D563400CA2FE0 /* Build configuration list for PBXNativeTarget "OntologistTests" */;
+			buildPhases = (
+				0266B5EB1C4D563400CA2FE0 /* Sources */,
+				0266B5EC1C4D563400CA2FE0 /* Frameworks */,
+				0266B5ED1C4D563400CA2FE0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				0266B5F11C4D563400CA2FE0 /* PBXTargetDependency */,
+			);
+			name = OntologistTests;
+			productName = OntologistTests;
+			productReference = 0266B5EF1C4D563400CA2FE0 /* OntologistTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		0266B5F91C4D563400CA2FE0 /* OntologistUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0266B6091C4D563400CA2FE0 /* Build configuration list for PBXNativeTarget "OntologistUITests" */;
+			buildPhases = (
+				0266B5F61C4D563400CA2FE0 /* Sources */,
+				0266B5F71C4D563400CA2FE0 /* Frameworks */,
+				0266B5F81C4D563400CA2FE0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				0266B5FC1C4D563400CA2FE0 /* PBXTargetDependency */,
+			);
+			name = OntologistUITests;
+			productName = OntologistUITests;
+			productReference = 0266B5FA1C4D563400CA2FE0 /* OntologistUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		02C84D361C64EB0F001AE84F /* ClassType */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 02C84D3C1C64EB0F001AE84F /* Build configuration list for PBXNativeTarget "ClassType" */;
+			buildPhases = (
+				02C84D331C64EB0F001AE84F /* Sources */,
+				02C84D341C64EB0F001AE84F /* Frameworks */,
+				02C84D351C64EB0F001AE84F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				02C84D771C64F233001AE84F /* PBXTargetDependency */,
+			);
+			name = ClassType;
+			productName = ClassType;
+			productReference = 02C84D371C64EB0F001AE84F /* ClassType.plugin */;
+			productType = "com.apple.product-type.bundle";
+		};
+		02C84D541C64F1B8001AE84F /* OntologistPlugins */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 02C84D6C1C64F1B8001AE84F /* Build configuration list for PBXNativeTarget "OntologistPlugins" */;
+			buildPhases = (
+				02C84D501C64F1B8001AE84F /* Sources */,
+				02C84D511C64F1B8001AE84F /* Frameworks */,
+				02C84D521C64F1B8001AE84F /* Headers */,
+				02C84D531C64F1B8001AE84F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = OntologistPlugins;
+			productName = OntologistPlugins;
+			productReference = 02C84D551C64F1B8001AE84F /* OntologistPlugins.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		02C84D5D1C64F1B8001AE84F /* OntologistPluginsTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 02C84D6F1C64F1B8001AE84F /* Build configuration list for PBXNativeTarget "OntologistPluginsTests" */;
+			buildPhases = (
+				02C84D5A1C64F1B8001AE84F /* Sources */,
+				02C84D5B1C64F1B8001AE84F /* Frameworks */,
+				02C84D5C1C64F1B8001AE84F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				02C84D611C64F1B8001AE84F /* PBXTargetDependency */,
+				02C84D631C64F1B8001AE84F /* PBXTargetDependency */,
+			);
+			name = OntologistPluginsTests;
+			productName = OntologistPluginsTests;
+			productReference = 02C84D5E1C64F1B8001AE84F /* OntologistPluginsTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0266B5D41C4D563400CA2FE0 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0720;
+				LastUpgradeCheck = 0720;
+				ORGANIZATIONNAME = lapsedpacifist;
+				TargetAttributes = {
+					0266B5DB1C4D563400CA2FE0 = {
+						CreatedOnToolsVersion = 7.2;
+					};
+					0266B5EE1C4D563400CA2FE0 = {
+						CreatedOnToolsVersion = 7.2;
+						TestTargetID = 0266B5DB1C4D563400CA2FE0;
+					};
+					0266B5F91C4D563400CA2FE0 = {
+						CreatedOnToolsVersion = 7.2;
+						TestTargetID = 0266B5DB1C4D563400CA2FE0;
+					};
+					02C84D361C64EB0F001AE84F = {
+						CreatedOnToolsVersion = 7.2;
+					};
+					02C84D541C64F1B8001AE84F = {
+						CreatedOnToolsVersion = 7.2;
+					};
+					02C84D5D1C64F1B8001AE84F = {
+						CreatedOnToolsVersion = 7.2;
+						TestTargetID = 0266B5DB1C4D563400CA2FE0;
+					};
+				};
+			};
+			buildConfigurationList = 0266B5D71C4D563400CA2FE0 /* Build configuration list for PBXProject "Ontologist" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 0266B5D31C4D563400CA2FE0;
+			productRefGroup = 0266B5DD1C4D563400CA2FE0 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				0266B5DB1C4D563400CA2FE0 /* Ontologist */,
+				0266B5EE1C4D563400CA2FE0 /* OntologistTests */,
+				0266B5F91C4D563400CA2FE0 /* OntologistUITests */,
+				02C84D361C64EB0F001AE84F /* ClassType */,
+				02C84D541C64F1B8001AE84F /* OntologistPlugins */,
+				02C84D5D1C64F1B8001AE84F /* OntologistPluginsTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		0266B5DA1C4D563400CA2FE0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				020729AC1C5CCD8300B22285 /* ResourceCellView.xib in Resources */,
+				02C84CF91C5E6E67001AE84F /* properties-on.pdf in Resources */,
+				02C84CF51C5E6A39001AE84F /* instances-on.pdf in Resources */,
+				02C84CFA1C5E6E67001AE84F /* properties.pdf in Resources */,
+				02F4B73D1C5E663D0025151A /* hierarchy-on.pdf in Resources */,
+				02C84CFE1C5E9782001AE84F /* search-on.pdf in Resources */,
+				0266B5E61C4D563400CA2FE0 /* Assets.xcassets in Resources */,
+				021DE2311C530BFD0031FAC8 /* IconTextView.xib in Resources */,
+				02C84D021C5E9872001AE84F /* search.pdf in Resources */,
+				02C84CF61C5E6A39001AE84F /* instances.pdf in Resources */,
+				020729B21C5D75FF00B22285 /* LiteralCellView.xib in Resources */,
+				021DE2241C5192800031FAC8 /* FileView.xib in Resources */,
+				021DE2281C52EE810031FAC8 /* rdffile-sidebar.pdf in Resources */,
+				021DE2331C530FBE0031FAC8 /* namedgraph-sidebar.pdf in Resources */,
+				020729B61C5E656000B22285 /* hierarchy.pdf in Resources */,
+				0266B5E91C4D563400CA2FE0 /* Main.storyboard in Resources */,
+				02C84D041C5EBCAF001AE84F /* instance.pdf in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0266B5ED1C4D563400CA2FE0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0266B5F81C4D563400CA2FE0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		02C84D351C64EB0F001AE84F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				022F5D871C66919800551287 /* dataTypeProperty.pdf in Resources */,
+				022F5D891C66939B00551287 /* annotationProperty.pdf in Resources */,
+				022F5D8B1C66958400551287 /* objectProperty.pdf in Resources */,
+				022F5D8E1C66999800551287 /* symmetricProperty.pdf in Resources */,
+				022F5D971C66A19500551287 /* list.pdf in Resources */,
+				022F5D981C66A19500551287 /* ontology-resource.pdf in Resources */,
+				02C84D7D1C653AAA001AE84F /* class.pdf in Resources */,
+				022F5D991C66A19500551287 /* ontology.pdf in Resources */,
+				022F5D851C656CFE00551287 /* class-resource.pdf in Resources */,
+				022F5D931C669D8100551287 /* inverseFunctionalProperty.pdf in Resources */,
+				022F5D921C669D8100551287 /* functionalProperty.pdf in Resources */,
+				022F5D8F1C66999800551287 /* transitiveProperty.pdf in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		02C84D531C64F1B8001AE84F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		02C84D5C1C64F1B8001AE84F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		0266B5D81C4D563400CA2FE0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0266B5E21C4D563400CA2FE0 /* MainSplitViewController.swift in Sources */,
+				0266B60F1C4EE90100CA2FE0 /* RDFDocumentWindowController.swift in Sources */,
+				020729B01C5D75DE00B22285 /* LiteralCellView.swift in Sources */,
+				021DE2181C503B1C0031FAC8 /* RDFNavigationController.swift in Sources */,
+				0266B6121C4EEB5900CA2FE0 /* RDFGraphNavigationController.swift in Sources */,
+				02C84D061C60CC32001AE84F /* OntologyGraph.swift in Sources */,
+				021DE21A1C503B640031FAC8 /* RDFFileNavigationController.swift in Sources */,
+				021DE21C1C503C790031FAC8 /* StatementTableViewController.swift in Sources */,
+				020729AE1C5CCD9C00B22285 /* ResourceCellView.swift in Sources */,
+				021DE2211C518A840031FAC8 /* RDFNavigation.swift in Sources */,
+				0266B5E01C4D563400CA2FE0 /* AppDelegate.swift in Sources */,
+				021DE2261C5193960031FAC8 /* FileView.swift in Sources */,
+				0266B5E41C4D563400CA2FE0 /* RDFDocument.swift in Sources */,
+				021DE22A1C5307C10031FAC8 /* IconTextView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0266B5EB1C4D563400CA2FE0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0266B5F41C4D563400CA2FE0 /* OntologistTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0266B5F61C4D563400CA2FE0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0266B5FF1C4D563400CA2FE0 /* OntologistUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		02C84D331C64EB0F001AE84F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				02C84D461C64EE2E001AE84F /* ClassTypeEditor.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		02C84D501C64F1B8001AE84F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				02C84D721C64F1C6001AE84F /* TypeEditorPlugin.swift in Sources */,
+				02C84D791C64F2FC001AE84F /* PluginsManager.swift in Sources */,
+				02C84D7B1C653765001AE84F /* Plugin.swift in Sources */,
+				02C84D731C64F1CA001AE84F /* TypeIconsPlugin.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		02C84D5A1C64F1B8001AE84F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				02C84D661C64F1B8001AE84F /* OntologistPluginsTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		0266B5F11C4D563400CA2FE0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0266B5DB1C4D563400CA2FE0 /* Ontologist */;
+			targetProxy = 0266B5F01C4D563400CA2FE0 /* PBXContainerItemProxy */;
+		};
+		0266B5FC1C4D563400CA2FE0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0266B5DB1C4D563400CA2FE0 /* Ontologist */;
+			targetProxy = 0266B5FB1C4D563400CA2FE0 /* PBXContainerItemProxy */;
+		};
+		02C84D611C64F1B8001AE84F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 02C84D541C64F1B8001AE84F /* OntologistPlugins */;
+			targetProxy = 02C84D601C64F1B8001AE84F /* PBXContainerItemProxy */;
+		};
+		02C84D631C64F1B8001AE84F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0266B5DB1C4D563400CA2FE0 /* Ontologist */;
+			targetProxy = 02C84D621C64F1B8001AE84F /* PBXContainerItemProxy */;
+		};
+		02C84D691C64F1B8001AE84F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 02C84D541C64F1B8001AE84F /* OntologistPlugins */;
+			targetProxy = 02C84D681C64F1B8001AE84F /* PBXContainerItemProxy */;
+		};
+		02C84D771C64F233001AE84F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 02C84D541C64F1B8001AE84F /* OntologistPlugins */;
+			targetProxy = 02C84D761C64F233001AE84F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		0266B5E71C4D563400CA2FE0 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0266B5E81C4D563400CA2FE0 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		0266B6011C4D563400CA2FE0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		0266B6021C4D563400CA2FE0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		0266B6041C4D563400CA2FE0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				INFOPLIST_FILE = Ontologist/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.lapsedpacifist.Ontologist;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		0266B6051C4D563400CA2FE0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				INFOPLIST_FILE = Ontologist/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.lapsedpacifist.Ontologist;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		0266B6071C4D563400CA2FE0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = OntologistTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.lapsedpacifist.OntologistTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Ontologist.app/Contents/MacOS/Ontologist";
+			};
+			name = Debug;
+		};
+		0266B6081C4D563400CA2FE0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = OntologistTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.lapsedpacifist.OntologistTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Ontologist.app/Contents/MacOS/Ontologist";
+			};
+			name = Release;
+		};
+		0266B60A1C4D563400CA2FE0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = OntologistUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.lapsedpacifist.OntologistUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = Ontologist;
+				USES_XCTRUNNER = YES;
+			};
+			name = Debug;
+		};
+		0266B60B1C4D563400CA2FE0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = OntologistUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.lapsedpacifist.OntologistUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = Ontologist;
+				USES_XCTRUNNER = YES;
+			};
+			name = Release;
+		};
+		02C84D3A1C64EB0F001AE84F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = ClassType/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.lapsedpacifist.ClassType;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "ClassType/ClassType-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				WRAPPER_EXTENSION = plugin;
+			};
+			name = Debug;
+		};
+		02C84D3B1C64EB0F001AE84F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = ClassType/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.lapsedpacifist.ClassType;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "ClassType/ClassType-Bridging-Header.h";
+				WRAPPER_EXTENSION = plugin;
+			};
+			name = Release;
+		};
+		02C84D6D1C64F1B8001AE84F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				INFOPLIST_FILE = OntologistPlugins/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.lapsedpacifist.OntologistPlugins;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		02C84D6E1C64F1B8001AE84F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				INFOPLIST_FILE = OntologistPlugins/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.lapsedpacifist.OntologistPlugins;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		02C84D701C64F1B8001AE84F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = OntologistPluginsTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.lapsedpacifist.OntologistPluginsTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Ontologist.app/Contents/MacOS/Ontologist";
+			};
+			name = Debug;
+		};
+		02C84D711C64F1B8001AE84F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = OntologistPluginsTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.lapsedpacifist.OntologistPluginsTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Ontologist.app/Contents/MacOS/Ontologist";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		0266B5D71C4D563400CA2FE0 /* Build configuration list for PBXProject "Ontologist" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0266B6011C4D563400CA2FE0 /* Debug */,
+				0266B6021C4D563400CA2FE0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0266B6031C4D563400CA2FE0 /* Build configuration list for PBXNativeTarget "Ontologist" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0266B6041C4D563400CA2FE0 /* Debug */,
+				0266B6051C4D563400CA2FE0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0266B6061C4D563400CA2FE0 /* Build configuration list for PBXNativeTarget "OntologistTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0266B6071C4D563400CA2FE0 /* Debug */,
+				0266B6081C4D563400CA2FE0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0266B6091C4D563400CA2FE0 /* Build configuration list for PBXNativeTarget "OntologistUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0266B60A1C4D563400CA2FE0 /* Debug */,
+				0266B60B1C4D563400CA2FE0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		02C84D3C1C64EB0F001AE84F /* Build configuration list for PBXNativeTarget "ClassType" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				02C84D3A1C64EB0F001AE84F /* Debug */,
+				02C84D3B1C64EB0F001AE84F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		02C84D6C1C64F1B8001AE84F /* Build configuration list for PBXNativeTarget "OntologistPlugins" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				02C84D6D1C64F1B8001AE84F /* Debug */,
+				02C84D6E1C64F1B8001AE84F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		02C84D6F1C64F1B8001AE84F /* Build configuration list for PBXNativeTarget "OntologistPluginsTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				02C84D701C64F1B8001AE84F /* Debug */,
+				02C84D711C64F1B8001AE84F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0266B5D41C4D563400CA2FE0 /* Project object */;
+}

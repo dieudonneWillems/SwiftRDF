@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:Ontologist/Ontologist.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:SwiftRDF-Tutorial.playground">
    </FileRef>
    <FileRef
@@ -31,6 +34,22 @@
       <Group
          location = "container:"
          name = "model">
+         <Group
+            location = "container:"
+            name = "indexes">
+            <FileRef
+               location = "group:source code/model/IndexedGraph.swift">
+            </FileRef>
+            <FileRef
+               location = "group:source code/model/indexes/Index.swift">
+            </FileRef>
+            <FileRef
+               location = "group:source code/model/indexes/HierarchyIndex.swift">
+            </FileRef>
+            <FileRef
+               location = "group:source code/model/indexes/InstanceIndex.swift">
+            </FileRef>
+         </Group>
          <FileRef
             location = "group:source code/model/Resource.swift">
          </FileRef>

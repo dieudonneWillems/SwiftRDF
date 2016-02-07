@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9531"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="RDFNavigation" customModule="Ontologist" customModuleProvider="target"/>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView id="c22-O7-iKe" customClass="FileView" customModule="Ontologist" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="215" height="29"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="SVJ-vL-15I">
+                    <rect key="frame" x="0.0" y="1" width="24" height="24"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="24" id="MM9-jB-XhG"/>
+                    </constraints>
+                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="vye-7J-Pat"/>
+                </imageView>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="r5e-mp-SLd">
+                    <rect key="frame" x="30" y="12" width="187" height="17"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="17" id="NcH-J4-XLT"/>
+                    </constraints>
+                    <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="File name" id="AA7-Fq-1pK">
+                        <font key="font" metaFont="systemSemibold" size="12"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="2ce-4v-ohE">
+                    <rect key="frame" x="30" y="-1" width="187" height="14"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="14" id="odU-IP-mDr"/>
+                    </constraints>
+                    <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="1200 Statements" id="uXB-4g-MJh">
+                        <font key="font" metaFont="miniSystem"/>
+                        <color key="textColor" name="headerColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <imageView translatesAutoresizingMaskIntoConstraints="NO" id="ZcD-Jf-S6M">
+                    <rect key="frame" x="3" y="3" width="22" height="22"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="22" id="FbK-fc-esP"/>
+                    </constraints>
+                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyDown" image="rdffile-sidebar" id="QCx-ff-U0a"/>
+                </imageView>
+            </subviews>
+            <constraints>
+                <constraint firstItem="2ce-4v-ohE" firstAttribute="trailing" secondItem="r5e-mp-SLd" secondAttribute="trailing" id="Cjv-37-kSS"/>
+                <constraint firstItem="SVJ-vL-15I" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" constant="4" id="K6v-qg-zwE"/>
+                <constraint firstItem="r5e-mp-SLd" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" id="NuH-Pc-OCW"/>
+                <constraint firstItem="2ce-4v-ohE" firstAttribute="leading" secondItem="ZcD-Jf-S6M" secondAttribute="trailing" constant="7" id="NyU-eh-N5o"/>
+                <constraint firstItem="2ce-4v-ohE" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" constant="16" id="OqF-U6-IhZ"/>
+                <constraint firstAttribute="trailing" secondItem="r5e-mp-SLd" secondAttribute="trailing" id="QvX-Dn-v3Q"/>
+                <constraint firstItem="2ce-4v-ohE" firstAttribute="leading" secondItem="r5e-mp-SLd" secondAttribute="leading" id="dgb-pf-oH5"/>
+                <constraint firstItem="r5e-mp-SLd" firstAttribute="leading" secondItem="SVJ-vL-15I" secondAttribute="trailing" constant="8" symbolic="YES" id="g03-9O-Wyh"/>
+                <constraint firstItem="SVJ-vL-15I" firstAttribute="top" secondItem="ZcD-Jf-S6M" secondAttribute="top" id="nWs-Zb-06H"/>
+                <constraint firstItem="ZcD-Jf-S6M" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="3" id="nm3-bn-Ru0"/>
+                <constraint firstItem="SVJ-vL-15I" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" id="sR8-Bh-M0R"/>
+                <constraint firstAttribute="bottom" secondItem="SVJ-vL-15I" secondAttribute="bottom" constant="1" id="veA-Xt-hee"/>
+            </constraints>
+            <connections>
+                <outlet property="fileIcon" destination="SVJ-vL-15I" id="cCU-tZ-sY6"/>
+                <outlet property="fileName" destination="r5e-mp-SLd" id="Bf8-Z8-BWl"/>
+                <outlet property="numberOfStatements" destination="2ce-4v-ohE" id="jAf-L0-0Db"/>
+            </connections>
+            <point key="canvasLocation" x="166.5" y="-18.5"/>
+        </customView>
+    </objects>
+    <resources>
+        <image name="rdffile-sidebar" width="32" height="39"/>
+    </resources>
+</document>

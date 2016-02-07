@@ -23,13 +23,13 @@ public class Graph {
      */
     public let name : Resource?
     
-    private var statements = [Statement]()
+    public private(set) var statements = [Statement]()
     
     /**
      The subscript of the graph returns the statement at the specified index in the list of statements 
      contained by the `Graph`.
      */
-    subscript(index : Int) -> Statement {
+    public subscript(index : Int) -> Statement {
         get {
             assert( index >= 0 && index < statements.count, "Index \(index) is out of bounds [0,\(statements.count)).")
             return statements[index]
@@ -55,18 +55,10 @@ public class Graph {
         return Array(namespaces.keys)
     }
     
-    // MARK: Access to resources in the `Graph`
-    
     /**
-     The resources used in this `Graph` excluding properties (predicates).
+     The named graphs that are part of this graph.
      */
-    public private(set) var resources = [Resource]()
-    
-    /**
-     The different properties used in the `Graph`.
-     */
-    public private(set) var properties = [URI]()
-    
+    public private(set) var namedGraphs = [Resource]()
     
     
     // MARK: Initialisers
@@ -100,7 +92,7 @@ public class Graph {
             statement.addToNamedGraph(name!)
         }
         statements.append(statement)
-        extractDistinctResourcesAndProperties(statement)
+        extractNamedGraphs(statement)
     }
     
     /**
@@ -163,36 +155,36 @@ public class Graph {
      predicate value for it to be deleted.
      - parameter object: The object of the statements to be deleted, or nill if the statement can have any
      object value for it to be deleted.
+     - returns: The statements being removed from the Graph.
      */
-    public func deleteStatements(subject: Resource?, predicate: Resource?, object: Value?){
+    public func deleteStatements(subject: Resource?, predicate: Resource?, object: Value?) -> [Statement] {
         let graph = subGraph(subject, predicate: predicate, object: object)
         let count = graph.count
+        var deletedStatements = [Statement]()
         for var index = 0; index < count; index++ {
             let mindex = statements.indexOf(graph[index])
+            deletedStatements.append(graph[index])
             statements.removeAtIndex(mindex!)
         }
-        resources.removeAll()
-        properties.removeAll()
+        namedGraphs.removeAll()
         for var index = 0; index < self.count; index++ {
-            extractDistinctResourcesAndProperties(self[index])
+            extractNamedGraphs(self[index])
         }
+        return deletedStatements
     }
     
+    
+    
     /**
-     Checks the statement for resources (in subject or object) and properties that have not been defined before and
-     if so puts these in the `resources` or `properties` array.
+     Checks the statement for named graphs and if so adds the named graph to the set of named graphs in this Graph.
      
-     - parameter statement: The statement to be checked for distinct resources or properties.
+     - parameter statement: The statement to be checked for named graphs.
      */
-    private func extractDistinctResourcesAndProperties(statement : Statement) {
-        if !resources.contains({$0 == statement.subject}){
-            resources.append(statement.subject)
-        }
-        if (statement.object as? Resource) != nil && !resources.contains({$0 == statement.object}){
-            resources.append((statement.object as! Resource))
-        }
-        if !properties.contains({$0 == statement.predicate}){
-            properties.append(statement.predicate)
+    private func extractNamedGraphs(statement : Statement) {
+        for ng in statement.namedGraphs {
+            if !namedGraphs.contains({$0 == ng}){
+                namedGraphs.append(ng)
+            }
         }
     }
     
@@ -319,7 +311,7 @@ public class Graph {
             prefix = "ns"
         }
         var count = 0
-        while namespaces[prefix] != nil {
+        while namespaces[prefix] != nil && namespaces[prefix] != namespaceURI {
             count = count + 1
             prefix = "\(prefix)\(count)"
         }
