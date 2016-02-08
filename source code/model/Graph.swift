@@ -23,6 +23,11 @@ public class Graph {
      */
     public let name : Resource?
     
+    /**
+     The base URI of the graph.
+     */
+    public var baseURI : URI?
+    
     public private(set) var statements = [Statement]()
     
     /**
@@ -307,7 +312,10 @@ public class Graph {
      */
     public func addNamespace(suggestedPrefix: String, namespaceURI: String) -> String? {
         var prefix = suggestedPrefix
-        if !prefix.validNCName {
+        if !prefix.validNCName && prefix != "" {
+            prefix = "ns"
+        }
+        if prefix == "" && namespaces[prefix] != nil && namespaces[prefix] != namespaceURI {
             prefix = "ns"
         }
         var count = 0

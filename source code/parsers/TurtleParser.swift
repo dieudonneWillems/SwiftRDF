@@ -28,6 +28,7 @@ public class TurtleParser : NSObject, RDFParser {
     
     /// Used during parsing
     private var contentString : String
+    private var prefixes = [String : URI]()
     
     /**
      Initialises a parser with the contents of the RDF file reference by the given
@@ -88,9 +89,11 @@ public class TurtleParser : NSObject, RDFParser {
             NSThread.sleepForTimeInterval(0.1)
         }
         running = true
+        prefixes.removeAll()
         
         if baseURI != nil {
             currentGraph = Graph(name: baseURI!)
+            currentGraph?.baseURI = baseURI!
         }else {
             currentGraph = Graph()
         }
@@ -115,16 +118,94 @@ public class TurtleParser : NSObject, RDFParser {
         var inComment = false
         var inURI = false
         var inLiteralChar : Character? = nil
+        var line = ""
+        var baseURISet = false
         while index < contentString.endIndex {
+            var advanced = false
             let c = contentString[index]
             
             if c == "#" && !inURI {
                 inComment = true
             } else if c == "\n" {
+                if inComment {
+                    startStrIndex = index.advancedBy(1)
+                }
                 inComment = false
             }
             
             if !inComment {
+                line.append(c)
+                if c == "\n" {
+                    line = line.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+                    var isPrefixNotBase = false
+                    var declrange :Range<String.Index>? = nil
+                    if line.hasPrefix("@prefix") {
+                        declrange = line.rangeOfString("@prefix")
+                        isPrefixNotBase = true
+                    }else if line.hasPrefix("PREFIX") {
+                        declrange = line.rangeOfString("PREFIX")
+                        isPrefixNotBase = true
+                    }else if line.hasPrefix("@PREFIX") {
+                        declrange = line.rangeOfString("@PREFIX")
+                        isPrefixNotBase = true
+                    }else if line.hasPrefix("prefix") {
+                        declrange = line.rangeOfString("prefix")
+                        isPrefixNotBase = true
+                    }else if line.hasPrefix("base") {
+                        declrange = line.rangeOfString("base")
+                        isPrefixNotBase = false
+                    }else if line.hasPrefix("BASE") {
+                        declrange = line.rangeOfString("BASE")
+                        isPrefixNotBase = false
+                    }else if line.hasPrefix("@base") {
+                        declrange = line.rangeOfString("@base")
+                        isPrefixNotBase = false
+                    }else if line.hasPrefix("@BASE") {
+                        declrange = line.rangeOfString("@BASE")
+                        isPrefixNotBase = false
+                    }
+                    if declrange != nil {
+                        let colonrange = line.rangeOfString(":")
+                        var prefix : String?
+                        if colonrange != nil {
+                            let prefixrange = Range<String.Index>(start: declrange!.endIndex, end: colonrange!.startIndex)
+                            prefix = line.substringWithRange(prefixrange).stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+                        }
+                        let openAngleRange = line.rangeOfString("<")
+                        let closedAngleRange = line.rangeOfString(">")
+                        if openAngleRange != nil && closedAngleRange != nil {
+                            let namespaceRange = Range<String.Index>(start: openAngleRange!.endIndex, end: closedAngleRange!.startIndex)
+                            let namespacestr = line.substringWithRange(namespaceRange)
+                            var namespace = URI(string: namespacestr)
+                            if namespace == nil && baseURI != nil {
+                                namespace = URI(namespace: baseURI!.stringValue, localName: namespacestr)
+                            }
+                            if namespace != nil {
+                                if prefix != nil && isPrefixNotBase { // prefix
+                                    currentGraph?.addNamespace(prefix!, namespaceURI: namespace!.stringValue)
+                                    if delegate != nil {
+                                        delegate!.namespaceAdded(self, graph: currentGraph!, prefix: prefix!, namespaceURI: namespace!.stringValue)
+                                    }
+                                    prefixes[prefix!] = namespace!
+                                } else if !isPrefixNotBase { // base URI
+                                    baseURI = namespace!
+                                    if !baseURISet {
+                                        currentGraph?.baseURI = baseURI!
+                                    }
+                                    baseURISet = true
+                                }
+                            } else {
+                                // TODO: throw error
+                            }
+                        } else {
+                            // TODO: throw error
+                        }
+                        currentSubject = nil
+                        currentPredicate = nil
+                        currentObject = nil
+                    }
+                    line = ""
+                }
                 var newValueIsURI = false
                 var range : Range<String.Index>?
                 if c == " " || c == "\t" || c == "\n" {
@@ -133,14 +214,14 @@ public class TurtleParser : NSObject, RDFParser {
                         if startStrIndex < endStrIndex {
                             range = Range<String.Index>(start: startStrIndex, end: endStrIndex)
                         }
-                        startStrIndex = index
+                        startStrIndex = index.advancedBy(1)
                     }
                 }else if (c == "." || c == ";" || c == ",") && inLiteralChar == nil && !inURI {
                     endStrIndex = index
                     if startStrIndex < endStrIndex {
                         range = Range<String.Index>(start: startStrIndex, end: endStrIndex)
                     }
-                    startStrIndex = index
+                    startStrIndex = index.advancedBy(1)
                 }else if c == "\"" && prevc != "\\" && !inURI {
                     if inLiteralChar == nil { // start double quotes
                         inLiteralChar = c
@@ -153,19 +234,20 @@ public class TurtleParser : NSObject, RDFParser {
                     } else if inLiteralChar == "\'" { // close single quotes
                         inLiteralChar = nil
                     }
-                }else if c == "<" &&  inLiteralChar == nil {
+                }else if c == "<" && prevc != "\\" &&  inLiteralChar == nil {
                     if !inURI {
                         inURI = true
                         startStrIndex = index.advancedBy(1)
                     }else {
                         // TODO: Throw error
                     }
-                }else if c == ">" &&  inLiteralChar == nil {
+                }else if c == ">" && prevc != "\\" &&  inLiteralChar == nil {
                     if inURI {
                         inURI = false
                         endStrIndex = index
                         range = Range<String.Index>(start: startStrIndex, end: endStrIndex)
                         index = index.advancedBy(1)
+                        advanced = true
                         startStrIndex = index
                         newValueIsURI = true
                     }else {
@@ -184,12 +266,26 @@ public class TurtleParser : NSObject, RDFParser {
                             currentSubject = resourceFromString(curStr)
                         }
                     } else if currentPredicate == nil {
-                        currentPredicate = URIFromString(curStr)
+                        if newValueIsURI {
+                            currentPredicate = URIFromString(curStr)
+                        } else if curStr == "a" {
+                            currentPredicate = RDF.type
+                        } else { // should be prefixed, i.e. qname
+                            let resource = resourceFromString(curStr)
+                            if (resource as? URI) != nil {
+                                currentPredicate = (resource as! URI)
+                            }else {
+                                // TODO: throw error
+                            }
+                        }
                     } else if currentObject == nil {
                         if newValueIsURI {
                             currentObject = URIFromString(curStr)
                         } else {
-                            currentObject = valueFromString(curStr)
+                            currentObject = resourceFromString(curStr)
+                            if currentObject == nil {
+                                currentObject = valueFromString(curStr)
+                            }
                         }
                     }
                     
@@ -199,21 +295,24 @@ public class TurtleParser : NSObject, RDFParser {
                         if delegate != nil {
                             delegate?.statementAdded(self, graph: currentGraph!, statement: statement)
                         }
-                    }
-                    if c == "." && inLiteralChar == nil && !inURI { // new subject expected
-                        currentSubject = nil
-                        currentPredicate = nil
-                        currentObject = nil
-                    }else if c == ";" && inLiteralChar == nil && !inURI { // new predicate expected
-                        currentPredicate = nil
-                        currentObject = nil
-                    }else if (c == "," && inLiteralChar == nil && !inURI) || newValueIsURI { // new object expected
                         currentObject = nil
                     }
                 }
+                if c == "." && inLiteralChar == nil && !inURI { // new subject expected
+                    currentSubject = nil
+                    currentPredicate = nil
+                    currentObject = nil
+                }else if c == ";" && inLiteralChar == nil && !inURI { // new predicate expected
+                    currentPredicate = nil
+                    currentObject = nil
+                }else if (c == "," && inLiteralChar == nil && !inURI) || newValueIsURI { // new object expected
+                    currentObject = nil
+                }
             }
             
-            index = index.advancedBy(1)
+            if !advanced {
+                index = index.advancedBy(1)
+            }
             prevc = c
         }
         if delegate != nil {
@@ -222,18 +321,56 @@ public class TurtleParser : NSObject, RDFParser {
     }
     
     private func resourceFromString(string : String) -> Resource? {
-        print("resource from string: \(string)")
+        let trimmed = string.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+        print("resource from string: '\(trimmed)'")
+        if trimmed.hasPrefix("_:") { // blank node
+            let prefrng = trimmed.rangeOfString("_:")
+            let identifier = trimmed.substringFromIndex(prefrng!.endIndex)
+            return BlankNode(identifier: identifier)
+        } else if trimmed.isQualifiedName { // should be qname
+            let prefix = trimmed.qualifiedNamePrefix
+            let localname = trimmed.qualifiedNameLocalPart
+            if prefix != nil {
+                let namespace = prefixes[prefix!]
+                if namespace != nil {
+                    let uri = URI(namespace: namespace!.stringValue, localName: localname!)
+                    return uri
+                }else{
+                    let uri = currentGraph?.createURIFromQualifiedName(trimmed)
+                    return uri
+                }
+            }
+        } else if trimmed.hasPrefix(":") { // qname with empty prefix
+            let localname = trimmed.substringFromIndex(trimmed.startIndex.advancedBy(1))
+            let namespace = prefixes[""]
+            if namespace != nil {
+                let uri = URI(namespace: namespace!.stringValue, localName: localname)
+                return uri
+            }
+        }
         return nil
     }
     
     private func URIFromString(string : String) -> URI? {
-        print("URI from string: \(string)")
-        return URI(string: string)
+        let trimmed = string.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+        if trimmed.characters.count > 0 {
+            print("URI from string: '\(trimmed)'")
+            var uri = URI(string: trimmed)
+            if uri == nil  && baseURI != nil {
+                uri = URI(namespace: baseURI!.stringValue, localName: trimmed)
+            }
+            return uri
+        }
+        return nil
     }
     
     private func valueFromString(string : String) -> Value? {
-        print("value from string: \(string)")
-        let literal = Literal(sparqlString: string)
-        return literal
+        let trimmed = string.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+        if trimmed.characters.count > 0 {
+            print("value from string: '\(trimmed)'")
+            let literal = Literal(sparqlString: trimmed)
+            return literal
+        }
+        return nil
     }
 }
