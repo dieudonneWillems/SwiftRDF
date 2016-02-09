@@ -254,6 +254,30 @@ class TurtleParserTests: XCTestCase {
         }
     }
     
+    func testExample10() {
+        let rdf = "@prefix foaf: <http://xmlns.com/foaf/0.1/> . \n" +
+                "<http://example.org/#green-goblin> foaf:name \"Green Goblin\" .\n" +
+                "<http://example.org/#spiderman> foaf:name \"Spiderman\" ."
+        let data = rdf.dataUsingEncoding(NSUTF8StringEncoding)
+        let name = URI(string: "https://www.w3.org/TR/turtle/example-10")
+        let parser = TurtleParser(data: data!, baseURI: name!)
+        parser.delegate = TestRDFParserDelegate()
+        let graph = parser.parse()
+        XCTAssertEqual(1, graph?.namespaces.count)
+        XCTAssertEqual(2, graph?.statements.count)
+        if graph?.namespaces.count == 1 {
+            XCTAssertEqual("http://xmlns.com/foaf/0.1/", graph!.namespaceForPrefix("foaf"))
+        }
+        if graph?.statements.count == 2 {
+            XCTAssertTrue(graph![0].subject == URI(string: "http://example.org/#green-goblin")!)
+            XCTAssertTrue(graph![0].predicate == URI(string: "http://xmlns.com/foaf/0.1/name")!)
+            XCTAssertTrue(graph![0].object == Literal(sparqlString: "\"Green Goblin\"^^xsd:string")!)
+            XCTAssertTrue(graph![1].subject == URI(string: "http://example.org/#spiderman")!)
+            XCTAssertTrue(graph![1].predicate == URI(string: "http://xmlns.com/foaf/0.1/name")!)
+            XCTAssertTrue(graph![1].object == Literal(sparqlString: "\"Spiderman\"^^xsd:string")!)
+        }
+    }
+    
     
     
     func printGraph(graph : Graph){
