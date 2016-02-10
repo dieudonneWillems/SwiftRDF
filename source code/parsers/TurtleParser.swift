@@ -120,6 +120,8 @@ public class TurtleParser : NSObject, RDFParser {
         var inLiteralChar : Character? = nil
         var line = ""
         var baseURISet = false
+        var inDatatypeURI = false
+        var literalString : String? = nil
         while index < contentString.endIndex {
             var advanced = false
             let c = contentString[index]
@@ -134,6 +136,10 @@ public class TurtleParser : NSObject, RDFParser {
             }
             
             if !inComment {
+                if literalString != nil {
+                    literalString?.append(c)
+                    print("\(literalString)")
+                }
                 line.append(c)
                 if c == "\n" {
                     line = line.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
@@ -225,24 +231,33 @@ public class TurtleParser : NSObject, RDFParser {
                 }else if c == "\"" && prevc != "\\" && !inURI {
                     if inLiteralChar == nil { // start double quotes
                         inLiteralChar = c
+                        if literalString == nil {
+                            literalString = "\(c)"
+                        }
                     } else if inLiteralChar == "\"" { // close double quotes
                         inLiteralChar = nil
                     }
                 }else if c == "\'" && prevc != "\\" && !inURI {
                     if inLiteralChar == nil { // start single quotes
                         inLiteralChar = c
+                        if literalString == nil {
+                            literalString = "\(c)"
+                        }
                     } else if inLiteralChar == "\'" { // close single quotes
                         inLiteralChar = nil
                     }
                 }else if c == "<" && prevc != "\\" &&  inLiteralChar == nil {
-                    if !inURI {
+                    if !inURI && prevc != "^" {
                         inURI = true
                         startStrIndex = index.advancedBy(1)
+                    }else if !inURI && prevc == "^" {
+                        inURI = true
+                        inDatatypeURI = true
                     }else {
                         // TODO: Throw error
                     }
                 }else if c == ">" && prevc != "\\" &&  inLiteralChar == nil {
-                    if inURI {
+                    if inURI && !inDatatypeURI {
                         inURI = false
                         endStrIndex = index
                         range = Range<String.Index>(start: startStrIndex, end: endStrIndex)
@@ -250,6 +265,9 @@ public class TurtleParser : NSObject, RDFParser {
                         advanced = true
                         startStrIndex = index
                         newValueIsURI = true
+                    }else if inURI && inDatatypeURI  {
+                        inURI = false
+                        inDatatypeURI = false
                     }else {
                         // TODO: Throw error
                     }
@@ -284,7 +302,12 @@ public class TurtleParser : NSObject, RDFParser {
                         } else {
                             currentObject = resourceFromString(curStr)
                             if currentObject == nil {
-                                currentObject = valueFromString(curStr)
+                                if literalString == nil {
+                                    currentObject = valueFromString(curStr)
+                                }else {
+                                    currentObject = valueFromString(literalString!)
+                                    literalString = nil
+                                }
                             }
                         }
                     }
@@ -327,18 +350,19 @@ public class TurtleParser : NSObject, RDFParser {
             let prefrng = trimmed.rangeOfString("_:")
             let identifier = trimmed.substringFromIndex(prefrng!.endIndex)
             return BlankNode(identifier: identifier)
-        } else if trimmed.isQualifiedName { // should be qname
-            let prefix = trimmed.qualifiedNamePrefix
-            let localname = trimmed.qualifiedNameLocalPart
-            if prefix != nil {
-                let namespace = prefixes[prefix!]
-                if namespace != nil {
-                    let uri = URI(namespace: namespace!.stringValue, localName: localname!)
-                    return uri
-                }else{
-                    let uri = currentGraph?.createURIFromQualifiedName(trimmed)
-                    return uri
-                }
+        } else if trimmed.isPrefixedName { // should be qname
+            var prefix = trimmed.prefixedNamePrefix
+            let localname = trimmed.prefixedNameLocalPart
+            if prefix == nil {
+                prefix = ""
+            }
+            let namespace = prefixes[prefix!]
+            if namespace != nil {
+                let uri = URI(namespace: namespace!.stringValue, localName: localname!)
+                return uri
+            }else{
+                let uri = currentGraph?.createURIFromPrefixedName(trimmed)
+                return uri
             }
         } else if trimmed.hasPrefix(":") { // qname with empty prefix
             let localname = trimmed.substringFromIndex(trimmed.startIndex.advancedBy(1))

@@ -592,7 +592,7 @@ internal class XMLtoRDFParser : NSObject, NSXMLParserDelegate {
             let attributeDict = currentElements.last!.attributes
             for attribute in attributeDict.keys {
                 if !self.attributeIsRDFAttribute(attribute) {
-                    let predicate = graph!.createURIFromQualifiedName(attribute)
+                    let predicate = graph!.createURIFromPrefixedName(attribute)
                     let parseType = attributeValue(attributeDict, nameURI: RDF.parseType)
                     if predicate != nil && parseType != "Resource" { // property attributes are not allowed in property-and-node elements
                         let stringValue = attributeDict[attribute]
@@ -786,7 +786,7 @@ internal class XMLtoRDFParser : NSObject, NSXMLParserDelegate {
      - returns: The translated URI string or the specified name itself.
      */
     private func URIStringOrName(possibleQName : String) -> String {
-        var uri = graph!.createURIFromQualifiedName(possibleQName)
+        var uri = graph!.createURIFromPrefixedName(possibleQName)
         if uri != nil {
             return uri!.stringValue
         }

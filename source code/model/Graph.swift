@@ -373,17 +373,17 @@ public class Graph {
     }
     
     /**
-     Returns the URI specified by the qualified name using the namespace defined for this
-     `Graph`, or `nil` if the specified string was not a qualified name or if the qualified
+     Returns the URI specified by the prefixed name using the namespace defined for this
+     `Graph`, or `nil` if the specified string was not a prefixed name or if the prefixed
      name could not be converted to a URI.
      
-     - parameter qualifiedName: The qualified name specifying the URI given the namespace defined
+     - parameter prefixedName: The prefixed name specifying the URI given the namespace defined
      in this `Graph`.
-     - returns: The URI, or `nil` if the qualified name could not be converted to a URI.
+     - returns: The URI, or `nil` if the prefixed name could not be converted to a URI.
      */
-    public func createURIFromQualifiedName(qualifiedName : String) -> URI? {
-        if qualifiedName.isQualifiedName {
-            let prefix = qualifiedName.qualifiedNamePrefix
+    public func createURIFromPrefixedName(prefixedName : String) -> URI? {
+        if prefixedName.isPrefixedName {
+            let prefix = prefixedName.prefixedNamePrefix
             if prefix == nil {
                 return nil
             }
@@ -391,7 +391,7 @@ public class Graph {
             if nsURI == nil {
                 return nil
             }
-            let localname = qualifiedName.qualifiedNameLocalPart
+            let localname = prefixedName.prefixedNameLocalPart
             if localname == nil {
                 return nil
             }

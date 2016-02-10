@@ -21,8 +21,8 @@ import Foundation
  */
 public class Literal: Value{
     
-    // regular expression: ^((("(.*)")|('([\w\s]*)'))((@(\w*(-\w*)?))(\^\^xsd:(string))?|\^\^(\w+:(\w*)|<(.*)>))?|([+-]?[\d]*)|([+-]?[\d\.]*)|([+-]?[\d\.]*[eE][+-]?\d*)|(true|false))$
-    private static let literalPattern = "^(((\"(.*)\")|('([\\w\\s]*)'))((@(\\w*(-\\w*)?))(\\^\\^xsd:(string))?|\\^\\^(\\w+:(\\w*)|<(.*)>))?|([+-]?[\\d]*)|([+-]?[\\d\\.]*)|([+-]?[\\d\\.]*[eE][+-]?\\d*)|(true|false))$"
+    // regular expression: ^((("(.*)")|('(.*)'))((@(\w*(-\w*)?))(\^\^xsd:(string))?|\^\^(\w+:(\w*)|<(.*)>))?|([+-]?[\d]*)|([+-]?[\d\.]*)|([+-]?[\d\.]*[eE][+-]?\d*)|(true|false))$
+    private static let literalPattern = "^(((\"(.*)\")|('(.*)'))((@(\\w*(-\\w*)?))(\\^\\^xsd:(string))?|\\^\\^(\\w+:(\\w*)|<(.*)>))?|([+-]?[\\d]*)|([+-]?[\\d\\.]*)|([+-]?[\\d\\.]*[eE][+-]?\\d*)|(true|false))$"
     private static var _literalRegularExpression : NSRegularExpression?
     
     private static var regularExpression : NSRegularExpression {
@@ -531,152 +531,150 @@ public class Literal: Value{
      - returns: The initialised literal, or nil when the value was not valid for the provided datatype.
      */
     public convenience init?(sparqlString : String){
-        do {
-            let regex = try NSRegularExpression(pattern: Literal.literalPattern, options: [.DotMatchesLineSeparators])
-            let matches = regex.matchesInString(sparqlString, options: [], range: NSMakeRange(0, sparqlString.characters.count)) as Array<NSTextCheckingResult>
-            if matches.count == 0 {
-                self.init(stringValue : sparqlString)
-            }else{
-                let match = matches[0]
-                var dtypeStr : String? = nil
-                var dtypeURI : String? = nil
-                var langStr : String? = nil
-                let nsstring = sparqlString as NSString
-                var varStr : String = sparqlString
-                if match.rangeAtIndex(4).location != NSNotFound {
-                    varStr = nsstring.substringWithRange(match.rangeAtIndex(4)) as String
-                }
-                if match.rangeAtIndex(12).location != NSNotFound {
-                    dtypeStr = nsstring.substringWithRange(match.rangeAtIndex(12)) as String
-                } else if match.rangeAtIndex(15).location != NSNotFound {
-                    dtypeURI = nsstring.substringWithRange(match.rangeAtIndex(15)) as String
-                } else if match.rangeAtIndex(13).location != NSNotFound {
-                    dtypeStr = nsstring.substringWithRange(match.rangeAtIndex(13)) as String
-                }
-                if match.rangeAtIndex(9).location != NSNotFound {
-                    langStr = nsstring.substringWithRange(match.rangeAtIndex(9)) as String
-                    dtypeStr = "string"
-                }
-                var datatypeFS : Datatype? = nil
-                if dtypeURI != nil {
-                    datatypeFS = Datatype(uri: dtypeURI!, derivedFromDatatype: nil, isListDataType: false)
-                }else if dtypeStr != nil {
-                    if dtypeStr! == "xsd:string" {
-                        datatypeFS = XSD.string
-                        varStr = varStr.stringByUnescapingQuotes()
-                    } else if dtypeStr! == "xsd:duration" {
-                        datatypeFS = XSD.duration
-                    } else if dtypeStr! == "xsd:decimal" {
-                        datatypeFS = XSD.decimal
-                    } else if dtypeStr! == "xsd:boolean" {
-                        datatypeFS = XSD.boolean
-                    } else if dtypeStr! == "xsd:integer" {
-                        datatypeFS = XSD.integer
-                    } else if dtypeStr! == "xsd:long" {
-                        datatypeFS = XSD.long
-                    } else if dtypeStr! == "xsd:int" {
-                        datatypeFS = XSD.int
-                    } else if dtypeStr! == "xsd:short" {
-                        datatypeFS = XSD.short
-                    } else if dtypeStr! == "xsd:byte" {
-                        datatypeFS = XSD.byte
-                    } else if dtypeStr! == "xsd:unsignedLong" {
-                        datatypeFS = XSD.unsignedLong
-                    } else if dtypeStr! == "xsd:unsignedInt" {
-                        datatypeFS = XSD.unsignedInt
-                    } else if dtypeStr! == "xsd:unsignedShort" {
-                        datatypeFS = XSD.unsignedShort
-                    } else if dtypeStr! == "xsd:unsignedByte" {
-                        datatypeFS = XSD.unsignedByte
-                    } else if dtypeStr! == "xsd:nonNegativeInteger" {
-                        datatypeFS = XSD.nonNegativeInteger
-                    } else if dtypeStr! == "xsd:positiveInteger" {
-                        datatypeFS = XSD.positiveInteger
-                    } else if dtypeStr! == "xsd:nonPositiveInteger" {
-                        datatypeFS = XSD.nonPositiveInteger
-                    } else if dtypeStr! == "xsd:negativeInteger" {
-                        datatypeFS = XSD.negativeInteger
-                    } else if dtypeStr! == "xsd:double" {
-                        datatypeFS = XSD.double
-                    } else if dtypeStr! == "xsd:float" {
-                        datatypeFS = XSD.float
-                    } else if dtypeStr! == "xsd:dateTime" {
-                        datatypeFS = XSD.dateTime
-                    } else if dtypeStr! == "xsd:date" {
-                        datatypeFS = XSD.date
-                    } else if dtypeStr! == "xsd:gYearMonth" {
-                        datatypeFS = XSD.gYearMonth
-                    } else if dtypeStr! == "xsd:gYear" {
-                        datatypeFS = XSD.gYear
-                    } else if dtypeStr! == "xsd:time" {
-                        datatypeFS = XSD.time
-                    } else if dtypeStr! == "xsd:gMonthDay" {
-                        datatypeFS = XSD.gMonthDay
-                    } else if dtypeStr! == "xsd:gMonth" {
-                        datatypeFS = XSD.gMonth
-                    } else if dtypeStr! == "xsd:gDay" {
-                        datatypeFS = XSD.gDay
-                    } else if dtypeStr! == "xsd:anyURI" {
-                        datatypeFS = XSD.anyURI
-                    } else if dtypeStr! == "xsd:base64Binary" {
-                        datatypeFS = XSD.base64Binary
-                    } else if dtypeStr! == "xsd:hexBinary" {
-                        datatypeFS = XSD.hexBinary
-                    } else if dtypeStr! == "xsd:token" {
-                        datatypeFS = XSD.token
-                        varStr = varStr.stringByUnescapingQuotes()
-                    } else if dtypeStr! == "xsd:normalizedString" || dtypeStr! == "normalizedString" {
-                        datatypeFS = XSD.normalizedString
-                        varStr = varStr.stringByUnescapingQuotes()
-                    } else if dtypeStr! == "xsd:language" || dtypeStr! == "language" {
-                        datatypeFS = XSD.language
-                        varStr = varStr.stringByUnescapingQuotes()
-                    } else if dtypeStr! == "xsd:Name" || dtypeStr! == "Name" {
-                        datatypeFS = XSD.Name
-                        varStr = varStr.stringByUnescapingQuotes()
-                    } else if dtypeStr! == "xsd:NCName" || dtypeStr! == "NCName" {
-                        datatypeFS = XSD.NCName
-                        varStr = varStr.stringByUnescapingQuotes()
-                    } else if dtypeStr! == "xsd:ID" || dtypeStr! == "ID" {
-                        datatypeFS = XSD.ID
-                    } else if dtypeStr! == "xsd:IDREF" || dtypeStr! == "IDREF" {
-                        datatypeFS = XSD.IDREF
-                    } else if dtypeStr! == "xsd:IDREFS" || dtypeStr! == "IDREFS" {
-                        datatypeFS = XSD.IDREFS
-                    } else if dtypeStr! == "xsd:NMTOKEN" || dtypeStr! == "NMTOKEN" {
-                        datatypeFS = XSD.NMTOKEN
-                    } else if dtypeStr! == "xsd:NMTOKENS" || dtypeStr! == "NMTOKENS" {
-                        datatypeFS = XSD.NMTOKENS
-                    } else if dtypeStr! == "xsd:QName" || dtypeStr! == "QName" {
-                        datatypeFS = XSD.QName
-                    } else if dtypeStr! == "rdf:XMLLiteral" {
-                        datatypeFS = RDF.XMLLiteral
-                        varStr = varStr.stringByUnescapingQuotes()
-                    } else {
-                        datatypeFS = Datatype(namespace: XSD.namespace(), localName: dtypeStr!, derivedFromDatatype: nil, isListDataType: false)
-                    }
+        let regex = Literal.regularExpression
+        let matches = regex.matchesInString(sparqlString, options: [], range: NSMakeRange(0, sparqlString.characters.count)) as Array<NSTextCheckingResult>
+        if matches.count == 0 {
+            self.init(stringValue : sparqlString)
+        }else{
+            let match = matches[0]
+            var dtypeStr : String? = nil
+            var dtypeURI : String? = nil
+            var langStr : String? = nil
+            let nsstring = sparqlString as NSString
+            var varStr : String = sparqlString
+            if match.rangeAtIndex(4).location != NSNotFound {
+                varStr = nsstring.substringWithRange(match.rangeAtIndex(4)) as String
+            } else if match.rangeAtIndex(6).location != NSNotFound {
+                varStr = nsstring.substringWithRange(match.rangeAtIndex(6)) as String
+            }
+            if match.rangeAtIndex(12).location != NSNotFound {
+                dtypeStr = nsstring.substringWithRange(match.rangeAtIndex(12)) as String
+            } else if match.rangeAtIndex(15).location != NSNotFound {
+                dtypeURI = nsstring.substringWithRange(match.rangeAtIndex(15)) as String
+            } else if match.rangeAtIndex(13).location != NSNotFound {
+                dtypeStr = nsstring.substringWithRange(match.rangeAtIndex(13)) as String
+            }
+            if match.rangeAtIndex(9).location != NSNotFound {
+                langStr = nsstring.substringWithRange(match.rangeAtIndex(9)) as String
+                dtypeStr = "string"
+            }
+            var datatypeFS : Datatype? = nil
+            if dtypeURI != nil {
+                datatypeFS = Datatype(uri: dtypeURI!, derivedFromDatatype: nil, isListDataType: false)
+            }else if dtypeStr != nil {
+                if dtypeStr! == "xsd:string" {
+                    datatypeFS = XSD.string
+                    varStr = varStr.stringByUnescapingQuotes()
+                } else if dtypeStr! == "xsd:duration" {
+                    datatypeFS = XSD.duration
+                } else if dtypeStr! == "xsd:decimal" {
+                    datatypeFS = XSD.decimal
+                } else if dtypeStr! == "xsd:boolean" {
+                    datatypeFS = XSD.boolean
+                } else if dtypeStr! == "xsd:integer" {
+                    datatypeFS = XSD.integer
+                } else if dtypeStr! == "xsd:long" {
+                    datatypeFS = XSD.long
+                } else if dtypeStr! == "xsd:int" {
+                    datatypeFS = XSD.int
+                } else if dtypeStr! == "xsd:short" {
+                    datatypeFS = XSD.short
+                } else if dtypeStr! == "xsd:byte" {
+                    datatypeFS = XSD.byte
+                } else if dtypeStr! == "xsd:unsignedLong" {
+                    datatypeFS = XSD.unsignedLong
+                } else if dtypeStr! == "xsd:unsignedInt" {
+                    datatypeFS = XSD.unsignedInt
+                } else if dtypeStr! == "xsd:unsignedShort" {
+                    datatypeFS = XSD.unsignedShort
+                } else if dtypeStr! == "xsd:unsignedByte" {
+                    datatypeFS = XSD.unsignedByte
+                } else if dtypeStr! == "xsd:nonNegativeInteger" {
+                    datatypeFS = XSD.nonNegativeInteger
+                } else if dtypeStr! == "xsd:positiveInteger" {
+                    datatypeFS = XSD.positiveInteger
+                } else if dtypeStr! == "xsd:nonPositiveInteger" {
+                    datatypeFS = XSD.nonPositiveInteger
+                } else if dtypeStr! == "xsd:negativeInteger" {
+                    datatypeFS = XSD.negativeInteger
+                } else if dtypeStr! == "xsd:double" {
+                    datatypeFS = XSD.double
+                } else if dtypeStr! == "xsd:float" {
+                    datatypeFS = XSD.float
+                } else if dtypeStr! == "xsd:dateTime" {
+                    datatypeFS = XSD.dateTime
+                } else if dtypeStr! == "xsd:date" {
+                    datatypeFS = XSD.date
+                } else if dtypeStr! == "xsd:gYearMonth" {
+                    datatypeFS = XSD.gYearMonth
+                } else if dtypeStr! == "xsd:gYear" {
+                    datatypeFS = XSD.gYear
+                } else if dtypeStr! == "xsd:time" {
+                    datatypeFS = XSD.time
+                } else if dtypeStr! == "xsd:gMonthDay" {
+                    datatypeFS = XSD.gMonthDay
+                } else if dtypeStr! == "xsd:gMonth" {
+                    datatypeFS = XSD.gMonth
+                } else if dtypeStr! == "xsd:gDay" {
+                    datatypeFS = XSD.gDay
+                } else if dtypeStr! == "xsd:anyURI" {
+                    datatypeFS = XSD.anyURI
+                } else if dtypeStr! == "xsd:base64Binary" {
+                    datatypeFS = XSD.base64Binary
+                } else if dtypeStr! == "xsd:hexBinary" {
+                    datatypeFS = XSD.hexBinary
+                } else if dtypeStr! == "xsd:token" {
+                    datatypeFS = XSD.token
+                    varStr = varStr.stringByUnescapingQuotes()
+                } else if dtypeStr! == "xsd:normalizedString" || dtypeStr! == "normalizedString" {
+                    datatypeFS = XSD.normalizedString
+                    varStr = varStr.stringByUnescapingQuotes()
+                } else if dtypeStr! == "xsd:language" || dtypeStr! == "language" {
+                    datatypeFS = XSD.language
+                    varStr = varStr.stringByUnescapingQuotes()
+                } else if dtypeStr! == "xsd:Name" || dtypeStr! == "Name" {
+                    datatypeFS = XSD.Name
+                    varStr = varStr.stringByUnescapingQuotes()
+                } else if dtypeStr! == "xsd:NCName" || dtypeStr! == "NCName" {
+                    datatypeFS = XSD.NCName
+                    varStr = varStr.stringByUnescapingQuotes()
+                } else if dtypeStr! == "xsd:ID" || dtypeStr! == "ID" {
+                    datatypeFS = XSD.ID
+                } else if dtypeStr! == "xsd:IDREF" || dtypeStr! == "IDREF" {
+                    datatypeFS = XSD.IDREF
+                } else if dtypeStr! == "xsd:IDREFS" || dtypeStr! == "IDREFS" {
+                    datatypeFS = XSD.IDREFS
+                } else if dtypeStr! == "xsd:NMTOKEN" || dtypeStr! == "NMTOKEN" {
+                    datatypeFS = XSD.NMTOKEN
+                } else if dtypeStr! == "xsd:NMTOKENS" || dtypeStr! == "NMTOKENS" {
+                    datatypeFS = XSD.NMTOKENS
+                } else if dtypeStr! == "xsd:QName" || dtypeStr! == "QName" {
+                    datatypeFS = XSD.QName
+                } else if dtypeStr! == "rdf:XMLLiteral" {
+                    datatypeFS = RDF.XMLLiteral
+                    varStr = varStr.stringByUnescapingQuotes()
                 } else {
-                    if match.rangeAtIndex(16).location != NSNotFound {
-                        datatypeFS = XSD.integer
-                    } else if match.rangeAtIndex(17).location != NSNotFound {
-                        datatypeFS = XSD.decimal
-                    } else if match.rangeAtIndex(18).location != NSNotFound {
-                        datatypeFS = XSD.double
-                    } else if match.rangeAtIndex(19).location != NSNotFound {
-                        datatypeFS = XSD.boolean
-                    } else {
-                        datatypeFS = XSD.string
-                    }
+                    datatypeFS = Datatype(namespace: XSD.namespace(), localName: dtypeStr!, derivedFromDatatype: nil, isListDataType: false)
                 }
-                if langStr != nil && datatypeFS! == XSD.string {
-                    self.init(stringValue: varStr, language: langStr!)
-                    self.dataType = XSD.string
+            } else {
+                if match.rangeAtIndex(16).location != NSNotFound {
+                    datatypeFS = XSD.integer
+                } else if match.rangeAtIndex(17).location != NSNotFound {
+                    datatypeFS = XSD.decimal
+                } else if match.rangeAtIndex(18).location != NSNotFound {
+                    datatypeFS = XSD.double
+                } else if match.rangeAtIndex(19).location != NSNotFound {
+                    datatypeFS = XSD.boolean
                 } else {
-                    self.init(stringValue: varStr, dataType: datatypeFS!)
+                    datatypeFS = XSD.string
                 }
             }
-        }catch {
-            return nil
+            if langStr != nil && datatypeFS! == XSD.string {
+                self.init(stringValue: varStr, language: langStr!)
+                self.dataType = XSD.string
+            } else {
+                self.init(stringValue: varStr, dataType: datatypeFS!)
+            }
         }
     }
     

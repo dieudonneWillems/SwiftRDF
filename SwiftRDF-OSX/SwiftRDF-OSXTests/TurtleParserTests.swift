@@ -278,6 +278,57 @@ class TurtleParserTests: XCTestCase {
         }
     }
     
+    func testExample11() {
+        let rdf = "@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .\n" +
+                "@prefix show: <http://example.org/vocab/show/> . \n" +
+                "@prefix xsd: <http://www.w3.org/2001/XMLSchema#> . \n\n" +
+                "show:218 rdfs:label \"That Seventies Show\"^^xsd:string .            # literal with XML Schema string datatype\n" +
+                "show:218 rdfs:label \"That Seventies Show\"^^<http://www.w3.org/2001/XMLSchema#string> . # same as above\n" +
+                "show:218 rdfs:label \"That Seventies Show\" .                                            # same again\n" +
+                "show:218 show:localName \"That Seventies Show\"@en .                 # literal with a language tag\n" +
+                "show:218 show:localName 'Cette Série des Années Soixante-dix'@fr . # literal delimited by single quote\n" +
+                "show:218 show:localName \"Cette Série des Années Septante\"@fr-be .  # literal with a region subtag\n" +
+                "show:218 show:blurb '''This is a multi-line# literal with embedded new lines and quotes\n" +
+                "literal with many quotes (\"\"\"\"\")\n" +
+                "and up to two sequential apostrophes ('').''' ."
+        let data = rdf.dataUsingEncoding(NSUTF8StringEncoding)
+        let name = URI(string: "https://www.w3.org/TR/turtle/example-10")
+        let parser = TurtleParser(data: data!, baseURI: name!)
+        parser.delegate = TestRDFParserDelegate()
+        let graph = parser.parse()
+        printGraph(graph!)
+        XCTAssertEqual(3, graph?.namespaces.count)
+        XCTAssertEqual(7, graph?.statements.count)
+        if graph?.namespaces.count == 1 {
+            XCTAssertEqual("http://www.w3.org/2000/01/rdf-schema#", graph!.namespaceForPrefix("rdfs"))
+            XCTAssertEqual("http://example.org/vocab/show/", graph!.namespaceForPrefix("show"))
+            XCTAssertEqual("http://www.w3.org/2001/XMLSchema#", graph!.namespaceForPrefix("xsd"))
+        }
+        if graph?.statements.count == 7 {
+            XCTAssertTrue(graph![0].subject == URI(string: "http://example.org/vocab/show/218")!)
+            XCTAssertTrue(graph![0].predicate == RDFS.label)
+            XCTAssertTrue(graph![0].object == Literal(sparqlString: "\"That Seventies Show\"^^xsd:string")!)
+            XCTAssertTrue(graph![1].subject == URI(string: "http://example.org/vocab/show/218")!)
+            XCTAssertTrue(graph![1].predicate == RDFS.label)
+            XCTAssertTrue(graph![1].object == Literal(sparqlString: "\"That Seventies Show\"^^xsd:string")!)
+            XCTAssertTrue(graph![2].subject == URI(string: "http://example.org/vocab/show/218")!)
+            XCTAssertTrue(graph![2].predicate == RDFS.label)
+            XCTAssertTrue(graph![2].object == Literal(sparqlString: "\"That Seventies Show\"^^xsd:string")!)
+            XCTAssertTrue(graph![3].subject == URI(string: "http://example.org/vocab/show/218")!)
+            XCTAssertTrue(graph![3].predicate == URI(string: "http://example.org/vocab/show/localName")!)
+            XCTAssertTrue(graph![3].object == Literal(sparqlString: "\"That Seventies Show\"@en")!)
+            XCTAssertTrue(graph![4].subject == URI(string: "http://example.org/vocab/show/218")!)
+            XCTAssertTrue(graph![4].predicate == URI(string: "http://example.org/vocab/show/localName")!)
+            XCTAssertTrue(graph![4].object == Literal(sparqlString: "\"Cette Série des Années Soixante-dix\"@fr")!)
+            XCTAssertTrue(graph![5].subject == URI(string: "http://example.org/vocab/show/218")!)
+            XCTAssertTrue(graph![5].predicate == URI(string: "http://example.org/vocab/show/localName")!)
+            XCTAssertTrue(graph![5].object == Literal(sparqlString: "\"Cette Série des Années Septante\"@fr-be")!)
+            XCTAssertTrue(graph![6].subject == URI(string: "http://example.org/vocab/show/218")!)
+            XCTAssertTrue(graph![6].predicate == URI(string: "http://example.org/vocab/show/blurb")!)
+            XCTAssertTrue(graph![6].object == Literal(sparqlString: "'''This is a multi-line\nliteral with many quotes (\"\"\"\"\")\nand up to two sequential apostrophes ('').'''")!)
+        }
+    }
+    
     
     
     func printGraph(graph : Graph){
