@@ -49,9 +49,11 @@ public protocol RDFParser {
      - parameter data: The RDF data.
      - parameter baseURI: The base URI of the document (often the URL of the document),
      will be overridden when a base URI is defined in the RDF/XML file.
+     - parameter encoding: The string encoding used in the data, e.g. `NSUTF8StringEncoding` or
+     `NSUTF32StringEncoding`.
      - returns: An initialised RDF parser.
      */
-    init(data : NSData, baseURI : URI)
+    init(data : NSData, baseURI : URI, encoding : NSStringEncoding)
     
     /**
      Starts the event driven parsing operation. Statements parsed from the RDF file

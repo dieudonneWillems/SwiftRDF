@@ -53,7 +53,7 @@ class RDFXMLParserTests : XCTestCase {
             "</rdf:RDF>";
         let data = rdf.dataUsingEncoding(NSUTF8StringEncoding)
         let name = URI(string: "http://www.w3.org/TR/rdf-syntax-grammar/example-2")
-        let parser = RDFXMLParser(data: data!, baseURI: name!)
+        let parser = RDFXMLParser(data: data!, baseURI: name!,encoding: NSUTF8StringEncoding)
         parser.delegate = TestRDFParserDelegate()
         let graph = parser.parse()
         XCTAssertEqual(3, graph?.namespaces.count)
@@ -97,7 +97,7 @@ class RDFXMLParserTests : XCTestCase {
             "</rdf:RDF>";
         let data = rdf.dataUsingEncoding(NSUTF8StringEncoding)
         let name = URI(string: "http://www.w3.org/TR/rdf-syntax-grammar/example-3")
-        let parser = RDFXMLParser(data: data!, baseURI: name!)
+        let parser = RDFXMLParser(data: data!, baseURI: name!,encoding: NSUTF8StringEncoding)
        parser.delegate = TestRDFParserDelegate()
         let graph = parser.parse()
         XCTAssertEqual(3, graph?.namespaces.count)
@@ -141,7 +141,7 @@ class RDFXMLParserTests : XCTestCase {
             "</rdf:RDF>";
         let data = rdf.dataUsingEncoding(NSUTF8StringEncoding)
         let name = URI(string: "http://www.w3.org/TR/rdf-syntax-grammar/example-3")
-        let parser = RDFXMLParser(data: data!, baseURI: name!)
+        let parser = RDFXMLParser(data: data!, baseURI: name!,encoding: NSUTF8StringEncoding)
         parser.delegate = TestRDFParserDelegate()
         let graph = parser.parse()
         XCTAssertEqual(3, graph?.namespaces.count)
@@ -182,7 +182,7 @@ class RDFXMLParserTests : XCTestCase {
         "</rdf:RDF>";
         let data = rdf.dataUsingEncoding(NSUTF8StringEncoding)
         let name = URI(string: "http://www.w3.org/TR/rdf-syntax-grammar/example-5")
-        let parser = RDFXMLParser(data: data!, baseURI: name!)
+        let parser = RDFXMLParser(data: data!, baseURI: name!,encoding: NSUTF8StringEncoding)
         parser.delegate = TestRDFParserDelegate()
         let graph = parser.parse()
         XCTAssertEqual(3, graph?.namespaces.count)
@@ -221,7 +221,7 @@ class RDFXMLParserTests : XCTestCase {
             "</rdf:RDF>";
         let data = rdf.dataUsingEncoding(NSUTF8StringEncoding)
         let name = URI(string: "http://www.w3.org/TR/rdf-syntax-grammar/example-6")
-        let parser = RDFXMLParser(data: data!, baseURI: name!)
+        let parser = RDFXMLParser(data: data!, baseURI: name!,encoding: NSUTF8StringEncoding)
         parser.delegate = TestRDFParserDelegate()
         let graph = parser.parse()
         XCTAssertEqual(3, graph?.namespaces.count)
@@ -262,7 +262,7 @@ class RDFXMLParserTests : XCTestCase {
             "</rdf:RDF>";
         let data = rdf.dataUsingEncoding(NSUTF8StringEncoding)
         let name = URI(string: "http://www.w3.org/TR/rdf-syntax-grammar/example-8")
-        let parser = RDFXMLParser(data: data!, baseURI: name!)
+        let parser = RDFXMLParser(data: data!, baseURI: name!,encoding: NSUTF8StringEncoding)
         parser.delegate = TestRDFParserDelegate()
         let graph = parser.parse()
         XCTAssertEqual(2, graph?.namespaces.count)
@@ -299,7 +299,7 @@ class RDFXMLParserTests : XCTestCase {
             "</rdf:RDF>";
         let data = rdf.dataUsingEncoding(NSUTF8StringEncoding)
         let name = URI(string: "http://www.w3.org/TR/rdf-syntax-grammar/example-9")
-        let parser = RDFXMLParser(data: data!, baseURI: name!)
+        let parser = RDFXMLParser(data: data!, baseURI: name!,encoding: NSUTF8StringEncoding)
         parser.delegate = TestRDFParserDelegate()
         let graph = parser.parse()
         XCTAssertEqual(2, graph?.namespaces.count)
@@ -341,7 +341,7 @@ class RDFXMLParserTests : XCTestCase {
         "</rdf:RDF>";
         let data = rdf.dataUsingEncoding(NSUTF8StringEncoding)
         let name = URI(string: "http://www.w3.org/TR/rdf-syntax-grammar/example-9a")
-        let parser = RDFXMLParser(data: data!, baseURI: name!)
+        let parser = RDFXMLParser(data: data!, baseURI: name!,encoding: NSUTF8StringEncoding)
         parser.delegate = TestRDFParserDelegate()
         let graph = parser.parse()
         XCTAssertEqual(2, graph?.namespaces.count)
@@ -384,7 +384,7 @@ class RDFXMLParserTests : XCTestCase {
         "</rdf:RDF>";
         let data = rdf.dataUsingEncoding(NSUTF8StringEncoding)
         let name = URI(string: "http://www.w3.org/TR/rdf-syntax-grammar/example-9b")
-        let parser = RDFXMLParser(data: data!, baseURI: name!)
+        let parser = RDFXMLParser(data: data!, baseURI: name!,encoding: NSUTF8StringEncoding)
         parser.delegate = TestRDFParserDelegate()
         let graph = parser.parse()
         XCTAssertEqual(2, graph?.namespaces.count)
@@ -427,7 +427,7 @@ class RDFXMLParserTests : XCTestCase {
         "</rdf:RDF>";
         let data = rdf.dataUsingEncoding(NSUTF8StringEncoding)
         let name = URI(string: "http://www.w3.org/TR/rdf-syntax-grammar/example-9c")
-        let parser = RDFXMLParser(data: data!, baseURI: name!)
+        let parser = RDFXMLParser(data: data!, baseURI: name!,encoding: NSUTF8StringEncoding)
         parser.delegate = TestRDFParserDelegate()
         let graph = parser.parse()
         XCTAssertTrue(graph == nil)
@@ -444,7 +444,7 @@ class RDFXMLParserTests : XCTestCase {
             "</rdf:RDF>";
         let data = rdf.dataUsingEncoding(NSUTF8StringEncoding)
         let name = URI(string: "http://www.w3.org/TR/rdf-syntax-grammar/example-10")
-        let parser = RDFXMLParser(data: data!, baseURI: name!)
+        let parser = RDFXMLParser(data: data!, baseURI: name!,encoding: NSUTF8StringEncoding)
         parser.delegate = TestRDFParserDelegate()
         let graph = parser.parse()
         XCTAssertEqual(3, graph?.namespaces.count)
@@ -473,7 +473,7 @@ class RDFXMLParserTests : XCTestCase {
             "</rdf:RDF>";
         let data = rdf.dataUsingEncoding(NSUTF8StringEncoding)
         let name = URI(string: "http://www.w3.org/TR/rdf-syntax-grammar/example-11")
-        let parser = RDFXMLParser(data: data!, baseURI: name!)
+        let parser = RDFXMLParser(data: data!, baseURI: name!,encoding: NSUTF8StringEncoding)
         parser.delegate = TestRDFParserDelegate()
         let graph = parser.parse()
         XCTAssertEqual(3, graph?.namespaces.count)
@@ -496,7 +496,7 @@ class RDFXMLParserTests : XCTestCase {
             "</rdf:RDF>";
         let data = rdf.dataUsingEncoding(NSUTF8StringEncoding)
         let name = URI(string: "http://www.w3.org/TR/rdf-syntax-grammar/example-12")
-        let parser = RDFXMLParser(data: data!, baseURI: name!)
+        let parser = RDFXMLParser(data: data!, baseURI: name!,encoding: NSUTF8StringEncoding)
         parser.delegate = TestRDFParserDelegate()
         let graph = parser.parse()
         XCTAssertEqual(3, graph?.namespaces.count)
@@ -516,7 +516,7 @@ class RDFXMLParserTests : XCTestCase {
             "</rdf:RDF>";
         let data = rdf.dataUsingEncoding(NSUTF8StringEncoding)
         let name = URI(string: "http://www.w3.org/TR/rdf-syntax-grammar/example-13")
-        let parser = RDFXMLParser(data: data!, baseURI: name!)
+        let parser = RDFXMLParser(data: data!, baseURI: name!,encoding: NSUTF8StringEncoding)
         parser.delegate = TestRDFParserDelegate()
         let graph = parser.parse()
         XCTAssertEqual(3, graph?.namespaces.count)
@@ -535,7 +535,7 @@ class RDFXMLParserTests : XCTestCase {
             "</rdf:RDF>";
         let data = rdf.dataUsingEncoding(NSUTF8StringEncoding)
         let name = URI(string: "http://www.w3.org/TR/rdf-syntax-grammar/example-15")
-        let parser = RDFXMLParser(data: data!, baseURI: name!)
+        let parser = RDFXMLParser(data: data!, baseURI: name!,encoding: NSUTF8StringEncoding)
         parser.delegate = TestRDFParserDelegate()
         let graph = parser.parse()
         XCTAssertEqual(3, graph?.namespaces.count)
@@ -560,7 +560,7 @@ class RDFXMLParserTests : XCTestCase {
         "</rdf:RDF>";
         let data = rdf.dataUsingEncoding(NSUTF8StringEncoding)
         let name = URI(string: "http://www.w3.org/TR/rdf-syntax-grammar/example-15a")
-        let parser = RDFXMLParser(data: data!, baseURI: name!)
+        let parser = RDFXMLParser(data: data!, baseURI: name!,encoding: NSUTF8StringEncoding)
         parser.delegate = TestRDFParserDelegate()
         let graph = parser.parse()
         XCTAssertEqual(3, graph?.namespaces.count)
@@ -584,7 +584,7 @@ class RDFXMLParserTests : XCTestCase {
             "</rdf:RDF>";
         let data = rdf.dataUsingEncoding(NSUTF8StringEncoding)
         let name = URI(string: "http://www.w3.org/TR/rdf-syntax-grammar/example-16")
-        let parser = RDFXMLParser(data: data!, baseURI: name!)
+        let parser = RDFXMLParser(data: data!, baseURI: name!,encoding: NSUTF8StringEncoding)
         parser.delegate = TestRDFParserDelegate()
         let graph = parser.parse()
         XCTAssertEqual(2, graph?.namespaces.count)
@@ -607,7 +607,7 @@ class RDFXMLParserTests : XCTestCase {
             "</rdf:RDF>";
         let data = rdf.dataUsingEncoding(NSUTF8StringEncoding)
         let name = URI(string: "http://www.w3.org/TR/rdf-syntax-grammar/example-17")
-        let parser = RDFXMLParser(data: data!, baseURI: name!)
+        let parser = RDFXMLParser(data: data!, baseURI: name!,encoding: NSUTF8StringEncoding)
         parser.delegate = TestRDFParserDelegate()
         let graph = parser.parse()
         XCTAssertEqual(2, graph?.namespaces.count)
@@ -640,7 +640,7 @@ class RDFXMLParserTests : XCTestCase {
         "</rdf:RDF>";
         let data = rdf.dataUsingEncoding(NSUTF8StringEncoding)
         let name = URI(string: "http://www.w3.org/TR/rdf-syntax-grammar/example-18")
-        let parser = RDFXMLParser(data: data!, baseURI: name!)
+        let parser = RDFXMLParser(data: data!, baseURI: name!,encoding: NSUTF8StringEncoding)
         parser.delegate = TestRDFParserDelegate()
         let graph = parser.parse()
         XCTAssertEqual(2, graph?.namespaces.count)
@@ -675,7 +675,7 @@ class RDFXMLParserTests : XCTestCase {
         "</rdf:RDF>";
         let data = rdf.dataUsingEncoding(NSUTF8StringEncoding)
         let name = URI(string: "http://www.w3.org/TR/rdf-syntax-grammar/example-18a")
-        let parser = RDFXMLParser(data: data!, baseURI: name!)
+        let parser = RDFXMLParser(data: data!, baseURI: name!,encoding: NSUTF8StringEncoding)
         parser.delegate = TestRDFParserDelegate()
         let graph = parser.parse()
         XCTAssertEqual(2, graph?.namespaces.count)
@@ -709,7 +709,7 @@ class RDFXMLParserTests : XCTestCase {
             "</rdf:RDF>";
         let data = rdf.dataUsingEncoding(NSUTF8StringEncoding)
         let name = URI(string: "http://www.w3.org/TR/rdf-syntax-grammar/example-19")
-        let parser = RDFXMLParser(data: data!, baseURI: name!)
+        let parser = RDFXMLParser(data: data!, baseURI: name!,encoding: NSUTF8StringEncoding)
         parser.delegate = TestRDFParserDelegate()
         let graph = parser.parse()
         XCTAssertEqual(2, graph?.namespaces.count)
@@ -732,7 +732,7 @@ class RDFXMLParserTests : XCTestCase {
             "</rdf:RDF>";
         let data = rdf.dataUsingEncoding(NSUTF8StringEncoding)
         let name = URI(string: "http://www.w3.org/TR/rdf-syntax-grammar/example-20")
-        let parser = RDFXMLParser(data: data!, baseURI: name!)
+        let parser = RDFXMLParser(data: data!, baseURI: name!,encoding: NSUTF8StringEncoding)
         parser.delegate = TestRDFParserDelegate()
         let graph = parser.parse()
         XCTAssertEqual(2, graph?.namespaces.count)

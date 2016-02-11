@@ -30,6 +30,8 @@ public class TurtleParser : NSObject, RDFParser {
     private var contentString : String
     private var prefixes = [String : URI]()
     
+    private var grammar : [String : NSRegularExpression]? = nil
+    
     /**
      Initialises a parser with the contents of the RDF file reference by the given
      URL.
@@ -44,7 +46,7 @@ public class TurtleParser : NSObject, RDFParser {
         if data == nil  || baseURI == nil {
             return nil
         }
-        self.init(data: data!, baseURI:baseURI!)
+        self.init(data: data!, baseURI:baseURI!,encoding: NSUTF8StringEncoding)
     }
     
     /**
@@ -69,10 +71,12 @@ public class TurtleParser : NSObject, RDFParser {
      - parameter data: The RDF data.
      - parameter baseURI: The base URI of the document (often the URL of the document),
      will be overridden when a base URI is defined in the RDF/XML file.
+     - parameter encoding: The string encoding used in the data, e.g. `NSUTF8StringEncoding` or
+     `NSUTF32StringEncoding`.
      - returns: An initialised RDF parser.
      */
-    public required init(data : NSData, baseURI : URI) {
-        contentString = NSString(data: data, encoding: NSUTF8StringEncoding) as! String
+    public required init(data : NSData, baseURI : URI, encoding : NSStringEncoding) {
+        contentString = NSString(data: data, encoding: encoding) as! String
         self.baseURI = baseURI
     }
     
@@ -108,293 +112,67 @@ public class TurtleParser : NSObject, RDFParser {
      Parses the string content as Turtle.
      */
     private func parseContents() {
-        var currentSubject : Resource? = nil
-        var currentPredicate : URI? = nil
-        var currentObject : Value? = nil
-        var index = contentString.startIndex
-        var prevc : Character? = nil
-        var startStrIndex : String.Index = index
-        var endStrIndex : String.Index = index
-        var inComment = false
-        var inURI = false
-        var inLiteralChar : Character? = nil
-        var line = ""
-        var baseURISet = false
-        var inDatatypeURI = false
-        var literalString : String? = nil
-        while index < contentString.endIndex {
-            var advanced = false
-            let c = contentString[index]
-            
-            if c == "#" && !inURI {
-                inComment = true
-            } else if c == "\n" {
-                if inComment {
-                    startStrIndex = index.advancedBy(1)
-                }
-                inComment = false
-            }
-            
-            if !inComment {
-                if literalString != nil {
-                    literalString?.append(c)
-                    print("\(literalString)")
-                }
-                line.append(c)
-                if c == "\n" {
-                    line = line.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
-                    var isPrefixNotBase = false
-                    var declrange :Range<String.Index>? = nil
-                    if line.hasPrefix("@prefix") {
-                        declrange = line.rangeOfString("@prefix")
-                        isPrefixNotBase = true
-                    }else if line.hasPrefix("PREFIX") {
-                        declrange = line.rangeOfString("PREFIX")
-                        isPrefixNotBase = true
-                    }else if line.hasPrefix("@PREFIX") {
-                        declrange = line.rangeOfString("@PREFIX")
-                        isPrefixNotBase = true
-                    }else if line.hasPrefix("prefix") {
-                        declrange = line.rangeOfString("prefix")
-                        isPrefixNotBase = true
-                    }else if line.hasPrefix("base") {
-                        declrange = line.rangeOfString("base")
-                        isPrefixNotBase = false
-                    }else if line.hasPrefix("BASE") {
-                        declrange = line.rangeOfString("BASE")
-                        isPrefixNotBase = false
-                    }else if line.hasPrefix("@base") {
-                        declrange = line.rangeOfString("@base")
-                        isPrefixNotBase = false
-                    }else if line.hasPrefix("@BASE") {
-                        declrange = line.rangeOfString("@BASE")
-                        isPrefixNotBase = false
-                    }
-                    if declrange != nil {
-                        let colonrange = line.rangeOfString(":")
-                        var prefix : String?
-                        if colonrange != nil {
-                            let prefixrange = Range<String.Index>(start: declrange!.endIndex, end: colonrange!.startIndex)
-                            prefix = line.substringWithRange(prefixrange).stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
-                        }
-                        let openAngleRange = line.rangeOfString("<")
-                        let closedAngleRange = line.rangeOfString(">")
-                        if openAngleRange != nil && closedAngleRange != nil {
-                            let namespaceRange = Range<String.Index>(start: openAngleRange!.endIndex, end: closedAngleRange!.startIndex)
-                            let namespacestr = line.substringWithRange(namespaceRange)
-                            var namespace = URI(string: namespacestr)
-                            if namespace == nil && baseURI != nil {
-                                namespace = URI(namespace: baseURI!.stringValue, localName: namespacestr)
-                            }
-                            if namespace != nil {
-                                if prefix != nil && isPrefixNotBase { // prefix
-                                    currentGraph?.addNamespace(prefix!, namespaceURI: namespace!.stringValue)
-                                    if delegate != nil {
-                                        delegate!.namespaceAdded(self, graph: currentGraph!, prefix: prefix!, namespaceURI: namespace!.stringValue)
-                                    }
-                                    prefixes[prefix!] = namespace!
-                                } else if !isPrefixNotBase { // base URI
-                                    baseURI = namespace!
-                                    if !baseURISet {
-                                        currentGraph?.baseURI = baseURI!
-                                    }
-                                    baseURISet = true
-                                }
-                            } else {
-                                // TODO: throw error
-                            }
-                        } else {
-                            // TODO: throw error
-                        }
-                        currentSubject = nil
-                        currentPredicate = nil
-                        currentObject = nil
-                    }
-                    line = ""
-                }
-                var newValueIsURI = false
-                var range : Range<String.Index>?
-                if c == " " || c == "\t" || c == "\n" {
-                    if inLiteralChar == nil && !inURI {
-                        endStrIndex = index
-                        if startStrIndex < endStrIndex {
-                            range = Range<String.Index>(start: startStrIndex, end: endStrIndex)
-                        }
-                        startStrIndex = index.advancedBy(1)
-                    }
-                }else if (c == "." || c == ";" || c == ",") && inLiteralChar == nil && !inURI {
-                    endStrIndex = index
-                    if startStrIndex < endStrIndex {
-                        range = Range<String.Index>(start: startStrIndex, end: endStrIndex)
-                    }
-                    startStrIndex = index.advancedBy(1)
-                }else if c == "\"" && prevc != "\\" && !inURI {
-                    if inLiteralChar == nil { // start double quotes
-                        inLiteralChar = c
-                        if literalString == nil {
-                            literalString = "\(c)"
-                        }
-                    } else if inLiteralChar == "\"" { // close double quotes
-                        inLiteralChar = nil
-                    }
-                }else if c == "\'" && prevc != "\\" && !inURI {
-                    if inLiteralChar == nil { // start single quotes
-                        inLiteralChar = c
-                        if literalString == nil {
-                            literalString = "\(c)"
-                        }
-                    } else if inLiteralChar == "\'" { // close single quotes
-                        inLiteralChar = nil
-                    }
-                }else if c == "<" && prevc != "\\" &&  inLiteralChar == nil {
-                    if !inURI && prevc != "^" {
-                        inURI = true
-                        startStrIndex = index.advancedBy(1)
-                    }else if !inURI && prevc == "^" {
-                        inURI = true
-                        inDatatypeURI = true
-                    }else {
-                        // TODO: Throw error
-                    }
-                }else if c == ">" && prevc != "\\" &&  inLiteralChar == nil {
-                    if inURI && !inDatatypeURI {
-                        inURI = false
-                        endStrIndex = index
-                        range = Range<String.Index>(start: startStrIndex, end: endStrIndex)
-                        index = index.advancedBy(1)
-                        advanced = true
-                        startStrIndex = index
-                        newValueIsURI = true
-                    }else if inURI && inDatatypeURI  {
-                        inURI = false
-                        inDatatypeURI = false
-                    }else {
-                        // TODO: Throw error
-                    }
-                }
-                
-                if range != nil {
-                    let curStr = contentString.substringWithRange(range!)
-                    
-                    // TODO: create subject, predicate, object
-                    if currentSubject == nil {
-                        if newValueIsURI {
-                            currentSubject = URIFromString(curStr)
-                        } else {
-                            currentSubject = resourceFromString(curStr)
-                        }
-                    } else if currentPredicate == nil {
-                        if newValueIsURI {
-                            currentPredicate = URIFromString(curStr)
-                        } else if curStr == "a" {
-                            currentPredicate = RDF.type
-                        } else { // should be prefixed, i.e. qname
-                            let resource = resourceFromString(curStr)
-                            if (resource as? URI) != nil {
-                                currentPredicate = (resource as! URI)
-                            }else {
-                                // TODO: throw error
-                            }
-                        }
-                    } else if currentObject == nil {
-                        if newValueIsURI {
-                            currentObject = URIFromString(curStr)
-                        } else {
-                            currentObject = resourceFromString(curStr)
-                            if currentObject == nil {
-                                if literalString == nil {
-                                    currentObject = valueFromString(curStr)
-                                }else {
-                                    currentObject = valueFromString(literalString!)
-                                    literalString = nil
-                                }
-                            }
-                        }
-                    }
-                    
-                    if currentSubject != nil && currentPredicate != nil && currentObject != nil {
-                        let statement = Statement(subject: currentSubject!, predicate: currentPredicate!, object: currentObject!)
-                        currentGraph?.add(statement)
-                        if delegate != nil {
-                            delegate?.statementAdded(self, graph: currentGraph!, statement: statement)
-                        }
-                        currentObject = nil
-                    }
-                }
-                if c == "." && inLiteralChar == nil && !inURI { // new subject expected
-                    currentSubject = nil
-                    currentPredicate = nil
-                    currentObject = nil
-                }else if c == ";" && inLiteralChar == nil && !inURI { // new predicate expected
-                    currentPredicate = nil
-                    currentObject = nil
-                }else if (c == "," && inLiteralChar == nil && !inURI) || newValueIsURI { // new object expected
-                    currentObject = nil
-                }
-            }
-            
-            if !advanced {
-                index = index.advancedBy(1)
-            }
-            prevc = c
+        if grammar == nil {
+            createGrammar()
+        }
+        if delegate != nil {
+            delegate?.parserDidStartDocument(self)
         }
         if delegate != nil {
             delegate?.parserDidEndDocument(self)
         }
     }
     
-    private func resourceFromString(string : String) -> Resource? {
-        let trimmed = string.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
-        print("resource from string: '\(trimmed)'")
-        if trimmed.hasPrefix("_:") { // blank node
-            let prefrng = trimmed.rangeOfString("_:")
-            let identifier = trimmed.substringFromIndex(prefrng!.endIndex)
-            return BlankNode(identifier: identifier)
-        } else if trimmed.isPrefixedName { // should be qname
-            var prefix = trimmed.prefixedNamePrefix
-            let localname = trimmed.prefixedNameLocalPart
-            if prefix == nil {
-                prefix = ""
+    private func createGrammar() {
+        let PN_LOCAL_ESC = "\\\\[_~\\.\\-!\\$&'\\(\\)\\*\\+,;=/\\?#@%]"
+        let HEX = "[0-9A-Fa-f]"
+        let PERCENT = "%"+HEX+HEX
+        let PLX = "(?:\(PERCENT))|(\(PN_LOCAL_ESC))"
+        let PN_CHARS_BASE = "[A-Z]|[a-z]|[\\u00C0-\\u00D6]|[\\u00D8-\\u00F6]|[\\u00F8-\\u02FF]|[\\u0370-\\u037D]|[\\u037F-\\u1FFF]|[\\u200C-\\u200D]|[\\u2070-\\u218F]|[\\u2C00-\\u2FEF]|[\\u3001-\\uD7FF]|[\\uF900-\\uFDCF]|[\\uFDF0-\\uFFFD]|[\\U00010000-\\U000EFFFF]" // TODO: Not sure yet how to use UTF-32 characters in NSRegularExpression
+        let PN_CHARS_U = "(?:\(PN_CHARS_BASE)|_)"
+        let PN_CHARS = "(?:\(PN_CHARS_U)|\\-|[0-9]|\\u00B7|[\\u0300-\\u036F]|[\\u203F-\\u2040])"
+        let PN_PREFIX = "(?:\(PN_CHARS_BASE)(?:(?:\(PN_CHARS)|\\.)*\(PN_CHARS))?)"
+        let PN_LOCAL = "(?:\(PN_CHARS_U)|:|[0-9]|\(PLX))(?:(?:\(PN_CHARS)|\\.|:|\(PLX))*(?:\(PN_CHARS)|:|\(PLX)))?"
+        let PNAME_NS = "(?:\(PN_PREFIX))?:"
+        let PNAME_LN = "\(PNAME_NS)\(PN_LOCAL)"
+        let BLANK_NODE_LABEL = "_:(\(PN_CHARS_U)|[0-9])((\(PN_CHARS)|\\.)*\(PN_CHARS))?"
+        let LANGTAG = "@[a-zA-Z]+(-[a-zA-Z0-9]+)*"
+        let INTEGER = "[+-]?[0-9]+"
+        let DECIMAL = "[+-]?[0-9]*\\.[0-9]+"
+        let EXPONENT = "[eE][+-]?[0-9]+"
+        let DOUBLE = "[+-]?([0-9]+\\.[0-9]*\(EXPONENT)|'.'[0-9]+\(EXPONENT)|[0-9]+\(EXPONENT))"
+        let ECHAR = "\\\\[\\t\\n\\r\\f\\\"\\'\\\\]" // misses \b (backspace)
+        let UCHAR = "(?:\\\\U\(HEX)\(HEX)\(HEX)\(HEX)\(HEX)\(HEX)\(HEX)\(HEX))|(?:\\\\u\(HEX)\(HEX)\(HEX)\(HEX))"
+        let STRING_LITERAL_QUOTE = "\"(?:[^\\u0022\\u005C\\u000A\\u000D]|\(ECHAR)|\(UCHAR))*\"" /* #x22=" #x5C=\ #xA=new line #xD=carriage return */
+        let STRING_LITERAL_SINGLE_QUOTE = "'(?:[^\\u0027\\u005C\\u000A\\u000D]|\(ECHAR)|\(UCHAR))*'" /* #x27=' #x5C=\ #xA=new line #xD=carriage return */
+        let STRING_LITERAL_LONG_SINGLE_QUOTE = "'''(?:(?:'|'')?(?:[^'\\\\]|\(ECHAR)|\(UCHAR)))*'''"
+        let STRING_LITERAL_LONG_QUOTE = "\"\"\"(?:(?:\"|\"\")?(?:[^\"\\\\]|\(ECHAR)|\(UCHAR)))*\"\"\""
+        let ANON = "\\[\\s*\\]"
+        let IRIREF = "<(?:[^\\u0000-\\u0020<>\"\\|\\^`\\\\]|\(UCHAR))*>\(PN_CHARS)?"
+        
+        let blankNode = "(?:\(BLANK_NODE_LABEL))|(?:\(ANON))"
+        let prefixedName = "(?:\(PNAME_LN))|(?:\(PNAME_NS))"
+        let iri = "(?:\(IRIREF))|(?:\(prefixedName))"
+        let string = "(?:\(STRING_LITERAL_QUOTE))|(?:\(STRING_LITERAL_SINGLE_QUOTE))|(?:\(STRING_LITERAL_LONG_SINGLE_QUOTE))|(?:\(STRING_LITERAL_LONG_QUOTE))"
+        let booleanLiteral = "true|false"
+        let RDFLiteral = "(?:\(string))(?:(?:\(LANGTAG))|(?:\\^\\^\(iri)))?"
+        let numericalLiteral = "(?:\(INTEGER))|(?:\(DECIMAL))|(?:\(DOUBLE))"
+        let literal = "(?:\(RDFLiteral))|(?:\(numericalLiteral))|(?:\(booleanLiteral))"
+        let predicate = iri
+        
+        
+        
+        print("\(literal)")
+        do {
+            let teststr = "<http://some.example.org/my/path.xml#fragment>"
+            let regex = try NSRegularExpression(pattern: IRIREF, options: [])
+            let matches = regex.matchesInString(teststr, options: [], range: NSMakeRange(0, teststr.characters.count)) as Array<NSTextCheckingResult>
+            for match in matches as [NSTextCheckingResult] {
+                
             }
-            let namespace = prefixes[prefix!]
-            if namespace != nil {
-                let uri = URI(namespace: namespace!.stringValue, localName: localname!)
-                return uri
-            }else{
-                let uri = currentGraph?.createURIFromPrefixedName(trimmed)
-                return uri
-            }
-        } else if trimmed.hasPrefix(":") { // qname with empty prefix
-            let localname = trimmed.substringFromIndex(trimmed.startIndex.advancedBy(1))
-            let namespace = prefixes[""]
-            if namespace != nil {
-                let uri = URI(namespace: namespace!.stringValue, localName: localname)
-                return uri
-            }
+        } catch {
+            
         }
-        return nil
     }
     
-    private func URIFromString(string : String) -> URI? {
-        let trimmed = string.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
-        if trimmed.characters.count > 0 {
-            print("URI from string: '\(trimmed)'")
-            var uri = URI(string: trimmed)
-            if uri == nil  && baseURI != nil {
-                uri = URI(namespace: baseURI!.stringValue, localName: trimmed)
-            }
-            return uri
-        }
-        return nil
-    }
-    
-    private func valueFromString(string : String) -> Value? {
-        let trimmed = string.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
-        if trimmed.characters.count > 0 {
-            print("value from string: '\(trimmed)'")
-            let literal = Literal(sparqlString: trimmed)
-            return literal
-        }
-        return nil
-    }
 }

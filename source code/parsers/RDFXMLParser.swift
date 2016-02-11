@@ -68,9 +68,11 @@ public class RDFXMLParser : NSObject, RDFParser, NSXMLParserDelegate {
      - parameter data: The RDF data.
      - parameter baseURI: The base URI of the document (often the URL of the document), 
      will be overridden when a base URI is defined in the RDF/XML file.
+     - parameter encoding: The string encoding used in the data, e.g. `NSUTF8StringEncoding` or
+     `NSUTF32StringEncoding`.
      - returns: An initialised RDF parser.
      */
-    public required init(data : NSData, baseURI : URI) {
+    public required init(data : NSData, baseURI : URI, encoding : NSStringEncoding) {
         xmlParser = NSXMLParser(data: data)
         super.init()
         if xmlParser != nil {
