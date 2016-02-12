@@ -118,9 +118,34 @@ public class TurtleParser : NSObject, RDFParser {
         if delegate != nil {
             delegate?.parserDidStartDocument(self)
         }
+        self.parseTurtle(contentString)
         if delegate != nil {
             delegate?.parserDidEndDocument(self)
         }
+    }
+    
+    private func parseTurtle(contentString: String) {
+        let statements = self.statements(contentString)
+        for statement in statements {
+            print("\(statement)")
+        }
+    }
+    
+    private func statements(contentString : String) -> [String] {
+        return self.runRegularExpression(grammar!["statement"]!, onString: contentString)
+    }
+    
+    private func runRegularExpression(regex: NSRegularExpression, onString: String) -> [String] {
+        var results = [String]()
+        let nsstring = onString as NSString
+        let matches = regex.matchesInString(onString, options: [], range: NSMakeRange(0, onString.characters.count)) as Array<NSTextCheckingResult>
+        for match in matches {
+            if match.rangeAtIndex(0).location != NSNotFound {
+                let string = nsstring.substringWithRange(match.rangeAtIndex(0)) as String
+                results.append(string)
+            }
+        }
+        return results
     }
     
     private func createGrammar() {
@@ -128,10 +153,10 @@ public class TurtleParser : NSObject, RDFParser {
         let HEX = "[0-9A-Fa-f]"
         let PERCENT = "%"+HEX+HEX
         let PLX = "(?:\(PERCENT))|(\(PN_LOCAL_ESC))"
-        let PN_CHARS_BASE = "[A-Z]|[a-z]|[\\u00C0-\\u00D6]|[\\u00D8-\\u00F6]|[\\u00F8-\\u02FF]|[\\u0370-\\u037D]|[\\u037F-\\u1FFF]|[\\u200C-\\u200D]|[\\u2070-\\u218F]|[\\u2C00-\\u2FEF]|[\\u3001-\\uD7FF]|[\\uF900-\\uFDCF]|[\\uFDF0-\\uFFFD]|[\\U00010000-\\U000EFFFF]" // TODO: Not sure yet how to use UTF-32 characters in NSRegularExpression
+        let PN_CHARS_BASE = "[A-Z]|[a-z]|[\\u00C0-\\u00D6]|[\\u00D8-\\u00F6]|[\\u00F8-\\u02FF]|[\\u0370-\\u037D]|[\\u037F-\\u1FFF]|[\\u200C-\\u200D]|[\\u2070-\\u218F]|[\\u2C00-\\u2FEF]|[\\u3001-\\uD7FF]|[\\uF900-\\uFDCF]|[\\uFDF0-\\uFFFD]|[\\U00010000-\\U000EFFFF]"
         let PN_CHARS_U = "(?:\(PN_CHARS_BASE)|_)"
         let PN_CHARS = "(?:\(PN_CHARS_U)|\\-|[0-9]|\\u00B7|[\\u0300-\\u036F]|[\\u203F-\\u2040])"
-        let PN_PREFIX = "(?:\(PN_CHARS_BASE)(?:(?:\(PN_CHARS)|\\.)*\(PN_CHARS))?)"
+        let PN_PREFIX = "(?:\(PN_CHARS_BASE))(?:(?:(?:\(PN_CHARS)|\\.)*\(PN_CHARS))?)"
         let PN_LOCAL = "(?:\(PN_CHARS_U)|:|[0-9]|\(PLX))(?:(?:\(PN_CHARS)|\\.|:|\(PLX))*(?:\(PN_CHARS)|:|\(PLX)))?"
         let PNAME_NS = "(?:\(PN_PREFIX))?:"
         let PNAME_LN = "\(PNAME_NS)\(PN_LOCAL)"
@@ -139,8 +164,8 @@ public class TurtleParser : NSObject, RDFParser {
         let LANGTAG = "@[a-zA-Z]+(-[a-zA-Z0-9]+)*"
         let INTEGER = "[+-]?[0-9]+"
         let DECIMAL = "[+-]?[0-9]*\\.[0-9]+"
-        let EXPONENT = "[eE][+-]?[0-9]+"
-        let DOUBLE = "[+-]?([0-9]+\\.[0-9]*\(EXPONENT)|'.'[0-9]+\(EXPONENT)|[0-9]+\(EXPONENT))"
+        let EXPONENT = "(?:[eE][+-]?[0-9]+)"
+        let DOUBLE = "(?:[+-]?(?:([0-9]+\\.[0-9]*\(EXPONENT))|(?:\\.[0-9]+\(EXPONENT))|(?:[0-9]+\(EXPONENT))))"
         let ECHAR = "\\\\[\\t\\n\\r\\f\\\"\\'\\\\]" // misses \b (backspace)
         let UCHAR = "(?:\\\\U\(HEX)\(HEX)\(HEX)\(HEX)\(HEX)\(HEX)\(HEX)\(HEX))|(?:\\\\u\(HEX)\(HEX)\(HEX)\(HEX))"
         let STRING_LITERAL_QUOTE = "\"(?:[^\\u0022\\u005C\\u000A\\u000D]|\(ECHAR)|\(UCHAR))*\"" /* #x22=" #x5C=\ #xA=new line #xD=carriage return */
@@ -152,27 +177,45 @@ public class TurtleParser : NSObject, RDFParser {
         
         let blankNode = "(?:\(BLANK_NODE_LABEL))|(?:\(ANON))"
         let prefixedName = "(?:\(PNAME_LN))|(?:\(PNAME_NS))"
-        let iri = "(?:\(IRIREF))|(?:\(prefixedName))"
-        let string = "(?:\(STRING_LITERAL_QUOTE))|(?:\(STRING_LITERAL_SINGLE_QUOTE))|(?:\(STRING_LITERAL_LONG_SINGLE_QUOTE))|(?:\(STRING_LITERAL_LONG_QUOTE))"
+        let iri = "(?:(?:\(IRIREF))|(?:\(prefixedName)))"
+        let string = "(?:(?:\(STRING_LITERAL_QUOTE))|(?:\(STRING_LITERAL_SINGLE_QUOTE))|(?:\(STRING_LITERAL_LONG_SINGLE_QUOTE))|(?:\(STRING_LITERAL_LONG_QUOTE)))"
         let booleanLiteral = "true|false"
-        let RDFLiteral = "(?:\(string))(?:(?:\(LANGTAG))|(?:\\^\\^\(iri)))?"
-        let numericalLiteral = "(?:\(INTEGER))|(?:\(DECIMAL))|(?:\(DOUBLE))"
-        let literal = "(?:\(RDFLiteral))|(?:\(numericalLiteral))|(?:\(booleanLiteral))"
+        let RDFLiteral = "(?:(?:\(string))(?:(?:\(LANGTAG))|(?:\\^\\^\(iri)))?)"
+        let numericalLiteral = "(?:(?:\(INTEGER))|(?:\(DECIMAL))|(?:\(DOUBLE)))"
+        let literal = "(?:(?:\(RDFLiteral))|(?:\(numericalLiteral))|(?:\(booleanLiteral)))"
         let predicate = iri
+        let collectionPlaceholder = "(?:\\(\\p{L}\\p{M}*\\))" // If matches on collection placeholder - test further with collection pattern
+        let blankNodePropertyListPlaceholder = "(?:\\[\\p{L}\\p{M}*\\])" // If matches on blanknode property list placeholder - test further with blanknode property list pattern
+        let object = "(?:(?:\(iri))|(?:\(blankNode))|(?:\(literal))|(?:\(collectionPlaceholder))|(?:\(blankNodePropertyListPlaceholder)))"
+        let collection = "\\(\(object)*\\)"
+        let objectList = "(?:\(object)(?:\\s*,\\s*\(object))*)"
+        let verb = "(?:\(predicate)|a)"
+        let predicateObjectList = "(?:\(verb)\\s*\(objectList)(?:\\s*;\\s*(?:\(verb)\\s*\(objectList))?)*)"
+        let blankNodePropertyList = "(?:\\[\(predicateObjectList)\\])"
+        let subject = "(?:\(iri)|\(blankNode)|\(collection))"
+        let triples = "(?:(?:\(subject)\\s*\(predicateObjectList))|(?:\(blankNodePropertyList)\\s*\(predicateObjectList)?))"
+        let sparqlPrefix = "(?:(?i)PREFIX(?-i)\\s*\(PNAME_NS)\\s*\(IRIREF))" // prefix should be case insensitive
+        let sparqlBase = "(?:(?i)BASE(?-i)\\s*\(IRIREF))" // base should be case insensitive
+        let prefixID = "(?:@prefix\\s*\(PNAME_NS)\\s*\(IRIREF)\\s*\\.)"
+        let base = "(?:@base\\s*\(IRIREF)\\s*\\.)"
+        let directive = "(?:(?:\(prefixID))|(?:\(base))|(?:\(sparqlPrefix))|(?:\(sparqlBase)))"
+        let statement = "(?:(?:\(directive))|(?:\(triples)))"
+        let turtleDoc = "\(statement)*"
         
-        
-        
-        print("\(literal)")
+        grammar = [String : NSRegularExpression]()
+        grammar!["turtleDoc"] = self.createGrammarRegEx("^\(turtleDoc)$")!
+        grammar!["statement"] = self.createGrammarRegEx(statement)!
+        grammar!["directive"] = self.createGrammarRegEx("^\(directive)$")!
+        grammar!["triples"] = self.createGrammarRegEx("^\(triples)$")!
+    }
+    
+    private func createGrammarRegEx(pattern: String) -> NSRegularExpression? {
         do {
-            let teststr = "<http://some.example.org/my/path.xml#fragment>"
-            let regex = try NSRegularExpression(pattern: IRIREF, options: [])
-            let matches = regex.matchesInString(teststr, options: [], range: NSMakeRange(0, teststr.characters.count)) as Array<NSTextCheckingResult>
-            for match in matches as [NSTextCheckingResult] {
-                
-            }
+            let regex = try NSRegularExpression(pattern: "\(pattern)", options: [])
+            return regex
         } catch {
             
         }
+        return nil
     }
-    
 }

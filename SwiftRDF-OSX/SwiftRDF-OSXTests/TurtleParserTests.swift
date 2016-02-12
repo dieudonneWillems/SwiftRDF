@@ -365,8 +365,25 @@ class TurtleParserTests: XCTestCase {
         let numericalLiteral = "(?:(?:\(INTEGER))|(?:\(DECIMAL))|(?:\(DOUBLE)))"
         let literal = "(?:(?:\(RDFLiteral))|(?:\(numericalLiteral))|(?:\(booleanLiteral)))"
         let predicate = iri
+        let collectionPlaceholder = "(?:\\(\\p{L}\\p{M}*\\))" // If matches on collection placeholder - test further with collection pattern
+        let blankNodePropertyListPlaceholder = "(?:\\[\\p{L}\\p{M}*\\])" // If matches on blanknode property list placeholder - test further with blanknode property list pattern
+        let object = "(?:(?:\(iri))|(?:\(blankNode))|(?:\(literal))|(?:\(collectionPlaceholder))|(?:\(blankNodePropertyListPlaceholder)))"
+        let collection = "\\(\(object)*\\)"
+        let objectList = "(?:\(object)(?:\\s*,\\s*\(object))*)"
+        let verb = "(?:\(predicate)|a)"
+        let predicateObjectList = "(?:\(verb)\\s*\(objectList)(?:\\s*;\\s*(?:\(verb)\\s*\(objectList))?)*)"
+        let blankNodePropertyList = "(?:\\[\(predicateObjectList)\\])"
+        let subject = "(?:\(iri)|\(blankNode)|\(collection))"
+        let triples = "(?:(?:\(subject)\\s*\(predicateObjectList))|(?:\(blankNodePropertyList)\\s*\(predicateObjectList)?))"
+        let sparqlPrefix = "(?:(?i)PREFIX(?-i)\\s*\(PNAME_NS)\\s*\(IRIREF))" // prefix should be case insensitive
+        let sparqlBase = "(?:(?i)BASE(?-i)\\s*\(IRIREF))" // base should be case insensitive
+        let prefixID = "(?:@prefix\\s*\(PNAME_NS)\\s*\(IRIREF)\\s*\\.)"
+        let base = "(?:@base\\s*\(IRIREF)\\s*\\.)"
+        let directive = "(?:(?:\(prefixID))|(?:\(base))|(?:\(sparqlPrefix))|(?:\(sparqlBase)))"
+        let statement = "(?:(?:\(directive))|(?:\(triples)))"
+        let turtleDoc = "\(statement)*"
         
-        print(DOUBLE)
+        print(sparqlBase)
         
         testGrammarPattern(PN_CHARS_BASE, testString: "a", shouldFail:false)
         testGrammarPattern(PN_CHARS_BASE, testString: "é", shouldFail:false)
@@ -532,15 +549,142 @@ class TurtleParserTests: XCTestCase {
         testGrammarPattern(predicate, testString: "leg:3032571", shouldFail:false)
         testGrammarPattern(predicate, testString: "isbn13:9780136019701", shouldFail:false)
         
+        testGrammarPattern(object, testString: "isbn13:9780136019701", shouldFail:false)
+        testGrammarPattern(object, testString: "string", shouldFail:true)
+        testGrammarPattern(object, testString: "-.4E-4", shouldFail:false)
+        testGrammarPattern(object, testString: "<http://www.example.org/sample>", shouldFail:false)
+        testGrammarPattern(object, testString: "\"string-flit4\"^^xsd:string", shouldFail:false)
+        testGrammarPattern(object, testString: "'''This is a multi-line\n literal with many quotes (\"\"\"\"\")\n and up to two sequential apostrophes ('').'''^^xsd:string", shouldFail:false)
+        testGrammarPattern(object, testString: "_:bn1", shouldFail:false)
+        testGrammarPattern(object, testString: "_:2bn", shouldFail:false)
+        testGrammarPattern(object, testString: "[]", shouldFail:false)
+        testGrammarPattern(object, testString: "[    ]", shouldFail:false)
+        
+        testGrammarPattern(objectList, testString: "isbn13:9780136019701", shouldFail:false)
+        testGrammarPattern(objectList, testString: "string", shouldFail:true)
+        testGrammarPattern(objectList, testString: "-.4E-4", shouldFail:false)
+        testGrammarPattern(objectList, testString: "<http://www.example.org/sample>", shouldFail:false)
+        testGrammarPattern(objectList, testString: "\"string-flit4\"^^xsd:string", shouldFail:false)
+        testGrammarPattern(objectList, testString: "'''This is a multi-line\n literal with many quotes (\"\"\"\"\")\n and up to two sequential apostrophes ('').'''^^xsd:string", shouldFail:false)
+        testGrammarPattern(objectList, testString: "_:bn1", shouldFail:false)
+        testGrammarPattern(objectList, testString: "_:2bn", shouldFail:false)
+        testGrammarPattern(objectList, testString: "[]", shouldFail:false)
+        testGrammarPattern(objectList, testString: "[    ]", shouldFail:false)
+        testGrammarPattern(objectList, testString: "_:0bn,_:1bn", shouldFail:false)
+        testGrammarPattern(objectList, testString: "_:2bn, _:3bn", shouldFail:false)
+        testGrammarPattern(objectList, testString: "_:4bn , _:5bn", shouldFail:false)
+        testGrammarPattern(objectList, testString: "_:6bn   ,   _:7bn", shouldFail:false)
+        testGrammarPattern(objectList, testString: "_:4bn , <http://www.example.org/sample>", shouldFail:false)
+        testGrammarPattern(objectList, testString: "\"string-flit4\"^^xsd:string , <http://www.example.org/sample> , _:8bn", shouldFail:false)
+        
+        testGrammarPattern(verb, testString: "<http://www.example.org/sample>", shouldFail:false)
+        testGrammarPattern(verb, testString: "<http://www.example.org:8000/sample#fragment>", shouldFail:false)
+        testGrammarPattern(verb, testString: "<relativeIRI>", shouldFail:false)
+        testGrammarPattern(verb, testString: "<#relativeIRI>", shouldFail:false)
+        testGrammarPattern(verb, testString: "string", shouldFail:true)
+        testGrammarPattern(verb, testString: "ns:name", shouldFail:false)
+        testGrammarPattern(verb, testString: "ns:name.dot", shouldFail:false)
+        testGrammarPattern(verb, testString: "a", shouldFail:false)
+        testGrammarPattern(verb, testString: "b", shouldFail:true)
+        
+        testGrammarPattern(predicateObjectList, testString: "<http://www.example.org/predicate> \"string-flit4\"^^xsd:string", shouldFail:false)
+        testGrammarPattern(predicateObjectList, testString: "<http://www.example.org/predicate> \"string-flit4\"^^xsd:string, ns:name", shouldFail:false)
+        testGrammarPattern(predicateObjectList, testString: "<http://www.example.org/predicate> \"string-flit4\"^^xsd:string; ns:predicate2 ns:name", shouldFail:false)
+        testGrammarPattern(predicateObjectList, testString: "<http://www.example.org/predicate>", shouldFail:true)
+        testGrammarPattern(predicateObjectList, testString: "<http://www.example.org/predicate> \"string-flit4\"^^xsd:string , ns:name  ; <http://www.example.org/predicate2> -.4E-4 ; ns:predicate3 ns:object1", shouldFail:false)
+        
+        testGrammarPattern(subject, testString: "isbn13:9780136019701", shouldFail:false)
+        testGrammarPattern(subject, testString: "string", shouldFail:true)
+        testGrammarPattern(subject, testString: "-.4E-4", shouldFail:true)
+        testGrammarPattern(subject, testString: "<http://www.example.org/sample>", shouldFail:false)
+        testGrammarPattern(subject, testString: "\"string-flit4\"^^xsd:string", shouldFail:true)
+        testGrammarPattern(subject, testString: "'''This is a multi-line\n literal with many quotes (\"\"\"\"\")\n and up to two sequential apostrophes ('').'''^^xsd:string", shouldFail:true)
+        testGrammarPattern(subject, testString: "_:bn1", shouldFail:false)
+        testGrammarPattern(subject, testString: "_:2bn", shouldFail:false)
+        testGrammarPattern(subject, testString: "[]", shouldFail:false)
+        testGrammarPattern(subject, testString: "[    ]", shouldFail:false)
+        
+        testGrammarPattern(triples, testString: "isbn13:9780136019701 <http://www.example.org/predicate> \"string-flit4\"^^xsd:string", shouldFail:false)
+        testGrammarPattern(triples, testString: "isbn13:9780136019701 <http://www.example.org/predicate> \"string-flit4\"^^xsd:string , ns:name  ; <http://www.example.org/predicate2> -.4E-4 ; ns:predicate3 ns:object1", shouldFail:false)
+        
+        testGrammarPattern(sparqlBase, testString: "BASE <http://www.example.org/predicate>", shouldFail:false)
+        testGrammarPattern(sparqlBase, testString: "base <http://www.example.org/predicate>", shouldFail:false)
+        testGrammarPattern(sparqlBase, testString: "@BASE <http://www.example.org/predicate>", shouldFail:true)
+        testGrammarPattern(sparqlBase, testString: "BASE ns:base", shouldFail:true)
+        testGrammarPattern(sparqlBase, testString: "PREFIX ns:base", shouldFail:true)
+        
+        testGrammarPattern(base, testString: "@base <http://www.example.org/predicate>  .", shouldFail:false)
+        testGrammarPattern(base, testString: "@base <http://www.example.org/predicate>.", shouldFail:false)
+        testGrammarPattern(base, testString: "@base <http://www.example.org/predicate>", shouldFail:true)
+        testGrammarPattern(base, testString: "BASE <http://www.example.org/predicate>", shouldFail:true)
+        testGrammarPattern(base, testString: "@base ns:base .", shouldFail:true)
+        testGrammarPattern(base, testString: "@prefix ns:base .", shouldFail:true)
+        
+        testGrammarPattern(sparqlPrefix, testString: "PREFIX ns: <http://www.example.org/predicate>", shouldFail:false)
+        testGrammarPattern(sparqlPrefix, testString: "prefix ns:<http://www.example.org/predicate>", shouldFail:false)
+        testGrammarPattern(sparqlPrefix, testString: "PREFIX prefix: <http://www.example.org/predicate>", shouldFail:false)
+        testGrammarPattern(sparqlPrefix, testString: "prefix prefix: <http://www.example.org/predicate>", shouldFail:false)
+        testGrammarPattern(sparqlPrefix, testString: "@PREFIX prefix: <http://www.example.org/predicate>", shouldFail:true)
+        testGrammarPattern(sparqlPrefix, testString: "PREFIX prefix:ns:base", shouldFail:true)
+        
+        testGrammarPattern(prefixID, testString: "@prefix ns:<http://www.example.org/predicate>.", shouldFail:false)
+        testGrammarPattern(prefixID, testString: "@prefix ns: <http://www.example.org/predicate>.", shouldFail:false)
+        testGrammarPattern(prefixID, testString: "@prefix ns: <http://www.example.org/predicate>  .", shouldFail:false)
+        testGrammarPattern(prefixID, testString: "@prefix ns: <http://www.example.org/predicate>", shouldFail:true)
+        testGrammarPattern(prefixID, testString: "prefix ns:<http://www.example.org/predicate>", shouldFail:true)
+        testGrammarPattern(prefixID, testString: "PREFIX prefix: <http://www.example.org/predicate>", shouldFail:true)
+        testGrammarPattern(prefixID, testString: "@prefix prefix: <http://www.example.org/predicate>.", shouldFail:false)
+        testGrammarPattern(prefixID, testString: "@PREFIX prefix: <http://www.example.org/predicate>", shouldFail:true)
+        testGrammarPattern(prefixID, testString: "@prefix prefix:ns:base.", shouldFail:true)
+        
+        testGrammarPattern(directive, testString: "BASE <http://www.example.org/predicate>", shouldFail:false)
+        testGrammarPattern(directive, testString: "base <http://www.example.org/predicate>", shouldFail:false)
+        testGrammarPattern(directive, testString: "@BASE <http://www.example.org/predicate>", shouldFail:true)
+        testGrammarPattern(directive, testString: "BASE ns:base", shouldFail:true)
+        testGrammarPattern(directive, testString: "PREFIX ns:base", shouldFail:true)
+        testGrammarPattern(directive, testString: "@base <http://www.example.org/predicate>  .", shouldFail:false)
+        testGrammarPattern(directive, testString: "@base <http://www.example.org/predicate>.", shouldFail:false)
+        testGrammarPattern(directive, testString: "@base <http://www.example.org/predicate>", shouldFail:true)
+        testGrammarPattern(directive, testString: "BASE <http://www.example.org/predicate>", shouldFail:false)
+        testGrammarPattern(directive, testString: "@base ns:base .", shouldFail:true)
+        testGrammarPattern(directive, testString: "@prefix ns:base .", shouldFail:true)
+        testGrammarPattern(directive, testString: "PREFIX ns: <http://www.example.org/predicate>", shouldFail:false)
+        testGrammarPattern(directive, testString: "prefix ns:<http://www.example.org/predicate>", shouldFail:false)
+        testGrammarPattern(directive, testString: "PREFIX prefix: <http://www.example.org/predicate>", shouldFail:false)
+        testGrammarPattern(directive, testString: "PREFIX : <http://www.example.org/predicate>", shouldFail:false)
+        testGrammarPattern(directive, testString: "prefix prefix: <http://www.example.org/predicate>", shouldFail:false)
+        testGrammarPattern(directive, testString: "@PREFIX prefix: <http://www.example.org/predicate>", shouldFail:true)
+        testGrammarPattern(directive, testString: "PREFIX prefix:ns:base", shouldFail:true)
+        testGrammarPattern(directive, testString: "@prefix ns:<http://www.example.org/predicate>.", shouldFail:false)
+        testGrammarPattern(directive, testString: "@prefix ns: <http://www.example.org/predicate>.", shouldFail:false)
+        testGrammarPattern(directive, testString: "@prefix ns: <http://www.example.org/predicate>  .", shouldFail:false)
+        testGrammarPattern(directive, testString: "@prefix ns: <http://www.example.org/predicate>", shouldFail:true)
+        testGrammarPattern(directive, testString: "prefix ns:<http://www.example.org/predicate>", shouldFail:false)
+        testGrammarPattern(directive, testString: "PREFIX prefix: <http://www.example.org/predicate>", shouldFail:false)
+        testGrammarPattern(directive, testString: "@prefix prefix: <http://www.example.org/predicate>.", shouldFail:false)
+        testGrammarPattern(directive, testString: "@prefix : <http://www.example.org/predicate>.", shouldFail:false)
+        testGrammarPattern(directive, testString: "@PREFIX prefix: <http://www.example.org/predicate>", shouldFail:true)
+        testGrammarPattern(directive, testString: "@prefix prefix:ns:base.", shouldFail:true)
+        
+        testGrammarPattern(statement, testString: "BASE <http://www.example.org/predicateS>", shouldFail:false)
+        testGrammarPattern(statement, testString: "@base <http://www.example.org/predicateS>  .", shouldFail:false)
+        testGrammarPattern(statement, testString: "PREFIX ns: <http://www.example.org/predicateS>", shouldFail:false)
+        testGrammarPattern(statement, testString: "prefix ns:<http://www.example.org/predicateS>", shouldFail:false)
+        testGrammarPattern(statement, testString: "@prefix ns:<http://www.example.org/predicateS>.", shouldFail:false)
+        testGrammarPattern(statement, testString: "@prefix ns: <http://www.example.org/predicateS>.", shouldFail:false)
+        testGrammarPattern(statement, testString: "isbn13:9780136019701 <http://www.example.org/predicateS> \"string-flit4\"^^xsd:string", shouldFail:false)
+        testGrammarPattern(statement, testString: "isbn13:9780136019701 <http://www.example.org/predicateS> \"string-flit4\"^^xsd:string , ns:name  ; <http://www.example.org/predicate2S> -.4E-4 ; ns:predicate3 ns:object1", shouldFail:false)
+        
     }
     
     func testGrammarPattern(pattern: String, testString: String, shouldFail : Bool) {
         do {
             let regex = try NSRegularExpression(pattern: "^\(pattern)$", options: [])
             let matches = regex.matchesInString(testString, options: [], range: NSMakeRange(0, testString.characters.count)) as Array<NSTextCheckingResult>
-            XCTAssertTrue((matches.count == 1) != shouldFail,testString)
+            let flag = (matches.count == 1) != shouldFail
+            XCTAssertTrue(flag,testString)
         } catch {
-            XCTFail()
+            XCTFail(testString)
         }
     }
     
