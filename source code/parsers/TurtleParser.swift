@@ -30,6 +30,10 @@ public class TurtleParser : NSObject, RDFParser {
     private var contentString : String
     private var prefixes = [String : URI]()
     
+    // State during parsing
+    private var currentSubject : Resource?
+    private var currentPredicate : URI?
+    
     private var grammar : [String : NSRegularExpression]? = nil
     
     /**
@@ -152,7 +156,12 @@ public class TurtleParser : NSObject, RDFParser {
             if spos.count == 3 {
                 let subjectstr = spos[1]
                 let predicateObjectList = spos[2]
-                print("subject: \(subjectstr!)")
+                currentSubject = self.parseSubject(subjectstr!)
+                if currentSubject == nil {
+                    // TODO Error - no subject in triple
+                    return false
+                }
+                print("subject: \(subjectstr) --> \(currentSubject!)")
             }else if spos.count == 2 {
                 // TODO: Error, no predicate and object
             }else if spos.count <= 1 {
@@ -162,13 +171,28 @@ public class TurtleParser : NSObject, RDFParser {
         return subjecPredicateObjects.count > 0
     }
     
+    private func parseSubject(string : String) -> Resource? {
+        let subjectByType = self.runRegularExpressionWithGroups(grammar!["subjectParsingGroups"]!, onString: string)
+        if subjectByType.count > 0  && subjectByType[0].count >= 4 {
+            if subjectByType[0][1] != nil {
+                return self.parseIRI(string)
+            } else if subjectByType[0][3] != nil {
+                return BlankNode(identifier: string)
+            } else if subjectByType[0][4] != nil {
+                return BlankNode()
+            } else if subjectByType[0][5] != nil {
+                // TODO collection in subject
+            }
+        }
+        return nil
+    }
+    
     private func parseBaseURI(string : String) -> Bool {
         let bases = self.runRegularExpression(grammar!["bases"]!, onString: string)
         for base in bases {
-            let iris = self.parseIRIRefs(base)
-            if iris.count > 0 {
-                print("SET BASE URI: \(iris[0])")
-                baseURI = iris[0]
+            let iri = self.parseIRIRef(base)
+            if iri != nil {
+                baseURI = iri!
                 if currentGraph?.baseURI == nil {
                     currentGraph?.baseURI = baseURI
                 }
@@ -181,32 +205,48 @@ public class TurtleParser : NSObject, RDFParser {
         let prefixes = self.runRegularExpression(grammar!["prefixes"]!, onString: string)
         for prefix in prefixes {
             let pnames = self.parsePNAME_NS(prefix)
-            let iris = self.parseIRIRefs(prefix)
-            if iris.count > 0 {
-                print("ADD PREFIX: \(pnames[0]) : \(iris[0])")
-                currentGraph?.addNamespace(pnames[0], namespaceURI: iris[0].stringValue)
+            let iri = self.parseIRIRef(prefix)
+            if iri != nil {
+                self.prefixes[pnames[0]] = iri
+                currentGraph?.addNamespace(pnames[0], namespaceURI: iri!.stringValue)
                 if delegate != nil {
-                    delegate!.namespaceAdded(self, graph: currentGraph!, prefix: pnames[0], namespaceURI: iris[0].stringValue)
+                    delegate!.namespaceAdded(self, graph: currentGraph!, prefix: pnames[0], namespaceURI: iri!.stringValue)
                 }
             }
         }
         return prefixes.count > 0
     }
     
-    private func parseIRIRefs(string : String) -> [URI] {
-        var iris = [URI]()
+    private func parseIRI(string : String) -> URI? {
+        if string.isPrefixedName {
+            var prefix = string.prefixedNamePrefix
+            if prefix == nil {
+                prefix = ""
+            }
+            let localName = string.prefixedNameLocalPart
+            let namespace = currentGraph?.namespaceForPrefix(prefix!)
+            if namespace == nil {
+                // TODO Error udefined prefix.
+                return nil
+            }
+            let uri = URI(namespace: namespace!, localName: localName!)
+            return uri
+        } else {
+            return parseIRIRef(string)
+        }
+    }
+    
+    private func parseIRIRef(string : String) -> URI? {
         let irisstrs = self.runRegularExpression(grammar!["IRIREF"]!, onString: string)
-        for iristr in irisstrs {
-            let prsd = iristr.substringWithRange(Range<String.Index>(start: iristr.startIndex.advancedBy(1), end: iristr.endIndex.advancedBy(-1)))
+        if irisstrs.count > 0 {
+            let prsd = irisstrs[0].substringWithRange(Range<String.Index>(start: irisstrs[0].startIndex.advancedBy(1), end: irisstrs[0].endIndex.advancedBy(-1)))
             var iri = URI(string: prsd)
             if iri == nil && baseURI != nil {
                 iri = URI(namespace: baseURI!.stringValue, localName: prsd)
             }
-            if iri != nil {
-                iris.append(iri!)
-            }
+            return iri
         }
-        return iris
+        return nil
     }
     
     private func parsePNAME_NS(string : String) -> [String] {
@@ -284,6 +324,7 @@ public class TurtleParser : NSObject, RDFParser {
         let IRIREF = "<(?:[^\\u0000-\\u0020<>\"\\|\\^`\\\\]|\(UCHAR))*>\(PN_CHARS)?"
         
         let blankNode = "(?:\(BLANK_NODE_LABEL))|(?:\(ANON))"
+        let blankNodeGroup = "(\(BLANK_NODE_LABEL))|(\(ANON))"
         let prefixedName = "(?:\(PNAME_LN))|(?:\(PNAME_NS))"
         let iri = "(?:(?:\(IRIREF))|(?:\(prefixedName)))"
         let string = "(?:(?:\(STRING_LITERAL_QUOTE))|(?:\(STRING_LITERAL_SINGLE_QUOTE))|(?:\(STRING_LITERAL_LONG_SINGLE_QUOTE))|(?:\(STRING_LITERAL_LONG_QUOTE)))"
@@ -305,6 +346,7 @@ public class TurtleParser : NSObject, RDFParser {
         let blankNodePropertyList = "(?:\\[\(predicateObjectList)\\])"
         let subject = "(?:\(iri)|\(blankNode)|\(collection))"
         let subjectGroups = "(\(iri)|\(blankNode)|\(collection))"
+        let subjectParsingGroups = "(\(iri))|(\(blankNodeGroup))|(\(collection))"
         let triples = "(?:(?:\(subject)\\s*\(predicateObjectList))|(?:\(blankNodePropertyList)\\s*\(predicateObjectList)?))"
         let triplesGroups = "(?:(?:\(subjectGroups)\\s*(\(predicateObjectList)))|(?:\(blankNodePropertyList)\\s*\(predicateObjectList)?))"
         let sparqlPrefix = "(?:(?i)PREFIX(?-i)\\s*\(PNAME_NS)\\s*\(IRIREF))" // prefix should be case insensitive
@@ -325,6 +367,7 @@ public class TurtleParser : NSObject, RDFParser {
         grammar!["IRIREF"] = self.createGrammarRegEx("\(IRIREF)")!
         grammar!["PNAME_NS"] = self.createGrammarRegEx("\(PNAME_NS)")!
         grammar!["triplesGroups"] = self.createGrammarRegEx("\(triplesGroups)")!
+        grammar!["subjectParsingGroups"] = self.createGrammarRegEx("\(subjectParsingGroups)")!
     }
     
     private func createGrammarRegEx(pattern: String) -> NSRegularExpression? {

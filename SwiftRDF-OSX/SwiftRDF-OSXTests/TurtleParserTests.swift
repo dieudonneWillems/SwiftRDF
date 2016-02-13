@@ -357,6 +357,7 @@ class TurtleParserTests: XCTestCase {
         let IRIREF = "<(?:[^\\u0000-\\u0020<>\"\\|\\^`\\\\]|\(UCHAR))*>\(PN_CHARS)?"
         
         let blankNode = "(?:\(BLANK_NODE_LABEL))|(?:\(ANON))"
+        let blankNodeGroup = "(\(BLANK_NODE_LABEL))|(\(ANON))"
         let prefixedName = "(?:\(PNAME_LN))|(?:\(PNAME_NS))"
         let iri = "(?:(?:\(IRIREF))|(?:\(prefixedName)))"
         let string = "(?:(?:\(STRING_LITERAL_QUOTE))|(?:\(STRING_LITERAL_SINGLE_QUOTE))|(?:\(STRING_LITERAL_LONG_SINGLE_QUOTE))|(?:\(STRING_LITERAL_LONG_QUOTE)))"
@@ -378,6 +379,7 @@ class TurtleParserTests: XCTestCase {
         let blankNodePropertyList = "(?:\\[\(predicateObjectList)\\])"
         let subject = "(?:\(iri)|\(blankNode)|\(collection))"
         let subjectGroups = "(\(iri)|\(blankNode)|\(collection))"
+        let subjectParsingGroups = "(\(iri))|(\(blankNodeGroup))|(\(collection))"
         let triples = "(?:(?:\(subject)\\s*\(predicateObjectList))|(?:\(blankNodePropertyList)\\s*\(predicateObjectList)?))"
         let triplesGroups = "(?:(?:\(subjectGroups)\\s*(\(predicateObjectList)))|(?:\(blankNodePropertyList)\\s*\(predicateObjectList)?))"
         let sparqlPrefix = "(?:(?i)PREFIX(?-i)\\s*\(PNAME_NS)\\s*\(IRIREF))" // prefix should be case insensitive
@@ -388,7 +390,7 @@ class TurtleParserTests: XCTestCase {
         let statement = "(?:(?:\(directive))|(?:\(triples)))"
         let turtleDoc = "\(statement)*"
         
-        print(triplesGroups)
+        print(subjectParsingGroups)
         
         testGrammarPattern(PN_CHARS_BASE, testString: "a", shouldFail:false)
         testGrammarPattern(PN_CHARS_BASE, testString: "é", shouldFail:false)
