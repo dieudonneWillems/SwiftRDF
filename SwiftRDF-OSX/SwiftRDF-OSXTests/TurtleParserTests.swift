@@ -130,7 +130,7 @@ class TurtleParserTests: XCTestCase {
     }
     
     func testExample6() {
-        let rdf = "<http://example.org/#spiderman> <http://xmlns.com/foaf/0.1/name> \"Spiderman\" ." +
+        let rdf = "<http://example.org/#spiderman> <http://xmlns.com/foaf/0.1/name> \"Spiderman\" .\n" +
                 "<http://example.org/#spiderman> <http://xmlns.com/foaf/0.1/name> \"Человек-паук\"@ru ."
         let data = rdf.dataUsingEncoding(NSUTF8StringEncoding)
         let name = URI(string: "https://www.w3.org/TR/turtle/example-6")
@@ -288,7 +288,7 @@ class TurtleParserTests: XCTestCase {
                 "show:218 show:localName \"That Seventies Show\"@en .                 # literal with a language tag\n" +
                 "show:218 show:localName 'Cette Série des Années Soixante-dix'@fr . # literal delimited by single quote\n" +
                 "show:218 show:localName \"Cette Série des Années Septante\"@fr-be .  # literal with a region subtag\n" +
-                "show:218 show:blurb '''This is a multi-line# literal with embedded new lines and quotes\n" +
+                "show:218 show:blurb '''This is a multi-line\n" +
                 "literal with many quotes (\"\"\"\"\")\n" +
                 "and up to two sequential apostrophes ('').''' ."
         let data = rdf.dataUsingEncoding(NSUTF8StringEncoding)
@@ -329,6 +329,140 @@ class TurtleParserTests: XCTestCase {
         }
     }
     
+    func testExample12() {
+        let rdf = "@prefix : <http://example.org/elements> .\n" +
+            "<http://en.wikipedia.org/wiki/Helium>\n" +
+            "   :atomicNumber 2 ;               # xsd:integer \n" +
+            "   :atomicMass 4.002602 ;          # xsd:decimal \n" +
+            "   :specificGravity 1.663E-4 .     # xsd:double  ."
+        let data = rdf.dataUsingEncoding(NSUTF8StringEncoding)
+        let name = URI(string: "https://www.w3.org/TR/turtle/example-12")
+        let parser = TurtleParser(data: data!, baseURI: name!,encoding: NSUTF8StringEncoding)
+        parser.delegate = TestRDFParserDelegate()
+        let graph = parser.parse()
+        XCTAssertEqual(1, graph?.namespaces.count)
+        XCTAssertEqual(3, graph?.statements.count)
+        printGraph(graph!)
+        if graph?.namespaces.count == 1 {
+            XCTAssertEqual("http://example.org/elements", graph!.namespaceForPrefix(""))
+        }
+        if graph?.statements.count == 2 {
+            XCTAssertTrue(graph![0].subject == URI(string: "http://en.wikipedia.org/wiki/Helium")!)
+            XCTAssertTrue(graph![0].predicate == URI(string: "http://example.org/elements#atomicNumber")!)
+            XCTAssertTrue(graph![0].object == Literal(sparqlString: "2")!)
+            XCTAssertTrue(graph![1].subject == URI(string: "http://en.wikipedia.org/wiki/Helium")!)
+            XCTAssertTrue(graph![1].predicate == URI(string: "http://example.org/elements#atomicMass")!)
+            XCTAssertTrue(graph![1].object == Literal(sparqlString: "4.002602")!)
+            XCTAssertTrue(graph![2].subject == URI(string: "http://en.wikipedia.org/wiki/Helium")!)
+            XCTAssertTrue(graph![2].predicate == URI(string: "http://example.org/elements#specificGravity")!)
+            XCTAssertTrue(graph![2].object == Literal(sparqlString: "1.663E-4")!)
+        }
+    }
+    
+    func testExample13() {
+        let rdf = "@prefix : <http://example.org/stats> . \n" +
+            "<http://somecountry.example/census2007>\n " +
+            "   :isLandlocked false .           # xsd:boolean"
+        let data = rdf.dataUsingEncoding(NSUTF8StringEncoding)
+        let name = URI(string: "https://www.w3.org/TR/turtle/example-13")
+        let parser = TurtleParser(data: data!, baseURI: name!,encoding: NSUTF8StringEncoding)
+        parser.delegate = TestRDFParserDelegate()
+        let graph = parser.parse()
+        XCTAssertEqual(1, graph?.namespaces.count)
+        XCTAssertEqual(1, graph?.statements.count)
+        printGraph(graph!)
+        if graph?.namespaces.count == 1 {
+            XCTAssertEqual("http://example.org/stats", graph!.namespaceForPrefix(""))
+        }
+        if graph?.statements.count == 1 {
+            XCTAssertTrue(graph![0].subject == URI(string: "http://somecountry.example/census2007")!)
+            XCTAssertTrue(graph![0].predicate == URI(string: "http://example.org/stats#isLandlocked")!)
+            XCTAssertTrue(graph![0].object == Literal(sparqlString: "false")!)
+        }
+    }
+    
+    func testExample14() {
+        let rdf = "@prefix foaf: <http://xmlns.com/foaf/0.1/> . \n" +
+            "_:alice foaf:knows _:bob . \n" +
+            "_:bob foaf:knows _:alice ."
+        let data = rdf.dataUsingEncoding(NSUTF8StringEncoding)
+        let name = URI(string: "https://www.w3.org/TR/turtle/example-14")
+        let parser = TurtleParser(data: data!, baseURI: name!,encoding: NSUTF8StringEncoding)
+        parser.delegate = TestRDFParserDelegate()
+        let graph = parser.parse()
+        XCTAssertEqual(1, graph?.namespaces.count)
+        XCTAssertEqual(2, graph?.statements.count)
+        printGraph(graph!)
+        if graph?.namespaces.count == 1 {
+            XCTAssertEqual("http://xmlns.com/foaf/0.1/", graph!.namespaceForPrefix("foaf"))
+        }
+        if graph?.statements.count == 2 {
+            XCTAssertTrue(graph![0].subject == BlankNode(identifier: "alice"))
+            XCTAssertTrue(graph![0].predicate == URI(string: "http://xmlns.com/foaf/0.1/knows")!)
+            XCTAssertTrue(graph![0].object == BlankNode(identifier: "bob"))
+            XCTAssertTrue(graph![1].subject == BlankNode(identifier: "bob"))
+            XCTAssertTrue(graph![1].predicate == URI(string: "http://xmlns.com/foaf/0.1/knows")!)
+            XCTAssertTrue(graph![1].object == BlankNode(identifier: "alice"))
+        }
+    }
+    
+    func testExample15() {
+        let rdf = "@prefix foaf: <http://xmlns.com/foaf/0.1/> . \n" +
+            "[] foaf:knows [ foaf:name \"Bob\" ] ."
+        let data = rdf.dataUsingEncoding(NSUTF8StringEncoding)
+        let name = URI(string: "https://www.w3.org/TR/turtle/example-15")
+        let parser = TurtleParser(data: data!, baseURI: name!,encoding: NSUTF8StringEncoding)
+        parser.delegate = TestRDFParserDelegate()
+        let graph = parser.parse()
+        XCTAssertEqual(1, graph?.namespaces.count)
+        XCTAssertEqual(2, graph?.statements.count)
+        printGraph(graph!)
+        if graph?.namespaces.count == 1 {
+            XCTAssertEqual("http://xmlns.com/foaf/0.1/", graph!.namespaceForPrefix("foaf"))
+        }
+        if graph?.statements.count == 2 {
+            XCTAssertTrue(graph![0].predicate == URI(string: "http://xmlns.com/foaf/0.1/knows")!)
+            XCTAssertTrue(graph![0].object == graph![1].subject)
+            XCTAssertTrue(graph![1].predicate == URI(string: "http://xmlns.com/foaf/0.1/name")!)
+            XCTAssertTrue(graph![1].object == Literal(sparqlString: "\"Bob\"^^xsd:string")!)
+        }
+    }
+    
+    func testExample16() {
+        let rdf = "@prefix foaf: <http://xmlns.com/foaf/0.1/> .\n" +
+            "[ foaf:name \"Alice\" ] foaf:knows [ \n" +
+            "  foaf:name \"Bob\" ; \n" +
+            "  foaf:knows [ \n " +
+            "  foaf:name \"Eve\" ] ; \n " +
+            "  foaf:mbox <bob@example.com> ] ."
+        let data = rdf.dataUsingEncoding(NSUTF8StringEncoding)
+        let name = URI(string: "https://www.w3.org/TR/turtle/example-16")
+        let parser = TurtleParser(data: data!, baseURI: name!,encoding: NSUTF8StringEncoding)
+        parser.delegate = TestRDFParserDelegate()
+        let graph = parser.parse()
+        XCTAssertEqual(1, graph?.namespaces.count)
+        XCTAssertEqual(6, graph?.statements.count)
+        printGraph(graph!)
+        if graph?.namespaces.count == 1 {
+            XCTAssertEqual("http://xmlns.com/foaf/0.1/", graph!.namespaceForPrefix("foaf"))
+        }
+        if graph?.statements.count == 6 {
+            XCTAssertTrue(graph![0].predicate == URI(string: "http://xmlns.com/foaf/0.1/name")!)
+            XCTAssertTrue(graph![0].object == Literal(sparqlString: "\"Alice\"^^xsd:string")!)
+            XCTAssertTrue(graph![1].predicate == URI(string: "http://xmlns.com/foaf/0.1/knows")!)
+            XCTAssertTrue(graph![1].object == graph![2].subject)
+            XCTAssertTrue(graph![2].predicate == URI(string: "http://xmlns.com/foaf/0.1/name")!)
+            XCTAssertTrue(graph![2].object == Literal(sparqlString: "\"Bob\"^^xsd:string")!)
+            XCTAssertTrue(graph![3].predicate == URI(string: "http://xmlns.com/foaf/0.1/knows")!)
+            XCTAssertTrue(graph![3].object == graph![4].subject)
+            XCTAssertTrue(graph![4].predicate == URI(string: "http://xmlns.com/foaf/0.1/name")!)
+            XCTAssertTrue(graph![4].object == Literal(sparqlString: "\"Eve\"^^xsd:string")!)
+            XCTAssertTrue(graph![2].subject == graph![5].subject)
+            XCTAssertTrue(graph![5].predicate == URI(string: "http://xmlns.com/foaf/0.1/mbox")!)
+       //     XCTAssertTrue(graph![5].object == URI(string:"bob@example.com")!)
+        }
+    }
+    
     func testGrammar() {
         let PN_LOCAL_ESC = "\\\\[_~\\.\\-!\\$&'\\(\\)\\*\\+,;=/\\?#@%]"
         let HEX = "[0-9A-Fa-f]"
@@ -357,40 +491,45 @@ class TurtleParserTests: XCTestCase {
         let IRIREF = "<(?:[^\\u0000-\\u0020<>\"\\|\\^`\\\\]|\(UCHAR))*>\(PN_CHARS)?"
         
         let blankNode = "(?:\(BLANK_NODE_LABEL))|(?:\(ANON))"
-        let blankNodeGroup = "(\(BLANK_NODE_LABEL))|(\(ANON))"
+        //let blankNodeGroup = "(\(BLANK_NODE_LABEL))|(\(ANON))"
         let prefixedName = "(?:\(PNAME_LN))|(?:\(PNAME_NS))"
         let iri = "(?:(?:\(IRIREF))|(?:\(prefixedName)))"
-        let string = "(?:(?:\(STRING_LITERAL_QUOTE))|(?:\(STRING_LITERAL_SINGLE_QUOTE))|(?:\(STRING_LITERAL_LONG_SINGLE_QUOTE))|(?:\(STRING_LITERAL_LONG_QUOTE)))"
+        let string = "(?:(?:\(STRING_LITERAL_LONG_SINGLE_QUOTE))|(?:\(STRING_LITERAL_LONG_QUOTE))|(?:\(STRING_LITERAL_QUOTE))|(?:\(STRING_LITERAL_SINGLE_QUOTE)))"
         let booleanLiteral = "true|false"
         let RDFLiteral = "(?:(?:\(string))(?:(?:\(LANGTAG))|(?:\\^\\^\(iri)))?)"
-        let numericalLiteral = "(?:(?:\(INTEGER))|(?:\(DECIMAL))|(?:\(DOUBLE)))"
+        let numericalLiteral = "(?:(?:\(DOUBLE))|(?:\(DECIMAL))|(?:\(INTEGER)))"
         let literal = "(?:(?:\(RDFLiteral))|(?:\(numericalLiteral))|(?:\(booleanLiteral)))"
         let predicate = iri
-        let collectionPlaceholder = "(?:\\(\\p{L}\\p{M}*\\))" // If matches on collection placeholder - test further with collection pattern
-        let blankNodePropertyListPlaceholder = "(?:\\[\\p{L}\\p{M}*\\])" // If matches on blanknode property list placeholder - test further with blanknode property list pattern
+        let collectionPlaceholder = "(?:\\((?>\\P{M}\\p{M}*)*\\))" // If matches on collection placeholder - test further with collection pattern
+        let blankNodePropertyListPlaceholder = "(?:\\[(?>\\P{M}\\p{M}*)*\\])" // If matches on blanknode property list placeholder - test further with blanknode property list pattern
         let object = "(?:(?:\(iri))|(?:\(blankNode))|(?:\(literal))|(?:\(collectionPlaceholder))|(?:\(blankNodePropertyListPlaceholder)))"
+       // let objectGroups = "(?:(\(iri))|(\(blankNode))|(\(literal))|(\(collectionPlaceholder))|(\(blankNodePropertyListPlaceholder)))"
         let collection = "\\(\(object)*\\)"
         let objectList = "(?:\(object)(?:\\s*,\\s*\(object))*)"
-        let objectListGroups = "(\(object)(?:\\s*,\\s*\(object))*)"
+     //   let objectListGroups = "(\(object)(?:\\s*,\\s*\(object))*)"
+        //let objectListParsingGroups = "(?:(\(object))((?:\\s*,\\s*\(object))*))"
         let verb = "(?:\(predicate)|a)"
-        let verbGroups = "(\(predicate)|a)"
+     //   let verbGroups = "(\(predicate)|a)"
         let predicateObjectList = "(?:\(verb)\\s*\(objectList)(?:\\s*;\\s*(?:\(verb)\\s*\(objectList))?)*)"
-        let predicateObjectListGroups = "(\(verb)\\s*(\(objectList)(?:\\s*;\\s*(?:\(verb)\\s*\(objectList))?)*))"
-        let blankNodePropertyList = "(?:\\[\(predicateObjectList)\\])"
+    //    let predicateObjectListGroups = "(?:\(verbGroups)\\s*\(objectListGroups)((?:\\s*;\\s*\(verb)\\s*\(objectList)?)*))"
+        let blankNodePropertyList = "(?:\\[\\s*(\(predicateObjectList))\\s*\\])"
+      //  let blankNodePropertyListGroups = "(?:\\[\\s*(\(predicateObjectList))\\s*\\])"
         let subject = "(?:\(iri)|\(blankNode)|\(collection))"
-        let subjectGroups = "(\(iri)|\(blankNode)|\(collection))"
-        let subjectParsingGroups = "(\(iri))|(\(blankNodeGroup))|(\(collection))"
+    //    let subjectGroups = "(\(iri)|\(blankNode)|\(collection))"
+        //let subjectParsingGroups = "(\(iri))|(\(blankNodeGroup))|(\(collection))"
         let triples = "(?:(?:\(subject)\\s*\(predicateObjectList))|(?:\(blankNodePropertyList)\\s*\(predicateObjectList)?))"
-        let triplesGroups = "(?:(?:\(subjectGroups)\\s*(\(predicateObjectList)))|(?:\(blankNodePropertyList)\\s*\(predicateObjectList)?))"
+   //     let triplesGroups = "(?:(?:\(subjectGroups)\\s*(\(predicateObjectList)))|(?:\(blankNodePropertyList)\\s*\(predicateObjectList)?))"
         let sparqlPrefix = "(?:(?i)PREFIX(?-i)\\s*\(PNAME_NS)\\s*\(IRIREF))" // prefix should be case insensitive
         let sparqlBase = "(?:(?i)BASE(?-i)\\s*\(IRIREF))" // base should be case insensitive
         let prefixID = "(?:@prefix\\s*\(PNAME_NS)\\s*\(IRIREF)\\s*\\.)"
         let base = "(?:@base\\s*\(IRIREF)\\s*\\.)"
         let directive = "(?:(?:\(prefixID))|(?:\(base))|(?:\(sparqlPrefix))|(?:\(sparqlBase)))"
-        let statement = "(?:(?:\(directive))|(?:\(triples)))"
-        let turtleDoc = "\(statement)*"
+        let statement = "(?:(?:(?:\(directive))\\s*)|(?:(?:\(triples))\\s*\\.\\s*))"
+        //let turtleDoc = "\(statement)*"
         
-        print(subjectParsingGroups)
+        //let comment = "(?:[^<>'\"]|(?:<[^<>]*>)|(?:\"[^\"]*\"\\s*)|(?:'[^']*'\\s*)|(?:\"\"\".*\"\"\"\\s*)|(?:'''.*'''\\s*))*(#.*)"
+        
+        print(blankNodePropertyListPlaceholder)
         
         testGrammarPattern(PN_CHARS_BASE, testString: "a", shouldFail:false)
         testGrammarPattern(PN_CHARS_BASE, testString: "é", shouldFail:false)
@@ -559,6 +698,7 @@ class TurtleParserTests: XCTestCase {
         testGrammarPattern(object, testString: "isbn13:9780136019701", shouldFail:false)
         testGrammarPattern(object, testString: "string", shouldFail:true)
         testGrammarPattern(object, testString: "-.4E-4", shouldFail:false)
+        testGrammarPattern(object, testString: "12.43", shouldFail:false)
         testGrammarPattern(object, testString: "<http://www.example.org/sample>", shouldFail:false)
         testGrammarPattern(object, testString: "\"string-flit4\"^^xsd:string", shouldFail:false)
         testGrammarPattern(object, testString: "'''This is a multi-line\n literal with many quotes (\"\"\"\"\")\n and up to two sequential apostrophes ('').'''^^xsd:string", shouldFail:false)
@@ -672,6 +812,7 @@ class TurtleParserTests: XCTestCase {
         testGrammarPattern(directive, testString: "@prefix : <http://www.example.org/predicate>.", shouldFail:false)
         testGrammarPattern(directive, testString: "@PREFIX prefix: <http://www.example.org/predicate>", shouldFail:true)
         testGrammarPattern(directive, testString: "@prefix prefix:ns:base.", shouldFail:true)
+        testGrammarPattern(directive, testString: "@prefix p: <path/> .", shouldFail:false)
         
         testGrammarPattern(statement, testString: "BASE <http://www.example.org/predicateS>", shouldFail:false)
         testGrammarPattern(statement, testString: "@base <http://www.example.org/predicateS>  .", shouldFail:false)
@@ -679,8 +820,9 @@ class TurtleParserTests: XCTestCase {
         testGrammarPattern(statement, testString: "prefix ns:<http://www.example.org/predicateS>", shouldFail:false)
         testGrammarPattern(statement, testString: "@prefix ns:<http://www.example.org/predicateS>.", shouldFail:false)
         testGrammarPattern(statement, testString: "@prefix ns: <http://www.example.org/predicateS>.", shouldFail:false)
-        testGrammarPattern(statement, testString: "isbn13:9780136019701 <http://www.example.org/predicateS> \"string-flit4\"^^xsd:string", shouldFail:false)
-        testGrammarPattern(statement, testString: "isbn13:9780136019701 <http://www.example.org/predicateS> \"string-flit4\"^^xsd:string , ns:name  ; <http://www.example.org/predicate2S> -.4E-4 ; ns:predicate3 ns:object1", shouldFail:false)
+        testGrammarPattern(statement, testString: "isbn13:9780136019701 <http://www.example.org/predicateS> \"string-flit4\"^^xsd:string . ", shouldFail:false)
+        testGrammarPattern(statement, testString: "isbn13:9780136019701 <http://www.example.org/predicateS> \"string-flit4\"^^xsd:string , ns:name  ; <http://www.example.org/predicate2S> -.4E-4 ; ns:predicate3 ns:object1.", shouldFail:false)
+        testGrammarPattern(statement, testString: "[] foaf:knows [ foaf:name \"Bob\" ] .", shouldFail:false)
         
     }
     
