@@ -434,7 +434,7 @@ class TurtleParserTests: XCTestCase {
             "  foaf:name \"Bob\" ; \n" +
             "  foaf:knows [ \n " +
             "  foaf:name \"Eve\" ] ; \n " +
-            "  foaf:mbox <bob@example.com> ] ."
+            "  foaf:mbox <mailto:bob@example.com> ] ."
         let data = rdf.dataUsingEncoding(NSUTF8StringEncoding)
         let name = URI(string: "https://www.w3.org/TR/turtle/example-16")
         let parser = TurtleParser(data: data!, baseURI: name!,encoding: NSUTF8StringEncoding)
@@ -459,7 +459,50 @@ class TurtleParserTests: XCTestCase {
             XCTAssertTrue(graph![4].object == Literal(sparqlString: "\"Eve\"^^xsd:string")!)
             XCTAssertTrue(graph![2].subject == graph![5].subject)
             XCTAssertTrue(graph![5].predicate == URI(string: "http://xmlns.com/foaf/0.1/mbox")!)
-       //     XCTAssertTrue(graph![5].object == URI(string:"bob@example.com")!)
+            XCTAssertTrue(graph![5].object == URI(string:"mailto:bob@example.com")!)
+        }
+    }
+    
+    func testExample18() {
+        let rdf = "@prefix : <http://example.org/foo> . \n" +
+            "# the object of this triple is the RDF collection blank node\n" +
+            ":subject :predicate ( :a :b :c ) .\n\n" +
+            "# an empty collection value - rdf:nil\n" +
+            ":subject :predicate2 () ."
+        let data = rdf.dataUsingEncoding(NSUTF8StringEncoding)
+        let name = URI(string: "https://www.w3.org/TR/turtle/example-18")
+        let parser = TurtleParser(data: data!, baseURI: name!,encoding: NSUTF8StringEncoding)
+        parser.delegate = TestRDFParserDelegate()
+        let graph = parser.parse()
+        XCTAssertEqual(1, graph?.namespaces.count)
+        XCTAssertEqual(8, graph?.statements.count)
+        printGraph(graph!)
+        if graph?.namespaces.count == 1 {
+            XCTAssertEqual("http://example.org/foo", graph!.namespaceForPrefix(""))
+        }
+        if graph?.statements.count == 8 {
+            XCTAssertTrue(graph![0].subject == URI(string: "http://example.org/foo#subject")!)
+            XCTAssertTrue(graph![0].predicate == URI(string: "http://example.org/foo#predicate")!)
+            XCTAssertTrue(graph![0].object == graph![1].subject)
+            XCTAssertTrue(graph![1].subject == URI(string: "http://example.org/foo#subject")!)
+            XCTAssertTrue(graph![1].predicate == RDF.first)
+            XCTAssertTrue(graph![1].object == URI(string: "http://example.org/foo#a")!)
+            XCTAssertTrue(graph![2].subject == graph![1].subject)
+            XCTAssertTrue(graph![2].predicate == RDF.rest)
+            XCTAssertTrue(graph![2].object == graph![3].subject)
+            XCTAssertTrue(graph![3].predicate == RDF.first)
+            XCTAssertTrue(graph![3].object == URI(string: "http://example.org/foo#b")!)
+            XCTAssertTrue(graph![4].subject == graph![3].subject)
+            XCTAssertTrue(graph![4].predicate == RDF.rest)
+            XCTAssertTrue(graph![4].object == graph![5].object)
+            XCTAssertTrue(graph![5].predicate == RDF.first)
+            XCTAssertTrue(graph![5].object == URI(string: "http://example.org/foo#c")!)
+            XCTAssertTrue(graph![6].subject == graph![5].subject)
+            XCTAssertTrue(graph![6].predicate == RDF.rest)
+            XCTAssertTrue(graph![6].object == RDF.NIL)
+            XCTAssertTrue(graph![7].subject == URI(string: "http://example.org/foo#subject")!)
+            XCTAssertTrue(graph![7].predicate == URI(string: "http://example.org/foo#predicate2")!)
+            XCTAssertTrue(graph![7].object == RDF.NIL)
         }
     }
     
@@ -491,7 +534,7 @@ class TurtleParserTests: XCTestCase {
         let IRIREF = "<(?:[^\\u0000-\\u0020<>\"\\|\\^`\\\\]|\(UCHAR))*>\(PN_CHARS)?"
         
         let blankNode = "(?:\(BLANK_NODE_LABEL))|(?:\(ANON))"
-        //let blankNodeGroup = "(\(BLANK_NODE_LABEL))|(\(ANON))"
+        let blankNodeGroup = "(\(BLANK_NODE_LABEL))|(\(ANON))"
         let prefixedName = "(?:\(PNAME_LN))|(?:\(PNAME_NS))"
         let iri = "(?:(?:\(IRIREF))|(?:\(prefixedName)))"
         let string = "(?:(?:\(STRING_LITERAL_LONG_SINGLE_QUOTE))|(?:\(STRING_LITERAL_LONG_QUOTE))|(?:\(STRING_LITERAL_QUOTE))|(?:\(STRING_LITERAL_SINGLE_QUOTE)))"
@@ -502,34 +545,36 @@ class TurtleParserTests: XCTestCase {
         let predicate = iri
         let collectionPlaceholder = "(?:\\((?>\\P{M}\\p{M}*)*\\))" // If matches on collection placeholder - test further with collection pattern
         let blankNodePropertyListPlaceholder = "(?:\\[(?>\\P{M}\\p{M}*)*\\])" // If matches on blanknode property list placeholder - test further with blanknode property list pattern
-        let object = "(?:(?:\(iri))|(?:\(blankNode))|(?:\(literal))|(?:\(collectionPlaceholder))|(?:\(blankNodePropertyListPlaceholder)))"
-       // let objectGroups = "(?:(\(iri))|(\(blankNode))|(\(literal))|(\(collectionPlaceholder))|(\(blankNodePropertyListPlaceholder)))"
+        let objectWithCollectionPlaceholder = "(?:(?:\(iri))|(?:\(blankNode))|(?:\(literal))|(?:\(collectionPlaceholder))|(?:\(blankNodePropertyListPlaceholder)))"
+        let collectionWithObjectPlaceholder = "\\((?:\\s*\(objectWithCollectionPlaceholder))*\\s*\\)"
+        let object = "(?:(?:\(iri))|(?:\(blankNode))|(?:\(literal))|(?:\(collectionWithObjectPlaceholder))|(?:\(blankNodePropertyListPlaceholder)))"
+        let objectGroups = "(?:(\(iri))|(\(blankNode))|(\(literal))|(\(collectionWithObjectPlaceholder))|(\(blankNodePropertyListPlaceholder)))"
         let collection = "\\(\(object)*\\)"
         let objectList = "(?:\(object)(?:\\s*,\\s*\(object))*)"
-     //   let objectListGroups = "(\(object)(?:\\s*,\\s*\(object))*)"
-        //let objectListParsingGroups = "(?:(\(object))((?:\\s*,\\s*\(object))*))"
+        let objectListGroups = "(\(object)(?:\\s*,\\s*\(object))*)"
+        let objectListParsingGroups = "(?:(\(object))((?:\\s*,\\s*\(object))*))"
         let verb = "(?:\(predicate)|a)"
-     //   let verbGroups = "(\(predicate)|a)"
+        let verbGroups = "(\(predicate)|a)"
         let predicateObjectList = "(?:\(verb)\\s*\(objectList)(?:\\s*;\\s*(?:\(verb)\\s*\(objectList))?)*)"
-    //    let predicateObjectListGroups = "(?:\(verbGroups)\\s*\(objectListGroups)((?:\\s*;\\s*\(verb)\\s*\(objectList)?)*))"
-        let blankNodePropertyList = "(?:\\[\\s*(\(predicateObjectList))\\s*\\])"
-      //  let blankNodePropertyListGroups = "(?:\\[\\s*(\(predicateObjectList))\\s*\\])"
+        //let predicateObjectListGroups = "(?:\(verbGroups)\\s*\(objectListGroups)(?:\\s*;\\s*(\(verb)\\s*\(objectList))?)*)"
+        let predicateObjectListGroups = "(?:\(verbGroups)\\s*\(objectListGroups)((?:\\s*;\\s*\(verb)\\s*\(objectList)?)*))"
+        let blankNodePropertyList = "(?:\\[\\s*\(predicateObjectList)\\s*\\])"
+        let blankNodePropertyListGroups = "(?:\\[\\s*(\(predicateObjectList))\\s*\\])"
         let subject = "(?:\(iri)|\(blankNode)|\(collection))"
-    //    let subjectGroups = "(\(iri)|\(blankNode)|\(collection))"
-        //let subjectParsingGroups = "(\(iri))|(\(blankNodeGroup))|(\(collection))"
+        let subjectGroups = "(\(iri)|\(blankNode)|\(collection))"
+        let subjectParsingGroups = "(\(iri))|(\(blankNodeGroup))|(\(collection))"
         let triples = "(?:(?:\(subject)\\s*\(predicateObjectList))|(?:\(blankNodePropertyList)\\s*\(predicateObjectList)?))"
-   //     let triplesGroups = "(?:(?:\(subjectGroups)\\s*(\(predicateObjectList)))|(?:\(blankNodePropertyList)\\s*\(predicateObjectList)?))"
+        let triplesGroups = "(?:(?:\(subjectGroups)\\s*(\(predicateObjectList)))|(?:(\(blankNodePropertyList))\\s*(\(predicateObjectList)?)))"
         let sparqlPrefix = "(?:(?i)PREFIX(?-i)\\s*\(PNAME_NS)\\s*\(IRIREF))" // prefix should be case insensitive
         let sparqlBase = "(?:(?i)BASE(?-i)\\s*\(IRIREF))" // base should be case insensitive
         let prefixID = "(?:@prefix\\s*\(PNAME_NS)\\s*\(IRIREF)\\s*\\.)"
         let base = "(?:@base\\s*\(IRIREF)\\s*\\.)"
         let directive = "(?:(?:\(prefixID))|(?:\(base))|(?:\(sparqlPrefix))|(?:\(sparqlBase)))"
         let statement = "(?:(?:(?:\(directive))\\s*)|(?:(?:\(triples))\\s*\\.\\s*))"
-        //let turtleDoc = "\(statement)*"
+        let turtleDoc = "\(statement)*"
+        let comment = "^(?:[^<>'\"]|(?:<[^<>]*>)|(?:\"[^\"]*\"\\s*)|(?:'[^']*'\\s*)|(?:\"\"\".*\"\"\"\\s*)|(?:'''.*'''\\s*))*(#.*)$"
         
-        //let comment = "(?:[^<>'\"]|(?:<[^<>]*>)|(?:\"[^\"]*\"\\s*)|(?:'[^']*'\\s*)|(?:\"\"\".*\"\"\"\\s*)|(?:'''.*'''\\s*))*(#.*)"
-        
-        print(blankNodePropertyListPlaceholder)
+        print(statement)
         
         testGrammarPattern(PN_CHARS_BASE, testString: "a", shouldFail:false)
         testGrammarPattern(PN_CHARS_BASE, testString: "é", shouldFail:false)

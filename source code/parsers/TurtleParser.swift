@@ -242,7 +242,7 @@ public class TurtleParser : NSObject, RDFParser {
             } else if subjectByType[0][4] != nil {
                 return BlankNode()
             } else if subjectByType[0][5] != nil {
-                // TODO collection in subject
+                // TODO: collection in subject
             }
         }
         return nil
@@ -339,9 +339,16 @@ public class TurtleParser : NSObject, RDFParser {
                 object = Literal(sparqlString: literalStr)
             }else if ob[0][4] != nil { // collection
                 // TODO: parse collection
+                let col = ob[0][4]
+                let tempSubject = currentSubject
+                let success = self.parseCollection(col!) != nil
+                currentSubject = tempSubject
+                return success
             }else if ob[0][5] != nil { // blanknode property list
                 let bnpl = ob[0][5]
+                let tempSubject = currentSubject
                 let success = self.parseBlankNodePropertyList(bnpl!) != nil
+                currentSubject = tempSubject
                 return success
             }
             if object == nil {
@@ -366,6 +373,13 @@ public class TurtleParser : NSObject, RDFParser {
             delegate?.parserErrorOccurred(self, error: RDFParserError.malformedRDFFormat(message: "Could not extract object from Object statement '\(string)'."))
         }
         return false
+    }
+    
+    private func parseCollection(string : String) -> Resource? {
+        let objectsInCollection = self.runRegularExpressionWithGroups(grammar!["objectGroups"]!, onString: string)
+        
+        // TODO: Throw error in delegate when collection could not be parsed.
+        return nil
     }
     
     private func parseBlankNodePropertyList(string : String) -> Resource? {
@@ -541,8 +555,10 @@ public class TurtleParser : NSObject, RDFParser {
         let predicate = iri
         let collectionPlaceholder = "(?:\\((?>\\P{M}\\p{M}*)*\\))" // If matches on collection placeholder - test further with collection pattern
         let blankNodePropertyListPlaceholder = "(?:\\[(?>\\P{M}\\p{M}*)*\\])" // If matches on blanknode property list placeholder - test further with blanknode property list pattern
-        let object = "(?:(?:\(iri))|(?:\(blankNode))|(?:\(literal))|(?:\(collectionPlaceholder))|(?:\(blankNodePropertyListPlaceholder)))"
-        let objectGroups = "(?:(\(iri))|(\(blankNode))|(\(literal))|(\(collectionPlaceholder))|(\(blankNodePropertyListPlaceholder)))"
+        let objectWithCollectionPlaceholder = "(?:(?:\(iri))|(?:\(blankNode))|(?:\(literal))|(?:\(collectionPlaceholder))|(?:\(blankNodePropertyListPlaceholder)))"
+        let collectionWithObjectPlaceholder = "\\((?:\\s*\(objectWithCollectionPlaceholder))*\\s*\\)"
+        let object = "(?:(?:\(iri))|(?:\(blankNode))|(?:\(literal))|(?:\(collectionWithObjectPlaceholder))|(?:\(blankNodePropertyListPlaceholder)))"
+        let objectGroups = "(?:(\(iri))|(\(blankNode))|(\(literal))|(\(collectionWithObjectPlaceholder))|(\(blankNodePropertyListPlaceholder)))"
         let collection = "\\(\(object)*\\)"
         let objectList = "(?:\(object)(?:\\s*,\\s*\(object))*)"
         let objectListGroups = "(\(object)(?:\\s*,\\s*\(object))*)"
@@ -567,7 +583,7 @@ public class TurtleParser : NSObject, RDFParser {
         let statement = "(?:(?:(?:\(directive))\\s*)|(?:(?:\(triples))\\s*\\.\\s*))"
         let turtleDoc = "\(statement)*"
         let comment = "^(?:[^<>'\"]|(?:<[^<>]*>)|(?:\"[^\"]*\"\\s*)|(?:'[^']*'\\s*)|(?:\"\"\".*\"\"\"\\s*)|(?:'''.*'''\\s*))*(#.*)$"
-        
+                
         grammar = [String : NSRegularExpression]()
         grammar!["turtleDoc"] = self.createGrammarRegEx("^\(turtleDoc)$")!
         grammar!["statement"] = self.createGrammarRegEx(statement)!
