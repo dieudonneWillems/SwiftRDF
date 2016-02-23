@@ -31,9 +31,10 @@ public class RDFXMLParser : NSObject, RDFParser, NSXMLParserDelegate {
      URL.
      
      - parameter url: The URL of the RDF file to be parsed.
-     - returns: An initialised RDF parser.
+     - returns: An initialised RDF parser or nil if the parser could not 
+     be initialised on the URL.
      */
-    public required init(url : NSURL) {
+    public required init?(url : NSURL) {
         xmlParser = NSXMLParser(contentsOfURL: url)
         let baseURI = URI(string: url.absoluteString)
         super.init()
@@ -67,9 +68,11 @@ public class RDFXMLParser : NSObject, RDFParser, NSXMLParserDelegate {
      - parameter data: The RDF data.
      - parameter baseURI: The base URI of the document (often the URL of the document), 
      will be overridden when a base URI is defined in the RDF/XML file.
+     - parameter encoding: The string encoding used in the data, e.g. `NSUTF8StringEncoding` or
+     `NSUTF32StringEncoding`.
      - returns: An initialised RDF parser.
      */
-    public required init(data : NSData, baseURI : URI) {
+    public required init(data : NSData, baseURI : URI, encoding : NSStringEncoding) {
         xmlParser = NSXMLParser(data: data)
         super.init()
         if xmlParser != nil {
@@ -591,7 +594,7 @@ internal class XMLtoRDFParser : NSObject, NSXMLParserDelegate {
             let attributeDict = currentElements.last!.attributes
             for attribute in attributeDict.keys {
                 if !self.attributeIsRDFAttribute(attribute) {
-                    let predicate = graph!.createURIFromQualifiedName(attribute)
+                    let predicate = graph!.createURIFromPrefixedName(attribute)
                     let parseType = attributeValue(attributeDict, nameURI: RDF.parseType)
                     if predicate != nil && parseType != "Resource" { // property attributes are not allowed in property-and-node elements
                         let stringValue = attributeDict[attribute]
@@ -785,7 +788,7 @@ internal class XMLtoRDFParser : NSObject, NSXMLParserDelegate {
      - returns: The translated URI string or the specified name itself.
      */
     private func URIStringOrName(possibleQName : String) -> String {
-        var uri = graph!.createURIFromQualifiedName(possibleQName)
+        var uri = graph!.createURIFromPrefixedName(possibleQName)
         if uri != nil {
             return uri!.stringValue
         }

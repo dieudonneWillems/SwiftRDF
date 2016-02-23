@@ -198,7 +198,10 @@ public class URI : Resource {
      */
     public init?(namespace : String, localName : String) {
         scheme = ""
-        let string = "\(namespace)\(localName)"
+        var string = "\(namespace)\(localName)"
+        if !(namespace.hasSuffix("#") || namespace.hasSuffix("/") || localName.hasPrefix("/") || localName.hasPrefix("#")) {
+            string = "\(namespace)#\(localName)"
+        }
         super.init(stringValue: string)
         if !parseURI(string) {
             return nil

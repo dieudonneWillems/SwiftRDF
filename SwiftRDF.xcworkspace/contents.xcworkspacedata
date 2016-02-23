@@ -87,6 +87,9 @@
          <FileRef
             location = "group:source code/parsers/RDFXMLParser.swift">
          </FileRef>
+         <FileRef
+            location = "group:source code/parsers/TurtleParser.swift">
+         </FileRef>
       </Group>
       <Group
          location = "container:"
