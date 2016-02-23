@@ -21,8 +21,22 @@ import Foundation
  */
 public class Literal: Value{
     
-    // regular expression: ^((("(.*)")|('(.*)'))((@(\w*(-\w*)?))(\^\^xsd:(string))?|\^\^(\w+:(\w*)|<(.*)>))?|([+-]?[\d]*)|([+-]?[\d\.]*)|([+-]?[\d\.]*[eE][+-]?\d*)|(true|false))$
-    private static let literalPattern = "^(((\"(.*)\")|('(.*)'))((@(\\w*(-\\w*)?))(\\^\\^xsd:(string))?|\\^\\^(\\w+:(\\w*)|<(.*)>))?|([+-]?[\\d]*)|([+-]?[\\d\\.]*)|([+-]?[\\d\\.]*[eE][+-]?\\d*)|(true|false))$"
+    /* Regular expression taken from the RDF 1.1 Turtle specification https://www.w3.org/TR/turtle/$
+        Groups:
+        - 1: Long string within triple single quotes: '''Long string'''
+        - 2: Long string within triple double quotes: """Long string"""
+        - 3: String within double quotes: "String"
+        - 4: String within single quotes: 'String'
+        - 5: Language tag
+        - 6: Data type IRI - URI
+        - 7: Data type IRI - prefixed name
+        - 8: Double value
+        - 9: Decimal value
+        - 10: Int value
+        - 11: Boolean value
+     */
+    private static let literalPattern = "^\\s*(?:(?:(?:(?:(?:(?:'''((?:(?:'|'')?(?:[^'\\\\]|\\\\[tbnrf\"'\\\\]|(?:\\\\U[0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f])|(?:\\\\u[0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f])))*)''')|(?:\"\"\"((?:(?:\"|\"\")?(?:[^\"\\\\]|\\\\[tbnrf\"'\\\\]|(?:\\\\U[0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f])|(?:\\\\u[0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f])))*)\"\"\")|(?:\"((?:[^\\u0022\\u005C\\u000A\\u000D]|\\\\[tbnrf\"'\\\\]|(?:\\\\U[0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f])|(?:\\\\u[0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f]))*)\")|(?:'((?:[^\\u0027\\u005C\\u000A\\u000D]|\\\\[tbnrf\"'\\\\]|(?:\\\\U[0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f])|(?:\\\\u[0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f]))*)')))(?:(?:(?:@([a-zA-Z]+(?:-[a-zA-Z0-9]+)*)))|(?:\\^\\^(?:(?:(?:<((?:[^\\u0000-\\u0020<>\"\\|\\^`\\\\]|(?:\\\\U[0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f])|(?:\\\\u[0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f]))*)>(?:(?:[A-Z]|[a-z]|[\\u00C0-\\u00D6]|[\\u00D8-\\u00F6]|[\\u00F8-\\u02FF]|[\\u0370-\\u037D]|[\\u037F-\\u1FFF]|[\\u200C-\\u200D]|[\\u2070-\\u218F]|[\\u2C00-\\u2FEF]|[\\u3001-\\uD7FF]|[\\uF900-\\uFDCF]|[\\uFDF0-\\uFFFD]|_)|\\-|[0-9]|\\u00B7|[\\u0300-\\u036F]|[\\u203F-\\u2040])?)|((?:(?:(?:[A-Z]|[a-z]|[\\u00C0-\\u00D6]|[\\u00D8-\\u00F6]|[\\u00F8-\\u02FF]|[\\u0370-\\u037D]|[\\u037F-\\u1FFF]|[\\u200C-\\u200D]|[\\u2070-\\u218F]|[\\u2C00-\\u2FEF]|[\\u3001-\\uD7FF]|[\\uF900-\\uFDCF]|[\\uFDF0-\\uFFFD])(?:(?:(?:(?:(?:[A-Z]|[a-z]|[\\u00C0-\\u00D6]|[\\u00D8-\\u00F6]|[\\u00F8-\\u02FF]|[\\u0370-\\u037D]|[\\u037F-\\u1FFF]|[\\u200C-\\u200D]|[\\u2070-\\u218F]|[\\u2C00-\\u2FEF]|[\\u3001-\\uD7FF]|[\\uF900-\\uFDCF]|[\\uFDF0-\\uFFFD]|_)|\\-|[0-9]|\\u00B7|[\\u0300-\\u036F]|[\\u203F-\\u2040])|\\.)*(?:(?:[A-Z]|[a-z]|[\\u00C0-\\u00D6]|[\\u00D8-\\u00F6]|[\\u00F8-\\u02FF]|[\\u0370-\\u037D]|[\\u037F-\\u1FFF]|[\\u200C-\\u200D]|[\\u2070-\\u218F]|[\\u2C00-\\u2FEF]|[\\u3001-\\uD7FF]|[\\uF900-\\uFDCF]|[\\uFDF0-\\uFFFD]|_)|\\-|[0-9]|\\u00B7|[\\u0300-\\u036F]|[\\u203F-\\u2040]))?))?:(?:(?:[A-Z]|[a-z]|[\\u00C0-\\u00D6]|[\\u00D8-\\u00F6]|[\\u00F8-\\u02FF]|[\\u0370-\\u037D]|[\\u037F-\\u1FFF]|[\\u200C-\\u200D]|[\\u2070-\\u218F]|[\\u2C00-\\u2FEF]|[\\u3001-\\uD7FF]|[\\uF900-\\uFDCF]|[\\uFDF0-\\uFFFD]|_)|:|[0-9]|(?:%[0-9A-Fa-f][0-9A-Fa-f])|(?:\\\\[_~\\.\\-!\\$&'\\(\\)\\*\\+,;=/\\?#@%]))(?:(?:(?:(?:[A-Z]|[a-z]|[\\u00C0-\\u00D6]|[\\u00D8-\\u00F6]|[\\u00F8-\\u02FF]|[\\u0370-\\u037D]|[\\u037F-\\u1FFF]|[\\u200C-\\u200D]|[\\u2070-\\u218F]|[\\u2C00-\\u2FEF]|[\\u3001-\\uD7FF]|[\\uF900-\\uFDCF]|[\\uFDF0-\\uFFFD]|_)|\\-|[0-9]|\\u00B7|[\\u0300-\\u036F]|[\\u203F-\\u2040])|\\.|:|(?:%[0-9A-Fa-f][0-9A-Fa-f])|(?:\\\\[_~\\.\\-!\\$&'\\(\\)\\*\\+,;=/\\?#@%]))*(?:(?:(?:[A-Z]|[a-z]|[\\u00C0-\\u00D6]|[\\u00D8-\\u00F6]|[\\u00F8-\\u02FF]|[\\u0370-\\u037D]|[\\u037F-\\u1FFF]|[\\u200C-\\u200D]|[\\u2070-\\u218F]|[\\u2C00-\\u2FEF]|[\\u3001-\\uD7FF]|[\\uF900-\\uFDCF]|[\\uFDF0-\\uFFFD]|_)|\\-|[0-9]|\\u00B7|[\\u0300-\\u036F]|[\\u203F-\\u2040])|:|(?:%[0-9A-Fa-f][0-9A-Fa-f])|(?:\\\\[_~\\.\\-!\\$&'\\(\\)\\*\\+,;=/\\?#@%])))?)|(?:(?:(?:[A-Z]|[a-z]|[\\u00C0-\\u00D6]|[\\u00D8-\\u00F6]|[\\u00F8-\\u02FF]|[\\u0370-\\u037D]|[\\u037F-\\u1FFF]|[\\u200C-\\u200D]|[\\u2070-\\u218F]|[\\u2C00-\\u2FEF]|[\\u3001-\\uD7FF]|[\\uF900-\\uFDCF]|[\\uFDF0-\\uFFFD])(?:(?:(?:(?:(?:[A-Z]|[a-z]|[\\u00C0-\\u00D6]|[\\u00D8-\\u00F6]|[\\u00F8-\\u02FF]|[\\u0370-\\u037D]|[\\u037F-\\u1FFF]|[\\u200C-\\u200D]|[\\u2070-\\u218F]|[\\u2C00-\\u2FEF]|[\\u3001-\\uD7FF]|[\\uF900-\\uFDCF]|[\\uFDF0-\\uFFFD]|_)|\\-|[0-9]|\\u00B7|[\\u0300-\\u036F]|[\\u203F-\\u2040])|\\.)*(?:(?:[A-Z]|[a-z]|[\\u00C0-\\u00D6]|[\\u00D8-\\u00F6]|[\\u00F8-\\u02FF]|[\\u0370-\\u037D]|[\\u037F-\\u1FFF]|[\\u200C-\\u200D]|[\\u2070-\\u218F]|[\\u2C00-\\u2FEF]|[\\u3001-\\uD7FF]|[\\uF900-\\uFDCF]|[\\uFDF0-\\uFFFD]|_)|\\-|[0-9]|\\u00B7|[\\u0300-\\u036F]|[\\u203F-\\u2040]))?))?:))))))?))|(?:(?:((?:[+-]?(?:(?:[0-9]+\\.[0-9]*(?:[eE][+-]?[0-9]+))|(?:\\.[0-9]+(?:[eE][+-]?[0-9]+))|(?:[0-9]+(?:[eE][+-]?[0-9]+)))))|([+-]?[0-9]*\\.[0-9]+)|([+-]?[0-9]+)))|(true|false))\\s*$"
+    
     private static var _literalRegularExpression : NSRegularExpression?
     
     private static var regularExpression : NSRegularExpression {
@@ -365,7 +379,7 @@ public class Literal: Value{
     }
     
     
-    
+    private static let quotesCharacterSet = NSCharacterSet(charactersInString: "\'\"\n\t\r")
     
     
     
@@ -379,10 +393,11 @@ public class Literal: Value{
         get{
             if dataType != nil {
                 if dataType! == XSD.string {
+                    let quotedStr = self.quotedStringValue
                     if language == nil {
-                        return "\"\(self.stringValue.stringByEscapingQuotes())\"^^xsd:string"
+                        return "\(quotedStr)^^xsd:string"
                     } else {
-                        return "\"\(self.stringValue.stringByEscapingQuotes())\"@\(language!)"
+                        return "\(quotedStr)@\(language!)"
                     }
                 } else if dataType! == XSD.boolean {
                     if booleanValue != nil {
@@ -486,10 +501,12 @@ public class Literal: Value{
                 } else if dataType! == XSD.QName {
                     return "\"\(stringValue)\"^^xsd:QName";
                 } else if dataType! == RDF.XMLLiteral {
-                    return "\"\(stringValue.stringByEscapingQuotes())\"^^rdf:XMLLiteral";
+                    let quotedStr = self.quotedStringValue
+                    return "\(quotedStr)^^rdf:XMLLiteral";
                 }
             }
-            return "\"\(self.stringValue)\""
+            let quotedStr = self.quotedStringValue
+            return quotedStr
         }
     }
     
@@ -533,147 +550,81 @@ public class Literal: Value{
     public convenience init?(sparqlString : String){
         let regex = Literal.regularExpression
         let matches = regex.matchesInString(sparqlString, options: [], range: NSMakeRange(0, sparqlString.characters.count)) as Array<NSTextCheckingResult>
-        if matches.count == 0 {
-            self.init(stringValue : sparqlString)
+        if matches.count == 0 { // should never happen
+            return nil
         }else{
-            let match = matches[0]
-            var dtypeStr : String? = nil
-            var dtypeURI : String? = nil
-            var langStr : String? = nil
-            let nsstring = sparqlString as NSString
-            var varStr : String = sparqlString
-            if match.rangeAtIndex(4).location != NSNotFound {
-                varStr = nsstring.substringWithRange(match.rangeAtIndex(4)) as String
-            } else if match.rangeAtIndex(6).location != NSNotFound {
-                varStr = nsstring.substringWithRange(match.rangeAtIndex(6)) as String
-            }
-            if match.rangeAtIndex(12).location != NSNotFound {
-                dtypeStr = nsstring.substringWithRange(match.rangeAtIndex(12)) as String
-            } else if match.rangeAtIndex(15).location != NSNotFound {
-                dtypeURI = nsstring.substringWithRange(match.rangeAtIndex(15)) as String
-            } else if match.rangeAtIndex(13).location != NSNotFound {
-                dtypeStr = nsstring.substringWithRange(match.rangeAtIndex(13)) as String
-            }
-            if match.rangeAtIndex(9).location != NSNotFound {
-                langStr = nsstring.substringWithRange(match.rangeAtIndex(9)) as String
-                dtypeStr = "string"
-            }
-            var datatypeFS : Datatype? = nil
-            if dtypeURI != nil {
-                datatypeFS = Datatype(uri: dtypeURI!, derivedFromDatatype: nil, isListDataType: false)
-            }else if dtypeStr != nil {
-                if dtypeStr! == "xsd:string" {
-                    datatypeFS = XSD.string
-                    varStr = varStr.stringByUnescapingQuotes()
-                } else if dtypeStr! == "xsd:duration" {
-                    datatypeFS = XSD.duration
-                } else if dtypeStr! == "xsd:decimal" {
-                    datatypeFS = XSD.decimal
-                } else if dtypeStr! == "xsd:boolean" {
-                    datatypeFS = XSD.boolean
-                } else if dtypeStr! == "xsd:integer" {
-                    datatypeFS = XSD.integer
-                } else if dtypeStr! == "xsd:long" {
-                    datatypeFS = XSD.long
-                } else if dtypeStr! == "xsd:int" {
-                    datatypeFS = XSD.int
-                } else if dtypeStr! == "xsd:short" {
-                    datatypeFS = XSD.short
-                } else if dtypeStr! == "xsd:byte" {
-                    datatypeFS = XSD.byte
-                } else if dtypeStr! == "xsd:unsignedLong" {
-                    datatypeFS = XSD.unsignedLong
-                } else if dtypeStr! == "xsd:unsignedInt" {
-                    datatypeFS = XSD.unsignedInt
-                } else if dtypeStr! == "xsd:unsignedShort" {
-                    datatypeFS = XSD.unsignedShort
-                } else if dtypeStr! == "xsd:unsignedByte" {
-                    datatypeFS = XSD.unsignedByte
-                } else if dtypeStr! == "xsd:nonNegativeInteger" {
-                    datatypeFS = XSD.nonNegativeInteger
-                } else if dtypeStr! == "xsd:positiveInteger" {
-                    datatypeFS = XSD.positiveInteger
-                } else if dtypeStr! == "xsd:nonPositiveInteger" {
-                    datatypeFS = XSD.nonPositiveInteger
-                } else if dtypeStr! == "xsd:negativeInteger" {
-                    datatypeFS = XSD.negativeInteger
-                } else if dtypeStr! == "xsd:double" {
-                    datatypeFS = XSD.double
-                } else if dtypeStr! == "xsd:float" {
-                    datatypeFS = XSD.float
-                } else if dtypeStr! == "xsd:dateTime" {
-                    datatypeFS = XSD.dateTime
-                } else if dtypeStr! == "xsd:date" {
-                    datatypeFS = XSD.date
-                } else if dtypeStr! == "xsd:gYearMonth" {
-                    datatypeFS = XSD.gYearMonth
-                } else if dtypeStr! == "xsd:gYear" {
-                    datatypeFS = XSD.gYear
-                } else if dtypeStr! == "xsd:time" {
-                    datatypeFS = XSD.time
-                } else if dtypeStr! == "xsd:gMonthDay" {
-                    datatypeFS = XSD.gMonthDay
-                } else if dtypeStr! == "xsd:gMonth" {
-                    datatypeFS = XSD.gMonth
-                } else if dtypeStr! == "xsd:gDay" {
-                    datatypeFS = XSD.gDay
-                } else if dtypeStr! == "xsd:anyURI" {
-                    datatypeFS = XSD.anyURI
-                } else if dtypeStr! == "xsd:base64Binary" {
-                    datatypeFS = XSD.base64Binary
-                } else if dtypeStr! == "xsd:hexBinary" {
-                    datatypeFS = XSD.hexBinary
-                } else if dtypeStr! == "xsd:token" {
-                    datatypeFS = XSD.token
-                    varStr = varStr.stringByUnescapingQuotes()
-                } else if dtypeStr! == "xsd:normalizedString" || dtypeStr! == "normalizedString" {
-                    datatypeFS = XSD.normalizedString
-                    varStr = varStr.stringByUnescapingQuotes()
-                } else if dtypeStr! == "xsd:language" || dtypeStr! == "language" {
-                    datatypeFS = XSD.language
-                    varStr = varStr.stringByUnescapingQuotes()
-                } else if dtypeStr! == "xsd:Name" || dtypeStr! == "Name" {
-                    datatypeFS = XSD.Name
-                    varStr = varStr.stringByUnescapingQuotes()
-                } else if dtypeStr! == "xsd:NCName" || dtypeStr! == "NCName" {
-                    datatypeFS = XSD.NCName
-                    varStr = varStr.stringByUnescapingQuotes()
-                } else if dtypeStr! == "xsd:ID" || dtypeStr! == "ID" {
-                    datatypeFS = XSD.ID
-                } else if dtypeStr! == "xsd:IDREF" || dtypeStr! == "IDREF" {
-                    datatypeFS = XSD.IDREF
-                } else if dtypeStr! == "xsd:IDREFS" || dtypeStr! == "IDREFS" {
-                    datatypeFS = XSD.IDREFS
-                } else if dtypeStr! == "xsd:NMTOKEN" || dtypeStr! == "NMTOKEN" {
-                    datatypeFS = XSD.NMTOKEN
-                } else if dtypeStr! == "xsd:NMTOKENS" || dtypeStr! == "NMTOKENS" {
-                    datatypeFS = XSD.NMTOKENS
-                } else if dtypeStr! == "xsd:QName" || dtypeStr! == "QName" {
-                    datatypeFS = XSD.QName
-                } else if dtypeStr! == "rdf:XMLLiteral" {
-                    datatypeFS = RDF.XMLLiteral
-                    varStr = varStr.stringByUnescapingQuotes()
-                } else {
-                    datatypeFS = Datatype(namespace: XSD.namespace(), localName: dtypeStr!, derivedFromDatatype: nil, isListDataType: false)
-                }
-            } else {
-                if match.rangeAtIndex(16).location != NSNotFound {
-                    datatypeFS = XSD.integer
-                } else if match.rangeAtIndex(17).location != NSNotFound {
-                    datatypeFS = XSD.decimal
-                } else if match.rangeAtIndex(18).location != NSNotFound {
-                    datatypeFS = XSD.double
-                } else if match.rangeAtIndex(19).location != NSNotFound {
-                    datatypeFS = XSD.boolean
-                } else {
-                    datatypeFS = XSD.string
+            let groups = Literal.regexGroupsFrom(matches[0],string: sparqlString)
+            var datatypeIN : Datatype? = nil
+            var languageStr : String? = nil
+            
+            if groups[6] != nil {
+                datatypeIN = Datatype(uri: groups[6]!, derivedFromDatatype: nil, isListDataType: false)
+            }else if groups[7] != nil {
+                let iristr = groups[7]!
+                if iristr.isPrefixedName {
+                    let prefix = iristr.prefixedNamePrefix
+                    if prefix == "xsd" {
+                        datatypeIN = Datatype(namespace: XSD.namespace(), localName: iristr.prefixedNameLocalPart!, derivedFromDatatype: nil, isListDataType: false)
+                    } else if prefix == "rdf" {
+                        datatypeIN = Datatype(namespace: RDF.NAMESPACE, localName: iristr.prefixedNameLocalPart!, derivedFromDatatype: nil, isListDataType: false)
+                    }
                 }
             }
-            if langStr != nil && datatypeFS! == XSD.string {
-                self.init(stringValue: varStr, language: langStr!)
-                self.dataType = XSD.string
-            } else {
-                self.init(stringValue: varStr, dataType: datatypeFS!)
+            
+            languageStr = groups[5]
+            
+            if datatypeIN != nil || languageStr != nil { // sparql string was in format 'string'^^datatype
+                var str : String? = nil
+                if groups[1] != nil {
+                    str = groups[1]
+                }else if groups[2] != nil {
+                    str = groups[2]
+                }else if groups[3] != nil {
+                    str = groups[3]
+                }else if groups[4] != nil {
+                    str = groups[4]
+                }
+                if str == nil {
+                    return nil
+                }
+                str = str!.stringByReplacingOccurrencesOfString("\\n", withString: "\n")
+                str = str!.stringByReplacingOccurrencesOfString("\\r", withString: "\r")
+                str = str!.stringByReplacingOccurrencesOfString("\\t", withString: "\t")
+                if languageStr != nil {
+                    self.init(stringValue: str!, language: languageStr!)
+                    self.dataType = XSD.string
+                }else {
+                    self.init(stringValue: str!, dataType:datatypeIN!)
+                }
+            }else {
+                
+                if groups[8] != nil { // double value
+                    self.init(stringValue: groups[8]!, dataType: XSD.double)
+                } else if groups[9] != nil { // decimal value
+                    self.init(stringValue: groups[9]!, dataType: XSD.decimal)
+                } else if groups[10] != nil { // integer value
+                    self.init(stringValue: groups[10]!, dataType: XSD.integer)
+                } else if groups[11] != nil { // boolean value
+                    self.init(stringValue: groups[11]!, dataType: XSD.boolean)
+                } else {
+                    var str : String? = nil
+                    if groups[1] != nil {
+                        str = groups[1]
+                    }else if groups[2] != nil {
+                        str = groups[2]
+                    }else if groups[3] != nil {
+                        str = groups[3]
+                    }else if groups[4] != nil {
+                        str = groups[4]
+                    }
+                    if str == nil {
+                        return nil
+                    }
+                    str = str!.stringByReplacingOccurrencesOfString("\\n", withString: "\n")
+                    str = str!.stringByReplacingOccurrencesOfString("\\r", withString: "\r")
+                    str = str!.stringByReplacingOccurrencesOfString("\\t", withString: "\t")
+                    self.init(stringValue : str!)
+                }
             }
         }
     }
@@ -1667,7 +1618,62 @@ public class Literal: Value{
     }
     
     
-    // MARK: Private functions
+    // MARK: Private functions and computed variables
+    
+    
+    private var quotedStringValue : String {
+        var quotesInStr = self.stringValue.rangeOfCharacterFromSet(Literal.quotesCharacterSet);
+        if quotesInStr != nil && quotesInStr!.startIndex > self.stringValue.startIndex {
+            let qindex = quotesInStr!.startIndex.advancedBy(-1)
+            if qindex >= self.stringValue.startIndex {
+                let nrange = Range(start: qindex, end: qindex.advancedBy(1))
+                let cbefore = self.stringValue.substringWithRange(nrange)
+                if cbefore == "\\" {
+                    quotesInStr = nil
+                }
+            }
+        }
+        var needsLongStr = false
+        var needsSingleQuotes = false
+        if quotesInStr != nil {
+            needsLongStr = true
+            if self.stringValue.containsString("\"\"\"") || self.stringValue.hasPrefix("\"") || self.stringValue.hasSuffix("\"") {
+                needsSingleQuotes = true
+            }
+        }
+        if needsLongStr {
+            if needsSingleQuotes {
+                return "'''\(self.stringValue)'''"
+            } else {
+                return "\"\"\"\(self.stringValue)\"\"\""
+            }
+        }else {
+            return "\"\(self.stringValue)\""
+        }
+    }
+    
+    
+    /**
+     Creates an array of strings that correspond to the groups found in the regex on the specified string.
+     
+     - parameter match: The result of the regex.
+     - parameter string: The string on which the regex was applied.
+     - returns: An array with the substrings according to the groups in the regex.
+     */
+    private static func regexGroupsFrom(match : NSTextCheckingResult, string : String) -> [String?] {
+        var groups = [String?]()
+        let nsstring = string as NSString
+        for var index = 0; index < match.numberOfRanges; index++ {
+            if match.rangeAtIndex(index).location == NSNotFound {
+                groups.append(nil)
+            }else {
+                groups.append(nsstring.substringWithRange(match.rangeAtIndex(index)) as String)
+            }
+        }
+        return groups
+    }
+    
+    
     private func setIntegerValues(long : Int64){
         if long >= 0 {
             setUnsignedIntegerValues(UInt64(long))

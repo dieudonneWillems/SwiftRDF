@@ -65,7 +65,7 @@ class TurtleParserTests: XCTestCase {
             XCTAssertTrue(graph![0].object == URI(string: "http://example.org/#green-goblin")!)
             XCTAssertTrue(graph![1].subject == URI(string: "http://example.org/#spiderman")!)
             XCTAssertTrue(graph![1].predicate == URI(string: "http://xmlns.com/foaf/0.1/name")!)
-            XCTAssertTrue(graph![1].object == Literal(sparqlString: "\"Spiderman\"^^xsd:string")!)
+            XCTAssertTrue(graph![1].object == Literal(sparqlString: "\"Spiderman\"")!)
         }
     }
     
@@ -105,7 +105,7 @@ class TurtleParserTests: XCTestCase {
             XCTAssertTrue(graph![0].object == URI(string: "http://example.org/#green-goblin")!)
             XCTAssertTrue(graph![1].subject == URI(string: "http://example.org/#spiderman")!)
             XCTAssertTrue(graph![1].predicate == URI(string: "http://xmlns.com/foaf/0.1/name")!)
-            XCTAssertTrue(graph![1].object == Literal(sparqlString: "\"Spiderman\"^^xsd:string")!)
+            XCTAssertTrue(graph![1].object == Literal(sparqlString: "\"Spiderman\"")!)
         }
     }
     
@@ -122,7 +122,7 @@ class TurtleParserTests: XCTestCase {
         if graph?.statements.count == 2 {
             XCTAssertTrue(graph![0].subject == URI(string: "http://example.org/#spiderman")!)
             XCTAssertTrue(graph![0].predicate == URI(string: "http://xmlns.com/foaf/0.1/name")!)
-            XCTAssertTrue(graph![0].object == Literal(sparqlString: "\"Spiderman\"^^xsd:string")!)
+            XCTAssertTrue(graph![0].object == Literal(sparqlString: "\"Spiderman\"")!)
             XCTAssertTrue(graph![1].subject == URI(string: "http://example.org/#spiderman")!)
             XCTAssertTrue(graph![1].predicate == URI(string: "http://xmlns.com/foaf/0.1/name")!)
             XCTAssertTrue(graph![1].object == Literal(sparqlString: "\"Человек-паук\"@ru")!)
@@ -142,7 +142,7 @@ class TurtleParserTests: XCTestCase {
         if graph?.statements.count == 2 {
             XCTAssertTrue(graph![0].subject == URI(string: "http://example.org/#spiderman")!)
             XCTAssertTrue(graph![0].predicate == URI(string: "http://xmlns.com/foaf/0.1/name")!)
-            XCTAssertTrue(graph![0].object == Literal(sparqlString: "\"Spiderman\"^^xsd:string")!)
+            XCTAssertTrue(graph![0].object == Literal(sparqlString: "\"Spiderman\"")!)
             XCTAssertTrue(graph![1].subject == URI(string: "http://example.org/#spiderman")!)
             XCTAssertTrue(graph![1].predicate == URI(string: "http://xmlns.com/foaf/0.1/name")!)
             XCTAssertTrue(graph![1].object == Literal(sparqlString: "\"Человек-паук\"@ru")!)
@@ -271,10 +271,10 @@ class TurtleParserTests: XCTestCase {
         if graph?.statements.count == 2 {
             XCTAssertTrue(graph![0].subject == URI(string: "http://example.org/#green-goblin")!)
             XCTAssertTrue(graph![0].predicate == URI(string: "http://xmlns.com/foaf/0.1/name")!)
-            XCTAssertTrue(graph![0].object == Literal(sparqlString: "\"Green Goblin\"^^xsd:string")!)
+            XCTAssertTrue(graph![0].object == Literal(sparqlString: "\"Green Goblin\"")!)
             XCTAssertTrue(graph![1].subject == URI(string: "http://example.org/#spiderman")!)
             XCTAssertTrue(graph![1].predicate == URI(string: "http://xmlns.com/foaf/0.1/name")!)
-            XCTAssertTrue(graph![1].object == Literal(sparqlString: "\"Spiderman\"^^xsd:string")!)
+            XCTAssertTrue(graph![1].object == Literal(sparqlString: "\"Spiderman\"")!)
         }
     }
     
@@ -313,7 +313,7 @@ class TurtleParserTests: XCTestCase {
             XCTAssertTrue(graph![1].object == Literal(sparqlString: "\"That Seventies Show\"^^xsd:string")!)
             XCTAssertTrue(graph![2].subject == URI(string: "http://example.org/vocab/show/218")!)
             XCTAssertTrue(graph![2].predicate == RDFS.label)
-            XCTAssertTrue(graph![2].object == Literal(sparqlString: "\"That Seventies Show\"^^xsd:string")!)
+            XCTAssertTrue(graph![2].object == Literal(sparqlString: "\"That Seventies Show\"")!)
             XCTAssertTrue(graph![3].subject == URI(string: "http://example.org/vocab/show/218")!)
             XCTAssertTrue(graph![3].predicate == URI(string: "http://example.org/vocab/show/localName")!)
             XCTAssertTrue(graph![3].object == Literal(sparqlString: "\"That Seventies Show\"@en")!)
@@ -424,7 +424,7 @@ class TurtleParserTests: XCTestCase {
             XCTAssertTrue(graph![0].predicate == URI(string: "http://xmlns.com/foaf/0.1/knows")!)
             XCTAssertTrue(graph![0].object == graph![1].subject)
             XCTAssertTrue(graph![1].predicate == URI(string: "http://xmlns.com/foaf/0.1/name")!)
-            XCTAssertTrue(graph![1].object == Literal(sparqlString: "\"Bob\"^^xsd:string")!)
+            XCTAssertTrue(graph![1].object == Literal(sparqlString: "\"Bob\"")!)
         }
     }
     
@@ -448,15 +448,15 @@ class TurtleParserTests: XCTestCase {
         }
         if graph?.statements.count == 6 {
             XCTAssertTrue(graph![0].predicate == URI(string: "http://xmlns.com/foaf/0.1/name")!)
-            XCTAssertTrue(graph![0].object == Literal(sparqlString: "\"Alice\"^^xsd:string")!)
+            XCTAssertTrue(graph![0].object == Literal(sparqlString: "\"Alice\"")!)
             XCTAssertTrue(graph![1].predicate == URI(string: "http://xmlns.com/foaf/0.1/knows")!)
             XCTAssertTrue(graph![1].object == graph![2].subject)
             XCTAssertTrue(graph![2].predicate == URI(string: "http://xmlns.com/foaf/0.1/name")!)
-            XCTAssertTrue(graph![2].object == Literal(sparqlString: "\"Bob\"^^xsd:string")!)
+            XCTAssertTrue(graph![2].object == Literal(sparqlString: "\"Bob\"")!)
             XCTAssertTrue(graph![3].predicate == URI(string: "http://xmlns.com/foaf/0.1/knows")!)
             XCTAssertTrue(graph![3].object == graph![4].subject)
             XCTAssertTrue(graph![4].predicate == URI(string: "http://xmlns.com/foaf/0.1/name")!)
-            XCTAssertTrue(graph![4].object == Literal(sparqlString: "\"Eve\"^^xsd:string")!)
+            XCTAssertTrue(graph![4].object == Literal(sparqlString: "\"Eve\"")!)
             XCTAssertTrue(graph![2].subject == graph![5].subject)
             XCTAssertTrue(graph![5].predicate == URI(string: "http://xmlns.com/foaf/0.1/mbox")!)
             XCTAssertTrue(graph![5].object == URI(string:"mailto:bob@example.com")!)
@@ -484,7 +484,6 @@ class TurtleParserTests: XCTestCase {
             XCTAssertTrue(graph![0].subject == URI(string: "http://example.org/foo#subject")!)
             XCTAssertTrue(graph![0].predicate == URI(string: "http://example.org/foo#predicate")!)
             XCTAssertTrue(graph![0].object == graph![1].subject)
-            XCTAssertTrue(graph![1].subject == URI(string: "http://example.org/foo#subject")!)
             XCTAssertTrue(graph![1].predicate == RDF.first)
             XCTAssertTrue(graph![1].object == URI(string: "http://example.org/foo#a")!)
             XCTAssertTrue(graph![2].subject == graph![1].subject)
@@ -494,7 +493,7 @@ class TurtleParserTests: XCTestCase {
             XCTAssertTrue(graph![3].object == URI(string: "http://example.org/foo#b")!)
             XCTAssertTrue(graph![4].subject == graph![3].subject)
             XCTAssertTrue(graph![4].predicate == RDF.rest)
-            XCTAssertTrue(graph![4].object == graph![5].object)
+            XCTAssertTrue(graph![4].object == graph![5].subject)
             XCTAssertTrue(graph![5].predicate == RDF.first)
             XCTAssertTrue(graph![5].object == URI(string: "http://example.org/foo#c")!)
             XCTAssertTrue(graph![6].subject == graph![5].subject)
@@ -503,6 +502,311 @@ class TurtleParserTests: XCTestCase {
             XCTAssertTrue(graph![7].subject == URI(string: "http://example.org/foo#subject")!)
             XCTAssertTrue(graph![7].predicate == URI(string: "http://example.org/foo#predicate2")!)
             XCTAssertTrue(graph![7].object == RDF.NIL)
+        }
+    }
+    
+    func testExample19() {
+        let rdf = "@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> . \n" +
+            "@prefix dc: <http://purl.org/dc/elements/1.1/> .\n" +
+            "@prefix ex: <http://example.org/stuff/1.0/> .\n\n" +
+            "<http://www.w3.org/TR/rdf-syntax-grammar> \n" +
+            "   dc:title \"RDF/XML Syntax Specification (Revised)\" ;\n" +
+            "   ex:editor [\n" +
+            "       ex:fullname \"Dave Beckett\";\n" +
+            "       ex:homePage <http://purl.org/net/dajobe/>\n" +
+            "] ."
+        let data = rdf.dataUsingEncoding(NSUTF8StringEncoding)
+        let name = URI(string: "https://www.w3.org/TR/turtle/example-19")
+        let parser = TurtleParser(data: data!, baseURI: name!,encoding: NSUTF8StringEncoding)
+        parser.delegate = TestRDFParserDelegate()
+        let graph = parser.parse()
+        XCTAssertEqual(3, graph?.namespaces.count)
+        XCTAssertEqual(4, graph?.statements.count)
+        printGraph(graph!)
+        if graph?.statements.count == 4 {
+            XCTAssertTrue(graph![0].subject == URI(string: "http://www.w3.org/TR/rdf-syntax-grammar")!)
+            XCTAssertTrue(graph![0].predicate == URI(string: "http://purl.org/dc/elements/1.1/title")!)
+            XCTAssertTrue(graph![0].object == Literal(sparqlString: "\"RDF/XML Syntax Specification (Revised)\"")!)
+            XCTAssertTrue(graph![1].subject == URI(string: "http://www.w3.org/TR/rdf-syntax-grammar")!)
+            XCTAssertTrue(graph![1].predicate == URI(string: "http://example.org/stuff/1.0/editor")!)
+            XCTAssertTrue(graph![2].subject == graph![1].object)
+            XCTAssertTrue(graph![2].predicate == URI(string: "http://example.org/stuff/1.0/fullname")!)
+            XCTAssertTrue(graph![2].object == Literal(sparqlString: "\"Dave Beckett\"")!)
+            XCTAssertTrue(graph![3].subject == graph![1].object)
+            XCTAssertTrue(graph![3].predicate == URI(string: "http://example.org/stuff/1.0/homePage")!)
+            XCTAssertTrue(graph![3].object == URI(string: "http://purl.org/net/dajobe/")!)
+        }
+    }
+    
+    func testExample20() {
+        let rdf = "PREFIX : <http://example.org/stuff/1.0/>\n" +
+            ":a :b ( \"apple\" \"banana\" ) ."
+        let data = rdf.dataUsingEncoding(NSUTF8StringEncoding)
+        let name = URI(string: "https://www.w3.org/TR/turtle/example-20")
+        let parser = TurtleParser(data: data!, baseURI: name!,encoding: NSUTF8StringEncoding)
+        parser.delegate = TestRDFParserDelegate()
+        let graph = parser.parse()
+        XCTAssertEqual(1, graph?.namespaces.count)
+        XCTAssertEqual(5, graph?.statements.count)
+        printGraph(graph!)
+        if graph?.namespaces.count == 1 {
+            XCTAssertEqual("http://example.org/stuff/1.0/", graph!.namespaceForPrefix(""))
+        }
+        if graph?.statements.count == 5 {
+            XCTAssertTrue(graph![0].subject == URI(string: "http://example.org/stuff/1.0/a")!)
+            XCTAssertTrue(graph![0].predicate == URI(string: "http://example.org/stuff/1.0/b")!)
+            XCTAssertTrue(graph![0].object == graph![1].subject)
+            XCTAssertTrue(graph![1].predicate == RDF.first)
+            XCTAssertTrue(graph![1].object == Literal(sparqlString: "\"apple\"")!)
+            XCTAssertTrue(graph![2].subject == graph![1].subject)
+            XCTAssertTrue(graph![2].predicate == RDF.rest)
+            XCTAssertTrue(graph![2].object == graph![3].subject)
+            XCTAssertTrue(graph![3].predicate == RDF.first)
+            XCTAssertTrue(graph![3].object == Literal(sparqlString: "\"banana\"")!)
+            XCTAssertTrue(graph![4].subject == graph![3].subject)
+            XCTAssertTrue(graph![4].predicate == RDF.rest)
+            XCTAssertTrue(graph![4].object == RDF.NIL)
+        }
+    }
+    
+    func testExample21() {
+        let rdf = "@prefix : <http://example.org/stuff/1.0/> .\n" +
+            "@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .\n" +
+            ":a :b\n" +
+            "   [ rdf:first \"apple\";\n" +
+            "       rdf:rest [ rdf:first \"banana\";\n" +
+            "       rdf:rest rdf:nil ]\n" +
+            "   ] ."
+        let data = rdf.dataUsingEncoding(NSUTF8StringEncoding)
+        let name = URI(string: "https://www.w3.org/TR/turtle/example-21")
+        let parser = TurtleParser(data: data!, baseURI: name!,encoding: NSUTF8StringEncoding)
+        parser.delegate = TestRDFParserDelegate()
+        let graph = parser.parse()
+        XCTAssertEqual(2, graph?.namespaces.count)
+        XCTAssertEqual(5, graph?.statements.count)
+        printGraph(graph!)
+        if graph?.namespaces.count == 1 {
+            XCTAssertEqual("http://example.org/stuff/1.0/", graph!.namespaceForPrefix(""))
+        }
+        if graph?.statements.count == 5 {
+            XCTAssertTrue(graph![0].subject == URI(string: "http://example.org/stuff/1.0/a")!)
+            XCTAssertTrue(graph![0].predicate == URI(string: "http://example.org/stuff/1.0/b")!)
+            XCTAssertTrue(graph![0].object == graph![1].subject)
+            XCTAssertTrue(graph![1].predicate == RDF.first)
+            XCTAssertTrue(graph![1].object == Literal(sparqlString: "\"apple\"")!)
+            XCTAssertTrue(graph![2].subject == graph![1].subject)
+            XCTAssertTrue(graph![2].predicate == RDF.rest)
+            XCTAssertTrue(graph![2].object == graph![3].subject)
+            XCTAssertTrue(graph![3].predicate == RDF.first)
+            XCTAssertTrue(graph![3].object == Literal(sparqlString: "\"banana\"")!)
+            XCTAssertTrue(graph![4].subject == graph![3].subject)
+            XCTAssertTrue(graph![4].predicate == RDF.rest)
+            XCTAssertTrue(graph![4].object == RDF.NIL)
+        }
+    }
+    
+    func testExample22() {
+        let rdf = "@prefix : <http://example.org/stuff/1.0/> .\n" +
+            ":a :b \"The first line\\nThe second line\\n  more\" .\n" +
+            ":a :b \"\"\"The first line\n" +
+            "The second line\n" +
+            "more\"\"\" ."
+        let data = rdf.dataUsingEncoding(NSUTF8StringEncoding)
+        let name = URI(string: "https://www.w3.org/TR/turtle/example-22")
+        let parser = TurtleParser(data: data!, baseURI: name!,encoding: NSUTF8StringEncoding)
+        parser.delegate = TestRDFParserDelegate()
+        let graph = parser.parse()
+        XCTAssertEqual(1, graph?.namespaces.count)
+        XCTAssertEqual(2, graph?.statements.count)
+        printGraph(graph!)
+        if graph?.namespaces.count == 1 {
+            XCTAssertEqual("http://example.org/stuff/1.0/", graph!.namespaceForPrefix(""))
+        }
+        if graph?.statements.count == 2 {
+            XCTAssertTrue(graph![0].subject == URI(string: "http://example.org/stuff/1.0/a")!)
+            XCTAssertTrue(graph![0].predicate == URI(string: "http://example.org/stuff/1.0/b")!)
+            XCTAssertTrue(graph![0].object == Literal(sparqlString: "\"The first line\\nThe second line\\n  more\"")!)
+            XCTAssertEqual((graph![0].object as! Literal).stringValue, "The first line\nThe second line\n  more")
+            XCTAssertTrue(graph![1].subject == URI(string: "http://example.org/stuff/1.0/a")!)
+            XCTAssertTrue(graph![1].predicate == URI(string: "http://example.org/stuff/1.0/b")!)
+            XCTAssertTrue(graph![1].object == Literal(sparqlString: "\"\"\"The first line\nThe second line\nmore\"\"\"")!)
+            XCTAssertEqual((graph![1].object as! Literal).stringValue, "The first line\nThe second line\nmore")
+        }
+    }
+    
+    func testExample23() {
+        let rdf = "@prefix : <http://example.org/stuff/1.0/> .\n" +
+            "(1 2.0 3E1) :p \"w\" ."
+        let data = rdf.dataUsingEncoding(NSUTF8StringEncoding)
+        let name = URI(string: "https://www.w3.org/TR/turtle/example-23")
+        let parser = TurtleParser(data: data!, baseURI: name!,encoding: NSUTF8StringEncoding)
+        parser.delegate = TestRDFParserDelegate()
+        let graph = parser.parse()
+        XCTAssertEqual(1, graph?.namespaces.count)
+        XCTAssertEqual(7, graph?.statements.count)
+        printGraph(graph!)
+        if graph?.namespaces.count == 1 {
+            XCTAssertEqual("http://example.org/stuff/1.0/", graph!.namespaceForPrefix(""))
+        }
+        if graph?.statements.count == 7 {
+            XCTAssertTrue(graph![0].subject == graph![1].subject)
+            XCTAssertTrue(graph![0].subject == graph![6].subject)
+            XCTAssertTrue(graph![2].subject == graph![1].object)
+            XCTAssertTrue(graph![2].subject == graph![3].subject)
+            XCTAssertTrue(graph![4].subject == graph![5].subject)
+            XCTAssertTrue(graph![4].subject == graph![3].object)
+            XCTAssertTrue(graph![0].predicate == RDF.first)
+            XCTAssertTrue(graph![1].predicate == RDF.rest)
+            XCTAssertTrue(graph![2].predicate == RDF.first)
+            XCTAssertTrue(graph![3].predicate == RDF.rest)
+            XCTAssertTrue(graph![4].predicate == RDF.first)
+            XCTAssertTrue(graph![5].predicate == RDF.rest)
+            XCTAssertTrue(graph![6].predicate == URI(string: "http://example.org/stuff/1.0/p")!)
+            XCTAssertTrue(graph![0].object == Literal(sparqlString: "1")!)
+            XCTAssertTrue(graph![2].object == Literal(sparqlString: "2.0")!)
+            XCTAssertTrue(graph![4].object == Literal(sparqlString: "3E1")!)
+            XCTAssertTrue(graph![5].object == RDF.NIL)
+            XCTAssertTrue(graph![6].object == Literal(sparqlString: "\"w\"")!)
+        }
+    }
+    
+    func testExample24() {
+        let rdf = "@prefix : <http://example.org/stuff/1.0/> .\n" +
+            "@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .\n" +
+            "_:b0  rdf:first  1; \n" +
+            "rdf:rest   _:b1 .\n" +
+            "_:b1  rdf:first  2.0 ;\n" +
+            "rdf:rest   _:b2 .\n" +
+            "_:b2  rdf:first  3E1 ;\n" +
+            "rdf:rest   rdf:nil .\n" +
+            "_:b0  :p         \"w\" . "
+        let data = rdf.dataUsingEncoding(NSUTF8StringEncoding)
+        let name = URI(string: "https://www.w3.org/TR/turtle/example-24")
+        let parser = TurtleParser(data: data!, baseURI: name!,encoding: NSUTF8StringEncoding)
+        parser.delegate = TestRDFParserDelegate()
+        let graph = parser.parse()
+        XCTAssertEqual(2, graph?.namespaces.count)
+        XCTAssertEqual(7, graph?.statements.count)
+        printGraph(graph!)
+        if graph?.statements.count == 7 {
+            XCTAssertTrue(graph![0].subject == graph![1].subject)
+            XCTAssertTrue(graph![0].subject == graph![6].subject)
+            XCTAssertTrue(graph![2].subject == graph![1].object)
+            XCTAssertTrue(graph![2].subject == graph![3].subject)
+            XCTAssertTrue(graph![4].subject == graph![5].subject)
+            XCTAssertTrue(graph![4].subject == graph![3].object)
+            XCTAssertTrue(graph![0].predicate == RDF.first)
+            XCTAssertTrue(graph![1].predicate == RDF.rest)
+            XCTAssertTrue(graph![2].predicate == RDF.first)
+            XCTAssertTrue(graph![3].predicate == RDF.rest)
+            XCTAssertTrue(graph![4].predicate == RDF.first)
+            XCTAssertTrue(graph![5].predicate == RDF.rest)
+            XCTAssertTrue(graph![6].predicate == URI(string: "http://example.org/stuff/1.0/p")!)
+            XCTAssertTrue(graph![0].object == Literal(sparqlString: "1")!)
+            XCTAssertTrue(graph![2].object == Literal(sparqlString: "2.0")!)
+            XCTAssertTrue(graph![4].object == Literal(sparqlString: "3E1")!)
+            XCTAssertTrue(graph![5].object == RDF.NIL)
+            XCTAssertTrue(graph![6].object == Literal(sparqlString: "\"w\"")!)
+        }
+    }
+    
+    func testExample25() {
+        let rdf = "@prefix : <http://example.org/stuff/1.0/> .\n" +
+        "(1 [:p :q] ( 2 ) ) :p2 :q2 ."
+        let data = rdf.dataUsingEncoding(NSUTF8StringEncoding)
+        let name = URI(string: "https://www.w3.org/TR/turtle/example-25")
+        let parser = TurtleParser(data: data!, baseURI: name!,encoding: NSUTF8StringEncoding)
+        parser.delegate = TestRDFParserDelegate()
+        let graph = parser.parse()
+        XCTAssertEqual(1, graph?.namespaces.count)
+        XCTAssertEqual(10, graph?.statements.count)
+        printGraph(graph!)
+        if graph?.namespaces.count == 1 {
+            XCTAssertEqual("http://example.org/stuff/1.0/", graph!.namespaceForPrefix(""))
+        }
+        if graph?.statements.count == 10 {
+            XCTAssertTrue(graph![0].subject == graph![1].subject)
+            XCTAssertTrue(graph![0].subject == graph![9].subject)
+            XCTAssertTrue(graph![2].subject == graph![1].object)
+            XCTAssertTrue(graph![3].subject == graph![2].object)
+            XCTAssertTrue(graph![4].subject == graph![1].object)
+            XCTAssertTrue(graph![5].subject == graph![4].object)
+            XCTAssertTrue(graph![6].subject == graph![5].object)
+            XCTAssertTrue(graph![7].subject == graph![5].object)
+            XCTAssertTrue(graph![8].subject == graph![4].object)
+            
+            XCTAssertTrue(graph![0].predicate == RDF.first)
+            XCTAssertTrue(graph![1].predicate == RDF.rest)
+            XCTAssertTrue(graph![2].predicate == RDF.first)
+            XCTAssertTrue(graph![3].predicate == URI(string: "http://example.org/stuff/1.0/p")!)
+            XCTAssertTrue(graph![4].predicate == RDF.rest)
+            XCTAssertTrue(graph![5].predicate == RDF.first)
+            XCTAssertTrue(graph![6].predicate == RDF.first)
+            XCTAssertTrue(graph![7].predicate == RDF.rest)
+            XCTAssertTrue(graph![8].predicate == RDF.rest)
+            XCTAssertTrue(graph![9].predicate == URI(string: "http://example.org/stuff/1.0/p2")!)
+            
+            XCTAssertTrue(graph![0].object == Literal(sparqlString: "1")!)
+            XCTAssertTrue(graph![3].object == URI(string: "http://example.org/stuff/1.0/q")!)
+            XCTAssertTrue(graph![6].object == Literal(sparqlString: "2")!)
+            XCTAssertTrue(graph![7].object == RDF.NIL)
+            XCTAssertTrue(graph![8].object == RDF.NIL)
+            XCTAssertTrue(graph![9].object == URI(string: "http://example.org/stuff/1.0/q2")!)
+        }
+    }
+    
+    func testExample26() {
+        let rdf = "@prefix : <http://example.org/stuff/1.0/> .\n" +
+        "@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .\n" +
+        "_:b0  rdf:first  1 ;\n" +
+        "   rdf:rest   _:b1 .\n" +
+        "_:b1  rdf:first  _:b2 .\n" +
+        "_:b2  :p         :q .\n" +
+        "_:b1  rdf:rest   _:b3 .\n" +
+        "_:b3  rdf:first  _:b4 .\n" +
+        "_:b4  rdf:first  2 ;\n" +
+        "   rdf:rest   rdf:nil .\n" +
+        "_:b3  rdf:rest   rdf:nil .\n" +
+        "_:b0  :p2  :q2."
+        let data = rdf.dataUsingEncoding(NSUTF8StringEncoding)
+        let name = URI(string: "https://www.w3.org/TR/turtle/example-26")
+        let parser = TurtleParser(data: data!, baseURI: name!,encoding: NSUTF8StringEncoding)
+        parser.delegate = TestRDFParserDelegate()
+        let graph = parser.parse()
+        XCTAssertEqual(2, graph?.namespaces.count)
+        XCTAssertEqual(10, graph?.statements.count)
+        printGraph(graph!)
+        if graph?.namespaces.count == 1 {
+            XCTAssertEqual("http://example.org/stuff/1.0/", graph!.namespaceForPrefix(""))
+        }
+        if graph?.statements.count == 10 {
+            XCTAssertTrue(graph![0].subject == graph![1].subject)
+            XCTAssertTrue(graph![0].subject == graph![9].subject)
+            XCTAssertTrue(graph![2].subject == graph![1].object)
+            XCTAssertTrue(graph![3].subject == graph![2].object)
+            XCTAssertTrue(graph![4].subject == graph![1].object)
+            XCTAssertTrue(graph![5].subject == graph![4].object)
+            XCTAssertTrue(graph![6].subject == graph![5].object)
+            XCTAssertTrue(graph![7].subject == graph![5].object)
+            XCTAssertTrue(graph![8].subject == graph![4].object)
+            
+            XCTAssertTrue(graph![0].predicate == RDF.first)
+            XCTAssertTrue(graph![1].predicate == RDF.rest)
+            XCTAssertTrue(graph![2].predicate == RDF.first)
+            XCTAssertTrue(graph![3].predicate == URI(string: "http://example.org/stuff/1.0/p")!)
+            XCTAssertTrue(graph![4].predicate == RDF.rest)
+            XCTAssertTrue(graph![5].predicate == RDF.first)
+            XCTAssertTrue(graph![6].predicate == RDF.first)
+            XCTAssertTrue(graph![7].predicate == RDF.rest)
+            XCTAssertTrue(graph![8].predicate == RDF.rest)
+            XCTAssertTrue(graph![9].predicate == URI(string: "http://example.org/stuff/1.0/p2")!)
+            
+            XCTAssertTrue(graph![0].object == Literal(sparqlString: "1")!)
+            XCTAssertTrue(graph![3].object == URI(string: "http://example.org/stuff/1.0/q")!)
+            XCTAssertTrue(graph![6].object == Literal(sparqlString: "2")!)
+            XCTAssertTrue(graph![7].object == RDF.NIL)
+            XCTAssertTrue(graph![8].object == RDF.NIL)
+            XCTAssertTrue(graph![9].object == URI(string: "http://example.org/stuff/1.0/q2")!)
         }
     }
     
@@ -519,29 +823,29 @@ class TurtleParserTests: XCTestCase {
         let PNAME_NS = "(?:\(PN_PREFIX))?:"
         let PNAME_LN = "\(PNAME_NS)\(PN_LOCAL)"
         let BLANK_NODE_LABEL = "_:(?:\(PN_CHARS_U)|[0-9])(?:(?:\(PN_CHARS)|\\.)*\(PN_CHARS))?"
-        let LANGTAG = "@[a-zA-Z]+(?:-[a-zA-Z0-9]+)*"
+        let LANGTAG = "@([a-zA-Z]+(?:-[a-zA-Z0-9]+)*)"
         let INTEGER = "[+-]?[0-9]+"
         let DECIMAL = "[+-]?[0-9]*\\.[0-9]+"
         let EXPONENT = "(?:[eE][+-]?[0-9]+)"
         let DOUBLE = "(?:[+-]?(?:(?:[0-9]+\\.[0-9]*\(EXPONENT))|(?:\\.[0-9]+\(EXPONENT))|(?:[0-9]+\(EXPONENT))))"
-        let ECHAR = "\\\\[\\t\\n\\r\\f\\\"\\'\\\\]" // misses \b (backspace)
+        let ECHAR = "\\\\[tbnrf\"'\\\\]"
         let UCHAR = "(?:\\\\U\(HEX)\(HEX)\(HEX)\(HEX)\(HEX)\(HEX)\(HEX)\(HEX))|(?:\\\\u\(HEX)\(HEX)\(HEX)\(HEX))"
-        let STRING_LITERAL_QUOTE = "\"(?:[^\\u0022\\u005C\\u000A\\u000D]|\(ECHAR)|\(UCHAR))*\"" /* #x22=" #x5C=\ #xA=new line #xD=carriage return */
-        let STRING_LITERAL_SINGLE_QUOTE = "'(?:[^\\u0027\\u005C\\u000A\\u000D]|\(ECHAR)|\(UCHAR))*'" /* #x27=' #x5C=\ #xA=new line #xD=carriage return */
-        let STRING_LITERAL_LONG_SINGLE_QUOTE = "'''(?:(?:'|'')?(?:[^'\\\\]|\(ECHAR)|\(UCHAR)))*'''"
-        let STRING_LITERAL_LONG_QUOTE = "\"\"\"(?:(?:\"|\"\")?(?:[^\"\\\\]|\(ECHAR)|\(UCHAR)))*\"\"\""
+        let STRING_LITERAL_QUOTE = "\"((?:[^\\u0022\\u005C\\u000A\\u000D]|\(ECHAR)|\(UCHAR))*)\"" /* #x22=" #x5C=\ #xA=new line #xD=carriage return */
+        let STRING_LITERAL_SINGLE_QUOTE = "'((?:[^\\u0027\\u005C\\u000A\\u000D]|\(ECHAR)|\(UCHAR))*)'" /* #x27=' #x5C=\ #xA=new line #xD=carriage return */
+        let STRING_LITERAL_LONG_SINGLE_QUOTE = "'''((?:(?:'|'')?(?:[^'\\\\]|\(ECHAR)|\(UCHAR)))*)'''"
+        let STRING_LITERAL_LONG_QUOTE = "\"\"\"((?:(?:\"|\"\")?(?:[^\"\\\\]|\(ECHAR)|\(UCHAR)))*)\"\"\""
         let ANON = "\\[\\s*\\]"
-        let IRIREF = "<(?:[^\\u0000-\\u0020<>\"\\|\\^`\\\\]|\(UCHAR))*>\(PN_CHARS)?"
+        let IRIREF = "<((?:[^\\u0000-\\u0020<>\"\\|\\^`\\\\]|\(UCHAR))*)>\(PN_CHARS)?"
         
         let blankNode = "(?:\(BLANK_NODE_LABEL))|(?:\(ANON))"
         let blankNodeGroup = "(\(BLANK_NODE_LABEL))|(\(ANON))"
         let prefixedName = "(?:\(PNAME_LN))|(?:\(PNAME_NS))"
-        let iri = "(?:(?:\(IRIREF))|(?:\(prefixedName)))"
+        let iri = "(?:(?:\(IRIREF))|(\(prefixedName)))"
         let string = "(?:(?:\(STRING_LITERAL_LONG_SINGLE_QUOTE))|(?:\(STRING_LITERAL_LONG_QUOTE))|(?:\(STRING_LITERAL_QUOTE))|(?:\(STRING_LITERAL_SINGLE_QUOTE)))"
         let booleanLiteral = "true|false"
-        let RDFLiteral = "(?:(?:\(string))(?:(?:\(LANGTAG))|(?:\\^\\^\(iri)))?)"
-        let numericalLiteral = "(?:(?:\(DOUBLE))|(?:\(DECIMAL))|(?:\(INTEGER)))"
-        let literal = "(?:(?:\(RDFLiteral))|(?:\(numericalLiteral))|(?:\(booleanLiteral)))"
+        let RDFLiteral = "(?:(?:\(string))(?:(?:(?:\(LANGTAG)))|(?:\\^\\^(?:\(iri))))?)"
+        let numericalLiteral = "(?:(\(DOUBLE))|(\(DECIMAL))|(\(INTEGER)))"
+        let literal = "(?:(?:\(RDFLiteral))|(?:\(numericalLiteral))|(\(booleanLiteral)))"
         let predicate = iri
         let collectionPlaceholder = "(?:\\((?>\\P{M}\\p{M}*)*\\))" // If matches on collection placeholder - test further with collection pattern
         let blankNodePropertyListPlaceholder = "(?:\\[(?>\\P{M}\\p{M}*)*\\])" // If matches on blanknode property list placeholder - test further with blanknode property list pattern
@@ -560,8 +864,8 @@ class TurtleParserTests: XCTestCase {
         let predicateObjectListGroups = "(?:\(verbGroups)\\s*\(objectListGroups)((?:\\s*;\\s*\(verb)\\s*\(objectList)?)*))"
         let blankNodePropertyList = "(?:\\[\\s*\(predicateObjectList)\\s*\\])"
         let blankNodePropertyListGroups = "(?:\\[\\s*(\(predicateObjectList))\\s*\\])"
-        let subject = "(?:\(iri)|\(blankNode)|\(collection))"
-        let subjectGroups = "(\(iri)|\(blankNode)|\(collection))"
+        let subject = "(?:\(iri)|\(blankNode)|\(collectionWithObjectPlaceholder))"
+        let subjectGroups = "(\(iri)|\(blankNode)|\(collectionWithObjectPlaceholder))"
         let subjectParsingGroups = "(\(iri))|(\(blankNodeGroup))|(\(collection))"
         let triples = "(?:(?:\(subject)\\s*\(predicateObjectList))|(?:\(blankNodePropertyList)\\s*\(predicateObjectList)?))"
         let triplesGroups = "(?:(?:\(subjectGroups)\\s*(\(predicateObjectList)))|(?:(\(blankNodePropertyList))\\s*(\(predicateObjectList)?)))"
@@ -574,7 +878,7 @@ class TurtleParserTests: XCTestCase {
         let turtleDoc = "\(statement)*"
         let comment = "^(?:[^<>'\"]|(?:<[^<>]*>)|(?:\"[^\"]*\"\\s*)|(?:'[^']*'\\s*)|(?:\"\"\".*\"\"\"\\s*)|(?:'''.*'''\\s*))*(#.*)$"
         
-        print(statement)
+        print("^\\s*\(literal)\\s*$")
         
         testGrammarPattern(PN_CHARS_BASE, testString: "a", shouldFail:false)
         testGrammarPattern(PN_CHARS_BASE, testString: "é", shouldFail:false)

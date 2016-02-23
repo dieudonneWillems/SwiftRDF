@@ -129,6 +129,14 @@ public class TurtleParser : NSObject, RDFParser {
         }
     }
     
+    /**
+     Removes comments from the full content string.
+     Comments caused a problem as they were not defined in the Turtle grammer.
+     This function removes the comments prior to parsing the turtle file.
+     
+     - parameter string: The content string.
+     - returns: The content string without comments.
+     */
     private func removeComments(string : String) -> String {
         let lines = string.characters.split{$0 == "\n"}.map(String.init)
         var newstring = ""
@@ -156,71 +164,99 @@ public class TurtleParser : NSObject, RDFParser {
         return newstring
     }
     
+    /**
+     Parses the turtle string into a `Graph` containing statements and namespaces.
+     
+     - parameter contentString: The string containing the full content of a turtle file.
+     - returns: True when the parsing was succesfull.
+     */
     private func parseTurtle(contentString: String) -> Bool {
+        // Separates statements from each other, turtle statements may contain directives (such as base URI or prefixes), or triples.
         let statements = self.statements(contentString)
         for statement in statements {
-            print(">>  \(statement)")
-            var success = parseDirectiveFromStatement(statement)
-            if !success {
+            var success = parseDirectiveFromStatement(statement) // true when the statement is a directive (and adds base URIs and prefixes to the current graph.
+            if !success { // false when the statement is NOT a directive (and should therefore be a triple).
                 success = parseTriplesFromStatement(statement)
             }
-            if !success {
+            if !success { // if the statement cannot be parsed as either a directive or triple >> is an error in the turtle file.
                 return false
             }
         }
         return true
     }
     
+    /**
+     Parses the directive in the provided statement, a prefix definition or a base URI.
+     If the statement does not contain a directive false will be returned. This is not automatically an error, as the statement may also contain a
+     triple.
+     
+     - parameter statement: The statement to be parsed as a directive.
+     - returns: True, when the statement contains a directive, false otherwise.
+     */
     private func parseDirectiveFromStatement(statement : String) -> Bool {
-        let directives = self.runRegularExpression(grammar!["directive"]!, onString: statement)
+        let directives = self.runRegularExpression(grammar!["directive"]!, onString: statement) // Returns the directives found in the statement (either 0 or 1 directive).
         for directive in directives {
-            let flag = parsePrefix(directive)
+            let flag = parsePrefix(directive) // Tries to parse the directive as a prefix definition.
             if !flag {
-                parseBaseURI(directive)
+                parseBaseURI(directive)     // Tries to parse the directive as a base URI
             }
         }
         return directives.count > 0
     }
     
+    /**
+     Parses the triples in the provided statement. One statement may contain multiple triples.
+     
+     - parameter statement: The statement to be parsed for triples.
+     - returns: True when one or more triples could be parsed from the statement, false otherwise.
+     */
     private func parseTriplesFromStatement(statement : String) -> Bool {
-        print("statement: \(statement)")
+        // Parses the string for triples using the 'triplesGroups' regular expression. -> results in a list of substrings each containing a subject-predicate-object statement.
         let subjecPredicateObjects = self.runRegularExpressionWithGroups(grammar!["triplesGroups"]!, onString: statement)
         for spos in subjecPredicateObjects {
-            if spos.count == 5 {
-                let subjectstr = spos[1]
-                if subjectstr != nil {
-                    let predicateObjectList = spos[2]
+            if spos.count == 5 { // should contain 5 groups from the regex.
+                let subjectstr = spos[1] // subject should be contained in first regex group if the subject is not a blank node.
+                if subjectstr != nil { //
+                    let predicateObjectList = spos[2]  // predicate-object list should be contained in the second regex group.
+                    if predicateObjectList == nil {
+                        currentGraph = nil
+                        delegate?.parserErrorOccurred(self, error: RDFParserError.malformedRDFFormat(message: "Could not extract predicate-object list from SubjectPredicateObject statement '\(statement)'."))
+                        return false
+                    }
                     currentSubject = self.parseSubject(subjectstr!)
                     if currentSubject == nil {
+                        currentGraph = nil
                         delegate?.parserErrorOccurred(self, error: RDFParserError.malformedRDFFormat(message: "Could not extract subject from SubjectPredicateObject statement '\(statement)'."))
                         return false
                     }
-                    if predicateObjectList == nil {
-                        return false
-                    }
-                    let polSuccess = parsePredicateObjectLists(predicateObjectList!)
+                    let polSuccess = parsePredicateObjectLists(predicateObjectList!) // parses the predicate-object list which are combined with the subject to create triples.
                     if !polSuccess {
                         return false
                     }
-                }else {
-                    let predicateObjectList = spos[4]
+                }else {     // The subject is a blank node property list
+                    let predicateObjectList = spos[4] // predicate-object list should be contained in the fourth regex group if the subject is a blank node property list.
+                    if predicateObjectList == nil {
+                        currentGraph = nil
+                        delegate?.parserErrorOccurred(self, error: RDFParserError.malformedRDFFormat(message: "Could not extract predicate-object list from SubjectPredicateObject statement '\(statement)'."))
+                        return false
+                    }
                     currentSubject = self.parseBlankNodePropertyList(spos[3]!)
                     if currentSubject == nil {
+                        currentGraph = nil
                         delegate?.parserErrorOccurred(self, error: RDFParserError.malformedRDFFormat(message: "Could not extract subject from SubjectPredicateObject statement '\(statement)'."))
                         return false
                     }
-                    if predicateObjectList == nil {
-                        return false
-                    }
-                    let polSuccess = parsePredicateObjectLists(predicateObjectList!)
+                    let polSuccess = parsePredicateObjectLists(predicateObjectList!) // parses the predicate-object list which are combined with the subject to create triples.
                     if !polSuccess {
                         return false
                     }
                 }
             }else if spos.count == 2 {
+                currentGraph = nil
                 delegate?.parserErrorOccurred(self, error: RDFParserError.malformedRDFFormat(message: "No Predicate and Object defined in SubjectPredicateObject statement '\(statement)'."))
                 return false
             }else if spos.count <= 1 {
+                currentGraph = nil
                 delegate?.parserErrorOccurred(self, error: RDFParserError.malformedRDFFormat(message: "No Subject, Predicate and Object defined in SubjectPredicateObject statement '\(statement)'."))
                 return false
             }
@@ -242,7 +278,7 @@ public class TurtleParser : NSObject, RDFParser {
             } else if subjectByType[0][4] != nil {
                 return BlankNode()
             } else if subjectByType[0][5] != nil {
-                // TODO: collection in subject
+                return parseCollectionInSubject(string)
             }
         }
         return nil
@@ -260,6 +296,7 @@ public class TurtleParser : NSObject, RDFParser {
                     predicateURI = self .parseIRI(predicate)
                 }
                 if predicateURI == nil {
+                    currentGraph = nil
                     delegate?.parserErrorOccurred(self, error: RDFParserError.malformedRDFFormat(message: "Malformed predicate in PredicateObjectList statement '\(string)'."))
                     return false
                 }
@@ -275,7 +312,9 @@ public class TurtleParser : NSObject, RDFParser {
                     return false
                 }
             } else {
+                currentGraph = nil
                 delegate?.parserErrorOccurred(self, error: RDFParserError.malformedRDFFormat(message: "No object list defined in PredicateObjectList statement '\(string)'."))
+                return false
             }
             if pol[0][3] != nil {
                 let nextPredicateObjectList = pol[0][3]!
@@ -288,6 +327,7 @@ public class TurtleParser : NSObject, RDFParser {
             }
             return true
         }else {
+            currentGraph = nil
             delegate?.parserErrorOccurred(self, error: RDFParserError.malformedRDFFormat(message: "Malformed PredicateObjectList statement '\(string)'."))
         }
         return false
@@ -312,6 +352,7 @@ public class TurtleParser : NSObject, RDFParser {
             }
             return true
         } else {
+            currentGraph = nil
             delegate?.parserErrorOccurred(self, error: RDFParserError.malformedRDFFormat(message: "No objects were found in ObjectList statement '\(string)'."))
         }
         return false
@@ -325,6 +366,7 @@ public class TurtleParser : NSObject, RDFParser {
                 let iristr = ob[0][1]!
                 object = self.parseIRI(iristr)
                 if object == nil {
+                    currentGraph = nil
                     delegate?.parserErrorOccurred(self, error: RDFParserError.malformedRDFFormat(message: "Malformed IRI in Object statement '\(string)'."))
                     return false
                 }
@@ -338,10 +380,9 @@ public class TurtleParser : NSObject, RDFParser {
                 let literalStr = ob[0][3]!
                 object = Literal(sparqlString: literalStr)
             }else if ob[0][4] != nil { // collection
-                // TODO: parse collection
                 let col = ob[0][4]
                 let tempSubject = currentSubject
-                let success = self.parseCollection(col!) != nil
+                let success = self.parseCollection(col!)
                 currentSubject = tempSubject
                 return success
             }else if ob[0][5] != nil { // blanknode property list
@@ -352,34 +393,117 @@ public class TurtleParser : NSObject, RDFParser {
                 return success
             }
             if object == nil {
+                currentGraph = nil
                 delegate?.parserErrorOccurred(self, error: RDFParserError.malformedRDFFormat(message: "Could not extract object from Object statement '\(string)'."))
                 return false
             }
             if currentSubject == nil {
+                currentGraph = nil
                 delegate?.parserErrorOccurred(self, error: RDFParserError.malformedRDFFormat(message: "Object was correctly parsed but no subject was defined."))
                 return false
             }
             if currentPredicate == nil {
+                currentGraph = nil
                 delegate?.parserErrorOccurred(self, error: RDFParserError.malformedRDFFormat(message: "Object was correctly parsed but no predicate was defined."))
                 return false
             }
-            let statement = Statement(subject: currentSubject!, predicate: currentPredicate!, object: object!, namedGraph: baseURI!)
-            currentGraph?.add(statement)
-            if delegate != nil {
-                delegate?.statementAdded(self, graph: currentGraph!, statement: statement)
-            }
+            self.addStatement(currentSubject!, predicate: currentPredicate!, object: object!, namedGraph: baseURI!)
             return true
         } else {
+            currentGraph = nil
             delegate?.parserErrorOccurred(self, error: RDFParserError.malformedRDFFormat(message: "Could not extract object from Object statement '\(string)'."))
         }
         return false
     }
     
-    private func parseCollection(string : String) -> Resource? {
-        let objectsInCollection = self.runRegularExpressionWithGroups(grammar!["objectGroups"]!, onString: string)
+    private func parseCollectionInSubject(string : String) -> Resource? {
+        let objectSet = self.runRegularExpressionWithGroups(grammar!["collectionWithObjectPlaceholderGroups"]!, onString: string)
+        if objectSet.count > 0 {
+            if objectSet[0].count == 2{
+                let objectSetStr = objectSet[0][1]!
+                let objectsInCollection = self.runRegularExpressionWithGroups(grammar!["objectGroups"]!, onString: objectSetStr)
+                var tempSubject : Resource? = nil
+                if objectsInCollection.count > 0 {
+                    for objectre in objectsInCollection {
+                        let colObject = BlankNode()
+                        if tempSubject == nil {
+                            tempSubject = colObject
+                        }
+                        if currentSubject != nil && currentPredicate != nil {
+                            self.addStatement(currentSubject!, predicate: currentPredicate!, object: colObject, namedGraph: baseURI!)
+                        }
+                        currentSubject = colObject
+                        currentPredicate = RDF.first
+                        var success = false
+                        success = self.parseObject(objectre[0]!)
+                        if !success {
+                            return nil
+                        }
+                        currentPredicate = RDF.rest
+                    }
+                    self.addStatement(currentSubject!, predicate: currentPredicate!, object: RDF.NIL, namedGraph: baseURI!)
+                } else {
+                    if tempSubject != nil && currentPredicate != nil {
+                        self.addStatement(tempSubject!, predicate: currentPredicate!, object: RDF.NIL, namedGraph: baseURI!)
+                    }
+                }
+                return tempSubject
+            }
+        }
         
-        // TODO: Throw error in delegate when collection could not be parsed.
+        if delegate != nil {
+            currentGraph = nil
+            delegate?.parserErrorOccurred(self, error:RDFParserError.malformedRDFFormat(message: "Could not parse objects from collection because the collection '\(string)' was malformed."))
+        }
         return nil
+    }
+    
+    private func parseCollection(string : String) -> Bool {
+        let objectSet = self.runRegularExpressionWithGroups(grammar!["collectionWithObjectPlaceholderGroups"]!, onString: string)
+        if objectSet.count > 0 {
+            if objectSet[0].count == 2{
+                let objectSetStr = objectSet[0][1]!
+                let objectsInCollection = self.runRegularExpressionWithGroups(grammar!["objectGroups"]!, onString: objectSetStr)
+                let tempSubject = currentSubject
+                let tempPredicate = currentPredicate
+                if objectsInCollection.count > 0 {
+                    for objectre in objectsInCollection {
+                        let colObject = BlankNode()
+                        self.addStatement(currentSubject!, predicate: currentPredicate!, object: colObject, namedGraph: baseURI!)
+                        currentSubject = colObject
+                        currentPredicate = RDF.first
+                        var success = false
+                        success = self.parseObject(objectre[0]!)
+                        if !success {
+                            return false
+                        }
+                        currentPredicate = RDF.rest
+                    }
+                    self.addStatement(currentSubject!, predicate: currentPredicate!, object: RDF.NIL, namedGraph: baseURI!)
+                } else {
+                    if tempSubject != nil && currentPredicate != nil {
+                        self.addStatement(tempSubject!, predicate: currentPredicate!, object: RDF.NIL, namedGraph: baseURI!)
+                    }
+                }
+                currentSubject = tempSubject
+                currentPredicate = tempPredicate
+                return true
+            }
+        }
+        
+        if delegate != nil {
+            currentGraph = nil
+            delegate?.parserErrorOccurred(self, error:RDFParserError.malformedRDFFormat(message: "Could not parse objects from collection because the collection '\(string)' was malformed."))
+        }
+        return false
+    }
+    
+    private func addStatement(subject : Resource, predicate: URI, object : Value, namedGraph: Resource) {
+        let statement = Statement(subject: subject, predicate: predicate, object: object, namedGraph: namedGraph)
+        currentGraph?.add(statement)
+        if delegate != nil {
+            delegate?.statementAdded(self, graph: currentGraph!, statement: statement)
+        }
     }
     
     private func parseBlankNodePropertyList(string : String) -> Resource? {
@@ -534,7 +658,7 @@ public class TurtleParser : NSObject, RDFParser {
         let DECIMAL = "[+-]?[0-9]*\\.[0-9]+"
         let EXPONENT = "(?:[eE][+-]?[0-9]+)"
         let DOUBLE = "(?:[+-]?(?:(?:[0-9]+\\.[0-9]*\(EXPONENT))|(?:\\.[0-9]+\(EXPONENT))|(?:[0-9]+\(EXPONENT))))"
-        let ECHAR = "\\\\[\\t\\n\\r\\f\\\"\\'\\\\]" // misses \b (backspace)
+        let ECHAR = "\\\\[tbnrf\"'\\\\]"
         let UCHAR = "(?:\\\\U\(HEX)\(HEX)\(HEX)\(HEX)\(HEX)\(HEX)\(HEX)\(HEX))|(?:\\\\u\(HEX)\(HEX)\(HEX)\(HEX))"
         let STRING_LITERAL_QUOTE = "\"(?:[^\\u0022\\u005C\\u000A\\u000D]|\(ECHAR)|\(UCHAR))*\"" /* #x22=" #x5C=\ #xA=new line #xD=carriage return */
         let STRING_LITERAL_SINGLE_QUOTE = "'(?:[^\\u0027\\u005C\\u000A\\u000D]|\(ECHAR)|\(UCHAR))*'" /* #x27=' #x5C=\ #xA=new line #xD=carriage return */
@@ -557,9 +681,10 @@ public class TurtleParser : NSObject, RDFParser {
         let blankNodePropertyListPlaceholder = "(?:\\[(?>\\P{M}\\p{M}*)*\\])" // If matches on blanknode property list placeholder - test further with blanknode property list pattern
         let objectWithCollectionPlaceholder = "(?:(?:\(iri))|(?:\(blankNode))|(?:\(literal))|(?:\(collectionPlaceholder))|(?:\(blankNodePropertyListPlaceholder)))"
         let collectionWithObjectPlaceholder = "\\((?:\\s*\(objectWithCollectionPlaceholder))*\\s*\\)"
+        let collectionWithObjectPlaceholderGroups = "\\(((?:\\s*\(objectWithCollectionPlaceholder))*\\s*)\\)"
         let object = "(?:(?:\(iri))|(?:\(blankNode))|(?:\(literal))|(?:\(collectionWithObjectPlaceholder))|(?:\(blankNodePropertyListPlaceholder)))"
         let objectGroups = "(?:(\(iri))|(\(blankNode))|(\(literal))|(\(collectionWithObjectPlaceholder))|(\(blankNodePropertyListPlaceholder)))"
-        let collection = "\\(\(object)*\\)"
+        //let collection = "\\(\(object)*\\)"
         let objectList = "(?:\(object)(?:\\s*,\\s*\(object))*)"
         let objectListGroups = "(\(object)(?:\\s*,\\s*\(object))*)"
         let objectListParsingGroups = "(?:(\(object))((?:\\s*,\\s*\(object))*))"
@@ -570,9 +695,9 @@ public class TurtleParser : NSObject, RDFParser {
         let predicateObjectListGroups = "(?:\(verbGroups)\\s*\(objectListGroups)((?:\\s*;\\s*\(verb)\\s*\(objectList)?)*))"
         let blankNodePropertyList = "(?:\\[\\s*\(predicateObjectList)\\s*\\])"
         let blankNodePropertyListGroups = "(?:\\[\\s*(\(predicateObjectList))\\s*\\])"
-        let subject = "(?:\(iri)|\(blankNode)|\(collection))"
-        let subjectGroups = "(\(iri)|\(blankNode)|\(collection))"
-        let subjectParsingGroups = "(\(iri))|(\(blankNodeGroup))|(\(collection))"
+        let subject = "(?:\(iri)|\(blankNode)|\(collectionWithObjectPlaceholder))"
+        let subjectGroups = "(\(iri)|\(blankNode)|\(collectionWithObjectPlaceholder))"
+        let subjectParsingGroups = "(\(iri))|(\(blankNodeGroup))|(\(collectionWithObjectPlaceholder))"
         let triples = "(?:(?:\(subject)\\s*\(predicateObjectList))|(?:\(blankNodePropertyList)\\s*\(predicateObjectList)?))"
         let triplesGroups = "(?:(?:\(subjectGroups)\\s*(\(predicateObjectList)))|(?:(\(blankNodePropertyList))\\s*(\(predicateObjectList)?)))"
         let sparqlPrefix = "(?:(?i)PREFIX(?-i)\\s*\(PNAME_NS)\\s*\(IRIREF))" // prefix should be case insensitive
@@ -600,6 +725,7 @@ public class TurtleParser : NSObject, RDFParser {
         grammar!["objectGroups"] = self.createGrammarRegEx("\(objectGroups)")!
         grammar!["comment"] = self.createGrammarRegEx("\(comment)")!
         grammar!["blankNodePropertyListGroups"] = self.createGrammarRegEx("\(blankNodePropertyListGroups)")!
+        grammar!["collectionWithObjectPlaceholderGroups"] = self.createGrammarRegEx("\(collectionWithObjectPlaceholderGroups)")!
     }
     
     private func createGrammarRegEx(pattern: String) -> NSRegularExpression? {
