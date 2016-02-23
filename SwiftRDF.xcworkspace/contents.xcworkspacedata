@@ -82,6 +82,9 @@
             location = "group:/Users/wonco/Development/SwiftRDF/source code/parsers/RDFParser.swift">
          </FileRef>
          <FileRef
+            location = "group:source code/parsers/RDFFormatter.swift">
+         </FileRef>
+         <FileRef
             location = "group:source code/parsers/RDFParserDelegate.swift">
          </FileRef>
          <FileRef
