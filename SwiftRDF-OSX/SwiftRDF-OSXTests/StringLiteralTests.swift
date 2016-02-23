@@ -26,8 +26,12 @@ class StringLiteralTests: XCTestCase {
     func testStringLiteralWithQuotes(){
         var string = "\"Hello \\\"World\\\"\"^^xsd:string"
         var lit = Literal(sparqlString: string)
+        print("\(lit!)")
         XCTAssertEqual(string, lit!.sparql)
         string = "\"<a:aa a:at=\\\"val\\\">tes</a>\"^^rdf:XMLLiteral"
+        lit = Literal(sparqlString: string)
+        XCTAssertEqual(string, lit!.sparql)
+        string = "'''\"test\"'''^^xsd:string"
         lit = Literal(sparqlString: string)
         XCTAssertEqual(string, lit!.sparql)
     }
@@ -55,40 +59,41 @@ class StringLiteralTests: XCTestCase {
         
         lit = Literal(stringValue: "Hello\n World", language: "en")!
         XCTAssertEqual("Hello\n World", lit.stringValue)
-        XCTAssertEqual("\"Hello\n World\"@en", lit.sparql)
+        XCTAssertEqual("\"\"\"Hello\n World\"\"\"@en", lit.sparql)
         XCTAssertEqual("en", lit.language)
         XCTAssertTrue(XSD.string == lit.dataType!)
         XCTAssertNil(lit.longValue)
         
         lit = Literal(stringValue: "Hello\t World", language: "en")!
         XCTAssertEqual("Hello\t World", lit.stringValue)
-        XCTAssertEqual("\"Hello\t World\"@en", lit.sparql)
+        XCTAssertEqual("\"\"\"Hello\t World\"\"\"@en", lit.sparql)
         XCTAssertEqual("en", lit.language)
         XCTAssertTrue(XSD.string == lit.dataType!)
         XCTAssertNil(lit.longValue)
         
         lit = Literal(stringValue: "Hello\r World", language: "en")!
         XCTAssertEqual("Hello\r World", lit.stringValue)
-        XCTAssertEqual("\"Hello\r World\"@en", lit.sparql)
+        XCTAssertEqual("\"\"\"Hello\r World\"\"\"@en", lit.sparql)
         XCTAssertEqual("en", lit.language)
         XCTAssertTrue(XSD.string == lit.dataType!)
         XCTAssertNil(lit.longValue)
         
-        lit = Literal(sparqlString: "\"Hello\r World\"@en")!
+        lit = Literal(sparqlString: "\"Hello\\r World\"@en")!
+        print("\(lit)")
         XCTAssertEqual("Hello\r World", lit.stringValue)
-        XCTAssertEqual("\"Hello\r World\"@en", lit.sparql)
+        XCTAssertEqual("\"\"\"Hello\r World\"\"\"@en", lit.sparql)
         XCTAssertEqual("en", lit.language)
         XCTAssertTrue(XSD.string == lit.dataType!)
         XCTAssertNil(lit.longValue)
         
-        lit = Literal(sparqlString: "\"Hello\r World\"@en")!
+        lit = Literal(sparqlString: "\"Hello\\r World\"@en")!
         XCTAssertEqual("Hello\r World", lit.stringValue)
-        XCTAssertEqual("\"Hello\r World\"@en", lit.sparql)
+        XCTAssertEqual("\"\"\"Hello\r World\"\"\"@en", lit.sparql)
         XCTAssertEqual("en", lit.language)
         XCTAssertTrue(XSD.string == lit.dataType!)
         XCTAssertNil(lit.longValue)
         
-        litn = Literal(sparqlString: "\"Hello\r World\"@00-US") // non valid language
+        litn = Literal(sparqlString: "\"Hello\\r World\"@00-US") // non valid language
         XCTAssertNil(litn)
     }
     

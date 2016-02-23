@@ -24,14 +24,11 @@ class SPARQLLiteralTests: XCTestCase {
     }
     
     func testSPARQLStringLiteral() {
-        let lit0 = Literal(sparqlString: "test string")!;
-        XCTAssertEqual("test string", lit0.stringValue)
-        XCTAssertNil(lit0.dataType)
-        XCTAssertNil(lit0.language)
-        XCTAssertNil(lit0.longValue)
+        let lit0 = Literal(sparqlString: "test string");
+        XCTAssertNil(lit0)
         let lit1 = Literal(sparqlString: "\"test string\"")!;
         XCTAssertEqual("test string", lit1.stringValue)
-        XCTAssertTrue(XSD.string == lit1.dataType!)
+        XCTAssertNil(lit1.dataType)
         XCTAssertNil(lit1.language)
         XCTAssertNil(lit1.longValue)
         let lit2 = Literal(sparqlString: "\"test string\"@en")!;
@@ -44,16 +41,10 @@ class SPARQLLiteralTests: XCTestCase {
         XCTAssertTrue(XSD.string == lit3.dataType!)
         XCTAssertNil(lit3.language)
         XCTAssertNil(lit3.longValue)
-        let lit4 = Literal(sparqlString: "\"test string\"@en^^xsd:string")!;
-        XCTAssertEqual("test string", lit4.stringValue)
-        XCTAssertTrue(XSD.string == lit4.dataType!)
-        XCTAssertEqual("en",lit4.language)
-        XCTAssertNil(lit4.longValue)
-        let lit5 = Literal(sparqlString: "\"test string\"@en^^xsd:double")!;
-        XCTAssertEqual("\"test string\"@en^^xsd:double", lit5.stringValue)
-        XCTAssertNil(lit5.dataType)
-        XCTAssertNil(lit5.language)
-        XCTAssertNil(lit5.longValue)
+        let lit4 = Literal(sparqlString: "\"test string\"@en^^xsd:string");
+        XCTAssertNil(lit4)
+        let lit5 = Literal(sparqlString: "\"test string\"@en^^xsd:double");
+        XCTAssertNil(lit5)
         let lit6 = Literal(sparqlString: "\"test string\"@en-US")!;
         XCTAssertEqual("test string", lit6.stringValue)
         XCTAssertTrue(XSD.string == lit6.dataType!)

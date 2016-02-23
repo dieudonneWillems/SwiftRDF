@@ -29,9 +29,13 @@ extension String {
     // Regex pattern for qualified name: ^(?:([\p{L}\p{M}_][\p{L}\p{M}[0-9]\.\-_]*):)?([\p{L}\p{M}_][\p{L}\p{M}[0-9]\.\-_]*)$
     private static let QNAMEPattern = "^(?:([\\p{L}\\p{M}_][\\p{L}\\p{M}[0-9]\\.\\-_]*):)?([\\p{L}\\p{M}_][\\p{L}\\p{M}[0-9]\\.\\-_]*)$"
     
+    // Regex pattern for prefixed name: ^(?:([\p{L}\p{M}_][\p{L}\p{M}[0-9]\.\-_]*))?:([\p{L}\p{M}[0-9](?:\\[~\.\-!\$&'()\*\+,;=/\?#@%_])\.\-_]*)$
+    private static let PrefixedNamesPattern = "^(?:([\\p{L}\\p{M}_][\\p{L}\\p{M}[0-9]\\.\\-_]*))?:([\\p{L}\\p{M}[0-9](?:\\\\[~\\.\\-!\\$&'()\\*\\+,;=/\\?#@%_])\\.\\-_]*)$"
+    
     private static var _languageRegularExpression : NSRegularExpression?
     private static var _nameRegularExpression : NSRegularExpression?
     private static var _QNAMERegularExpression : NSRegularExpression?
+    private static var _PrefixedNamesRegularExpression : NSRegularExpression?
     private static var _NCNameRegularExpression : NSRegularExpression?
     private static var _NMTokenRegularExpression : NSRegularExpression?
     
@@ -65,6 +69,12 @@ extension String {
         }
         return _QNAMERegularExpression!
     }
+    private static var PrefixedNamesRegularExpression : NSRegularExpression {
+        if _PrefixedNamesRegularExpression == nil {
+            String.createRegularExpression()
+        }
+        return _PrefixedNamesRegularExpression!
+    }
     
     private static func createRegularExpression() {
         do {
@@ -73,6 +83,7 @@ extension String {
             _NCNameRegularExpression = try NSRegularExpression(pattern: String.NCNamePattern, options: [.CaseInsensitive])
             _NMTokenRegularExpression = try NSRegularExpression(pattern: String.NMTokenPattern, options: [.CaseInsensitive])
             _QNAMERegularExpression = try NSRegularExpression(pattern: String.QNAMEPattern, options: [.CaseInsensitive])
+            _PrefixedNamesRegularExpression = try NSRegularExpression(pattern: String.PrefixedNamesPattern, options: [.CaseInsensitive])
         } catch {
             //should never happen.
         }
@@ -196,6 +207,65 @@ extension String {
      */
     var qualifiedNameLocalPart : String? {
         let regex = String.QNAMERegularExpression
+        let matches = regex.matchesInString(self, options: [], range: NSMakeRange(0, self.characters.count)) as Array<NSTextCheckingResult>
+        if matches.count == 0 {
+            return nil
+        }else{
+            let match = matches[0]
+            let nsstring = self as NSString
+            if match.rangeAtIndex(2).location != NSNotFound {
+                let str = nsstring.substringWithRange(match.rangeAtIndex(2)) as String
+                return str
+            }
+        }
+        return nil
+    }
+    
+    /**
+     Is true when the string is a valid prefixed name as defined in [RDF 1.1 Turtle](https://www.w3.org/TR/turtle/).
+     
+     Prefixed names are a superset of XML QNames. They differ in that the local part of prefixed names may include:
+     
+     - leading digits, e.g. leg:3032571 or isbn13:9780136019701
+     - non leading colons, e.g. og:video:height
+     - reserved character escape sequences, e.g. wgs:lat\-long
+     */
+    var isPrefixedName : Bool {
+        let regex = String.PrefixedNamesRegularExpression
+        let matches = regex.matchesInString(self, options: [], range: NSMakeRange(0, self.characters.count)) as Array<NSTextCheckingResult>
+        if matches.count == 0 {
+            return false
+        }else{
+            return true
+        }
+    }
+    
+    /**
+     The prefix part of the string if the string is a prefixed name such as `prefix:localpart`. If the string is not a prefixed name
+     or the prefixed name does not contains a prefix part, this property will be `nil`.
+     */
+    var prefixedNamePrefix : String? {
+        let regex = String.PrefixedNamesRegularExpression
+        let matches = regex.matchesInString(self, options: [], range: NSMakeRange(0, self.characters.count)) as Array<NSTextCheckingResult>
+        if matches.count == 0 {
+            return nil
+        }else{
+            let match = matches[0]
+            let nsstring = self as NSString
+            if match.rangeAtIndex(1).location != NSNotFound {
+                let str = nsstring.substringWithRange(match.rangeAtIndex(1)) as String
+                return str
+            }
+        }
+        return nil
+    }
+    
+    /**
+     The local part of the string if the string is a prefixed name such as `prefix:localpart`. If the string is not a prefixed name
+     this property will be `nil`.
+     */
+    var prefixedNameLocalPart : String? {
+        let regex = String.PrefixedNamesRegularExpression
         let matches = regex.matchesInString(self, options: [], range: NSMakeRange(0, self.characters.count)) as Array<NSTextCheckingResult>
         if matches.count == 0 {
             return nil
