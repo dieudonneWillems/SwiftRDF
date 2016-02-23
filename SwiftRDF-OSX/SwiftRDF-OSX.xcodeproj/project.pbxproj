@@ -67,6 +67,10 @@
 		02C84D1E1C62B6AA001AE84F /* RDFXMLParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C84D1D1C62B6AA001AE84F /* RDFXMLParser.swift */; };
 		02C84D301C62B789001AE84F /* RDFParserError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C84D2E1C62B789001AE84F /* RDFParserError.swift */; };
 		02C84D321C63BBF5001AE84F /* InstanceIndex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C84D311C63BBF5001AE84F /* InstanceIndex.swift */; };
+		02CEDA991C7CBA2D000B5488 /* RDFFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02CEDA981C7CBA2D000B5488 /* RDFFormatter.swift */; };
+		02CEDA9B1C7CBF4E000B5488 /* RDFFormatterOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02CEDA9A1C7CBF4E000B5488 /* RDFFormatterOption.swift */; };
+		02CEDA9D1C7CC3E9000B5488 /* TurtleFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02CEDA9C1C7CC3E9000B5488 /* TurtleFormatter.swift */; };
+		02CEDA9F1C7CDAA4000B5488 /* TurtleFormatterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02CEDA9E1C7CDAA4000B5488 /* TurtleFormatterTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -131,6 +135,10 @@
 		02C84D1D1C62B6AA001AE84F /* RDFXMLParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RDFXMLParser.swift; path = "../source code/parsers/RDFXMLParser.swift"; sourceTree = "<group>"; };
 		02C84D2E1C62B789001AE84F /* RDFParserError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RDFParserError.swift; path = "../source code/errors/RDFParserError.swift"; sourceTree = "<group>"; };
 		02C84D311C63BBF5001AE84F /* InstanceIndex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InstanceIndex.swift; path = "../source code/model/indexes/InstanceIndex.swift"; sourceTree = "<group>"; };
+		02CEDA981C7CBA2D000B5488 /* RDFFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RDFFormatter.swift; path = "../source code/parsers/RDFFormatter.swift"; sourceTree = "<group>"; };
+		02CEDA9A1C7CBF4E000B5488 /* RDFFormatterOption.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RDFFormatterOption.swift; path = "/Users/wonco/Development/SwiftRDF/source code/parsers/RDFFormatterOption.swift"; sourceTree = "<absolute>"; };
+		02CEDA9C1C7CC3E9000B5488 /* TurtleFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TurtleFormatter.swift; path = "../source code/parsers/TurtleFormatter.swift"; sourceTree = "<group>"; };
+		02CEDA9E1C7CDAA4000B5488 /* TurtleFormatterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TurtleFormatterTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -195,6 +203,9 @@
 		0222323E1C02108A00362D9B /* source */ = {
 			isa = PBXGroup;
 			children = (
+				02CEDA9C1C7CC3E9000B5488 /* TurtleFormatter.swift */,
+				02CEDA9A1C7CBF4E000B5488 /* RDFFormatterOption.swift */,
+				02CEDA981C7CBA2D000B5488 /* RDFFormatter.swift */,
 				022F5D9A1C67906A00551287 /* TurtleParser.swift */,
 				02C84D311C63BBF5001AE84F /* InstanceIndex.swift */,
 				022232381BFF7A4700362D9B /* BlankNode.swift */,
@@ -257,6 +268,7 @@
 			children = (
 				022F5D9C1C679ABA00551287 /* RDFXMLParserTests.swift */,
 				022F5D9E1C679AF000551287 /* TurtleParserTests.swift */,
+				02CEDA9E1C7CDAA4000B5488 /* TurtleFormatterTests.swift */,
 				022F5DA01C679BAB00551287 /* TestRDFParserDelegate.swift */,
 			);
 			name = "Parser Tests";
@@ -385,6 +397,8 @@
 				0262BB0D1C076409002E24A4 /* Vocabulary.swift in Sources */,
 				02C640761C4071C900231345 /* (null) in Sources */,
 				0262BB0B1C075F9E002E24A4 /* XSD.swift in Sources */,
+				02CEDA991C7CBA2D000B5488 /* RDFFormatter.swift in Sources */,
+				02CEDA9B1C7CBF4E000B5488 /* RDFFormatterOption.swift in Sources */,
 				02C84D121C62B66A001AE84F /* IndexedGraph.swift in Sources */,
 				029699F01C0EDA700067BB99 /* OWL.swift in Sources */,
 				022D68371C21D64B00C4000D /* NSData-extensions.swift in Sources */,
@@ -402,6 +416,7 @@
 				02C84D131C62B66A001AE84F /* Index.swift in Sources */,
 				02C640781C40797600231345 /* (null) in Sources */,
 				022F5D9B1C67906A00551287 /* TurtleParser.swift in Sources */,
+				02CEDA9D1C7CC3E9000B5488 /* TurtleFormatter.swift in Sources */,
 				022232391BFF7A4700362D9B /* BlankNode.swift in Sources */,
 				02C6407A1C407DA900231345 /* (null) in Sources */,
 				02C84D1E1C62B6AA001AE84F /* RDFXMLParser.swift in Sources */,
@@ -418,6 +433,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				02CEDA9F1C7CDAA4000B5488 /* TurtleFormatterTests.swift in Sources */,
 				02912C371C25A04800F64580 /* StringExtensionsTests.swift in Sources */,
 				02C640861C412CAE00231345 /* (null) in Sources */,
 				022F5D9F1C679AF000551287 /* TurtleParserTests.swift in Sources */,
