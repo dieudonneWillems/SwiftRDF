@@ -14,11 +14,25 @@
 			<key>CFBundleTypeIconFile</key>
 			<string></string>
 			<key>CFBundleTypeName</key>
-			<string>RDF Document</string>
+			<string>RDF/XML Document</string>
 			<key>CFBundleTypeOSTypes</key>
 			<array>
 				<string>????</string>
 			</array>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>LSTypeIsPackage</key>
+			<integer>0</integer>
+			<key>NSDocumentClass</key>
+			<string>Ontologist.RDFDocument</string>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>ttl</string>
+			</array>
+			<key>CFBundleTypeName</key>
+			<string>RDF Turtle Document</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSTypeIsPackage</key>

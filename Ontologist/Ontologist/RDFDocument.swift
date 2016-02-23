@@ -45,10 +45,18 @@ class RDFDocument: NSDocument {
         // You can also choose to override readFromFileWrapper:ofType:error: or readFromURL:ofType:error: instead.
         // If you override either of these, you should also override -isEntireFileLoaded to return false if the contents are lazily loaded.
         print("URL: \(self.fileURL)")
+        print("type: \(typeName)")
         let urlstr = self.fileURL?.absoluteString
         let uri = URI(string: urlstr!)
-        let parser = RDFXMLParser(data: data, baseURI: uri!)
-        graph = parser.parse()
+        var parser : RDFParser? = nil
+        if typeName == "RDF/XML Document" {
+            parser = RDFXMLParser(data: data, baseURI: uri!, encoding: NSUTF8StringEncoding)
+        } else if typeName == "RDF Turtle Document" {
+            parser = TurtleParser(data: data, baseURI: uri!, encoding: NSUTF8StringEncoding)
+        }
+        if parser != nil {
+            graph = parser!.parse()
+        }
         if graph == nil {
             throw NSError(domain: NSOSStatusErrorDomain, code: unimpErr, userInfo: nil)
         }
