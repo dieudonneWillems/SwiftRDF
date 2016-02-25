@@ -34,6 +34,8 @@
 		022F5D971C66A19500551287 /* list.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 022F5D941C66A19500551287 /* list.pdf */; };
 		022F5D981C66A19500551287 /* ontology-resource.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 022F5D951C66A19500551287 /* ontology-resource.pdf */; };
 		022F5D991C66A19500551287 /* ontology.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 022F5D961C66A19500551287 /* ontology.pdf */; };
+		0262338B1C7E61B6006063C8 /* ContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0262338A1C7E61B6006063C8 /* ContentViewController.swift */; };
+		0262338D1C7E6A1E006063C8 /* ReplaceViewSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0262338C1C7E6A1E006063C8 /* ReplaceViewSegue.swift */; };
 		0266B5E01C4D563400CA2FE0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0266B5DF1C4D563400CA2FE0 /* AppDelegate.swift */; };
 		0266B5E21C4D563400CA2FE0 /* MainSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0266B5E11C4D563400CA2FE0 /* MainSplitViewController.swift */; };
 		0266B5E41C4D563400CA2FE0 /* RDFDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0266B5E31C4D563400CA2FE0 /* RDFDocument.swift */; };
@@ -166,6 +168,8 @@
 		022F5D941C66A19500551287 /* list.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = list.pdf; sourceTree = "<group>"; };
 		022F5D951C66A19500551287 /* ontology-resource.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "ontology-resource.pdf"; sourceTree = "<group>"; };
 		022F5D961C66A19500551287 /* ontology.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = ontology.pdf; sourceTree = "<group>"; };
+		0262338A1C7E61B6006063C8 /* ContentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentViewController.swift; sourceTree = "<group>"; };
+		0262338C1C7E6A1E006063C8 /* ReplaceViewSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReplaceViewSegue.swift; sourceTree = "<group>"; };
 		0266B5DC1C4D563400CA2FE0 /* Ontologist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ontologist.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0266B5DF1C4D563400CA2FE0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0266B5E11C4D563400CA2FE0 /* MainSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSplitViewController.swift; sourceTree = "<group>"; };
@@ -373,6 +377,8 @@
 				021DE2171C503B1C0031FAC8 /* RDFNavigationController.swift */,
 				021DE2191C503B640031FAC8 /* RDFFileNavigationController.swift */,
 				021DE21B1C503C790031FAC8 /* StatementTableViewController.swift */,
+				0262338A1C7E61B6006063C8 /* ContentViewController.swift */,
+				0262338C1C7E6A1E006063C8 /* ReplaceViewSegue.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -682,6 +688,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0266B5E21C4D563400CA2FE0 /* MainSplitViewController.swift in Sources */,
+				0262338D1C7E6A1E006063C8 /* ReplaceViewSegue.swift in Sources */,
 				0266B60F1C4EE90100CA2FE0 /* RDFDocumentWindowController.swift in Sources */,
 				020729B01C5D75DE00B22285 /* LiteralCellView.swift in Sources */,
 				021DE2181C503B1C0031FAC8 /* RDFNavigationController.swift in Sources */,
@@ -691,6 +698,7 @@
 				021DE21C1C503C790031FAC8 /* StatementTableViewController.swift in Sources */,
 				020729AE1C5CCD9C00B22285 /* ResourceCellView.swift in Sources */,
 				021DE2211C518A840031FAC8 /* RDFNavigation.swift in Sources */,
+				0262338B1C7E61B6006063C8 /* ContentViewController.swift in Sources */,
 				0266B5E01C4D563400CA2FE0 /* AppDelegate.swift in Sources */,
 				021DE2261C5193960031FAC8 /* FileView.swift in Sources */,
 				0266B5E41C4D563400CA2FE0 /* RDFDocument.swift in Sources */,

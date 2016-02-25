@@ -9,7 +9,7 @@
 import Cocoa
 import SwiftRDFOSX
 
-class RDFDocument: NSDocument {
+class RDFDocument: NSDocument, RDFParserDelegate {
     
     internal private(set) var graph : Graph? = Graph()
 
@@ -32,6 +32,7 @@ class RDFDocument: NSDocument {
         let storyboard = NSStoryboard(name: "Main", bundle: nil)
         let windowController = storyboard.instantiateControllerWithIdentifier("Document Window Controller") as! RDFDocumentWindowController
         self.addWindowController(windowController)
+        windowController.startProgress(self)
     }
 
     override func dataOfType(typeName: String) throws -> NSData {
@@ -48,18 +49,67 @@ class RDFDocument: NSDocument {
         print("type: \(typeName)")
         let urlstr = self.fileURL?.absoluteString
         let uri = URI(string: urlstr!)
-        var parser : RDFParser? = nil
-        if typeName == "RDF/XML Document" {
-            parser = RDFXMLParser(data: data, baseURI: uri!, encoding: NSUTF8StringEncoding)
-        } else if typeName == "RDF Turtle Document" {
-            parser = TurtleParser(data: data, baseURI: uri!, encoding: NSUTF8StringEncoding)
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) { // 1
+            var parser : RDFParser? = nil
+            if typeName == "RDF/XML Document" {
+                parser = RDFXMLParser(data: data, baseURI: uri!, encoding: NSUTF8StringEncoding)
+            } else if typeName == "RDF Turtle Document" {
+                parser = TurtleParser(data: data, baseURI: uri!, encoding: NSUTF8StringEncoding)
+            }
+            if parser != nil {
+                parser!.delegate = self
+                self.graph = parser!.parse()
+            }
+            dispatch_async(dispatch_get_main_queue()) {
+                if self.graph == nil {
+                    print("\n\nCould not parse RDF document!\n")
+                    // TODO: handle error
+                    //throw NSError(domain: NSOSStatusErrorDomain, code: unimpErr, userInfo: nil)
+                }else {
+                    let windowControllers = self.windowControllers
+                    for windowController in windowControllers {
+                        if (windowController as? RDFDocumentWindowController) != nil {
+                            let rdfwc = (windowController as! RDFDocumentWindowController)
+                            rdfwc.documentHasBeenParsed(self)
+                        }
+                    }
+                }
+            }
         }
-        if parser != nil {
-            graph = parser!.parse()
+    }
+    
+    func parserDidStartDocument(_parser : RDFParser) {
+        print("RDF Parser started")
+    }
+    
+    func parserDidEndDocument(_parser : RDFParser) {
+        print("RDF Parser finished")
+    }
+    
+    func parserErrorOccurred(_parser : RDFParser, error: RDFParserError) {
+        switch error {
+        case .couldNotCreateRDFParser(let message) :
+            print("Could not create RDF parser: \(message)")
+            break
+        case .couldNotRetrieveRDFFileFromURI(let message, let uri) :
+            print("Could not retrieve RDF file from URI '\(uri.stringValue)': \(message)")
+            break
+        case .couldNotRetrieveRDFFileFromURL(let message, let url) :
+            print("Could not retrieve RDF file from URL '\(url)': \(message)")
+            break
+        case .malformedRDFFormat(let message) :
+            print("Malformed RDF: \(message)")
+            break
         }
-        if graph == nil {
-            throw NSError(domain: NSOSStatusErrorDomain, code: unimpErr, userInfo: nil)
-        }
+    }
+    
+    func namespaceAdded(_parser : RDFParser, graph : Graph, prefix : String, namespaceURI : String) {
+      //  print("RDF Parser: namespace with prefix \(prefix) and URI \(namespaceURI) was added.")
+    }
+    
+    func statementAdded(_parser : RDFParser, graph : Graph, statement : Statement) {
+      //  print("RDF Parser: the statement \(statement) was added.")
     }
 
 }

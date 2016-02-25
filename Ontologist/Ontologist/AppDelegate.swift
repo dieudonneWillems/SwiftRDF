@@ -15,7 +15,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
 
     func applicationDidFinishLaunching(aNotification: NSNotification) {
-        let pluginsManager = PluginsManager.sharedPluginsManager
+        _ = PluginsManager.sharedPluginsManager
         // Insert code here to initialize your application
     }
 

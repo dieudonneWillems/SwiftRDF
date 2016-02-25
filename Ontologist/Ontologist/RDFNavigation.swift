@@ -23,6 +23,8 @@ class RDFNavigation: NSObject, NSOutlineViewDelegate, NSOutlineViewDataSource, N
             fullGraph?.index()
             visibleGraphForSelectedFile = fullGraph
             visibleGraph = fullGraph
+            fileNavigationViewController?.reloadData()
+            graphNavigationViewController?.reloadData()
         }
     }
     
@@ -35,10 +37,6 @@ class RDFNavigation: NSObject, NSOutlineViewDelegate, NSOutlineViewDataSource, N
     
     var searchResults = [Resource]()
     var searchHistory = [SearchResultSet]()
-    
-    func setVisibleGraphFromSelection() {
-        visibleGraph = selectedGraph
-    }
     
     var selectedGraph : Graph? {
         let selectedRow = fileNavigationViewController?.fileNavigationView!.selectedRow
@@ -63,6 +61,10 @@ class RDFNavigation: NSObject, NSOutlineViewDelegate, NSOutlineViewDataSource, N
             return visibleGraph
         }
         return visibleGraphForSelectedFile
+    }
+    
+    func setVisibleGraphFromSelection() {
+        visibleGraph = selectedGraph
     }
     
     func fileGraphAtRowInFileNavigationView(row : Int) -> Graph? {

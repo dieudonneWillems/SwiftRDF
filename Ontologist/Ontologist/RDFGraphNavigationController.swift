@@ -49,6 +49,10 @@ class RDFGraphNavigationController: NSViewController {
         }
     }
     
+    func reloadData() {
+        graphNavigationView?.reloadData()
+    }
+    
     func setVisibleGraphNavigationView(visibleView : VisibleGraphView){
         let previousGraphView = visibleGraphView
         visibleGraphView = visibleView

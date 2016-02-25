@@ -38,4 +38,8 @@ class RDFFileNavigationController: NSViewController {
         }
     }
     
+    func reloadData() {
+        fileNavigationView?.reloadData()
+    }
+    
 }

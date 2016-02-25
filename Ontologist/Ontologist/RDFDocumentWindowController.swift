@@ -21,5 +21,20 @@ class RDFDocumentWindowController: NSWindowController {
             self.contentViewController?.representedObject = document
         }
     }
+    
+    func startProgress(document: RDFDocument) {
+        print("started parsing")
+        if (self.contentViewController as? MainSplitViewController) != nil {
+            let msvc = (self.contentViewController as? MainSplitViewController)
+            msvc?.startProgress()
+        }
+    }
 
+    func documentHasBeenParsed(document: RDFDocument) {
+        print("data has been parsed")
+        if (self.contentViewController as? MainSplitViewController) != nil {
+            let msvc = (self.contentViewController as? MainSplitViewController)
+            msvc?.documentHasBeenParsed(document)
+        }
+    }
 }
