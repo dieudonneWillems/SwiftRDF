@@ -43,21 +43,16 @@ class MainSplitViewController: NSSplitViewController {
     }
     
     func documentHasBeenParsed(document: RDFDocument) {
-        print("document has been parsed")
-        var docs = [RDFDocument]()
-        docs.append(document)
+        navigation.setRDFDocument(document)
+    }
+    
+    func documentHasBeenIndexed(document: RDFDocument) {
         for itemView in self.childViewControllers {
             if (itemView as? ContentViewController) != nil {
                 let contentviewcontroller = itemView as! ContentViewController
                 contentviewcontroller.showEditor()
             }
         }
-        navigation.documents = docs
-        /*
-        for itemView in self.childViewControllers {
-            itemView.representedObject = navigation
-        }
-        */
     }
 
 }

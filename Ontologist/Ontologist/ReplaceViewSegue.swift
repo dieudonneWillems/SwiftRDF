@@ -14,7 +14,15 @@ class ReplaceViewSegue: NSStoryboardSegue {
         let animator = ReplacementAnimator()
         let originalViewController  = self.sourceController as! NSViewController
         let replacementViewController = self.destinationController as! NSViewController
+        replacementViewController.view.frame = originalViewController.view.frame
+        print("Original view controller view: \(originalViewController.view)")
+        print("Original view controller subviews: \(originalViewController.view.subviews)")
         originalViewController.presentViewController(replacementViewController, animator: animator)
+        replacementViewController.view.translatesAutoresizingMaskIntoConstraints = false
+        replacementViewController.view.leadingAnchor.constraintEqualToAnchor(originalViewController.view.leadingAnchor).active = true
+        replacementViewController.view.topAnchor.constraintEqualToAnchor(originalViewController.view.topAnchor).active = true
+        replacementViewController.view.widthAnchor.constraintEqualToAnchor(originalViewController.view.widthAnchor).active = true
+        replacementViewController.view.heightAnchor.constraintEqualToAnchor(originalViewController.view.heightAnchor).active = true
     }
     
 }
@@ -42,10 +50,11 @@ class ReplacementAnimator: NSObject, NSViewControllerPresentationAnimator {
     
     
     @objc func  animateDismissalOfViewController(viewController: NSViewController, fromViewController: NSViewController) {
-        let bottomVC = fromViewController
+        //let bottomVC = fromViewController
         let topVC = viewController
         topVC.view.wantsLayer = true
         topVC.view.layerContentsRedrawPolicy = .OnSetNeedsDisplay
+        topVC.view.removeFromSuperview()
         
         NSAnimationContext.runAnimationGroup({ (context) -> Void in
             context.duration = 0.2

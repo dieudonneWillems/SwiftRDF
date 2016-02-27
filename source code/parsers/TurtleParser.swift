@@ -22,6 +22,12 @@ public class TurtleParser : NSObject, RDFParser {
      The delegate that recieves parsing events when parsing is in progress.
      */
     public var delegate : RDFParserDelegate?
+    
+    /**
+     The delegate that recieves progress events when parsing is in progress.
+     */
+    public var progressDelegate : ProgressDelegate?
+    
     private var running = false
     private var currentGraph : Graph?
     private var baseURI : URI?
@@ -113,6 +119,28 @@ public class TurtleParser : NSObject, RDFParser {
     }
     
     /**
+     This function is called by the parser to update progress information to be presented to the user.
+     This function calls the `ProgressDelegate.updateProgress` function on the main (GUI) thread with the same parameters.
+     
+     - parameter progressTitle: The main title that can be used by the user to identify the process whose progress is
+     being presented. In most cases the title remains the same during one time-consuming task.
+     - parameter progressSubtitle: A subtitle that can be used by the user to identify the process whose progress is
+     being presented. The subtitle will be updated several times during a time-consuming taks. The subtitle may are
+     may not be presented to the user.
+     - parameter progress: A numerical representation of the progress. The maximum value would be equal to the
+     `target` parameter, if it can be determined at all.
+     - parameter target: The target value of the numerical representation of the progress. If this value is `nil`,
+     the progress is indeterminate.
+     */
+    private func updateProgress(progressTitle : String, progressSubtitle : String, progress : Double, target : Double?) {
+        if progressDelegate != nil {
+            dispatch_async(dispatch_get_main_queue()) {
+                self.progressDelegate?.updateProgress(progressTitle, progressSubtitle: progressSubtitle, progress: progress, target: target)
+            }
+        }
+    }
+    
+    /**
      Parses the string content as Turtle.
      */
     private func parseContents() {
@@ -122,8 +150,10 @@ public class TurtleParser : NSObject, RDFParser {
         if delegate != nil {
             delegate?.parserDidStartDocument(self)
         }
+        self.updateProgress("Parsing Turtle RDF file", progressSubtitle: "", progress: 0, target: nil)
         contentString = self.removeComments(contentString)
         self.parseTurtle(contentString)
+        self.updateProgress("Parsing Turtle RDF file", progressSubtitle: "Finished parsing", progress: 0, target: nil)
         if delegate != nil {
             delegate?.parserDidEndDocument(self)
         }
@@ -173,7 +203,11 @@ public class TurtleParser : NSObject, RDFParser {
     private func parseTurtle(contentString: String) -> Bool {
         // Separates statements from each other, turtle statements may contain directives (such as base URI or prefixes), or triples.
         let statements = self.statements(contentString)
+        var count = 0.0
+        let target = Double(statements.count)
         for statement in statements {
+            self.updateProgress("Parsing Turtle RDF file", progressSubtitle: "Parsing statements", progress: count, target: target)
+            print("\nParsing statement: \n\(statement)\n")
             var success = parseDirectiveFromStatement(statement) // true when the statement is a directive (and adds base URIs and prefixes to the current graph.
             if !success { // false when the statement is NOT a directive (and should therefore be a triple).
                 success = parseTriplesFromStatement(statement)
@@ -181,7 +215,9 @@ public class TurtleParser : NSObject, RDFParser {
             if !success { // if the statement cannot be parsed as either a directive or triple >> is an error in the turtle file.
                 return false
             }
+            count++
         }
+        self.updateProgress("Parsing Turtle RDF file", progressSubtitle: "Finished parsing", progress: target, target: target)
         return true
     }
     

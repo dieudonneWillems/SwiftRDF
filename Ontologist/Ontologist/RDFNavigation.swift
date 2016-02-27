@@ -12,21 +12,7 @@ import SwiftRDFOSX
 
 class RDFNavigation: NSObject, NSOutlineViewDelegate, NSOutlineViewDataSource, NSTableViewDelegate,NSTableViewDataSource {
     
-    var documents : [RDFDocument] = [RDFDocument]() {
-        didSet {
-            fullGraph = OntologyGraph()
-            for document in documents {
-                if document.graph != nil {
-                    fullGraph?.add(document.graph!)
-                }
-            }
-            fullGraph?.index()
-            visibleGraphForSelectedFile = fullGraph
-            visibleGraph = fullGraph
-            fileNavigationViewController?.reloadData()
-            graphNavigationViewController?.reloadData()
-        }
-    }
+    var document : RDFDocument? = nil
     
     var fileNavigationViewController : RDFFileNavigationController?
     var graphNavigationViewController : RDFGraphNavigationController?
@@ -61,6 +47,24 @@ class RDFNavigation: NSObject, NSOutlineViewDelegate, NSOutlineViewDataSource, N
             return visibleGraph
         }
         return visibleGraphForSelectedFile
+    }
+    
+    func setRDFDocument(document : RDFDocument){
+        fullGraph = OntologyGraph()
+        if document.graph != nil {
+            fullGraph?.add(document.graph!)
+            fullGraph?.progressDelegate = document
+        }
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) {
+            self.fullGraph?.index()
+            
+            dispatch_async(dispatch_get_main_queue()) {
+                self.visibleGraphForSelectedFile = self.fullGraph
+                self.visibleGraph = self.fullGraph
+                self.fileNavigationViewController?.reloadData()
+                self.graphNavigationViewController?.reloadData()
+            }
+        }
     }
     
     func setVisibleGraphFromSelection() {
@@ -160,7 +164,10 @@ class RDFNavigation: NSObject, NSOutlineViewDelegate, NSOutlineViewDataSource, N
     func outlineView(outlineView: NSOutlineView, numberOfChildrenOfItem item: AnyObject?) -> Int {
         if outlineView == fileNavigationViewController?.fileNavigationView {
             if item == nil {
-                return documents.count
+                if document == nil {
+                    return 0
+                }
+                return 1
             } else if (item as? RDFDocument) != nil {
                 return ((item as! RDFDocument).graph?.namedGraphs.count)!
             }
@@ -225,7 +232,7 @@ class RDFNavigation: NSObject, NSOutlineViewDelegate, NSOutlineViewDataSource, N
     func outlineView(outlineView: NSOutlineView, child index: Int, ofItem item: AnyObject?) -> AnyObject {
         if outlineView == fileNavigationViewController?.fileNavigationView {
             if item == nil {
-                return documents[index]
+                return document!
             } else if (item as? RDFDocument) != nil {
                 return ((item as! RDFDocument).graph?.namedGraphs[index])!
             }

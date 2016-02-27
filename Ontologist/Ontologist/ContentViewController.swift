@@ -18,7 +18,7 @@ class ContentViewController: NSViewController {
     func showProgressView() {
         performSegueWithIdentifier("progress", sender: self)
     }
-    
+
     func showEditor() {
         performSegueWithIdentifier("editor", sender: self)
     }

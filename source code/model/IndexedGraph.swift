@@ -11,6 +11,11 @@ import Foundation
 public class IndexedGraph : Graph {
     
     
+    /**
+     The delegate that recieves progress events when indexing is in progress.
+     */
+    public var progressDelegate : ProgressDelegate?
+    
     
     // MARK: Access to resources in the `Graph`
     
@@ -110,7 +115,11 @@ public class IndexedGraph : Graph {
      added from the Graph.
      */
     public func index() {
+        let target = 2.0
+        self.updateProgress("Indexing", progressSubtitle: "Starting...", progress: 0, target: nil)
         for var index = 0; index < unindexed.count; index++ {
+            let progress = Double(index) / Double(unindexed.count)
+            self.updateProgress("Indexing", progressSubtitle: "\(index+1) of \(unindexed.count) statements", progress: progress, target: target)
             let statement = unindexed[index]
             extractDistinctResourcesAndProperties(statement)
             indexStatement(statement)
@@ -119,12 +128,18 @@ public class IndexedGraph : Graph {
                 index!.index(statement)
             }
         }
+        
+        var count : Double = 0
         for indexID in indexes.keys {
             let index = indexes[indexID]
+            let progress = 1.0 + Double(count) / Double(indexes.count)
+            self.updateProgress("Indexing", progressSubtitle: "initialising index '\(indexID)'", progress: progress, target: target)
             if index!.needsIndexing {
                 index!.index()
             }
+            count++
         }
+        self.updateProgress("Indexing", progressSubtitle: "Finishing...", progress: 2.0, target: nil)
         needsIndexing = false
     }
     
@@ -361,6 +376,28 @@ public class IndexedGraph : Graph {
     private func copyStatementsToGraph(graph : Graph){
         for prefix in namespaces.keys {
             graph.addNamespace(prefix, namespaceURI: self.namespaceForPrefix(prefix)!)
+        }
+    }
+    
+    /**
+     This function is called by the indexer to update progress information to be presented to the user.
+     This function calls the `ProgressDelegate.updateProgress` function on the main (GUI) thread with the same parameters.
+     
+     - parameter progressTitle: The main title that can be used by the user to identify the process whose progress is
+     being presented. In most cases the title remains the same during one time-consuming task.
+     - parameter progressSubtitle: A subtitle that can be used by the user to identify the process whose progress is
+     being presented. The subtitle will be updated several times during a time-consuming taks. The subtitle may are
+     may not be presented to the user.
+     - parameter progress: A numerical representation of the progress. The maximum value would be equal to the
+     `target` parameter, if it can be determined at all.
+     - parameter target: The target value of the numerical representation of the progress. If this value is `nil`,
+     the progress is indeterminate.
+     */
+    private func updateProgress(progressTitle : String, progressSubtitle : String, progress : Double, target : Double?) {
+        if progressDelegate != nil {
+            dispatch_async(dispatch_get_main_queue()) {
+                self.progressDelegate?.updateProgress(progressTitle, progressSubtitle: progressSubtitle, progress: progress, target: target)
+            }
         }
     }
     

@@ -37,4 +37,12 @@ class RDFDocumentWindowController: NSWindowController {
             msvc?.documentHasBeenParsed(document)
         }
     }
+    
+    func documentHasBeenIndexed(document: RDFDocument) {
+        print("data has been indexed")
+        if (self.contentViewController as? MainSplitViewController) != nil {
+            let msvc = (self.contentViewController as? MainSplitViewController)
+            msvc?.documentHasBeenIndexed(document)
+        }
+    }
 }

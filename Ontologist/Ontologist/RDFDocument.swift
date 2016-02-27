@@ -9,7 +9,7 @@
 import Cocoa
 import SwiftRDFOSX
 
-class RDFDocument: NSDocument, RDFParserDelegate {
+class RDFDocument: NSDocument, RDFParserDelegate, ProgressDelegate {
     
     internal private(set) var graph : Graph? = Graph()
 
@@ -50,7 +50,7 @@ class RDFDocument: NSDocument, RDFParserDelegate {
         let urlstr = self.fileURL?.absoluteString
         let uri = URI(string: urlstr!)
         
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) { // 1
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) {
             var parser : RDFParser? = nil
             if typeName == "RDF/XML Document" {
                 parser = RDFXMLParser(data: data, baseURI: uri!, encoding: NSUTF8StringEncoding)
@@ -59,6 +59,7 @@ class RDFDocument: NSDocument, RDFParserDelegate {
             }
             if parser != nil {
                 parser!.delegate = self
+                parser!.progressDelegate = self
                 self.graph = parser!.parse()
             }
             dispatch_async(dispatch_get_main_queue()) {
@@ -111,6 +112,30 @@ class RDFDocument: NSDocument, RDFParserDelegate {
     func statementAdded(_parser : RDFParser, graph : Graph, statement : Statement) {
       //  print("RDF Parser: the statement \(statement) was added.")
     }
-
+    
+    /**
+     This function is called by a time consuming processes to update progress information to be presented to the user.
+     The time consuming process should execute this method in the main (GUI) thread.
+     
+     - parameter progressTitle: The main title that can be used by the user to identify the process whose progress is
+     being presented. In most cases the title remains the same during one time-consuming task.
+     - parameter progressSubtitle: A subtitle that can be used by the user to identify the process whose progress is
+     being presented. The subtitle will be updated several times during a time-consuming taks. The subtitle may are
+     may not be presented to the user.
+     - parameter progress: A numerical representation of the progress. The maximum value would be equal to the
+     `target` parameter, if it can be determined at all.
+     - parameter target: The target value of the numerical representation of the progress. If this value is `nil`,
+     the progress is indeterminate.
+     */
+    func updateProgress(progressTitle : String, progressSubtitle : String, progress : Double, target : Double?) {
+        //print("Progress updated: \(100.0*progress/target!)%")
+        var targ = -1.0
+        if target != nil {
+            targ = target!
+        }
+        let userInfo : [String : AnyObject] = ["title" : progressTitle, "subtitle" : progressSubtitle, "progress" : progress, "target" : targ, "document" : self]
+        let notification = NSNotification(name: "RDFDocumentProgressChanged", object: self, userInfo: userInfo)
+        NSNotificationCenter.defaultCenter().postNotification(notification)
+    }
 }
 

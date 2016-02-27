@@ -24,6 +24,11 @@ public protocol RDFParser {
     var delegate : RDFParserDelegate? {get set}
     
     /**
+     The delegate that recieves progress events when parsing is in progress.
+     */
+    var progressDelegate : ProgressDelegate? {get set}
+    
+    /**
      Initialises a parser with the contents of the RDF file reference by the given
      URL.
      

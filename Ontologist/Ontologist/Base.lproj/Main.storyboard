@@ -1116,41 +1116,78 @@
             </objects>
             <point key="canvasLocation" x="688" y="1009"/>
         </scene>
-        <!--View Controller-->
+        <!--Progress Pane View Controller-->
         <scene sceneID="Zt1-9n-91h">
             <objects>
-                <viewController id="Bss-7K-uhE" sceneMemberID="viewController">
+                <viewController id="Bss-7K-uhE" customClass="ProgressPaneViewController" customModule="Ontologist" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="d4j-px-cOF" customClass="NSVisualEffectView">
                         <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <progressIndicator wantsLayer="YES" misplaced="YES" maxValue="100" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="YDC-8t-V0v">
-                                <rect key="frame" x="110" y="116" width="231" height="20"/>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="247-sZ-yCL">
+                                <rect key="frame" x="90" y="71" width="271" height="159"/>
+                                <subviews>
+                                    <progressIndicator wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" maxValue="100" bezeled="NO" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="ql9-NV-sg6">
+                                        <rect key="frame" x="119" y="102" width="32" height="32"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="32" id="XAY-bG-WFZ"/>
+                                            <constraint firstAttribute="height" constant="32" id="zIx-6I-eHg"/>
+                                        </constraints>
+                                    </progressIndicator>
+                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="6oG-xv-f5P">
+                                        <rect key="frame" x="-2" y="67" width="275" height="24"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="24" id="TDD-Br-LGk"/>
+                                            <constraint firstAttribute="width" constant="271" id="WzC-Jp-dnR"/>
+                                        </constraints>
+                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Parsing Document..." id="hfz-t9-7fE">
+                                            <font key="font" metaFont="system" size="20"/>
+                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                    </textField>
+                                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="PMg-oA-0fp">
+                                        <rect key="frame" x="-2" y="0.0" width="275" height="59"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="271" id="4gh-tF-Kw4"/>
+                                            <constraint firstAttribute="height" constant="59" id="pLQ-sa-aDf"/>
+                                        </constraints>
+                                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="Multiline Label" id="dmk-e1-tt8">
+                                            <font key="font" metaFont="system"/>
+                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                    </textField>
+                                </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="18" id="DKs-Lf-rgk"/>
-                                    <constraint firstAttribute="width" constant="231" id="NGr-eD-UBX"/>
+                                    <constraint firstItem="6oG-xv-f5P" firstAttribute="leading" secondItem="247-sZ-yCL" secondAttribute="leading" id="1po-vt-xEt"/>
+                                    <constraint firstAttribute="trailing" secondItem="PMg-oA-0fp" secondAttribute="trailing" id="5my-UZ-aWg"/>
+                                    <constraint firstItem="PMg-oA-0fp" firstAttribute="top" secondItem="6oG-xv-f5P" secondAttribute="bottom" constant="8" id="8M2-t0-66W"/>
+                                    <constraint firstItem="PMg-oA-0fp" firstAttribute="leading" secondItem="247-sZ-yCL" secondAttribute="leading" id="9Wd-t7-O5a"/>
+                                    <constraint firstAttribute="height" constant="159" id="Ap8-W3-G2S"/>
+                                    <constraint firstItem="ql9-NV-sg6" firstAttribute="leading" secondItem="247-sZ-yCL" secondAttribute="leading" constant="119" id="Cte-ug-Cwc"/>
+                                    <constraint firstItem="PMg-oA-0fp" firstAttribute="top" secondItem="6oG-xv-f5P" secondAttribute="bottom" constant="8" id="HOq-8e-cj9"/>
+                                    <constraint firstAttribute="trailing" secondItem="6oG-xv-f5P" secondAttribute="trailing" id="Ibi-ff-YFB"/>
+                                    <constraint firstAttribute="trailing" secondItem="ql9-NV-sg6" secondAttribute="trailing" constant="120" id="LHd-e4-eFA"/>
+                                    <constraint firstItem="ql9-NV-sg6" firstAttribute="top" secondItem="247-sZ-yCL" secondAttribute="top" constant="25" id="R7t-RH-19n"/>
+                                    <constraint firstItem="6oG-xv-f5P" firstAttribute="top" secondItem="ql9-NV-sg6" secondAttribute="bottom" constant="11" id="Zzy-wI-chw"/>
+                                    <constraint firstAttribute="bottom" secondItem="PMg-oA-0fp" secondAttribute="bottom" id="byY-bj-fCa"/>
+                                    <constraint firstAttribute="width" constant="271" id="jw4-qH-Ye3"/>
+                                    <constraint firstItem="ql9-NV-sg6" firstAttribute="centerX" secondItem="247-sZ-yCL" secondAttribute="centerX" id="nIH-ou-QE9"/>
+                                    <constraint firstItem="6oG-xv-f5P" firstAttribute="top" secondItem="ql9-NV-sg6" secondAttribute="bottom" constant="11" id="uNx-Yr-lch"/>
                                 </constraints>
-                            </progressIndicator>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6oG-xv-f5P">
-                                <rect key="frame" x="108" y="154" width="235" height="24"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="24" id="ENL-1A-SOx"/>
-                                    <constraint firstAttribute="width" constant="231" id="lTd-0R-hD2"/>
-                                </constraints>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Parsing Document..." id="hfz-t9-7fE">
-                                    <font key="font" metaFont="system" size="20"/>
-                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
+                            </customView>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="6oG-xv-f5P" firstAttribute="centerX" secondItem="d4j-px-cOF" secondAttribute="centerX" id="LkD-m3-i7t"/>
-                            <constraint firstItem="YDC-8t-V0v" firstAttribute="top" secondItem="6oG-xv-f5P" secondAttribute="bottom" constant="19" id="Myr-V7-gaX"/>
-                            <constraint firstItem="YDC-8t-V0v" firstAttribute="centerY" secondItem="d4j-px-cOF" secondAttribute="centerY" id="qDW-Pg-qXK"/>
-                            <constraint firstItem="YDC-8t-V0v" firstAttribute="centerX" secondItem="d4j-px-cOF" secondAttribute="centerX" id="wwU-Aq-ijV"/>
+                            <constraint firstItem="247-sZ-yCL" firstAttribute="centerY" secondItem="d4j-px-cOF" secondAttribute="centerY" id="BAQ-1R-9Z9"/>
+                            <constraint firstItem="247-sZ-yCL" firstAttribute="centerX" secondItem="d4j-px-cOF" secondAttribute="centerX" id="kkC-Ul-zoa"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="progressIndicatior" destination="ql9-NV-sg6" id="CDj-Qq-JPI"/>
+                        <outlet property="subtitleLabel" destination="PMg-oA-0fp" id="Ptt-ny-UP8"/>
+                        <outlet property="titleLabel" destination="6oG-xv-f5P" id="J9g-Op-8W3"/>
+                    </connections>
                 </viewController>
                 <customObject id="doN-sX-Joi" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1329,7 +1366,7 @@
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
                                                         <tableCellView id="YUB-z0-FNm">
-                                                            <rect key="frame" x="208.5" y="1" width="216.2124812866798" height="17"/>
+                                                            <rect key="frame" x="209" y="1" width="216.2124812866798" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="g3d-ng-ILZ">
@@ -1361,7 +1398,7 @@
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
                                                         <tableCellView id="WSg-cd-KnA">
-                                                            <rect key="frame" x="427.5" y="1" width="258.2124812866798" height="17"/>
+                                                            <rect key="frame" x="428" y="1" width="258.2124812866798" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="r4Z-hR-E9Y">

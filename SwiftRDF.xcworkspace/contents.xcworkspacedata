@@ -124,6 +124,9 @@
          <FileRef
             location = "group:source code/utilities/MathFunctions.swift">
          </FileRef>
+         <FileRef
+            location = "group:source code/utilities/ProgressDelegate.swift">
+         </FileRef>
       </Group>
       <Group
          location = "container:"

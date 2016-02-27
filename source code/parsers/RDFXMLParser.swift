@@ -22,6 +22,12 @@ public class RDFXMLParser : NSObject, RDFParser, NSXMLParserDelegate {
      The delegate that recieves parsing events when parsing is in progress.
      */
     public var delegate : RDFParserDelegate?
+    
+    /**
+     The delegate that recieves progress events when parsing is in progress.
+     */
+    public var progressDelegate : ProgressDelegate?
+    
     internal let xmlParser : NSXMLParser?
     private var xmlParserDelegate : NSXMLParserDelegate?
     private var running = false
