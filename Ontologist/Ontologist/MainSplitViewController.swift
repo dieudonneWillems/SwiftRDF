@@ -21,11 +21,6 @@ class MainSplitViewController: NSSplitViewController {
     override var representedObject: AnyObject? {
         didSet {
             if representedObject != nil && (representedObject as? RDFDocument) != nil {
-                /*
-                var docs = [RDFDocument]()
-                docs.append((representedObject as! RDFDocument))
-                navigation.documents = docs
-                */
                 for itemView in self.childViewControllers {
                     itemView.representedObject = navigation
                 }

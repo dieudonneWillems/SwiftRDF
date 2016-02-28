@@ -23,6 +23,7 @@ class ReplaceViewSegue: NSStoryboardSegue {
         replacementViewController.view.topAnchor.constraintEqualToAnchor(originalViewController.view.topAnchor).active = true
         replacementViewController.view.widthAnchor.constraintEqualToAnchor(originalViewController.view.widthAnchor).active = true
         replacementViewController.view.heightAnchor.constraintEqualToAnchor(originalViewController.view.heightAnchor).active = true
+        replacementViewController.representedObject = originalViewController.representedObject
     }
     
 }

@@ -19,6 +19,14 @@ class ProgressPaneViewController: NSViewController {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "progressUpdated:", name: "RDFDocumentProgressChanged", object: nil)
     }
     
+    override var representedObject: AnyObject? {
+        didSet {
+            for itemView in self.childViewControllers {
+                itemView.representedObject = representedObject
+            }
+        }
+    }
+    
     @objc func progressUpdated(notification: NSNotification){
         print("Progress Notification recieved: \(notification)")
         let userobject = notification.userInfo

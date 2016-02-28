@@ -15,6 +15,14 @@ class ContentViewController: NSViewController {
         // Do view setup here.
     }
     
+    override var representedObject: AnyObject? {
+        didSet {
+            for itemView in self.childViewControllers {
+                itemView.representedObject = representedObject
+            }
+        }
+    }
+    
     func showProgressView() {
         performSegueWithIdentifier("progress", sender: self)
     }
