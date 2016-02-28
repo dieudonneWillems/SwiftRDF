@@ -116,6 +116,7 @@ public class IndexedGraph : Graph {
      */
     public func index() {
         let target = 2.0
+        self.taskStarted("Indexing", progressSubtitle: "Starting...")
         self.updateProgress("Indexing", progressSubtitle: "Starting...", progress: 0, target: nil)
         for var index = 0; index < unindexed.count; index++ {
             let progress = Double(index) / Double(unindexed.count)
@@ -140,6 +141,7 @@ public class IndexedGraph : Graph {
             count++
         }
         self.updateProgress("Indexing", progressSubtitle: "Finishing...", progress: 2.0, target: nil)
+        self.taskFinished("Indexing", progressSubtitle: "Finishing...")
         needsIndexing = false
     }
     
@@ -379,6 +381,26 @@ public class IndexedGraph : Graph {
         }
     }
     
+    
+    // MARK: Asynchronous progress delegate functions for indexing
+    
+    /**
+    This function is called when the indexing process has been started.
+    
+    - parameter progressTitle: The main title that can be used by the user to identify the process whose progress is
+    being presented. In most cases the title remains the same during one time-consuming task.
+    - parameter progressSubtitle: A subtitle that can be used by the user to identify the process whose progress is
+    being presented. The subtitle will be updated several times during a time-consuming taks. The subtitle may are
+    may not be presented to the user.
+    */
+    func taskStarted(progressTitle : String, progressSubtitle : String) {
+        if progressDelegate != nil {
+            dispatch_async(dispatch_get_main_queue()) {
+                self.progressDelegate?.taskStarted(progressTitle, progressSubtitle: progressSubtitle, object: self)
+            }
+        }
+    }
+    
     /**
      This function is called by the indexer to update progress information to be presented to the user.
      This function calls the `ProgressDelegate.updateProgress` function on the main (GUI) thread with the same parameters.
@@ -396,7 +418,24 @@ public class IndexedGraph : Graph {
     private func updateProgress(progressTitle : String, progressSubtitle : String, progress : Double, target : Double?) {
         if progressDelegate != nil {
             dispatch_async(dispatch_get_main_queue()) {
-                self.progressDelegate?.updateProgress(progressTitle, progressSubtitle: progressSubtitle, progress: progress, target: target)
+                self.progressDelegate?.updateProgress(progressTitle, progressSubtitle: progressSubtitle, progress: progress, target: target, object: self)
+            }
+        }
+    }
+    
+    /**
+     This function is called when the indexing process has finished.
+     
+     - parameter progressTitle: The main title that can be used by the user to identify the process whose progress is
+     being presented. In most cases the title remains the same during one time-consuming task.
+     - parameter progressSubtitle: A subtitle that can be used by the user to identify the process whose progress is
+     being presented. The subtitle will be updated several times during a time-consuming taks. The subtitle may are
+     may not be presented to the user.
+     */
+    func taskFinished(progressTitle : String, progressSubtitle : String) {
+        if progressDelegate != nil {
+            dispatch_async(dispatch_get_main_queue()) {
+                self.progressDelegate?.taskStarted(progressTitle, progressSubtitle: progressSubtitle, object: self)
             }
         }
     }

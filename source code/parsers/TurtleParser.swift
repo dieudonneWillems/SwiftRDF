@@ -118,6 +118,26 @@ public class TurtleParser : NSObject, RDFParser {
         return currentGraph
     }
     
+    
+    // MARK: Asynchronous progress delegate functions
+    
+    /**
+     This function is called when the parsing process has been started.
+     
+     - parameter progressTitle: The main title that can be used by the user to identify the process whose progress is
+     being presented. In most cases the title remains the same during one time-consuming task.
+     - parameter progressSubtitle: A subtitle that can be used by the user to identify the process whose progress is
+     being presented. The subtitle will be updated several times during a time-consuming taks. The subtitle may are
+     may not be presented to the user.
+     */
+    func taskStarted(progressTitle : String, progressSubtitle : String) {
+        if progressDelegate != nil {
+            dispatch_async(dispatch_get_main_queue()) {
+                self.progressDelegate?.taskStarted(progressTitle, progressSubtitle: progressSubtitle, object: self)
+            }
+        }
+    }
+    
     /**
      This function is called by the parser to update progress information to be presented to the user.
      This function calls the `ProgressDelegate.updateProgress` function on the main (GUI) thread with the same parameters.
@@ -135,10 +155,29 @@ public class TurtleParser : NSObject, RDFParser {
     private func updateProgress(progressTitle : String, progressSubtitle : String, progress : Double, target : Double?) {
         if progressDelegate != nil {
             dispatch_async(dispatch_get_main_queue()) {
-                self.progressDelegate?.updateProgress(progressTitle, progressSubtitle: progressSubtitle, progress: progress, target: target)
+                self.progressDelegate?.updateProgress(progressTitle, progressSubtitle: progressSubtitle, progress: progress, target: target, object: self)
             }
         }
     }
+    
+    /**
+     This function is called when the parsing process has finished.
+     
+     - parameter progressTitle: The main title that can be used by the user to identify the process whose progress is
+     being presented. In most cases the title remains the same during one time-consuming task.
+     - parameter progressSubtitle: A subtitle that can be used by the user to identify the process whose progress is
+     being presented. The subtitle will be updated several times during a time-consuming taks. The subtitle may are
+     may not be presented to the user.
+     */
+    func taskFinished(progressTitle : String, progressSubtitle : String) {
+        if progressDelegate != nil {
+            dispatch_async(dispatch_get_main_queue()) {
+                self.progressDelegate?.taskStarted(progressTitle, progressSubtitle: progressSubtitle, object: self)
+            }
+        }
+    }
+    
+    // MARK: Private parsing functions.
     
     /**
      Parses the string content as Turtle.
@@ -147,16 +186,18 @@ public class TurtleParser : NSObject, RDFParser {
         if grammar == nil {
             createGrammar()
         }
+        self.taskStarted("Parsing Turtle RDF file", progressSubtitle: "Starting...")
         if delegate != nil {
             delegate?.parserDidStartDocument(self)
         }
-        self.updateProgress("Parsing Turtle RDF file", progressSubtitle: "", progress: 0, target: nil)
+        self.updateProgress("Parsing Turtle RDF file", progressSubtitle: "Starting...", progress: 0, target: nil)
         contentString = self.removeComments(contentString)
         self.parseTurtle(contentString)
         self.updateProgress("Parsing Turtle RDF file", progressSubtitle: "Finished parsing", progress: 0, target: nil)
         if delegate != nil {
             delegate?.parserDidEndDocument(self)
         }
+        self.taskStarted("Parsing Turtle RDF file", progressSubtitle: "Finishing...")
     }
     
     /**
