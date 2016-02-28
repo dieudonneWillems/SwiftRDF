@@ -18,31 +18,9 @@ class RDFDocumentWindowController: NSWindowController {
         didSet {
             // Update the view, if already loaded.
             print("set represented graph: \(document)")
-            self.contentViewController?.representedObject = document
-        }
-    }
-    
-    func startProgress(document: RDFDocument) {
-        print("started parsing")
-        if (self.contentViewController as? MainSplitViewController) != nil {
-            let msvc = (self.contentViewController as? MainSplitViewController)
-            msvc?.startProgress()
-        }
-    }
-
-    func documentHasBeenParsed(document: RDFDocument) {
-        print("data has been parsed")
-        if (self.contentViewController as? MainSplitViewController) != nil {
-            let msvc = (self.contentViewController as? MainSplitViewController)
-            msvc?.documentHasBeenParsed(document)
-        }
-    }
-    
-    func documentHasBeenIndexed(document: RDFDocument) {
-        print("data has been indexed")
-        if (self.contentViewController as? MainSplitViewController) != nil {
-            let msvc = (self.contentViewController as? MainSplitViewController)
-            msvc?.documentHasBeenIndexed(document)
+            if (document as? RDFDocument) != nil {
+                self.contentViewController?.representedObject = (document as! RDFDocument).navigation
+            }
         }
     }
 }

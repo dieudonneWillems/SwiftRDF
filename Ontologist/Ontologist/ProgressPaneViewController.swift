@@ -16,7 +16,7 @@ class ProgressPaneViewController: NSViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "progressUpdated:", name: "RDFDocumentProgressChanged", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "progressUpdated:", name: "ProgressChanged", object: nil)
     }
     
     override var representedObject: AnyObject? {

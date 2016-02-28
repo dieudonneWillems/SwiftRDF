@@ -10,14 +10,14 @@ import Cocoa
 import OntologistPlugins
 import SwiftRDFOSX
 
-class RDFNavigation: NSObject, NSOutlineViewDelegate, NSOutlineViewDataSource, NSTableViewDelegate,NSTableViewDataSource {
+class RDFNavigation: NSObject, NSOutlineViewDelegate, NSOutlineViewDataSource, NSTableViewDelegate,NSTableViewDataSource, ProgressDelegate {
     
     var document : RDFDocument? = nil
     
     var fileNavigationViewController : RDFFileNavigationController?
     var graphNavigationViewController : RDFGraphNavigationController?
     var statementsTableController : StatementTableViewController?
-    var fullGraph : OntologyGraph?
+    var fullGraph : OntologyGraph = OntologyGraph()
     var visibleGraph : Graph?
     var visibleGraphForSelectedFile : Graph?
     
@@ -50,13 +50,17 @@ class RDFNavigation: NSObject, NSOutlineViewDelegate, NSOutlineViewDataSource, N
     }
     
     func setRDFDocument(document : RDFDocument){
-        fullGraph = OntologyGraph()
+        self.document = document
         if document.graph != nil {
-            fullGraph?.add(document.graph!)
-            fullGraph?.progressDelegate = document
+            self.addGraph(document.graph!)
         }
+    }
+    
+    func addGraph(graph : Graph){
+        fullGraph.add(graph)
+        fullGraph.progressDelegate = self
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) {
-            self.fullGraph?.index()
+            self.fullGraph.index()
             
             dispatch_async(dispatch_get_main_queue()) {
                 self.visibleGraphForSelectedFile = self.fullGraph
@@ -132,7 +136,7 @@ class RDFNavigation: NSObject, NSOutlineViewDelegate, NSOutlineViewDataSource, N
         if resourceicon != nil {
             return resourceicon!
         }
-        let typeicon = PluginsManager.sharedPluginsManager.iconForInstance((fullGraph?.types(resource))!)
+        let typeicon = PluginsManager.sharedPluginsManager.iconForInstance((fullGraph.types(resource)))
         if typeicon != nil {
             return typeicon!
         }
@@ -140,15 +144,105 @@ class RDFNavigation: NSObject, NSOutlineViewDelegate, NSOutlineViewDataSource, N
     }
     
     
+    // MARK: Progress Delegate functions
+    
+    /**
+    This function is called when a time consuming process has been started.
+    
+    - parameter progressTitle: The main title that can be used by the user to identify the process whose progress is
+    being presented. 
+    - parameter progressSubtitle: A subtitle that can be used by the user to identify the process whose progress is
+    being presented.
+    - parameter object: The object which is running the task.
+    */
+    func taskStarted(progressTitle : String, progressSubtitle : String, object: AnyObject?) {
+        showProgressContentPane()
+        let userInfo : [String : AnyObject] = ["title" : progressTitle, "subtitle" : progressSubtitle, "navigation" : self]
+        let notification = NSNotification(name: "ProgressTaskStarted", object: self, userInfo: userInfo)
+        NSNotificationCenter.defaultCenter().postNotification(notification)
+    }
+    
+    /**
+     This function is called by a time consuming processes to update progress information to be presented to the user.
+     The time consuming process should execute this method in the main (GUI) thread.
+     
+     - parameter progressTitle: The main title that can be used by the user to identify the process whose progress is
+     being presented. In most cases the title remains the same during one time-consuming task.
+     - parameter progressSubtitle: A subtitle that can be used by the user to identify the process whose progress is
+     being presented. The subtitle will be updated several times during a time-consuming taks. The subtitle may are
+     may not be presented to the user.
+     - parameter progress: A numerical representation of the progress. The maximum value would be equal to the
+     `target` parameter, if it can be determined at all.
+     - parameter target: The target value of the numerical representation of the progress. If this value is `nil`,
+     the progress is indeterminate.
+     - parameter object: The object which is running the task.
+     */
+    func updateProgress(progressTitle : String, progressSubtitle : String, progress : Double, target : Double?, object: AnyObject?) {
+        var targ = -1.0
+        if target != nil {
+            targ = target!
+        }
+        let userInfo : [String : AnyObject] = ["title" : progressTitle, "subtitle" : progressSubtitle, "progress" : progress, "target" : targ, "navigation" : self]
+        let notification = NSNotification(name: "ProgressChanged", object: self, userInfo: userInfo)
+        NSNotificationCenter.defaultCenter().postNotification(notification)
+    }
+    
+    /**
+     This function is called when a time consuming process has finished.
+     
+     - parameter progressTitle: The main title that can be used by the user to identify the process whose progress is
+     being presented.
+     - parameter progressSubtitle: A subtitle that can be used by the user to identify the process whose progress is
+     being presented.
+     - parameter object: The object which is running the task.
+     */
+    func taskFinished(progressTitle : String, progressSubtitle : String, object: AnyObject?) {
+        let userInfo : [String : AnyObject] = ["title" : progressTitle, "subtitle" : progressSubtitle, "navigation" : self]
+        let notification = NSNotification(name: "ProgressTaskFinished", object: self, userInfo: userInfo)
+        NSNotificationCenter.defaultCenter().postNotification(notification)
+        showEditorContentPane()
+    }
+    
+    /**
+     This function is called when a time consuming process was stopped because of an error.
+     
+     - parameter progressTitle: The main title that can be used by the user to identify the process whose progress is
+     being presented.
+     - parameter errorMessage: An error message describing the error for the user.
+     - parameter object: The object which is running the task.
+     */
+    func taskStopped(progressTitle : String, errorMessage : String, object: AnyObject?) {
+        let userInfo : [String : AnyObject] = ["title" : progressTitle, "errorMessage" : errorMessage, "navigation" : self]
+        let notification = NSNotification(name: "ProgressTaskStopped", object: self, userInfo: userInfo)
+        NSNotificationCenter.defaultCenter().postNotification(notification)
+        showErrorContentPane()
+    }
+    
+    
+    // MARK: Change Content Pane View controller
+    
+    func showProgressContentPane() {
+        let notification = NSNotification(name: "ContentPaneShouldShowProgress", object: self, userInfo: nil)
+        NSNotificationCenter.defaultCenter().postNotification(notification)
+    }
+    
+    func showErrorContentPane() {
+        let notification = NSNotification(name: "ContentPaneShouldShowError", object: self, userInfo: nil)
+        NSNotificationCenter.defaultCenter().postNotification(notification)
+    }
+    
+    func showEditorContentPane() {
+        let notification = NSNotification(name: "ContentPaneShouldShowEditor", object: self, userInfo: nil)
+        NSNotificationCenter.defaultCenter().postNotification(notification)
+    }
+    
+    
     // MARK: Searching
     
     func searchOnLabel(query : String) -> [Resource] {
-        let results = (fullGraph?.searchOnLabel(query))
-        if results != nil {
-            searchResults = results!
-            return results!
-        }
-        return [Resource]()
+        let results = (fullGraph.searchOnLabel(query))
+        searchResults = results
+        return results
     }
     
     func addSearchResultsToHistory(query: String) {
@@ -174,7 +268,7 @@ class RDFNavigation: NSObject, NSOutlineViewDelegate, NSOutlineViewDataSource, N
         } else if outlineView == graphNavigationViewController?.graphNavigationView {
             let visibleGraphView = graphNavigationViewController!.visibleGraphView
             if visibleGraphView == VisibleGraphView.InstancesView {
-                return (fullGraph?.resources.count)!
+                return (fullGraph.resources.count)
             } else if visibleGraphView == VisibleGraphView.HierarchyView {
                 let gindex = self.visibleHierarchyIndex()
                 if gindex != nil {
@@ -191,7 +285,7 @@ class RDFNavigation: NSObject, NSOutlineViewDelegate, NSOutlineViewDataSource, N
                     }
                 }
             } else if visibleGraphView == VisibleGraphView.PropertiesView {
-                let gindex = fullGraph?.indexes[OntologyGraph.PROPERTY_HIERARCHY] as? HierarchyIndex
+                let gindex = fullGraph.indexes[OntologyGraph.PROPERTY_HIERARCHY] as? HierarchyIndex
                 if gindex != nil {
                     if item == nil {
                         return gindex!.rootNodes.count
@@ -222,9 +316,9 @@ class RDFNavigation: NSObject, NSOutlineViewDelegate, NSOutlineViewDataSource, N
     func visibleHierarchyIndex() -> HierarchyIndex? {
         let visibleHierarchy = graphNavigationViewController?.visibleHierarchy
         if visibleHierarchy == OntologyGraph.CLASS_HIERARCHY {
-            return fullGraph?.indexes[OntologyGraph.CLASS_HIERARCHY] as? HierarchyIndex
+            return fullGraph.indexes[OntologyGraph.CLASS_HIERARCHY] as? HierarchyIndex
         } else if visibleHierarchy == OntologyGraph.SKOS_HIERARCHY {
-            return fullGraph?.indexes[OntologyGraph.SKOS_HIERARCHY] as? HierarchyIndex
+            return fullGraph.indexes[OntologyGraph.SKOS_HIERARCHY] as? HierarchyIndex
         }
         return nil
     }
@@ -240,7 +334,7 @@ class RDFNavigation: NSObject, NSOutlineViewDelegate, NSOutlineViewDataSource, N
             let visibleGraphView = graphNavigationViewController!.visibleGraphView
             if visibleGraphView == VisibleGraphView.InstancesView {
                 if item == nil {
-                    return (fullGraph?.resources[index])!
+                    return (fullGraph.resources[index])
                 }
             } else if visibleGraphView == VisibleGraphView.HierarchyView {
                 let gindex = self.visibleHierarchyIndex()
@@ -258,7 +352,7 @@ class RDFNavigation: NSObject, NSOutlineViewDelegate, NSOutlineViewDataSource, N
                     }
                 }
             } else if visibleGraphView == VisibleGraphView.PropertiesView {
-                let gindex = fullGraph?.indexes[OntologyGraph.PROPERTY_HIERARCHY] as? HierarchyIndex
+                let gindex = fullGraph.indexes[OntologyGraph.PROPERTY_HIERARCHY] as? HierarchyIndex
                 if gindex != nil {
                     if item == nil {
                         return gindex!.rootNodes[index]
@@ -312,7 +406,7 @@ class RDFNavigation: NSObject, NSOutlineViewDelegate, NSOutlineViewDataSource, N
                     }
                 }
             } else if visibleGraphView == VisibleGraphView.PropertiesView {
-                let gindex = fullGraph?.indexes[OntologyGraph.PROPERTY_HIERARCHY] as? HierarchyIndex
+                let gindex = fullGraph.indexes[OntologyGraph.PROPERTY_HIERARCHY] as? HierarchyIndex
                 if gindex != nil {
                     let resource = item as? Resource
                     if resource != nil {
@@ -386,11 +480,9 @@ class RDFNavigation: NSObject, NSOutlineViewDelegate, NSOutlineViewDataSource, N
                         cell?.icon?.image = self.iconForResource(resource)
                         if (resource as? URI) != nil {
                             title = (resource as! URI).stringValue
-                            if fullGraph != nil {
-                                let qname = fullGraph?.qualifiedName((resource as! URI))
-                                if qname != nil {
-                                    title = qname!
-                                }
+                            let qname = fullGraph.qualifiedName((resource as! URI))
+                            if qname != nil {
+                                title = qname!
                             }
                             tooltip = (resource as! URI).stringValue
                         } else if (resource as? BlankNode) != nil {

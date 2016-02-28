@@ -12,7 +12,9 @@ class ContentViewController: NSViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do view setup here.
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "showProgressNotification:", name: "ContentPaneShouldShowProgress", object: representedObject)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "showErrorNotification:", name: "ContentPaneShouldShowError", object: representedObject)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "showEditorNotification:", name: "ContentPaneShouldShowEditor", object: representedObject)
     }
     
     override var representedObject: AnyObject? {
@@ -23,8 +25,25 @@ class ContentViewController: NSViewController {
         }
     }
     
+    
+    @objc func showProgressNotification(notification: NSNotification){
+        self.showProgressView()
+    }
+    
+    @objc func showErrorNotification(notification: NSNotification){
+        self.showErrorView()
+    }
+    
+    @objc func showEditorNotification(notification: NSNotification){
+        self.showEditor()
+    }
+    
     func showProgressView() {
         performSegueWithIdentifier("progress", sender: self)
+    }
+    
+    func showErrorView() {
+        // TODO: Error view
     }
 
     func showEditor() {

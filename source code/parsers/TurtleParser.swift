@@ -172,7 +172,7 @@ public class TurtleParser : NSObject, RDFParser {
     func taskFinished(progressTitle : String, progressSubtitle : String) {
         if progressDelegate != nil {
             dispatch_async(dispatch_get_main_queue()) {
-                self.progressDelegate?.taskStarted(progressTitle, progressSubtitle: progressSubtitle, object: self)
+                self.progressDelegate?.taskFinished(progressTitle, progressSubtitle: progressSubtitle, object: self)
             }
         }
     }
@@ -197,7 +197,7 @@ public class TurtleParser : NSObject, RDFParser {
         if delegate != nil {
             delegate?.parserDidEndDocument(self)
         }
-        self.taskStarted("Parsing Turtle RDF file", progressSubtitle: "Finishing...")
+        self.taskFinished("Parsing Turtle RDF file", progressSubtitle: "Finishing...")
     }
     
     /**
@@ -298,12 +298,14 @@ public class TurtleParser : NSObject, RDFParser {
                     if predicateObjectList == nil {
                         currentGraph = nil
                         delegate?.parserErrorOccurred(self, error: RDFParserError.malformedRDFFormat(message: "Could not extract predicate-object list from SubjectPredicateObject statement '\(statement)'."))
+                        progressDelegate?.taskStopped("Error while Parsing Turtle File", errorMessage: "The Turtle file was malformed.", object: self)
                         return false
                     }
                     currentSubject = self.parseSubject(subjectstr!)
                     if currentSubject == nil {
                         currentGraph = nil
                         delegate?.parserErrorOccurred(self, error: RDFParserError.malformedRDFFormat(message: "Could not extract subject from SubjectPredicateObject statement '\(statement)'."))
+                        progressDelegate?.taskStopped("Error while Parsing Turtle File", errorMessage: "The Turtle file was malformed.", object: self)
                         return false
                     }
                     let polSuccess = parsePredicateObjectLists(predicateObjectList!) // parses the predicate-object list which are combined with the subject to create triples.
@@ -315,12 +317,14 @@ public class TurtleParser : NSObject, RDFParser {
                     if predicateObjectList == nil {
                         currentGraph = nil
                         delegate?.parserErrorOccurred(self, error: RDFParserError.malformedRDFFormat(message: "Could not extract predicate-object list from SubjectPredicateObject statement '\(statement)'."))
+                        progressDelegate?.taskStopped("Error while Parsing Turtle File", errorMessage: "The Turtle file was malformed.", object: self)
                         return false
                     }
                     currentSubject = self.parseBlankNodePropertyList(spos[3]!)
                     if currentSubject == nil {
                         currentGraph = nil
                         delegate?.parserErrorOccurred(self, error: RDFParserError.malformedRDFFormat(message: "Could not extract subject from SubjectPredicateObject statement '\(statement)'."))
+                        progressDelegate?.taskStopped("Error while Parsing Turtle File", errorMessage: "The Turtle file was malformed.", object: self)
                         return false
                     }
                     let polSuccess = parsePredicateObjectLists(predicateObjectList!) // parses the predicate-object list which are combined with the subject to create triples.
@@ -331,10 +335,12 @@ public class TurtleParser : NSObject, RDFParser {
             }else if spos.count == 2 {
                 currentGraph = nil
                 delegate?.parserErrorOccurred(self, error: RDFParserError.malformedRDFFormat(message: "No Predicate and Object defined in SubjectPredicateObject statement '\(statement)'."))
+                progressDelegate?.taskStopped("Error while Parsing Turtle File", errorMessage: "The Turtle file was malformed.", object: self)
                 return false
             }else if spos.count <= 1 {
                 currentGraph = nil
                 delegate?.parserErrorOccurred(self, error: RDFParserError.malformedRDFFormat(message: "No Subject, Predicate and Object defined in SubjectPredicateObject statement '\(statement)'."))
+                progressDelegate?.taskStopped("Error while Parsing Turtle File", errorMessage: "The Turtle file was malformed.", object: self)
                 return false
             }
         }
@@ -375,11 +381,13 @@ public class TurtleParser : NSObject, RDFParser {
                 if predicateURI == nil {
                     currentGraph = nil
                     delegate?.parserErrorOccurred(self, error: RDFParserError.malformedRDFFormat(message: "Malformed predicate in PredicateObjectList statement '\(string)'."))
+                    progressDelegate?.taskStopped("Error while Parsing Turtle File", errorMessage: "The Turtle file was malformed.", object: self)
                     return false
                 }
                 currentPredicate = predicateURI!
             } else {
                 delegate?.parserErrorOccurred(self, error: RDFParserError.malformedRDFFormat(message: "No predicate defined in PredicateObjectList statement '\(string)'."))
+                progressDelegate?.taskStopped("Error while Parsing Turtle File", errorMessage: "The Turtle file was malformed.", object: self)
                 return false
             }
             if pol[0][2] != nil {
@@ -391,6 +399,7 @@ public class TurtleParser : NSObject, RDFParser {
             } else {
                 currentGraph = nil
                 delegate?.parserErrorOccurred(self, error: RDFParserError.malformedRDFFormat(message: "No object list defined in PredicateObjectList statement '\(string)'."))
+                progressDelegate?.taskStopped("Error while Parsing Turtle File", errorMessage: "The Turtle file was malformed.", object: self)
                 return false
             }
             if pol[0][3] != nil {
@@ -406,6 +415,7 @@ public class TurtleParser : NSObject, RDFParser {
         }else {
             currentGraph = nil
             delegate?.parserErrorOccurred(self, error: RDFParserError.malformedRDFFormat(message: "Malformed PredicateObjectList statement '\(string)'."))
+            progressDelegate?.taskStopped("Error while Parsing Turtle File", errorMessage: "The Turtle file was malformed.", object: self)
         }
         return false
     }
@@ -431,6 +441,7 @@ public class TurtleParser : NSObject, RDFParser {
         } else {
             currentGraph = nil
             delegate?.parserErrorOccurred(self, error: RDFParserError.malformedRDFFormat(message: "No objects were found in ObjectList statement '\(string)'."))
+            progressDelegate?.taskStopped("Error while Parsing Turtle File", errorMessage: "The Turtle file was malformed.", object: self)
         }
         return false
     }
@@ -445,6 +456,7 @@ public class TurtleParser : NSObject, RDFParser {
                 if object == nil {
                     currentGraph = nil
                     delegate?.parserErrorOccurred(self, error: RDFParserError.malformedRDFFormat(message: "Malformed IRI in Object statement '\(string)'."))
+                    progressDelegate?.taskStopped("Error while Parsing Turtle File", errorMessage: "The Turtle file was malformed.", object: self)
                     return false
                 }
             }else if ob[0][2] != nil { // blank node
@@ -472,16 +484,19 @@ public class TurtleParser : NSObject, RDFParser {
             if object == nil {
                 currentGraph = nil
                 delegate?.parserErrorOccurred(self, error: RDFParserError.malformedRDFFormat(message: "Could not extract object from Object statement '\(string)'."))
+                progressDelegate?.taskStopped("Error while Parsing Turtle File", errorMessage: "The Turtle file was malformed.", object: self)
                 return false
             }
             if currentSubject == nil {
                 currentGraph = nil
                 delegate?.parserErrorOccurred(self, error: RDFParserError.malformedRDFFormat(message: "Object was correctly parsed but no subject was defined."))
+                progressDelegate?.taskStopped("Error while Parsing Turtle File", errorMessage: "The Turtle file was malformed.", object: self)
                 return false
             }
             if currentPredicate == nil {
                 currentGraph = nil
                 delegate?.parserErrorOccurred(self, error: RDFParserError.malformedRDFFormat(message: "Object was correctly parsed but no predicate was defined."))
+                progressDelegate?.taskStopped("Error while Parsing Turtle File", errorMessage: "The Turtle file was malformed.", object: self)
                 return false
             }
             self.addStatement(currentSubject!, predicate: currentPredicate!, object: object!, namedGraph: baseURI!)
@@ -489,6 +504,7 @@ public class TurtleParser : NSObject, RDFParser {
         } else {
             currentGraph = nil
             delegate?.parserErrorOccurred(self, error: RDFParserError.malformedRDFFormat(message: "Could not extract object from Object statement '\(string)'."))
+            progressDelegate?.taskStopped("Error while Parsing Turtle File", errorMessage: "The Turtle file was malformed.", object: self)
         }
         return false
     }
@@ -531,6 +547,7 @@ public class TurtleParser : NSObject, RDFParser {
         if delegate != nil {
             currentGraph = nil
             delegate?.parserErrorOccurred(self, error:RDFParserError.malformedRDFFormat(message: "Could not parse objects from collection because the collection '\(string)' was malformed."))
+            progressDelegate?.taskStopped("Error while Parsing Turtle File", errorMessage: "The Turtle file was malformed.", object: self)
         }
         return nil
     }
@@ -571,6 +588,7 @@ public class TurtleParser : NSObject, RDFParser {
         if delegate != nil {
             currentGraph = nil
             delegate?.parserErrorOccurred(self, error:RDFParserError.malformedRDFFormat(message: "Could not parse objects from collection because the collection '\(string)' was malformed."))
+            progressDelegate?.taskStopped("Error while Parsing Turtle File", errorMessage: "The Turtle file was malformed.", object: self)
         }
         return false
     }

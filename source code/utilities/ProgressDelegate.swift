@@ -18,10 +18,9 @@ public protocol ProgressDelegate {
      This function is called when a time consuming process has been started.
      
      - parameter progressTitle: The main title that can be used by the user to identify the process whose progress is
-     being presented. In most cases the title remains the same during one time-consuming task.
+     being presented.
      - parameter progressSubtitle: A subtitle that can be used by the user to identify the process whose progress is
-     being presented. The subtitle will be updated several times during a time-consuming taks. The subtitle may are
-     may not be presented to the user.
+     being presented.
      - parameter object: The object which is running the task.
      */
     func taskStarted(progressTitle : String, progressSubtitle : String, object: AnyObject?)
@@ -48,11 +47,21 @@ public protocol ProgressDelegate {
      This function is called when a time consuming process has finished.
      
      - parameter progressTitle: The main title that can be used by the user to identify the process whose progress is
-     being presented. In most cases the title remains the same during one time-consuming task.
+     being presented.
      - parameter progressSubtitle: A subtitle that can be used by the user to identify the process whose progress is
-     being presented. The subtitle will be updated several times during a time-consuming taks. The subtitle may are
-     may not be presented to the user.
+     being presented.
      - parameter object: The object which is running the task.
      */
     func taskFinished(progressTitle : String, progressSubtitle : String, object: AnyObject?)
+    
+    
+    /**
+     This function is called when a time consuming process was stopped because of an error.
+     
+     - parameter progressTitle: The main title that can be used by the user to identify the process whose progress is
+     being presented.
+     - parameter errorMessage: An error message describing the error for the user.
+     - parameter object: The object which is running the task.
+     */
+    func taskStopped(progressTitle : String, errorMessage : String, object: AnyObject?)
 }

@@ -435,7 +435,7 @@ public class IndexedGraph : Graph {
     func taskFinished(progressTitle : String, progressSubtitle : String) {
         if progressDelegate != nil {
             dispatch_async(dispatch_get_main_queue()) {
-                self.progressDelegate?.taskStarted(progressTitle, progressSubtitle: progressSubtitle, object: self)
+                self.progressDelegate?.taskFinished(progressTitle, progressSubtitle: progressSubtitle, object: self)
             }
         }
     }
